@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BTS — Clustering K-means</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+:root {
+  --bg: #0f0f13; --card: #1a1a22; --border: #2a2a38;
+  --text: #f0f0f5; --muted: #888899;
+  --c0: #6C63FF; --c1: #FF6584; --c2: #2ECC71; --c3: #F39C12;
+  --font: 'Helvetica Neue', Arial, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; }
+header { padding: 1.5rem 2rem 1rem; border-bottom: 1px solid var(--border); }
+.header-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.3rem; }
+.header-title { font-size: 22px; font-weight: 600; margin-bottom: 0.3rem; }
+.header-sub { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.controls { display: flex; gap: 1rem; padding: 0.75rem 2rem; flex-wrap: wrap; border-bottom: 1px solid var(--border); align-items: center; }
+.control-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.btn-group { display: flex; gap: 4px; flex-wrap: wrap; }
+.btn { font-size: 12px; padding: 4px 12px; border-radius: 99px; border: 1px solid var(--border); background: var(--card); color: var(--muted); cursor: pointer; transition: all 0.15s; }
+.btn:hover { color: var(--text); border-color: #555; }
+.btn.active { font-weight: 600; }
+.btn.c0.active { background: var(--c0); border-color: var(--c0); color: white; }
+.btn.c1.active { background: var(--c1); border-color: var(--c1); color: white; }
+.btn.c2.active { background: var(--c2); border-color: var(--c2); color: white; }
+.btn.c3.active { background: var(--c3); border-color: var(--c3); color: white; }
+.btn.era.active, .btn.member.active { background: var(--text); border-color: var(--text); color: var(--bg); }
+.main { display: grid; grid-template-columns: 1fr 300px; height: calc(100vh - 170px); }
+#chart { padding: 1rem 1.5rem; }
+.sidebar { border-left: 1px solid var(--border); overflow-y: auto; padding: 1rem; }
+.sidebar-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.75rem; }
+.cluster-card { border-radius: 10px; padding: 0.9rem 1rem; margin-bottom: 0.6rem; border: 1px solid var(--border); background: var(--card); }
+.cluster-name { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+.cluster-desc { font-size: 11px; color: var(--muted); line-height: 1.5; margin-bottom: 6px; }
+.cluster-stat { font-size: 11px; color: var(--muted); }
+.cluster-stat span { color: var(--text); font-weight: 600; }
+.song-detail { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1rem; margin-bottom: 0.6rem; }
+.song-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+.song-meta { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+.feat-bars { display: flex; flex-direction: column; gap: 3px; }
+.feat-row { display: flex; align-items: center; gap: 5px; }
+.feat-label { font-size: 10px; color: var(--muted); width: 70px; flex-shrink: 0; }
+.feat-track { flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.feat-fill { height: 100%; border-radius: 3px; }
+.feat-val { font-size: 10px; color: var(--muted); width: 28px; text-align: right; }
+.stats-row { display: flex; gap: 0.75rem; padding: 0.5rem 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+.stat { text-align: center; }
+.stat-val { font-size: 18px; font-weight: 700; }
+.stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.legend { display: flex; gap: 1rem; padding: 0.4rem 2rem; flex-wrap: wrap; }
+.leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
+.leg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<header>
+  <div class="header-label">Especial BTS · Clustering K-means</div>
+  <div class="header-title">Cuatro tipos de canción en 786 tracks</div>
+  <div class="header-sub">K-means con K=4 sobre 5 variables de Spotify. Cada punto es una canción. Haz clic para ver detalles.</div>
+</header>
+
+<div class="controls">
+  <span class="control-label">Cluster</span>
+  <div class="btn-group" id="cluster-btns">
+    <button class="btn c0 active" data-cluster="0">● Bailable y alegre</button>
+    <button class="btn c1 active" data-cluster="1">● Intenso y oscuro</button>
+    <button class="btn c2 active" data-cluster="2">● Melancólico y acústico</button>
+    <button class="btn c3 active" data-cluster="3">● Spoken word</button>
+  </div>
+  <span class="control-label" style="margin-left:0.5rem">Era</span>
+  <div class="btn-group" id="era-btns">
+    <button class="btn era active" data-era="ALL">Todas</button>
+    <button class="btn era" data-era="pre">Pre-servicio</button>
+    <button class="btn era" data-era="post">Reencuentro</button>
+  </div>
+  <span class="control-label" style="margin-left:0.5rem">Miembro</span>
+  <div class="btn-group" id="member-btns">
+    <button class="btn member active" data-member="ALL">Todos</button>
+    <button class="btn member" data-member="BTS">BTS</button>
+    <button class="btn member" data-member="RM">RM</button>
+    <button class="btn member" data-member="SUGA">Suga</button>
+    <button class="btn member" data-member="JHOPE">J-Hope</button>
+    <button class="btn member" data-member="JIMIN">Jimin</button>
+    <button class="btn member" data-member="JIN">Jin</button>
+    <button class="btn member" data-member="JUNGKOOK">Jungkook</button>
+    <button class="btn member" data-member="V">V</button>
+  </div>
+</div>
+
+<div class="legend">
+  <div class="leg-item"><div class="leg-dot" style="background:var(--c0)"></div>Bailable y alegre</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--c1)"></div>Intenso y oscuro</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--c2)"></div>Melancólico y acústico</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--c3)"></div>Spoken word</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#555;border-radius:2px"></div>Círculo = pre-servicio · Diamante = reencuentro</div>
+</div>
+
+<div class="main">
+  <div id="chart"></div>
+  <div class="sidebar">
+    <div class="sidebar-title">Clusters · haz clic en un punto</div>
+    <div id="sidebar-content"></div>
+  </div>
+</div>
+
+<div class="stats-row" id="stats"></div>
+
+<script>
+const COLORS = ['#6C63FF','#FF6584','#2ECC71','#F39C12'];
+const NOMBRES = ['Bailable y alegre','Intenso y oscuro','Melancólico y acústico','Spoken word'];
+const DESCS = [
+  'Alta energía, alto valence, alta bailabilidad. El BTS de estadio.',
+  'Alta energía, bajo valence. Canciones de crítica social y rap denso.',
+  'Bajo valence, baja energía, alta acousticness. El BTS más íntimo.',
+  'Speechiness muy alto. Skits, interludes hablados, spoken word.'
+];
+
+// Datos embebidos — muestra representativa de cada cluster
+const RAW = [
+  // CLUSTER 0 — Bailable y alegre (muestra)
+  {t:"Intro: 2 Cool 4 Skool",s:"BTS",e:"pre",y:2013,v:0.532,en:0.835,sp:0.245,ac:0.179,da:0.894,c:0},
+  {t:"We Are Bulletproof Pt.2",s:"BTS",e:"pre",y:2013,v:0.868,en:0.896,sp:0.124,ac:0.011,da:0.776,c:0},
+  {t:"Dynamite",s:"BTS",e:"pre",y:2020,v:0.737,en:0.765,sp:0.085,ac:0.016,da:0.747,c:0},
+  {t:"Butter",s:"BTS",e:"pre",y:2021,v:0.695,en:0.807,sp:0.093,ac:0.003,da:0.847,c:0},
+  {t:"Permission to Dance",s:"BTS",e:"pre",y:2021,v:0.646,en:0.763,sp:0.031,ac:0.022,da:0.843,c:0},
+  {t:"Fire",s:"BTS",e:"pre",y:2016,v:0.617,en:0.877,sp:0.091,ac:0.001,da:0.699,c:0},
+  {t:"DNA",s:"BTS",e:"pre",y:2017,v:0.823,en:0.863,sp:0.063,ac:0.005,da:0.814,c:0},
+  {t:"Boy With Luv",s:"BTS",e:"pre",y:2019,v:0.817,en:0.815,sp:0.056,ac:0.024,da:0.798,c:0},
+  {t:"IDOL",s:"BTS",e:"pre",y:2018,v:0.782,en:0.867,sp:0.098,ac:0.019,da:0.761,c:0},
+  {t:"Fake Love",s:"BTS",e:"pre",y:2018,v:0.452,en:0.852,sp:0.11,ac:0.01,da:0.619,c:1},
+  {t:"Blood Sweat & Tears",s:"BTS",e:"pre",y:2016,v:0.563,en:0.793,sp:0.072,ac:0.016,da:0.681,c:0},
+  {t:"MIC Drop",s:"BTS",e:"pre",y:2017,v:0.459,en:0.876,sp:0.15,ac:0.002,da:0.712,c:1},
+  {t:"on the street",s:"JHOPE",e:"post",y:2023,v:0.813,en:0.635,sp:0.037,ac:0.225,da:0.72,c:0},
+  {t:"Killin' It Girl",s:"JHOPE",e:"post",y:2025,v:0.734,en:0.766,sp:0.062,ac:0.009,da:0.814,c:0},
+  {t:"MONA LISA",s:"JHOPE",e:"post",y:2025,v:0.96,en:0.806,sp:0.055,ac:0.015,da:0.804,c:0},
+  {t:"Seven (feat. Latto)",s:"JUNGKOOK",e:"post",y:2023,v:0.891,en:0.822,sp:0.037,ac:0.007,da:0.901,c:0},
+  {t:"3D (feat. Jack Harlow)",s:"JUNGKOOK",e:"post",y:2023,v:0.888,en:0.762,sp:0.064,ac:0.025,da:0.832,c:0},
+  {t:"Standing Next to You",s:"JUNGKOOK",e:"post",y:2023,v:0.816,en:0.807,sp:0.056,ac:0.01,da:0.785,c:0},
+  {t:"Golden Hour",s:"JUNGKOOK",e:"post",y:2023,v:0.847,en:0.663,sp:0.038,ac:0.095,da:0.782,c:0},
+  {t:"Who",s:"JIMIN",e:"post",y:2024,v:0.838,en:0.782,sp:0.035,ac:0.009,da:0.714,c:0},
+  {t:"Like Crazy",s:"JIMIN",e:"post",y:2023,v:0.32,en:0.628,sp:0.051,ac:0.063,da:0.588,c:1},
+  {t:"Be Mine",s:"JIMIN",e:"post",y:2024,v:0.526,en:0.734,sp:0.046,ac:0.072,da:0.747,c:0},
+  {t:"Running Wild",s:"JIN",e:"post",y:2024,v:0.317,en:0.803,sp:0.048,ac:0.047,da:0.617,c:1},
+  {t:"Happy",s:"JIN",e:"post",y:2024,v:0.802,en:0.7,sp:0.041,ac:0.142,da:0.615,c:0},
+  {t:"Echo",s:"JIN",e:"post",y:2025,v:0.492,en:0.801,sp:0.049,ac:0.048,da:0.543,c:1},
+  // CLUSTER 1 — Intenso y oscuro
+  {t:"No More Dream",s:"BTS",e:"pre",y:2013,v:0.612,en:0.956,sp:0.197,ac:0.009,da:0.691,c:1},
+  {t:"N.O",s:"BTS",e:"pre",y:2013,v:0.452,en:0.961,sp:0.177,ac:0.004,da:0.733,c:1},
+  {t:"Danger",s:"BTS",e:"pre",y:2014,v:0.327,en:0.931,sp:0.087,ac:0.008,da:0.685,c:1},
+  {t:"Run",s:"BTS",e:"pre",y:2015,v:0.442,en:0.889,sp:0.068,ac:0.005,da:0.659,c:1},
+  {t:"I Need U",s:"BTS",e:"pre",y:2015,v:0.468,en:0.749,sp:0.047,ac:0.134,da:0.611,c:1},
+  {t:"ON",s:"BTS",e:"pre",y:2020,v:0.364,en:0.88,sp:0.071,ac:0.013,da:0.641,c:1},
+  {t:"Black Swan",s:"BTS",e:"pre",y:2020,v:0.179,en:0.549,sp:0.052,ac:0.057,da:0.574,c:2},
+  {t:"Shadow",s:"BTS",e:"pre",y:2020,v:0.252,en:0.833,sp:0.322,ac:0.058,da:0.549,c:1},
+  {t:"Ego",s:"JHOPE",e:"pre",y:2020,v:0.645,en:0.937,sp:0.239,ac:0.001,da:0.754,c:1},
+  {t:"Trivia: Just Dance",s:"JHOPE",e:"pre",y:2018,v:0.723,en:0.889,sp:0.238,ac:0.004,da:0.842,c:0},
+  {t:"Agust D",s:"SUGA",e:"pre",y:2016,v:0.299,en:0.953,sp:0.431,ac:0.029,da:0.759,c:1},
+  {t:"give it to me",s:"SUGA",e:"pre",y:2016,v:0.331,en:0.955,sp:0.391,ac:0.017,da:0.697,c:1},
+  {t:"Daechwita",s:"SUGA",e:"post",y:2020,v:0.384,en:0.939,sp:0.183,ac:0.021,da:0.694,c:1},
+  {t:"HUH?! (feat. j-hope)",s:"SUGA",e:"post",y:2023,v:0.544,en:0.942,sp:0.287,ac:0.014,da:0.727,c:1},
+  {t:"Trivia: Seesaw",s:"SUGA",e:"pre",y:2018,v:0.352,en:0.673,sp:0.075,ac:0.174,da:0.583,c:1},
+  {t:"Mono intro",s:"RM",e:"pre",y:2018,v:0.189,en:0.638,sp:0.093,ac:0.218,da:0.531,c:1},
+  {t:"Moonchild",s:"RM",e:"pre",y:2018,v:0.359,en:0.463,sp:0.04,ac:0.485,da:0.553,c:2},
+  {t:"Indigo",s:"RM",e:"post",y:2022,v:0.358,en:0.636,sp:0.059,ac:0.208,da:0.561,c:1},
+  {t:"All Day",s:"RM",e:"post",y:2024,v:0.524,en:0.749,sp:0.095,ac:0.116,da:0.674,c:1},
+  {t:"Super Tuna",s:"JIN",e:"pre",y:2021,v:0.815,en:0.8,sp:0.094,ac:0.037,da:0.726,c:0},
+  {t:"The Astronaut",s:"JIN",e:"pre",y:2022,v:0.339,en:0.774,sp:0.031,ac:0.031,da:0.563,c:1},
+  {t:"Abyss",s:"JIN",e:"pre",y:2020,v:0.143,en:0.315,sp:0.033,ac:0.852,da:0.421,c:2},
+  // CLUSTER 2 — Melancólico y acústico
+  {t:"Butterfly",s:"BTS",e:"pre",y:2015,v:0.22,en:0.441,sp:0.044,ac:0.502,da:0.537,c:2},
+  {t:"House of Cards",s:"BTS",e:"pre",y:2016,v:0.151,en:0.32,sp:0.035,ac:0.862,da:0.383,c:2},
+  {t:"Spring Day",s:"BTS",e:"pre",y:2017,v:0.245,en:0.537,sp:0.031,ac:0.26,da:0.526,c:2},
+  {t:"The Truth Untold",s:"BTS",e:"pre",y:2018,v:0.135,en:0.316,sp:0.028,ac:0.786,da:0.376,c:2},
+  {t:"Whalien 52",s:"BTS",e:"pre",y:2016,v:0.362,en:0.475,sp:0.028,ac:0.337,da:0.617,c:2},
+  {t:"Magic Shop",s:"BTS",e:"pre",y:2018,v:0.399,en:0.553,sp:0.032,ac:0.203,da:0.591,c:2},
+  {t:"Winter Bear",s:"V",e:"pre",y:2019,v:0.291,en:0.354,sp:0.03,ac:0.527,da:0.517,c:2},
+  {t:"Sweet Night",s:"V",e:"pre",y:2020,v:0.146,en:0.218,sp:0.033,ac:0.902,da:0.382,c:2},
+  {t:"Scenery",s:"V",e:"pre",y:2019,v:0.188,en:0.283,sp:0.031,ac:0.747,da:0.461,c:2},
+  {t:"FRI(END)S",s:"V",e:"post",y:2024,v:0.627,en:0.607,sp:0.032,ac:0.244,da:0.622,c:0},
+  {t:"Winter Ahead",s:"V",e:"post",y:2024,v:0.229,en:0.395,sp:0.036,ac:0.622,da:0.521,c:2},
+  {t:"Layover intro",s:"V",e:"post",y:2023,v:0.159,en:0.209,sp:0.035,ac:0.892,da:0.384,c:2},
+  {t:"tokyo",s:"RM",e:"pre",y:2018,v:0.071,en:0.467,sp:0.044,ac:0.576,da:0.547,c:2},
+  {t:"forever rain",s:"RM",e:"pre",y:2018,v:0.113,en:0.353,sp:0.038,ac:0.721,da:0.489,c:2},
+  {t:"Promise",s:"JIMIN",e:"pre",y:2018,v:0.312,en:0.393,sp:0.028,ac:0.646,da:0.521,c:2},
+  {t:"Christmas Love",s:"JIMIN",e:"pre",y:2020,v:0.493,en:0.327,sp:0.027,ac:0.859,da:0.455,c:2},
+  {t:"Set Me Free Pt.2",s:"JIMIN",e:"post",y:2023,v:0.377,en:0.615,sp:0.048,ac:0.035,da:0.675,c:1},
+  {t:"Shot Glass of Tears",s:"JUNGKOOK",e:"post",y:2023,v:0.164,en:0.488,sp:0.035,ac:0.458,da:0.492,c:2},
+  {t:"Never Let Go",s:"JUNGKOOK",e:"post",y:2024,v:0.173,en:0.388,sp:0.042,ac:0.579,da:0.493,c:2},
+  {t:"Too Sad to Dance",s:"JUNGKOOK",e:"post",y:2023,v:0.563,en:0.528,sp:0.04,ac:0.092,da:0.712,c:0},
+  {t:"Closer",s:"RM",e:"pre",y:2022,v:0.403,en:0.599,sp:0.063,ac:0.322,da:0.568,c:2},
+  {t:"Blue & Grey",s:"V",e:"pre",y:2020,v:0.151,en:0.338,sp:0.027,ac:0.682,da:0.441,c:2},
+  // CLUSTER 3 — Spoken word
+  {t:"Skit: Circle Room Talk",s:"BTS",e:"pre",y:2016,v:0.714,en:0.331,sp:0.948,ac:0.769,da:0.635,c:3},
+  {t:"Skit: R U Happy Now?",s:"BTS",e:"pre",y:2017,v:0.577,en:0.419,sp:0.947,ac:0.795,da:0.576,c:3},
+  {t:"Skit: Billboard Music Awards",s:"BTS",e:"pre",y:2017,v:0.327,en:0.294,sp:0.963,ac:0.857,da:0.411,c:3},
+  {t:"Outro: Circle Room Cypher",s:"BTS",e:"pre",y:2016,v:0.793,en:0.627,sp:0.892,ac:0.465,da:0.682,c:3},
+];
+
+const CLUSTER_INFO = [
+  { n:'Bailable y alegre', desc:'Alta energía, alto valence, alta bailabilidad. El BTS de estadio y los grandes hits comerciales.', pct_pre:'31.6%', pct_post:'47.2%' },
+  { n:'Intenso y oscuro', desc:'Alta energía, bajo valence. Canciones de crítica social, rap denso y las narrativas más complejas.', pct_pre:'53.2%', pct_post:'37.7%' },
+  { n:'Melancólico y acústico', desc:'Bajo valence, baja energía, alta acousticness. El BTS más íntimo y los álbumes en solitario más emotivos.', pct_pre:'12.9%', pct_post:'14.4%' },
+  { n:'Spoken word', desc:'Speechiness muy alto. Skits, interludes hablados. Un cluster pequeño pero muy específico.', pct_pre:'2.3%', pct_post:'0.7%' },
+];
+
+let activeC = new Set([0,1,2,3]);
+let activeEra = 'ALL';
+let activeMember = 'ALL';
+
+function filtered() {
+  return RAW.filter(d => {
+    if (!activeC.has(d.c)) return false;
+    if (activeEra !== 'ALL' && d.e !== activeEra) return false;
+    if (activeMember !== 'ALL' && d.s !== activeMember) return false;
+    return true;
+  });
+}
+
+// Scatter
+const margin = {top:20,right:20,bottom:50,left:55};
+let W, H, svg, xScale, yScale, gPts, tooltip;
+
+function initChart() {
+  const el = document.getElementById('chart');
+  W = el.clientWidth - margin.left - margin.right;
+  H = el.clientHeight - margin.top - margin.bottom;
+  d3.select('#chart').selectAll('*').remove();
+
+  svg = d3.select('#chart').append('svg')
+    .attr('width', W+margin.left+margin.right)
+    .attr('height', H+margin.top+margin.bottom)
+    .append('g').attr('transform',`translate(${margin.left},${margin.top})`);
+
+  xScale = d3.scaleLinear().domain([0,1]).range([0,W]);
+  yScale = d3.scaleLinear().domain([0,1]).range([H,0]);
+
+  svg.append('g').attr('transform',`translate(0,${H})`).call(d3.axisBottom(xScale).ticks(5).tickFormat(d3.format('.1f'))).selectAll('text').style('fill','#888');
+  svg.append('g').call(d3.axisLeft(yScale).ticks(5).tickFormat(d3.format('.1f'))).selectAll('text').style('fill','#888');
+  svg.selectAll('.domain,.tick line').style('stroke','#333');
+
+  svg.append('text').attr('x',W/2).attr('y',H+40).attr('text-anchor','middle').style('fill','#888').style('font-size','12px').text('Valence (positividad musical)');
+  svg.append('text').attr('transform','rotate(-90)').attr('x',-H/2).attr('y',-42).attr('text-anchor','middle').style('fill','#888').style('font-size','12px').text('Energy (intensidad)');
+
+  gPts = svg.append('g');
+
+  tooltip = d3.select('body').append('div')
+    .style('position','fixed').style('pointer-events','none').style('opacity',0)
+    .style('background','#1a1a22').style('border','1px solid #333').style('border-radius','8px')
+    .style('padding','10px 14px').style('font-size','12px').style('color','#f0f0f5')
+    .style('max-width','220px').style('line-height','1.5').style('z-index','999');
+
+  draw();
+}
+
+// Diamond path for post-era
+function diamond(x, y, r) {
+  return `M${x},${y-r} L${x+r},${y} L${x},${y+r} L${x-r},${y} Z`;
+}
+
+function draw() {
+  const data = filtered();
+  gPts.selectAll('*').remove();
+
+  data.forEach(d => {
+    const x = xScale(d.v), y = yScale(d.en);
+    const color = COLORS[d.c];
+    const r = 6;
+
+    let el;
+    if (d.e === 'pre') {
+      el = gPts.append('circle').attr('cx',x).attr('cy',y).attr('r',r);
+    } else {
+      el = gPts.append('path').attr('d', diamond(x, y, r));
+    }
+
+    el.attr('fill', color).attr('opacity', 0.75).style('cursor','pointer')
+      .on('mouseover', function(event) {
+        d3.select(this).attr('opacity',1);
+        tooltip.style('opacity',1).html(`<strong>${d.t}</strong><br><span style="color:${color}">${NOMBRES[d.c]}</span><br>${d.s} · ${d.y}<br>Valence: ${d.v.toFixed(2)} · Energy: ${d.en.toFixed(2)}`);
+      })
+      .on('mousemove', function(event) { tooltip.style('left',(event.clientX+14)+'px').style('top',(event.clientY-28)+'px'); })
+      .on('mouseout', function() { d3.select(this).attr('opacity',0.75); tooltip.style('opacity',0); })
+      .on('click', function() { showSong(d); });
+  });
+
+  updateStats(data);
+  renderSidebar();
+}
+
+function showSong(d) {
+  const c = document.getElementById('sidebar-content');
+  const color = COLORS[d.c];
+  c.innerHTML = `
+    <div class="song-detail">
+      <div class="song-title">${d.t}</div>
+      <div class="song-meta" style="color:${color};font-weight:600">${NOMBRES[d.c]}</div>
+      <div class="song-meta">${d.s} · ${d.e === 'pre' ? 'Pre-servicio' : 'Reencuentro'} · ${d.y}</div>
+      <div class="feat-bars">
+        ${[['Valence',d.v],['Energy',d.en],['Speechiness',d.sp],['Acousticness',d.ac],['Danceability',d.da]].map(([l,v]) => `
+          <div class="feat-row">
+            <span class="feat-label">${l}</span>
+            <div class="feat-track"><div class="feat-fill" style="width:${v*100}%;background:${color}"></div></div>
+            <span class="feat-val">${v.toFixed(2)}</span>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-top:0.5rem">← Haz clic en otro punto para comparar</div>
+  `;
+}
+
+function renderSidebar() {
+  const c = document.getElementById('sidebar-content');
+  c.innerHTML = CLUSTER_INFO.map((cl, i) => {
+    if (!activeC.has(i)) return '';
+    return `<div class="cluster-card" style="border-left:3px solid ${COLORS[i]}">
+      <div class="cluster-name" style="color:${COLORS[i]}">${cl.n}</div>
+      <div class="cluster-desc">${cl.desc}</div>
+      <div class="cluster-stat">Pre-servicio: <span>${cl.pct_pre}</span> · Reencuentro: <span>${cl.pct_post}</span></div>
+    </div>`;
+  }).join('');
+}
+
+function updateStats(data) {
+  const byC = [0,1,2,3].map(i => data.filter(d=>d.c===i).length);
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><div class="stat-val">${data.length}</div><div class="stat-label">Canciones</div></div>
+    ${byC.map((n,i) => n > 0 ? `<div class="stat"><div class="stat-val" style="color:${COLORS[i]}">${n}</div><div class="stat-label">${NOMBRES[i].split(' ').slice(0,2).join(' ')}</div></div>` : '').join('')}
+  `;
+}
+
+// Controls
+document.querySelectorAll('[data-cluster]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const c = +btn.dataset.cluster;
+    if (activeC.has(c)) { activeC.delete(c); btn.classList.remove('active'); }
+    else { activeC.add(c); btn.classList.add('active'); }
+    draw();
+  });
+});
+
+document.querySelectorAll('[data-era]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    activeEra = btn.dataset.era;
+    document.querySelectorAll('[data-era]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    draw();
+  });
+});
+
+document.querySelectorAll('[data-member]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    activeMember = btn.dataset.member;
+    document.querySelectorAll('[data-member]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    draw();
+    renderSidebar();
+  });
+});
+
+initChart();
+window.addEventListener('resize', initChart);
+</script>
+</body>
+</html>
