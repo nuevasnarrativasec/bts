@@ -19,12 +19,66 @@
     --accent-red: #e5484d;
     --font: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
   }
+
+  @font-face {
+    font-family: 'Bobby Jones Condensed';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/BobbyJones-Condensed.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/BobbyJones-Condensed.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Monigue Regular';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Monigue-Regular.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Monigue-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Book';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Book.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Book.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Medium';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Medium.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Medium.woff') format('woff');
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Bold';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Bold.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Extrabold';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Exbd.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Exbd.woff') format('woff');
+    font-style: normal;
+    font-display: swap;
+}
+
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #fff; color: var(--ink); font-family: var(--font); padding: 2.5rem 2rem 4rem; }
   .wrap { max-width: 650px; margin: 0 auto; }
 
   h2.title { font-size: 22px; font-weight: 800; margin-bottom: 0.35rem; text-align: center; font-family: 'Prelo Extrabold';}
-  p.subtitle { font-size: 14px; color: var(--muted); margin-bottom: 1.5rem; text-align: center;}
+  p.subtitle { font-size: 14px; color: var(--muted); margin-bottom: 1.5rem; text-align: center; font-family: 'Prelo Medium';}
 
   .filters-row { display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
   .select-wrap { position: relative; flex: 1; min-width: 220px; }
@@ -32,7 +86,7 @@
     width: 100%; appearance: none; -webkit-appearance: none;
     font: inherit; font-weight: 700; font-size: 14px; color: var(--ink);
     background: var(--card); border: 1px solid var(--ink); border-radius: 10px;
-    padding: 0.75rem 2.2rem 0.75rem 1rem; cursor: pointer;
+    padding: 0.75rem 2.2rem 0.75rem 1rem; cursor: pointer;  font-family: 'Prelo Bold';
   }
   .select-wrap::after {
     content: ""; position: absolute; right: 1rem; top: 50%; width: 10px; height: 10px;
@@ -60,7 +114,7 @@
   .suggestion-item .s-meta { color: var(--muted); font-size: 12px; white-space: nowrap; }
 
   .legend-card { background: var(--panel); border-radius: 4px; padding: 1.4rem 1.6rem; margin: 10px auto 20px; max-width: 600px; }
-  .legend-title { font-size: 16px; font-weight: 800; margin-bottom: 0.9rem; }
+  .legend-title { font-size: 16px; font-weight: 800; margin-bottom: 0.9rem; font-family: 'Prelo Extrabold';}
   .legend-section-label { font-size: 13px; font-weight: 700; color: #3a3a42; margin-bottom: 0.6rem; }
   .legend-row { display: flex; gap: 1.75rem; flex-wrap: wrap; margin-bottom: 1.1rem; }
   .legend-row:last-child { margin-bottom: 0; }

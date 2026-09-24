@@ -76,6 +76,15 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 }
 
 @font-face {
+    font-family: 'Prelo';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-SemiBold.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
     font-family: 'Prelo Bold';
     src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Bold.woff2') format('woff2'),
         url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Bold.woff') format('woff');
