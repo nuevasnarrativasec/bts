@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BTS · Gráficos del especial</title>
+<style>
+  :root {
+    --ink: #16161d;
+    --muted: #7a7a85;
+    --line: #e6e6ea;
+    --panel: #f4f4f6;
+    --pre: #6C63FF;
+    --post: #E8637F;
+    --font: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #fff; color: var(--ink); font-family: var(--font); padding: 3rem 2rem 5rem; }
+  .wrap { max-width: 960px; margin: 0 auto; }
+
+  .eyebrow { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; font-weight: 700; }
+  h1 { font-size: 28px; font-weight: 800; margin-bottom: 0.5rem; }
+  p.lead { font-size: 15px; color: var(--muted); max-width: 620px; line-height: 1.6; margin-bottom: 2.5rem; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+
+  .card {
+    display: block; text-decoration: none; color: inherit;
+    border: 1px solid var(--line); border-radius: 16px; padding: 1.5rem;
+    background: var(--panel); transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,0,0,0.08); border-color: #d8d8de; }
+
+  .card-swatch { width: 100%; height: 6px; border-radius: 4px; margin-bottom: 1.1rem; }
+  .card-title { font-size: 17px; font-weight: 800; margin-bottom: 0.4rem; }
+  .card-desc { font-size: 13.5px; color: var(--muted); line-height: 1.5; margin-bottom: 1rem; }
+  .card-cta { font-size: 12.5px; font-weight: 700; color: var(--ink); display: flex; align-items: center; gap: 0.35rem; }
+  .card-cta .arrow { transition: transform 0.15s; }
+  .card:hover .card-cta .arrow { transform: translateX(3px); }
+
+  footer { margin-top: 3rem; font-size: 12px; color: #b0b0b8; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Especial BTS · Análisis de datos</div>
+  <h1>Gráficos del especial</h1>
+  <p class="lead">Tres vistas del mismo corpus de canciones y letras de BTS: brecha entre lo que dicen las letras y cómo suena la música, agrupamiento temático y perfiles individuales por miembro.</p>
+
+  <div class="grid">
+
+    <a class="card" href="cuadros-mayte/bts_brecha.html">
+      <div class="card-swatch" style="background: linear-gradient(90deg, var(--pre), var(--post));"></div>
+      <div class="card-title">Brecha entre letra y música</div>
+      <div class="card-desc">Cada canción ubicada por su tono musical (Spotify) y el tono de su letra (IA). La distancia a la diagonal muestra qué tan alineadas están.</div>
+      <div class="card-cta">Ver gráfico <span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="cuadros-mayte/bts_clustering.html">
+      <div class="card-swatch" style="background: linear-gradient(90deg, #6C63FF, #4CAF7D);"></div>
+      <div class="card-title">Clustering K-means</div>
+      <div class="card-desc">Agrupamiento temático de las canciones según sus emociones y temas dominantes.</div>
+      <div class="card-cta">Ver gráfico <span class="arrow">→</span></div>
+    </a>
+
+    <a class="card" href="cuadros-mayte/bts_perfiles.html">
+      <div class="card-swatch" style="background: linear-gradient(90deg, #F2A649, #E15D7F);"></div>
+      <div class="card-title">Perfiles por miembro</div>
+      <div class="card-desc">Comparación de tono emocional y temas recurrentes entre los siete miembros de BTS.</div>
+      <div class="card-cta">Ver gráfico <span class="arrow">→</span></div>
+    </a>
+
+  </div>
+
+  <footer>Landing interactiva sobre BTS — datos de <code>analisis_completo.csv</code></footer>
+</div>
+</body>
+</html>

@@ -8,360 +8,941 @@
 <style>
   :root {
     --pre: #6C63FF;
-    --post: #FF6584;
-    --arirang: #2ECC71;
-    --bg: #0f0f13;
-    --card: #1a1a22;
-    --border: #2a2a38;
-    --text: #f0f0f5;
-    --muted: #888899;
-    --font: 'Helvetica Neue', Arial, sans-serif;
+    --post: #E8637F;
+    --pre-tint: rgba(108,99,255,0.07);
+    --post-tint: rgba(232,99,127,0.07);
+    --ink: #16161d;
+    --muted: #7a7a85;
+    --line: #e6e6ea;
+    --panel: #f4f4f6;
+    --card: #ffffff;
+    --accent-red: #e5484d;
+    --font: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; }
-  header { padding: 2rem 2rem 1rem; border-bottom: 1px solid var(--border); }
-  .header-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
-  .header-title { font-size: 24px; font-weight: 600; margin-bottom: 0.3rem; }
-  .header-sub { font-size: 13px; color: var(--muted); max-width: 600px; line-height: 1.6; }
-  .controls { display: flex; gap: 1rem; padding: 1rem 2rem; flex-wrap: wrap; align-items: center; border-bottom: 1px solid var(--border); }
-  .control-group { display: flex; gap: 0.4rem; flex-wrap: wrap; }
-  .control-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-right: 0.3rem; align-self: center; }
-  .btn { font-size: 12px; padding: 5px 12px; border-radius: 99px; border: 1px solid var(--border); background: var(--card); color: var(--muted); cursor: pointer; transition: all 0.15s; }
-  .btn:hover { border-color: #555; color: var(--text); }
-  .btn.active { background: var(--text); color: var(--bg); border-color: var(--text); font-weight: 600; }
-  .btn.periodo-pre.active { background: var(--pre); border-color: var(--pre); color: white; }
-  .btn.periodo-post.active { background: var(--post); border-color: var(--post); color: white; }
-  .btn.periodo-arirang.active { background: var(--arirang); border-color: var(--arirang); color: white; }
-  .main { display: grid; grid-template-columns: 1fr 320px; gap: 0; height: calc(100vh - 180px); }
-  #scatter { padding: 1.5rem; }
+  body { background: #fff; color: var(--ink); font-family: var(--font); padding: 2.5rem 2rem 4rem; }
+  .wrap { max-width: 650px; margin: 0 auto; }
+
+  h2.title { font-size: 22px; font-weight: 800; margin-bottom: 0.35rem; text-align: center; font-family: 'Prelo Extrabold';}
+  p.subtitle { font-size: 14px; color: var(--muted); margin-bottom: 1.5rem; text-align: center;}
+
+  .filters-row { display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  .select-wrap { position: relative; flex: 1; min-width: 220px; }
+  select.filter-select {
+    width: 100%; appearance: none; -webkit-appearance: none;
+    font: inherit; font-weight: 700; font-size: 14px; color: var(--ink);
+    background: var(--card); border: 1px solid var(--ink); border-radius: 10px;
+    padding: 0.75rem 2.2rem 0.75rem 1rem; cursor: pointer;
+  }
+  .select-wrap::after {
+    content: ""; position: absolute; right: 1rem; top: 50%; width: 10px; height: 10px;
+    border-right: 2px solid var(--ink); border-bottom: 2px solid var(--ink);
+    transform: translateY(-65%) rotate(45deg); pointer-events: none;
+  }
+
+  .search-wrap { position: relative; margin-bottom: 1.5rem; }
+  input.search-input {
+    width: 100%; font: inherit; font-size: 14px; color: var(--ink);
+    background: var(--card); border: 1px solid var(--ink); border-radius: 10px;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+  }
+  input.search-input::placeholder { color: #9a9aa3; }
+  .search-icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: #9a9aa3; font-size: 15px; }
+  .suggestions {
+    position: absolute; left: 0; right: 0; top: calc(100% + 6px); background: var(--card);
+    border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    max-height: 260px; overflow-y: auto; z-index: 20; display: none;
+  }
+  .suggestions.open { display: block; }
+  .suggestion-item { padding: 0.6rem 1rem; font-size: 13px; cursor: pointer; display: flex; justify-content: space-between; gap: 0.5rem; }
+  .suggestion-item:hover { background: var(--panel); }
+  .suggestion-item .s-title { font-weight: 600; }
+  .suggestion-item .s-meta { color: var(--muted); font-size: 12px; white-space: nowrap; }
+
+  .legend-card { background: var(--panel); border-radius: 4px; padding: 1.4rem 1.6rem; margin: 10px auto 20px; max-width: 600px; }
+  .legend-title { font-size: 16px; font-weight: 800; margin-bottom: 0.9rem; }
+  .legend-section-label { font-size: 13px; font-weight: 700; color: #3a3a42; margin-bottom: 0.6rem; }
+  .legend-row { display: flex; gap: 1.75rem; flex-wrap: wrap; margin-bottom: 1.1rem; }
+  .legend-row:last-child { margin-bottom: 0; }
+  .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 13.5px; cursor: pointer; user-select: none; opacity: 1; transition: opacity 0.15s; }
+  .legend-item.dim { opacity: 0.35; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .legend-item b { font-weight: 700; }
+  .legend-item .legend-desc { color: var(--muted); }
+
+  .axis-legend {
+    display: flex; align-items: center; justify-content: center; gap: 1.75rem;
+    flex-wrap: wrap; margin-bottom: 1rem; font-size: 12.5px; color: var(--muted);
+  }
+  .axis-legend-item { display: flex; align-items: center; gap: 0.4rem; }
+  .axis-legend-item b { color: var(--ink); font-weight: 700; }
+  .axis-legend-arrow { color: var(--accent-red); font-weight: 700; }
+
+  #scatter-wrap { /*border: 1px solid var(--line); border-radius: 14px; padding: 1.25rem 1.5rem 0.5rem;*/ position: relative; }
+  #scatter { width: 100%; }
   svg text { font-family: var(--font); }
-  .sidebar { border-left: 1px solid var(--border); padding: 1.5rem; overflow-y: auto; }
-  .sidebar-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; }
-  .song-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; margin-bottom: 0.75rem; transition: border-color 0.15s; }
-  .song-card:hover { border-color: #444; }
-  .song-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-  .song-meta { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
-  .song-bars { display: flex; flex-direction: column; gap: 4px; }
-  .bar-row { display: flex; align-items: center; gap: 6px; }
-  .bar-label { font-size: 10px; color: var(--muted); width: 55px; flex-shrink: 0; }
-  .bar-track { flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
-  .bar-fill { height: 100%; border-radius: 3px; }
-  .bar-val { font-size: 10px; color: var(--muted); width: 28px; text-align: right; }
-  .brecha-tag { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 99px; margin-top: 6px; font-weight: 600; }
-  .brecha-pos { background: rgba(108,99,255,0.2); color: var(--pre); }
-  .brecha-neg { background: rgba(255,101,132,0.2); color: var(--post); }
-  .brecha-neu { background: rgba(46,204,113,0.2); color: var(--arirang); }
-  .legend { display: flex; gap: 1.2rem; padding: 0.5rem 2rem; flex-wrap: wrap; }
-  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
-  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-  .stat-row { display: flex; gap: 1rem; padding: 0.75rem 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
-  .stat { text-align: center; }
-  .stat-val { font-size: 20px; font-weight: 700; }
-  .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
-  .empty-state { color: var(--muted); font-size: 13px; text-align: center; padding: 2rem 0; }
-  @media (max-width: 700px) {
-    .main { grid-template-columns: 1fr; height: auto; }
-    .sidebar { border-left: none; border-top: 1px solid var(--border); max-height: 400px; }
+
+  .tooltip-card {
+    position: fixed; pointer-events: none; opacity: 0; background: var(--card);
+    border: 1px solid var(--line); border-radius: 12px; padding: 0.9rem 1.1rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12); font-size: 13px; max-width: 230px; line-height: 1.5;
+    z-index: 999; transition: opacity 0.1s;
+  }
+  .tooltip-card .tt-title { font-weight: 700; font-size: 13.5px; margin-bottom: 2px; }
+  .tooltip-card .tt-meta { color: var(--muted); font-size: 12px; margin-bottom: 6px; }
+  .tooltip-card .tt-row { font-size: 12.5px; margin-bottom: 1px; }
+  .tooltip-card .tt-row b { font-weight: 700; }
+  .tooltip-card .tt-note { margin-top: 6px; background: var(--pre-tint); color: #3d3aa8; border-radius: 6px; padding: 5px 7px; font-size: 11.5px; }
+  .tooltip-card .tt-note.post { background: var(--post-tint); color: #9c2f45; }
+
+  .quad-label { font-size: 12.5px; font-weight: 700; }
+
+  .box-texto-cuadro{
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  @media (max-width: 720px) {
+    .axis-legend { flex-direction: column; gap: 0.4rem; }
   }
 </style>
 </head>
 <body>
+<div class="wrap">
+    <div class="box-texto-cuadro">
+        <h2 class="title">Filtra y explora</h2>
+        <p class="subtitle">Selecciona un miembro, periodo o busca una canción para ver su posición en el gráfico</p>
+        <div class="filters-row">
+            <div class="select-wrap">
+            <select id="miembro-select" class="filter-select">
+                <option value="ALL">Todos</option>
+            </select>
+            </div>
+            <div class="select-wrap">
+            <select id="periodo-select" class="filter-select">
+                <option value="ALL">Todos los periodos</option>
+                <option value="pre">2013–2022 · Pre-servicio</option>
+                <option value="post">2023–2025 · Etapa solista / servicio</option>
+            </select>
+            </div>
+        </div>
+        <div class="search-wrap">
+            <span class="search-icon">&#128269;</span>
+            <input type="text" id="song-search" class="search-input" placeholder="Busca una canción...">
+            <div class="suggestions" id="suggestions"></div>
+        </div>
+    </div> 
 
-<header>
-  <div class="header-label">Especial BTS · Análisis de datos</div>
-  <div class="header-title">Brecha entre letra y música</div>
-  <div class="header-sub">Cada punto es una canción. El eje X es cómo suena musicalmente (Spotify), el eje Y es el tono de la letra (GPT-4). Los puntos lejos de la diagonal tienen mayor brecha entre lo que dicen y cómo suenan.</div>
-</header>
+  
 
-<div class="controls">
-  <span class="control-label">Periodo</span>
-  <div class="control-group" id="periodo-btns">
-    <button class="btn periodo-pre active" data-periodo="pre">● Pre-servicio (2013–2022)</button>
-    <button class="btn periodo-post active" data-periodo="post">● Reencuentro (2023–2025)</button>
-    <button class="btn periodo-arirang active" data-periodo="arirang">● Arirang 2026</button>
+  
+
+  <div class="legend-card">
+    <div class="legend-title">Leyenda</div>
+
+    <div class="legend-section-label">Periodo</div>
+    <div class="legend-row" id="legend-periodo"></div>
+
+    <div class="legend-section-label">Miembro</div>
+    <div class="legend-row" id="legend-miembro"></div>
   </div>
-  <span class="control-label" style="margin-left:1rem">Miembro</span>
-  <div class="control-group" id="miembro-btns">
-    <button class="btn active" data-miembro="ALL">Todos</button>
-    <button class="btn" data-miembro="BTS">BTS</button>
-    <button class="btn" data-miembro="RM">RM</button>
-    <button class="btn" data-miembro="SUGA">Suga</button>
-    <button class="btn" data-miembro="JHOPE">J-Hope</button>
-    <button class="btn" data-miembro="JIMIN">Jimin</button>
-    <button class="btn" data-miembro="JIN">Jin</button>
-    <button class="btn" data-miembro="JUNGKOOK">Jungkook</button>
-    <button class="btn" data-miembro="V">V</button>
+
+  <div class="axis-legend">
+    <span class="axis-legend-item"><b>Eje Y — Letra (IA)</b> 0 sombría <span class="axis-legend-arrow">&#8594;</span> 1 luminosa</span>
+    <span class="axis-legend-item"><b>Eje X — Música (Spotify)</b> 0 sombría <span class="axis-legend-arrow">&#8594;</span> 1 luminosa</span>
   </div>
+
+  <div id="scatter-wrap">
+    <div id="scatter"></div>
+  </div>
+
 </div>
 
-<div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:var(--pre)"></div> Pre-servicio</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--post)"></div> Reencuentro</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--arirang)"></div> Arirang 2026</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#555; border-radius:0"></div> Diagonal = sin brecha</div>
-</div>
-
-<div class="main">
-  <div id="scatter"></div>
-  <div class="sidebar">
-    <div class="sidebar-title">Canciones · haz clic en un punto</div>
-    <div id="song-list"></div>
-  </div>
-</div>
-
-<div class="stat-row" id="stats"></div>
+<div class="tooltip-card" id="tooltip"></div>
 
 <script>
+/* ===== Data (analisis_completo.csv) ===== */
 const DATA = [
-  {t:"Skit: Billboard Music Awards Speech",s:"BTS",p:"pre",y:2017,vt:0.8,vs:0.327,b:0.473,em:"alegría",temas:"gratitud, unidad, amor"},
-  {t:"Dynamite",s:"BTS",p:"pre",y:2020,vt:0.8,vs:0.737,b:0.063,em:"alegría",temas:"celebración, diversión, autoexpresión"},
-  {t:"Butter",s:"BTS",p:"pre",y:2021,vt:0.8,vs:0.695,b:0.105,em:"alegría",temas:"amor, confianza, diversión"},
-  {t:"Permission to Dance",s:"BTS",p:"pre",y:2021,vt:0.8,vs:0.646,b:0.154,em:"alegría",temas:"juventud, libertad, celebración"},
-  {t:"Change",s:"RM",p:"pre",y:2017,vt:0.4,vs:0.326,b:0.074,em:"frustración",temas:"lucha, injusticia, frustración"},
-  {t:"tokyo",s:"RM",p:"pre",y:2018,vt:0.6,vs:0.071,b:0.529,em:"melancolía",temas:"identidad, nostalgia, amor"},
-  {t:"Closer (w/ Paul Blanco)",s:"RM",p:"pre",y:2022,vt:0.6,vs:0.403,b:0.197,em:"anhelo",temas:"anhelo, intimidad, conflicto"},
-  {t:"Change pt.2",s:"RM",p:"pre",y:2022,vt:0.4,vs:0.384,b:0.016,em:"nostalgia",temas:"cambio, amor, desilusión"},
-  {t:"Come back to me",s:"RM",p:"post",y:2024,vt:0.7,vs:0.344,b:0.356,em:"anhelo",temas:"amor, nostalgia, conexión"},
-  {t:"Right People Wrong Place",s:"RM",p:"post",y:2024,vt:0.3,vs:0.645,b:-0.345,em:"frustración",temas:"confusión, identidad, desubicación"},
-  {t:"? (Interlude)",s:"RM",p:"post",y:2024,vt:0.4,vs:0.793,b:-0.393,em:"nostalgia",temas:"pérdida, recuerdos, relaciones"},
-  {t:"Heaven",s:"RM",p:"post",y:2024,vt:0.7,vs:0.333,b:0.367,em:"empoderamiento",temas:"autonomía, conflicto, resiliencia"},
-  {t:"LOST!",s:"RM",p:"post",y:2024,vt:0.6,vs:0.336,b:0.264,em:"confusión",temas:"amor, libertad, pérdida"},
-  {t:"Around the world in a day",s:"RM",p:"post",y:2024,vt:0.5,vs:0.438,b:0.062,em:"confusión",temas:"verdad, tiempo, autodescubrimiento"},
-  {t:"ㅠㅠ (Credit Roll)",s:"RM",p:"post",y:2024,vt:0.7,vs:0.526,b:0.174,em:"nostalgia",temas:"gratitud, reflexión, despedida"},
-  {t:"Intro",s:"JHOPE",p:"pre",y:2022,vt:0.8,vs:0.964,b:-0.164,em:"esperanza",temas:"esperanza, desesperación, consecuencias"},
-  {t:"on the street (w/ J. Cole)",s:"JHOPE",p:"post",y:2023,vt:0.8,vs:0.813,b:-0.013,em:"esperanza",temas:"amor, esperanza, superación"},
-  {t:"lock / unlock",s:"JHOPE",p:"post",y:2024,vt:0.7,vs:0.725,b:-0.025,em:"esperanza",temas:"amor, control, relaciones"},
-  {t:"Sweet Dreams (feat. Miguel)",s:"JHOPE",p:"post",y:2025,vt:0.7,vs:0.797,b:-0.097,em:"romántica",temas:"amor, soledad, deseo"},
-  {t:"MONA LISA",s:"JHOPE",p:"post",y:2025,vt:0.8,vs:0.96,b:-0.16,em:"deseo",temas:"atracción, independencia, relaciones"},
-  {t:"Killin' It Girl",s:"JHOPE",p:"post",y:2025,vt:0.8,vs:0.708,b:0.092,em:"alegría",temas:"autoestima, celebración, atracción"},
-  {t:"Like Crazy (English Ver.)",s:"JIMIN",p:"post",y:2023,vt:0.4,vs:0.32,b:0.08,em:"ansiedad",temas:"amor, miedo, identidad"},
-  {t:"Interlude: Showtime",s:"JIMIN",p:"post",y:2024,vt:0.5,vs:0.921,b:-0.421,em:"alegría",temas:"entretenimiento, celebración, música"},
-  {t:"Who",s:"JIMIN",p:"post",y:2024,vt:0.6,vs:0.838,b:-0.238,em:"anhelo",temas:"amor no correspondido, anhelo, esperanza"},
-  {t:"Be Mine (English Ver.)",s:"JIMIN",p:"post",y:2024,vt:0.7,vs:0.526,b:0.174,em:"anhelo",temas:"amor, conexión, deseo"},
-  {t:"Running Wild",s:"JIN",p:"post",y:2024,vt:0.8,vs:0.317,b:0.483,em:"esperanza",temas:"amor, nostalgia, libertad"},
-  {t:"Don't Say You Love Me",s:"JIN",p:"post",y:2025,vt:0.3,vs:0.757,b:-0.457,em:"tristeza",temas:"desamor, conflicto, dolor"},
-  {t:"Dreamers",s:"JUNGKOOK",p:"pre",y:2022,vt:0.8,vs:0.34,b:0.46,em:"optimismo",temas:"sueños, pasión, respeto"},
-  {t:"Seven (feat. Latto)",s:"JUNGKOOK",p:"post",y:2023,vt:0.75,vs:0.891,b:-0.141,em:"amor",temas:"amor, devoción, conexión"},
-  {t:"3D (feat. Jack Harlow)",s:"JUNGKOOK",p:"post",y:2023,vt:0.7,vs:0.888,b:-0.188,em:"anhelo",temas:"amor, deseo, conexión"},
-  {t:"Closer to You",s:"JUNGKOOK",p:"post",y:2023,vt:0.7,vs:0.493,b:0.207,em:"anhelo",temas:"amor, lucha, conexión"},
-  {t:"Standing Next to You",s:"JUNGKOOK",p:"post",y:2023,vt:0.8,vs:0.816,b:-0.016,em:"esperanza",temas:"amor, resiliencia, unión"},
-  {t:"Hate You",s:"JUNGKOOK",p:"post",y:2023,vt:0.3,vs:0.25,b:0.05,em:"odio",temas:"desamor, odio, conflicto"},
-  {t:"Too Sad to Dance",s:"JUNGKOOK",p:"post",y:2023,vt:0.2,vs:0.563,b:-0.363,em:"tristeza",temas:"soledad, desamor, decepción"},
-  {t:"Shot Glass of Tears",s:"JUNGKOOK",p:"post",y:2023,vt:0.3,vs:0.164,b:0.136,em:"tristeza",temas:"dolor, amor, autodestrucción"},
-  {t:"Never Let Go",s:"JUNGKOOK",p:"post",y:2024,vt:0.8,vs:0.173,b:0.627,em:"afecto",temas:"amor, dependencia, aprecio"},
-  {t:"Winter Bear",s:"V",p:"pre",y:2019,vt:0.7,vs:0.291,b:0.409,em:"nostalgia",temas:"amor, anhelo, tranquilidad"},
-  {t:"Sweet Night",s:"V",p:"pre",y:2020,vt:0.6,vs:0.146,b:0.454,em:"anhelo",temas:"amor, duda, nostalgia"},
-  {t:"For Us",s:"V",p:"post",y:2023,vt:0.6,vs:0.215,b:0.385,em:"tristeza",temas:"amor perdido, esperanza, nostalgia"},
-  {t:"FRI(END)S",s:"V",p:"post",y:2024,vt:0.7,vs:0.627,b:0.073,em:"confusión",temas:"amor, amistad, conflicto"},
-  {t:"Winter Ahead",s:"V",p:"post",y:2024,vt:0.8,vs:0.229,b:0.571,em:"calidez",temas:"amor, compañerismo, naturaleza"},
-  {t:"White Christmas (w/ V)",s:"V",p:"post",y:2024,vt:0.8,vs:0.158,b:0.642,em:"nostalgia",temas:"Navidad, nostalgia, sueños"},
-  // Arirang
-  {t:"Body to Body",s:"BTS",p:"arirang",y:2026,vt:0.7,vs:null,b:null,em:"alegría",temas:"unidad, celebración, deseo"},
-  {t:"Hooligan",s:"BTS",p:"arirang",y:2026,vt:0.7,vs:null,b:null,em:"alegría",temas:"fiesta, rebeldía, diversión"},
-  {t:"Aliens",s:"BTS",p:"arirang",y:2026,vt:0.8,vs:null,b:null,em:"alegría",temas:"fiesta, identidad, diversidad"},
-  {t:"FYA",s:"BTS",p:"arirang",y:2026,vt:0.8,vs:null,b:null,em:"euforia",temas:"fiesta, pasión, celebración"},
-  {t:"2.0",s:"BTS",p:"arirang",y:2026,vt:0.7,vs:null,b:null,em:"determinación",temas:"confianza, reclamo, superación"},
-  {t:"SWIM",s:"BTS",p:"arirang",y:2026,vt:0.7,vs:null,b:null,em:"anhelo",temas:"amor, libertad, naturaleza"},
-  {t:"Merry Go Round",s:"BTS",p:"arirang",y:2026,vt:0.3,vs:null,b:null,em:"tristeza",temas:"dolor, culpa, lucha interna"},
-  {t:"NORMAL",s:"BTS",p:"arirang",y:2026,vt:0.4,vs:null,b:null,em:"conflicto",temas:"adicción, fama, confusión"},
-  {t:"Like Animals",s:"BTS",p:"arirang",y:2026,vt:0.7,vs:null,b:null,em:"pasión",temas:"amor, libertad, naturaleza"},
-  {t:"they don't know 'bout us",s:"BTS",p:"arirang",y:2026,vt:0.7,vs:null,b:null,em:"esperanza",temas:"amor, identidad, conexión"},
-  {t:"One More Night",s:"BTS",p:"arirang",y:2026,vt:0.7,vs:null,b:null,em:"nostalgia",temas:"amor, sueños, anhelo"},
-  {t:"Please",s:"BTS",p:"arirang",y:2026,vt:0.7,vs:null,b:null,em:"esperanza",temas:"amor, anhelo, superación"},
-  {t:"Into the Sun",s:"BTS",p:"arirang",y:2026,vt:0.8,vs:null,b:null,em:"amor",temas:"amor, esperanza, devoción"},
+  {
+    "t": "Skit: Billboard Music Awards Speech",
+    "s": "BTS",
+    "p": "pre",
+    "y": 2017,
+    "vt": 0.8,
+    "vs": 0.327,
+    "b": 0.473,
+    "em": "alegría",
+    "temas": "gratitud, unidad, amor"
+  },
+  {
+    "t": "Dynamite",
+    "s": "BTS",
+    "p": "pre",
+    "y": 2020,
+    "vt": 0.8,
+    "vs": 0.737,
+    "b": 0.063,
+    "em": "alegría",
+    "temas": "celebración, diversión, autoexpresión"
+  },
+  {
+    "t": "Butter",
+    "s": "BTS",
+    "p": "pre",
+    "y": 2021,
+    "vt": 0.8,
+    "vs": 0.695,
+    "b": 0.105,
+    "em": "alegría",
+    "temas": "amor, confianza, diversión"
+  },
+  {
+    "t": "Permission to Dance",
+    "s": "BTS",
+    "p": "pre",
+    "y": 2021,
+    "vt": 0.8,
+    "vs": 0.646,
+    "b": 0.154,
+    "em": "alegría",
+    "temas": "juventud, libertad, celebración"
+  },
+  {
+    "t": "Change",
+    "s": "RM",
+    "p": "pre",
+    "y": 2017,
+    "vt": 0.4,
+    "vs": 0.326,
+    "b": 0.074,
+    "em": "frustración",
+    "temas": "lucha, injusticia, frustración"
+  },
+  {
+    "t": "tokyo",
+    "s": "RM",
+    "p": "pre",
+    "y": 2018,
+    "vt": 0.6,
+    "vs": 0.071,
+    "b": 0.529,
+    "em": "melancolía",
+    "temas": "identidad, nostalgia, amor"
+  },
+  {
+    "t": "Closer (with Paul Blanco, Mahalia)",
+    "s": "RM",
+    "p": "pre",
+    "y": 2022,
+    "vt": 0.6,
+    "vs": 0.403,
+    "b": 0.197,
+    "em": "anhelo",
+    "temas": "anhelo, intimidad, conflicto emocional"
+  },
+  {
+    "t": "Change pt.2",
+    "s": "RM",
+    "p": "pre",
+    "y": 2022,
+    "vt": 0.4,
+    "vs": 0.384,
+    "b": 0.016,
+    "em": "nostalgia",
+    "temas": "cambio, amor, desilusión"
+  },
+  {
+    "t": "Come back to me",
+    "s": "RM",
+    "p": "post",
+    "y": 2024,
+    "vt": 0.7,
+    "vs": 0.344,
+    "b": 0.356,
+    "em": "anhelo",
+    "temas": "amor, nostalgia, búsqueda de conexión"
+  },
+  {
+    "t": "Right People Wrong Place",
+    "s": "RM",
+    "p": "post",
+    "y": 2024,
+    "vt": 0.3,
+    "vs": 0.645,
+    "b": -0.345,
+    "em": "frustración",
+    "temas": "confusión, identidad, desubicación"
+  },
+  {
+    "t": "? (Interlude)",
+    "s": "RM",
+    "p": "post",
+    "y": 2024,
+    "vt": 0.4,
+    "vs": 0.793,
+    "b": -0.393,
+    "em": "nostalgia",
+    "temas": "pérdida, recuerdos, relaciones"
+  },
+  {
+    "t": "Heaven",
+    "s": "RM",
+    "p": "post",
+    "y": 2024,
+    "vt": 0.7,
+    "vs": 0.333,
+    "b": 0.367,
+    "em": "empoderamiento",
+    "temas": "autonomía, conflicto, resiliencia"
+  },
+  {
+    "t": "LOST!",
+    "s": "RM",
+    "p": "post",
+    "y": 2024,
+    "vt": 0.6,
+    "vs": 0.336,
+    "b": 0.264,
+    "em": "confusión",
+    "temas": "amor, libertad, pérdida"
+  },
+  {
+    "t": "Around the world in a day (feat. Moses Sumney)",
+    "s": "RM",
+    "p": "post",
+    "y": 2024,
+    "vt": 0.5,
+    "vs": 0.438,
+    "b": 0.062,
+    "em": "confusión",
+    "temas": "verdad y mentira, tiempo, autodescubrimiento"
+  },
+  {
+    "t": "ㅠㅠ (Credit Roll)",
+    "s": "RM",
+    "p": "post",
+    "y": 2024,
+    "vt": 0.7,
+    "vs": 0.526,
+    "b": 0.174,
+    "em": "nostalgia",
+    "temas": "gratitud, reflexión, despedida"
+  },
+  {
+    "t": "Intro",
+    "s": "JHOPE",
+    "p": "pre",
+    "y": 2022,
+    "vt": 0.8,
+    "vs": 0.964,
+    "b": -0.164,
+    "em": "esperanza",
+    "temas": "esperanza, desesperación, consecuencias"
+  },
+  {
+    "t": "on the street (with J. Cole)",
+    "s": "JHOPE",
+    "p": "post",
+    "y": 2023,
+    "vt": 0.8,
+    "vs": 0.813,
+    "b": -0.013,
+    "em": "esperanza",
+    "temas": "amor, esperanza, superación"
+  },
+  {
+    "t": "lock / unlock (with benny blanco & Nile Rodgers)",
+    "s": "JHOPE",
+    "p": "post",
+    "y": 2024,
+    "vt": 0.7,
+    "vs": 0.725,
+    "b": -0.025,
+    "em": "esperanza",
+    "temas": "amor, control, relaciones"
+  },
+  {
+    "t": "Sweet Dreams (feat. Miguel)",
+    "s": "JHOPE",
+    "p": "post",
+    "y": 2025,
+    "vt": 0.7,
+    "vs": 0.797,
+    "b": -0.097,
+    "em": "romántica",
+    "temas": "amor, soledad, deseo"
+  },
+  {
+    "t": "MONA LISA",
+    "s": "JHOPE",
+    "p": "post",
+    "y": 2025,
+    "vt": 0.8,
+    "vs": 0.96,
+    "b": -0.16,
+    "em": "deseo",
+    "temas": "atracción física, independencia, relaciones"
+  },
+  {
+    "t": "Killin' It Girl (feat. GloRilla)",
+    "s": "JHOPE",
+    "p": "post",
+    "y": 2025,
+    "vt": 0.8,
+    "vs": 0.708,
+    "b": 0.092,
+    "em": "alegría",
+    "temas": "autoestima, celebración, atracción"
+  },
+  {
+    "t": "Like Crazy (English Version)",
+    "s": "JIMIN",
+    "p": "post",
+    "y": 2023,
+    "vt": 0.4,
+    "vs": 0.32,
+    "b": 0.08,
+    "em": "ansiedad",
+    "temas": "amor, miedo, búsqueda de identidad"
+  },
+  {
+    "t": "Interlude : Showtime",
+    "s": "JIMIN",
+    "p": "post",
+    "y": 2024,
+    "vt": 0.5,
+    "vs": 0.921,
+    "b": -0.421,
+    "em": "alegría",
+    "temas": "entretenimiento, celebración, música"
+  },
+  {
+    "t": "Who",
+    "s": "JIMIN",
+    "p": "post",
+    "y": 2024,
+    "vt": 0.6,
+    "vs": 0.838,
+    "b": -0.238,
+    "em": "anhelo",
+    "temas": "amor no correspondido, anhelo, esperanza"
+  },
+  {
+    "t": "Be Mine (English Version)",
+    "s": "JIMIN",
+    "p": "post",
+    "y": 2024,
+    "vt": 0.7,
+    "vs": 0.526,
+    "b": 0.174,
+    "em": "anhelo",
+    "temas": "amor, conexión, deseo"
+  },
+  {
+    "t": "Running Wild",
+    "s": "JIN",
+    "p": "post",
+    "y": 2024,
+    "vt": 0.8,
+    "vs": 0.317,
+    "b": 0.483,
+    "em": "esperanza",
+    "temas": "amor, nostalgia, libertad"
+  },
+  {
+    "t": "Don’t Say You Love Me",
+    "s": "JIN",
+    "p": "post",
+    "y": 2025,
+    "vt": 0.3,
+    "vs": 0.757,
+    "b": -0.457,
+    "em": "tristeza",
+    "temas": "desamor, conflicto interno, dolor emocional"
+  },
+  {
+    "t": "Dreamers [Music from the FIFA World Cup Qatar 2022 Official Soundtrack]",
+    "s": "JUNGKOOK",
+    "p": "pre",
+    "y": 2022,
+    "vt": 0.8,
+    "vs": 0.34,
+    "b": 0.46,
+    "em": "optimismo",
+    "temas": "sueños, pasión, respeto"
+  },
+  {
+    "t": "Seven (feat. Latto) (Clean Ver.)",
+    "s": "JUNGKOOK",
+    "p": "post",
+    "y": 2023,
+    "vt": 0.75,
+    "vs": 0.891,
+    "b": -0.141,
+    "em": "amor",
+    "temas": "amor, devoción, conexión"
+  },
+  {
+    "t": "Seven (feat. Latto) (Explicit Ver.)",
+    "s": "JUNGKOOK",
+    "p": "post",
+    "y": 2023,
+    "vt": 0.7,
+    "vs": 0.89,
+    "b": -0.19,
+    "em": "pasión",
+    "temas": "amor, devoción, intimidad"
+  },
+  {
+    "t": "3D (feat. Jack Harlow)",
+    "s": "JUNGKOOK",
+    "p": "post",
+    "y": 2023,
+    "vt": 0.7,
+    "vs": 0.888,
+    "b": -0.188,
+    "em": "anhelo",
+    "temas": "amor, deseo, conexión"
+  },
+  {
+    "t": "3D (feat. Jack Harlow) (Clean Ver.)",
+    "s": "JUNGKOOK",
+    "p": "post",
+    "y": 2023,
+    "vt": 0.7,
+    "vs": 0.891,
+    "b": -0.191,
+    "em": "anhelo",
+    "temas": "amor, deseo, conexión"
+  },
+  {
+    "t": "Closer to You (feat. Major Lazer)",
+    "s": "JUNGKOOK",
+    "p": "post",
+    "y": 2023,
+    "vt": 0.7,
+    "vs": 0.493,
+    "b": 0.207,
+    "em": "anhelo",
+    "temas": "amor, lucha emocional, conexión"
+  },
+  {
+    "t": "Standing Next to You",
+    "s": "JUNGKOOK",
+    "p": "post",
+    "y": 2023,
+    "vt": 0.8,
+    "vs": 0.816,
+    "b": -0.016,
+    "em": "esperanza",
+    "temas": "amor, resiliencia, unión"
+  },
+  {
+    "t": "Yes or No",
+    "s": "JUNGKOOK",
+    "p": "post",
+    "y": 2023,
+    "vt": 0.7,
+    "vs": 0.882,
+    "b": -0.182,
+    "em": "ansiedad",
+    "temas": "amor, incertidumbre, conexión"
+  },
+  {
+    "t": "Please Don't Change (feat. DJ Snake)",
+    "s": "JUNGKOOK",
+    "p": "post",
+    "y": 2023,
+    "vt": 0.7,
+    "vs": 0.768,
+    "b": -0.068,
+    "em": "nostalgia",
+    "temas": "amor, distancia, autenticidad"
+  },
+  {
+    "t": "Hate You",
+    "s": "JUNGKOOK",
+    "p": "post",
+    "y": 2023,
+    "vt": 0.3,
+    "vs": 0.25,
+    "b": 0.05,
+    "em": "odio",
+    "temas": "desamor, odio, conflicto emocional"
+  },
+  {
+    "t": "Somebody",
+    "s": "JUNGKOOK",
+    "p": "post",
+    "y": 2023,
+    "vt": 0.4,
+    "vs": 0.256,
+    "b": 0.144,
+    "em": "tristeza",
+    "temas": "desamor, cambio, soledad"
+  },
+  {
+    "t": "Too Sad to Dance",
+    "s": "JUNGKOOK",
+    "p": "post",
+    "y": 2023,
+    "vt": 0.2,
+    "vs": 0.563,
+    "b": -0.363,
+    "em": "tristeza",
+    "temas": "soledad, desamor, decepción"
+  },
+  {
+    "t": "Shot Glass of Tears",
+    "s": "JUNGKOOK",
+    "p": "post",
+    "y": 2023,
+    "vt": 0.3,
+    "vs": 0.164,
+    "b": 0.136,
+    "em": "tristeza",
+    "temas": "dolor, amor, autodestrucción"
+  },
+  {
+    "t": "Never Let Go",
+    "s": "JUNGKOOK",
+    "p": "post",
+    "y": 2024,
+    "vt": 0.8,
+    "vs": 0.173,
+    "b": 0.627,
+    "em": "afecto",
+    "temas": "amor, dependencia emocional, aprecio"
+  },
+  {
+    "t": "Winter Bear",
+    "s": "V",
+    "p": "pre",
+    "y": 2019,
+    "vt": 0.7,
+    "vs": 0.291,
+    "b": 0.409,
+    "em": "nostalgia",
+    "temas": "amor, anhelo, tranquilidad"
+  },
+  {
+    "t": "Sweet Night",
+    "s": "V",
+    "p": "pre",
+    "y": 2020,
+    "vt": 0.6,
+    "vs": 0.146,
+    "b": 0.454,
+    "em": "anhelo",
+    "temas": "amor, duda, nostalgia"
+  },
+  {
+    "t": "For Us",
+    "s": "V",
+    "p": "post",
+    "y": 2023,
+    "vt": 0.6,
+    "vs": 0.215,
+    "b": 0.385,
+    "em": "tristeza",
+    "temas": "amor perdido, esperanza, nostalgia"
+  },
+  {
+    "t": "FRI(END)S",
+    "s": "V",
+    "p": "post",
+    "y": 2024,
+    "vt": 0.7,
+    "vs": 0.627,
+    "b": 0.073,
+    "em": "confusión",
+    "temas": "amor, amistad, conflicto emocional"
+  },
+  {
+    "t": "Winter Ahead (with PARK HYO SHIN)",
+    "s": "V",
+    "p": "post",
+    "y": 2024,
+    "vt": 0.8,
+    "vs": 0.229,
+    "b": 0.571,
+    "em": "calidez",
+    "temas": "amor, compañerismo, naturaleza"
+  },
+  {
+    "t": "White Christmas (with V of BTS)",
+    "s": "V",
+    "p": "post",
+    "y": 2024,
+    "vt": 0.8,
+    "vs": 0.158,
+    "b": 0.642,
+    "em": "nostalgia",
+    "temas": "Navidad, Nostalgia, Sueños"
+  }
 ];
 
-const COLORS = { pre: '#6C63FF', post: '#FF6584', arirang: '#2ECC71' };
-const PERIODO_LABEL = { pre: 'Pre-servicio', post: 'Reencuentro', arirang: 'Arirang 2026' };
+/* ===== Config ===== */
+const PERIOD_COLOR = { pre: '#6C63FF', post: '#E8637F' };
+const PERIOD_LABEL = { pre: '2013–2022', post: '2023–2025' };
+const PERIOD_DESC  = { pre: 'Pre-servicio', post: 'Etapa solista / servicio' };
 
-let activePeriodos = new Set(['pre','post','arirang']);
-let activeMiembro = 'ALL';
-let selectedSong = null;
+const MEMBER_ORDER = ['ALL','RM','JHOPE','JIN','V','BTS','SUGA','JIMIN','JUNGKOOK'];
+const MEMBER_LABEL = { ALL:'Todos', RM:'RM', JHOPE:'J-HOPE', JIN:'JIN', V:'V', BTS:'BTS (grupo)', SUGA:'SUGA', JIMIN:'JIMIN', JUNGKOOK:'JUNGKOOK' };
+const MEMBER_COLOR = { ALL:'#9AA0A6', RM:'#F2A649', JHOPE:'#B399E8', JIN:'#8B5E3C', V:'#4FC3E0', BTS:'#6C63FF', SUGA:'#4CAF7D', JIMIN:'#E15D7F', JUNGKOOK:'#D9C74A' };
 
+let state = { miembro: 'ALL', periodo: 'ALL', selected: null, activePeriodos: new Set(['pre','post']) };
+
+/* ===== Populate selects ===== */
+const miembroPresent = ['ALL', ...MEMBER_ORDER.filter(m => m !== 'ALL' && DATA.some(d => d.s === m))];
+// keep full roster from legend even if some members have no tracks in this dataset
+const miembroSelect = document.getElementById('miembro-select');
+MEMBER_ORDER.forEach(m => {
+  if (m === 'ALL') return;
+  const opt = document.createElement('option');
+  opt.value = m; opt.textContent = MEMBER_LABEL[m];
+  miembroSelect.appendChild(opt);
+});
+
+/* ===== Legend ===== */
+function countPeriodo(p) { return DATA.filter(d => d.p === p).length; }
+function renderLegend() {
+  const periodoWrap = document.getElementById('legend-periodo');
+  periodoWrap.innerHTML = ['pre','post'].map(p => `
+    <div class="legend-item${state.activePeriodos.has(p) ? '' : ' dim'}" data-periodo="${p}">
+      <span class="legend-dot" style="background:${PERIOD_COLOR[p]}"></span>
+      <span><b>${PERIOD_LABEL[p]}</b> <span class="legend-desc">${PERIOD_DESC[p]} (n=${countPeriodo(p)})</span></span>
+    </div>`).join('');
+
+  const miembroWrap = document.getElementById('legend-miembro');
+  miembroWrap.innerHTML = MEMBER_ORDER.map(m => `
+    <div class="legend-item${state.miembro==='ALL'||state.miembro===m ? '' : ' dim'}" data-miembro="${m}">
+      <span class="legend-dot" style="background:${MEMBER_COLOR[m]}"></span>
+      <b>${MEMBER_LABEL[m]}</b>
+    </div>`).join('');
+
+  periodoWrap.querySelectorAll('[data-periodo]').forEach(el => {
+    el.addEventListener('click', () => {
+      const p = el.dataset.periodo;
+      if (state.activePeriodos.has(p)) { state.activePeriodos.delete(p); } else { state.activePeriodos.add(p); }
+      state.periodo = 'ALL';
+      document.getElementById('periodo-select').value = 'ALL';
+      renderLegend();
+      drawPoints();
+    });
+  });
+  miembroWrap.querySelectorAll('[data-miembro]').forEach(el => {
+    el.addEventListener('click', () => {
+      state.miembro = el.dataset.miembro;
+      document.getElementById('miembro-select').value = state.miembro;
+      renderLegend();
+      drawPoints();
+    });
+  });
+}
+
+/* ===== Filtering ===== */
 function filtered() {
   return DATA.filter(d => {
-    if (!activePeriodos.has(d.p)) return false;
-    if (activeMiembro !== 'ALL' && d.s !== activeMiembro) return false;
+    if (!state.activePeriodos.has(d.p)) return false;
+    if (state.periodo !== 'ALL' && d.p !== state.periodo) return false;
+    if (state.miembro !== 'ALL' && d.s !== state.miembro) return false;
     return true;
   });
 }
 
-function getColor(d) { return COLORS[d.p]; }
-
-// Scatter
-const margin = {top:20, right:20, bottom:50, left:55};
-let W, H, svg, xScale, yScale, gPoints, gDiag, tooltip;
+/* ===== Chart ===== */
+const margin = { top: 30, right: 30, bottom: 45, left: 50 };
+let W, H, svg, xScale, yScale, gPoints, tooltip;
 
 function initScatter() {
   const container = document.getElementById('scatter');
-  W = container.clientWidth - margin.left - margin.right;
-  H = container.clientHeight - margin.top - margin.bottom;
+  const size = Math.min(container.clientWidth, 640);
+  W = size - margin.left - margin.right;
+  H = size - margin.top - margin.bottom;
 
   d3.select('#scatter').selectAll('*').remove();
 
   svg = d3.select('#scatter').append('svg')
-    .attr('width', W + margin.left + margin.right)
-    .attr('height', H + margin.top + margin.bottom)
+    .attr('width', '100%')
+    .attr('viewBox', `0 0 ${size} ${size}`)
     .append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
 
   xScale = d3.scaleLinear().domain([0,1]).range([0,W]);
   yScale = d3.scaleLinear().domain([0,1]).range([H,0]);
 
+  // Quadrant fills split by diagonal
+  svg.append('polygon')
+    .attr('points', `${xScale(0)},${yScale(0)} ${xScale(0)},${yScale(1)} ${xScale(1)},${yScale(1)}`)
+    .attr('fill', 'var(--post-tint)');
+  svg.append('polygon')
+    .attr('points', `${xScale(0)},${yScale(0)} ${xScale(1)},${yScale(0)} ${xScale(1)},${yScale(1)}`)
+    .attr('fill', 'var(--pre-tint)');
+
+  // Gridlines
+  const ticks = [0,0.2,0.4,0.6,0.8,1.0];
+  svg.append('g').selectAll('line.gx').data(ticks).enter().append('line')
+    .attr('x1', d => xScale(d)).attr('x2', d => xScale(d)).attr('y1', 0).attr('y2', H)
+    .style('stroke', '#eee').style('stroke-width', 1);
+  svg.append('g').selectAll('line.gy').data(ticks).enter().append('line')
+    .attr('y1', d => yScale(d)).attr('y2', d => yScale(d)).attr('x1', 0).attr('x2', W)
+    .style('stroke', '#eee').style('stroke-width', 1);
+
+  // Diagonal with arrowhead
+  svg.append('defs').append('marker')
+    .attr('id', 'arrow').attr('viewBox', '0 0 10 10').attr('refX', 8).attr('refY', 5)
+    .attr('markerWidth', 7).attr('markerHeight', 7).attr('orient', 'auto-start-reverse')
+    .append('path').attr('d', 'M 0 0 L 10 5 L 0 10 z').attr('fill', '#a8a8b0');
+
+  svg.append('line')
+    .attr('x1', xScale(0)).attr('y1', yScale(0))
+    .attr('x2', xScale(1)).attr('y2', yScale(1))
+    .style('stroke', '#a8a8b0').style('stroke-dasharray', '4,4').style('stroke-width', 1.3)
+    .attr('marker-end', 'url(#arrow)');
+
   // Axes
-  svg.append('g').attr('transform',`translate(0,${H})`).call(d3.axisBottom(xScale).ticks(5).tickFormat(d3.format('.1f')))
-    .selectAll('text').style('fill','#888');
-  svg.append('g').call(d3.axisLeft(yScale).ticks(5).tickFormat(d3.format('.1f')))
-    .selectAll('text').style('fill','#888');
-  svg.selectAll('.domain,.tick line').style('stroke','#333');
+  svg.append('g').attr('transform', `translate(0,${H})`)
+    .call(d3.axisBottom(xScale).tickValues(ticks).tickFormat(d3.format('.1f')))
+    .call(g => g.select('.domain').style('stroke', '#ccc'))
+    .selectAll('text').style('fill', '#888').style('font-size', '11px');
+  svg.append('g')
+    .call(d3.axisLeft(yScale).tickValues(ticks).tickFormat(d3.format('.1f')))
+    .call(g => g.select('.domain').style('stroke', '#ccc'))
+    .selectAll('text').style('fill', '#888').style('font-size', '11px');
+  svg.selectAll('.tick line').style('stroke', '#eee');
 
-  // Labels
-  svg.append('text').attr('x',W/2).attr('y',H+40).attr('text-anchor','middle')
-    .style('fill','#888').style('font-size','12px').text('Valence musical (Spotify)');
-  svg.append('text').attr('transform','rotate(-90)').attr('x',-H/2).attr('y',-42)
-    .attr('text-anchor','middle').style('fill','#888').style('font-size','12px').text('Valencia textual (letra)');
+  // Quadrant labels
+  svg.append('text').attr('x', 10).attr('y', 16)
+    .attr('class', 'quad-label').style('fill', '#9c2f45')
+    .text('La letra es más luminosa');
+  svg.append('text').attr('x', 10).attr('y', 32)
+    .attr('class', 'quad-label').style('fill', '#9c2f45')
+    .text('que la música');
 
-  // Diagonal
-  gDiag = svg.append('line')
-    .attr('x1',xScale(0)).attr('y1',yScale(0))
-    .attr('x2',xScale(1)).attr('y2',yScale(1))
-    .style('stroke','#444').style('stroke-dasharray','4,4').style('stroke-width',1);
+  svg.append('text').attr('x', W - 10).attr('y', H - 28).attr('text-anchor', 'end')
+    .attr('class', 'quad-label').style('fill', '#3d3aa8')
+    .text('La música es más luminosa');
+  svg.append('text').attr('x', W - 10).attr('y', H - 12).attr('text-anchor', 'end')
+    .attr('class', 'quad-label').style('fill', '#3d3aa8')
+    .text('que la letra');
 
   gPoints = svg.append('g');
-
-  // Tooltip
-  tooltip = d3.select('body').append('div')
-    .style('position','fixed').style('pointer-events','none').style('opacity',0)
-    .style('background','#1a1a22').style('border','1px solid #333')
-    .style('border-radius','8px').style('padding','10px 14px')
-    .style('font-size','12px').style('color','#f0f0f5').style('max-width','220px')
-    .style('line-height','1.5').style('z-index','999');
+  tooltip = d3.select('#tooltip');
 
   drawPoints();
 }
 
+function noteFor(d) {
+  if (d.b === null || d.b === undefined) return { text: '', cls: '' };
+  if (d.b > 0.04) return { text: 'La letra resulta más luminosa que la música.', cls: 'post' };
+  if (d.b < -0.04) return { text: 'La música resulta más luminosa que la letra.', cls: '' };
+  return { text: 'Letra y música están alineadas.', cls: '' };
+}
+
+function showTooltip(event, d) {
+  const note = noteFor(d);
+  tooltip.html(`
+    <div class="tt-title">${d.t}</div>
+    <div class="tt-meta">${MEMBER_LABEL[d.s] || d.s} · ${d.y}</div>
+    <div class="tt-row">Música (Spotify): <b>${d.vs.toFixed(2)}</b></div>
+    <div class="tt-row">Letra (IA): <b>${d.vt.toFixed(2)}</b></div>
+    <div class="tt-row">Brecha: <b>${d.b > 0 ? '+' : ''}${d.b.toFixed(2)}</b></div>
+    ${note.text ? `<div class="tt-note ${note.cls}">${note.text}</div>` : ''}
+  `).style('opacity', 1);
+  moveTooltip(event);
+}
+function moveTooltip(event) {
+  const x = event.clientX, y = event.clientY;
+  const ttW = 240, ttH = 140;
+  let left = x + 16, top = y - 20;
+  if (left + ttW > window.innerWidth) left = x - ttW - 16;
+  if (top + ttH > window.innerHeight) top = window.innerHeight - ttH - 10;
+  tooltip.style('left', left + 'px').style('top', Math.max(10, top) + 'px');
+}
+function hideTooltip() { tooltip.style('opacity', 0); }
+
 function drawPoints() {
-  const data = filtered().filter(d => d.vs !== null);
+  const data = filtered();
+  const pts = gPoints.selectAll('circle').data(data, d => d.t + d.y);
 
-  const pts = gPoints.selectAll('circle').data(data, d => d.t);
+  pts.exit().remove();
 
-  pts.enter().append('circle')
-    .attr('r', 0)
-    .merge(pts)
+  const entered = pts.enter().append('circle').style('cursor', 'pointer');
+
+  entered.merge(pts)
     .attr('cx', d => xScale(d.vs))
     .attr('cy', d => yScale(d.vt))
-    .attr('fill', d => getColor(d))
-    .attr('opacity', 0.85)
-    .attr('stroke', d => selectedSong && d.t === selectedSong.t ? '#fff' : 'transparent')
-    .attr('stroke-width', 2)
-    .attr('r', 7)
-    .style('cursor','pointer')
-    .on('mouseover', function(event, d) {
-      d3.select(this).attr('r', 10).attr('opacity', 1);
-      tooltip.style('opacity',1).html(`
-        <strong>${d.t}</strong><br>
-        <span style="color:${getColor(d)}">${PERIODO_LABEL[d.p]}</span> · ${d.s} · ${d.y}<br>
-        Letra: ${d.vt.toFixed(2)} · Música: ${d.vs.toFixed(2)}<br>
-        Brecha: <strong>${d.b > 0 ? '+' : ''}${d.b.toFixed(2)}</strong><br>
-        <em>${d.em}</em>
-      `);
-    })
-    .on('mousemove', function(event) {
-      tooltip.style('left', (event.clientX+14)+'px').style('top', (event.clientY-28)+'px');
-    })
+    .attr('r', d => state.selected && state.selected.t === d.t ? 9 : 6.5)
+    .attr('fill', d => PERIOD_COLOR[d.p])
+    .attr('fill-opacity', 0.72)
+    .attr('stroke', d => state.selected && state.selected.t === d.t ? '#16161d' : '#fff')
+    .attr('stroke-width', d => state.selected && state.selected.t === d.t ? 2.5 : 1);
+
+  gPoints.selectAll('circle')
+    .on('mouseover', function(event, d) { d3.select(this).attr('r', 9); showTooltip(event, d); })
+    .on('mousemove', moveTooltip)
     .on('mouseout', function(event, d) {
-      d3.select(this).attr('r', 7).attr('opacity', 0.85);
-      tooltip.style('opacity',0);
+      d3.select(this).attr('r', state.selected && state.selected.t === d.t ? 9 : 6.5);
+      hideTooltip();
     })
     .on('click', function(event, d) {
-      selectedSong = d;
+      state.selected = d;
       drawPoints();
-      renderSidebar([d]);
+      showTooltip(event, d);
     });
-
-  pts.exit().transition().attr('r',0).remove();
-
-  updateStats();
 }
 
-function renderSidebar(songs) {
-  const list = document.getElementById('song-list');
-  if (!songs || songs.length === 0) {
-    list.innerHTML = '<div class="empty-state">Haz clic en un punto para ver detalles</div>';
-    return;
-  }
-  list.innerHTML = songs.map(d => {
-    const brechaClass = d.b === null ? 'brecha-neu' : d.b > 0.15 ? 'brecha-pos' : d.b < -0.15 ? 'brecha-neg' : 'brecha-neu';
-    const brechaLabel = d.b === null ? 'Sin datos Spotify' : d.b > 0.15 ? `Letra más positiva (+${d.b.toFixed(2)})` : d.b < -0.15 ? `Música más positiva (${d.b.toFixed(2)})` : `Alineadas (${d.b > 0 ? '+' : ''}${d.b.toFixed(2)})`;
-    const vsBar = d.vs !== null ? `
-      <div class="bar-row">
-        <span class="bar-label">Música</span>
-        <div class="bar-track"><div class="bar-fill" style="width:${d.vs*100}%;background:${getColor(d)}"></div></div>
-        <span class="bar-val">${d.vs.toFixed(2)}</span>
-      </div>` : '';
-    return `
-    <div class="song-card">
-      <div class="song-name">${d.t}</div>
-      <div class="song-meta">${d.s} · ${PERIODO_LABEL[d.p]} · ${d.y}</div>
-      <div class="song-bars">
-        <div class="bar-row">
-          <span class="bar-label">Letra</span>
-          <div class="bar-track"><div class="bar-fill" style="width:${d.vt*100}%;background:#aaa"></div></div>
-          <span class="bar-val">${d.vt.toFixed(2)}</span>
-        </div>
-        ${vsBar}
-      </div>
-      <span class="brecha-tag ${brechaClass}">${brechaLabel}</span>
-      <div style="font-size:11px;color:#888;margin-top:6px">${d.em} · ${d.temas}</div>
-    </div>`;
-  }).join('');
-}
-
-function updateStats() {
-  const f = filtered();
-  const conBrecha = f.filter(d => d.b !== null);
-  const brecha = conBrecha.length ? (conBrecha.reduce((a,b) => a + b.b, 0) / conBrecha.length) : 0;
-  const vtProm = f.length ? (f.reduce((a,b) => a + b.vt, 0) / f.length) : 0;
-  const preN = f.filter(d=>d.p==='pre').length;
-  const postN = f.filter(d=>d.p==='post').length;
-  const arN = f.filter(d=>d.p==='arirang').length;
-
-  document.getElementById('stats').innerHTML = `
-    <div class="stat"><div class="stat-val">${f.length}</div><div class="stat-label">Canciones</div></div>
-    <div class="stat"><div class="stat-val" style="color:#aaa">${vtProm.toFixed(2)}</div><div class="stat-label">Valencia letra prom.</div></div>
-    <div class="stat"><div class="stat-val" style="color:${brecha>=0?'var(--pre)':'var(--post)'}">${brecha>=0?'+':''}${brecha.toFixed(2)}</div><div class="stat-label">Brecha promedio</div></div>
-    <div class="stat"><div class="stat-val" style="color:var(--pre)">${preN}</div><div class="stat-label">Pre-servicio</div></div>
-    <div class="stat"><div class="stat-val" style="color:var(--post)">${postN}</div><div class="stat-label">Reencuentro</div></div>
-    <div class="stat"><div class="stat-val" style="color:var(--arirang)">${arN}</div><div class="stat-label">Arirang</div></div>
-  `;
-}
-
-// Controls
-document.querySelectorAll('[data-periodo]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const p = btn.dataset.periodo;
-    if (activePeriodos.has(p)) { activePeriodos.delete(p); btn.classList.remove('active'); }
-    else { activePeriodos.add(p); btn.classList.add('active'); }
-    selectedSong = null;
-    drawPoints();
-    renderSidebar([]);
+/* ===== Search ===== */
+const searchInput = document.getElementById('song-search');
+const suggestions = document.getElementById('suggestions');
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  if (!q) { suggestions.classList.remove('open'); suggestions.innerHTML = ''; return; }
+  const matches = DATA.filter(d => d.t.toLowerCase().includes(q)).slice(0, 8);
+  if (!matches.length) { suggestions.classList.remove('open'); suggestions.innerHTML = ''; return; }
+  suggestions.innerHTML = matches.map(d => `
+    <div class="suggestion-item" data-title="${d.t.replace(/"/g,'&quot;')}" data-year="${d.y}">
+      <span class="s-title">${d.t}</span>
+      <span class="s-meta">${MEMBER_LABEL[d.s] || d.s} · ${d.y}</span>
+    </div>`).join('');
+  suggestions.classList.add('open');
+  suggestions.querySelectorAll('.suggestion-item').forEach((el, i) => {
+    el.addEventListener('click', () => {
+      const d = matches[i];
+      state.selected = d;
+      state.miembro = 'ALL'; document.getElementById('miembro-select').value = 'ALL';
+      state.periodo = 'ALL'; document.getElementById('periodo-select').value = 'ALL';
+      state.activePeriodos = new Set(['pre','post']);
+      renderLegend();
+      drawPoints();
+      searchInput.value = d.t;
+      suggestions.classList.remove('open');
+      const rect = document.getElementById('scatter').getBoundingClientRect();
+      const fakeEvent = { clientX: rect.left + xScale(d.vs) + margin.left, clientY: rect.top + yScale(d.vt) + margin.top };
+      showTooltip(fakeEvent, d);
+    });
   });
 });
-
-document.querySelectorAll('[data-miembro]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    activeMiembro = btn.dataset.miembro;
-    document.querySelectorAll('[data-miembro]').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    selectedSong = null;
-    drawPoints();
-    const f = filtered();
-    renderSidebar(f.length <= 5 ? f : []);
-  });
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.search-wrap')) suggestions.classList.remove('open');
 });
 
+/* ===== Selects ===== */
+document.getElementById('miembro-select').addEventListener('change', (e) => {
+  state.miembro = e.target.value;
+  renderLegend();
+  drawPoints();
+});
+document.getElementById('periodo-select').addEventListener('change', (e) => {
+  state.periodo = e.target.value;
+  state.activePeriodos = new Set(['pre','post']);
+  renderLegend();
+  drawPoints();
+});
+
+/* ===== Init ===== */
+renderLegend();
 initScatter();
-renderSidebar([]);
 window.addEventListener('resize', initScatter);
 </script>
 </body>

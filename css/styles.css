@@ -2,14 +2,6 @@
    BTS · Born to Sing — Landing interactiva
    ============================================================ */
 
-@font-face {
-  font-family: "Bobby Jones Condensed";
-  src: url("../fonts/BobbyJones-Condensed.woff2") format("woff2"),
-       url("../fonts/BobbyJones-Condensed.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
 
 :root {
   --lav-100: #f3efff;
@@ -34,7 +26,11 @@
   --ease: cubic-bezier(.22, 1, .36, 1);
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+}
 html { scroll-behavior: auto; }
 body {
   font-family: var(--font); color: var(--ink);
@@ -46,9 +42,52 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 
 @font-face {
     font-family: 'Bobby Jones Condensed';
-    src: url('../fonts/BobbyJones-Condensed.woff2') format('woff2'),
-        url('../fonts/BobbyJones-Condensed.woff') format('woff');
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/BobbyJones-Condensed.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/BobbyJones-Condensed.woff') format('woff');
     font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Monigue Regular';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Monigue-Regular.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Monigue-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Book';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Book.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Book.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Medium';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Medium.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Medium.woff') format('woff');
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Bold';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Bold.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Extrabold';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Exbd.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Exbd.woff') format('woff');
     font-style: normal;
     font-display: swap;
 }
