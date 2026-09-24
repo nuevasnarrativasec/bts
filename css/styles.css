@@ -76,7 +76,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 }
 
 @font-face {
-    font-family: 'Prelo';
+    font-family: 'Prelo Semibold';
     src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-SemiBold.woff2') format('woff2'),
         url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-SemiBold.woff') format('woff');
     font-weight: 600;

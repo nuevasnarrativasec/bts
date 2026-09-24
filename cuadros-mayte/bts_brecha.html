@@ -56,6 +56,15 @@
 }
 
 @font-face {
+    font-family: 'Prelo Semibold';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-SemiBold.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
     font-family: 'Prelo Bold';
     src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Bold.woff2') format('woff2'),
         url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Bold.woff') format('woff');
@@ -75,7 +84,7 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #fff; color: var(--ink); font-family: var(--font); padding: 2.5rem 2rem 4rem; }
-  .wrap { max-width: 650px; margin: 0 auto; }
+  .wrap { max-width: 700px; margin: 0 auto; }
 
   h2.title { font-size: 22px; font-weight: 800; margin-bottom: 0.35rem; text-align: center; font-family: 'Prelo Extrabold';}
   p.subtitle { font-size: 14px; color: var(--muted); margin-bottom: 1.5rem; text-align: center; font-family: 'Prelo Medium';}
@@ -115,13 +124,13 @@
 
   .legend-card { background: var(--panel); border-radius: 4px; padding: 1.4rem 1.6rem; margin: 10px auto 20px; max-width: 600px; }
   .legend-title { font-size: 16px; font-weight: 800; margin-bottom: 0.9rem; font-family: 'Prelo Extrabold';}
-  .legend-section-label { font-size: 13px; font-weight: 700; color: #3a3a42; margin-bottom: 0.6rem; }
+  .legend-section-label { font-size: 13px; font-weight: 700; color: #3a3a42; margin-bottom: 0.6rem; font-family: 'Prelo Semibold';}
   .legend-row { display: flex; gap: 1.75rem; flex-wrap: wrap; margin-bottom: 1.1rem; }
   .legend-row:last-child { margin-bottom: 0; }
-  .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 13.5px; cursor: pointer; user-select: none; opacity: 1; transition: opacity 0.15s; }
+  .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 13.5px; cursor: pointer; user-select: none; opacity: 1; transition: opacity 0.15s; font-family: 'Prelo Medium'; }
   .legend-item.dim { opacity: 0.35; }
   .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
-  .legend-item b { font-weight: 700; }
+  .legend-item b { font-family: 'Prelo Bold'; }
   .legend-item .legend-desc { color: var(--muted); }
 
   .axis-legend {
