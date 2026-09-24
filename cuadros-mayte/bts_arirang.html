@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BTS: Tono textual del álbum Arirang</title>
+<style>
+  :root {
+    --pre: #6C63FF;
+    --post: #E8637F;
+    --cierre: #D98E4A;
+    --pre-tint: rgba(108,99,255,0.07);
+    --post-tint: rgba(232,99,127,0.07);
+    --cierre-tint: rgba(217,142,74,0.09);
+    --ink: #16161d;
+    --muted: #7a7a85;
+    --line: #e6e6ea;
+    --panel: #f4f4f6;
+    --card: #ffffff;
+    --accent-red: #e5484d;
+    --font: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  }
+  @font-face {
+    font-family: 'Bobby Jones Condensed';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/BobbyJones-Condensed.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/BobbyJones-Condensed.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Monigue Regular';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Monigue-Regular.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Monigue-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Book';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Book.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Book.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Medium';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Medium.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Medium.woff') format('woff');
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Semibold';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-SemiBold.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Bold';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Bold.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Extrabold';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Exbd.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Exbd.woff') format('woff');
+    font-style: normal;
+    font-display: swap;
+}
+
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #fff; color: var(--ink); font-family: var(--font); padding: 2.5rem 2rem 4rem; }
+  .wrap { max-width: 750px; margin: 0 auto; }
+
+  h2.title { font-size: 20px; font-weight: 800; margin-bottom: 0.35rem; text-align: center;     font-family: 'Prelo Extrabold';}
+  p.subtitle { font-size: 16px;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-family: 'Prelo Medium'; }
+
+  /* Leyenda */
+  .legend-wrap { display: flex; justify-content: center; margin-bottom: 1.5rem; }
+  .legend-box {
+    position: relative; background: var(--card); border: 1px solid var(--ink); border-radius: 16px;
+    padding: 1.25rem 1.75rem 1.4rem; min-width: 300px;
+  }
+  .legend-box .legend-title { font-size: 15px; font-weight: 800; margin-bottom: 0.9rem; }
+  .legend-scale-line {
+    position: relative; height: 2px; background: var(--accent-red); margin: 0 6px 0.5rem;
+  }
+  .legend-scale-dot {
+    position: absolute; top: 50%; width: 9px; height: 9px; border-radius: 50%;
+    background: var(--accent-red); transform: translate(-50%, -50%);
+  }
+  .legend-scale-labels { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin: 0 -2px; }
+  .legend-scale-sub { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin: 0 -2px; }
+  .info-badge {
+    position: absolute; top: -12px; right: -12px; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--accent-red); color: #fff; font-weight: 800; font-size: 13px; font-style: italic;
+    display: flex; align-items: center; justify-content: center; cursor: default;
+    box-shadow: 0 4px 10px rgba(229,72,77,0.35);
+  }
+  .info-badge .info-tip {
+    display: none; position: absolute; top: calc(100% + 8px); right: 0; width: 220px;
+    background: var(--ink); color: #fff; font-size: 11.5px; font-weight: 400; font-style: normal;
+    line-height: 1.5; padding: 0.6rem 0.75rem; border-radius: 8px; text-align: left; z-index: 30;
+  }
+  .info-badge:hover .info-tip { display: block; }
+
+  /* Section pills */
+  .section-pills { display: flex; gap: 0.9rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+  .pill {
+    display: flex; align-items: center; gap: 0.9rem; border: none; border-radius: 12px;
+    padding: 0.7rem 1.1rem; cursor: pointer; color: #fff; font-family: inherit; text-align: left;
+    transition: opacity 0.15s, transform 0.1s;
+    width: 32%;
+  }
+  .pill:active { transform: scale(0.98); }
+  .pill.dim { opacity: 0.4; }
+  .pill-text { display: flex; flex-direction: column; gap: 1px; }
+  .pill-text .pill-title { font-size: 14px; font-weight: 800; }
+  .pill-text .pill-sub { font-size: 11.5px; opacity: 0.85; }
+  .pill-chevron { margin-left: auto; font-size: 11px; transition: transform 0.15s; }
+  .pill.dim .pill-chevron { transform: rotate(180deg); }
+  .pill.apertura { background: var(--pre); }
+  .pill.zona-media { background: var(--post); }
+  .pill.cierre { background: var(--cierre); }
+
+  /* Table card */
+  .table-card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 1.75rem 1.75rem 1.25rem; position: relative; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th { text-align: left; font-size: 12px; color: var(--muted); font-weight: 700; padding-bottom: 0.6rem; border-bottom: 1px solid var(--line); }
+  thead th.col-num { width: 34px; }
+  thead th.col-song { width: 190px; }
+  thead th.col-scale { }
+  thead th.col-emotion { width: 150px; text-align: right; }
+  .scale-headline { font-size: 13px; font-weight: 700; color: var(--ink); text-align: center; display: block; margin-bottom: 2px; }
+  .scale-sublabels { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); font-weight: 400; }
+
+  tbody tr { cursor: pointer; transition: filter 0.15s; }
+  tbody tr.dim-row { display: none; }
+  tbody td { padding: 0.85rem 0.4rem; font-size: 13.5px; vertical-align: middle;  font-family: 'Prelo Bold';}
+  tbody tr.sec-apertura { background: var(--pre-tint); }
+  tbody tr.sec-zona-media { background: var(--post-tint); }
+  tbody tr.sec-cierre { background: var(--cierre-tint); }
+  tbody tr:hover { filter: brightness(0.97); }
+  tbody tr.active-row { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+  .num-cell { font-size: 13px; font-family: 'Prelo Bold'; }
+  .song-cell { font-weight: 700; }
+
+  .track-cell { position: relative; padding: 0.85rem 0; }
+  .track-line { position: relative; height: 2px; background: var(--line); }
+  .track-dot { position: absolute; top: 50%; width: 13px; height: 13px; border-radius: 50%; background: #969696; transform: translate(-50%, -50%); border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,0.06); transition: background 0.15s; }
+  .track-dot.active { background: var(--post); }
+  .track-value { position: absolute; top: 50%; transform: translateY(-50%); font-size: 12.5px; font-weight: 700; color: #969696; white-space: nowrap; }
+  .track-value.active { color: var(--post); }
+
+  .emotion-cell { text-align: right; font-size: 13px; color: var(--muted); text-transform: capitalize; }
+
+  .section-divider td { padding: 0.3rem 0; border: none; }
+
+  footer.foot { display: flex; justify-content: space-between; align-items: baseline; margin-top: 1.5rem; font-size: 11.5px; color: #b0b0b8; flex-wrap: wrap; gap: 0.5rem; }
+  footer.foot .foot-note { max-width: 480px; text-align: right; }
+
+  /* Detail card */
+  .detail-card {
+    position: absolute; top: 260px; right: 24px; z-index: 30; width: 280px; background: var(--card);
+    border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.18); padding: 1.25rem 1.4rem 1.4rem;
+    opacity: 0; pointer-events: none; transition: opacity 0.12s; border: 1px solid var(--line);
+  }
+  .detail-card.open { opacity: 1; pointer-events: auto; }
+  .detail-close {
+    position: absolute; top: 0.9rem; right: 0.9rem; width: 24px; height: 24px; border-radius: 50%;
+    border: 1.5px solid var(--ink); background: none; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 12px; color: var(--ink); line-height: 1;
+  }
+  .detail-title { font-size: 20px; font-weight: 900; letter-spacing: 0.01em; margin-bottom: 2px; padding-right: 2rem; text-transform: uppercase; }
+  .detail-sub { font-size: 12.5px; color: var(--muted); margin-bottom: 1.1rem; }
+  .detail-label { font-size: 11.5px; color: var(--muted); margin-bottom: 2px; }
+  .detail-value { font-size: 26px; font-weight: 800; color: var(--post); margin-bottom: 0.9rem; }
+  .detail-row { margin-bottom: 0.9rem; }
+  .detail-row:last-child { margin-bottom: 0; }
+  .detail-row b { font-size: 13.5px; font-weight: 700; display: block; }
+
+  @media (max-width: 640px) {
+    thead th.col-song, thead th.col-emotion { display: none; }
+    .emotion-cell { display: none; }
+    .section-pills { flex-direction: column; align-items: stretch; }
+    .detail-card { top: 220px; right: 8px; width: 220px; padding: 1rem 1.1rem 1.2rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h2 class="title">Tono textual del álbum Arirang</h2>
+  <p class="subtitle">Valencia emocional de la letra (análisis IA) canción por canción, agrupadas por su rol en el arco del álbum</p>
+
+  <div class="legend-wrap">
+    <div class="legend-box">
+      <span class="info-badge">i
+        <span class="info-tip">La valencia textual mide el tono emocional de la letra según un análisis de IA: 0 es el tono más sombrío y 1 el más luminoso.</span>
+      </span>
+      <div class="legend-title">Leyenda</div>
+      <div class="legend-scale-line">
+        <span class="legend-scale-dot" style="left:0%"></span>
+        <span class="legend-scale-dot" style="left:100%"></span>
+      </div>
+      <div class="legend-scale-labels"><span>0</span><span>1</span></div>
+      <div class="legend-scale-sub"><span>Más sombrío</span><span>Más luminoso</span></div>
+    </div>
+  </div>
+
+  <div class="section-pills" id="section-pills">
+    <button class="pill apertura" data-sec="apertura">
+      <span class="pill-text"><span class="pill-title">Apertura</span><span class="pill-sub">Alegría / euforia</span></span>
+      <span class="pill-chevron">&#9660;</span>
+    </button>
+    <button class="pill zona-media" data-sec="zona-media">
+      <span class="pill-text"><span class="pill-title">Zona media</span><span class="pill-sub">Tristeza / conflicto</span></span>
+      <span class="pill-chevron">&#9660;</span>
+    </button>
+    <button class="pill cierre" data-sec="cierre">
+      <span class="pill-text"><span class="pill-title">Cierre</span><span class="pill-sub">Esperanza / amor</span></span>
+      <span class="pill-chevron">&#9660;</span>
+    </button>
+  </div>
+
+  <div class="table-card">
+    <table>
+      <thead>
+        <tr>
+          <th class="col-num">#</th>
+          <th class="col-song">Canción</th>
+          <th class="col-scale">
+            <span class="scale-headline">Tono textual (valencia)</span>
+            <span class="scale-sublabels"><span>Más sombrío (0)</span><span>&#8594;</span><span>Más luminoso (1)</span></span>
+          </th>
+          <th class="col-emotion">Emoción dominante</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+
+    <div class="detail-card" id="detail-card">
+      <button class="detail-close" id="detail-close">&#10005;</button>
+      <div class="detail-title" id="detail-title"></div>
+      <div class="detail-sub" id="detail-sub"></div>
+      <div class="detail-row">
+        <div class="detail-label">Valencia textual</div>
+        <div class="detail-value" id="detail-value"></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Emoción dominante</div>
+        <b id="detail-emotion"></b>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Posición en el álbum</div>
+        <b id="detail-position"></b>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<script>
+/* ===== Data (arirang_semantico.csv) ===== */
+const DATA = [
+  {
+    "n": 1,
+    "t": "Body to Body",
+    "vt": 0.7,
+    "em": "alegría",
+    "sec": "apertura"
+  },
+  {
+    "n": 2,
+    "t": "Hooligan",
+    "vt": 0.7,
+    "em": "alegría",
+    "sec": "apertura"
+  },
+  {
+    "n": 3,
+    "t": "Aliens",
+    "vt": 0.8,
+    "em": "alegría",
+    "sec": "apertura"
+  },
+  {
+    "n": 4,
+    "t": "FYA",
+    "vt": 0.8,
+    "em": "euforia",
+    "sec": "apertura"
+  },
+  {
+    "n": 5,
+    "t": "2.0",
+    "vt": 0.7,
+    "em": "determinación",
+    "sec": "zona-media"
+  },
+  {
+    "n": 6,
+    "t": "SWIM",
+    "vt": 0.7,
+    "em": "anhelo",
+    "sec": "zona-media"
+  },
+  {
+    "n": 7,
+    "t": "Merry Go Round",
+    "vt": 0.3,
+    "em": "tristeza",
+    "sec": "zona-media"
+  },
+  {
+    "n": 8,
+    "t": "NORMAL",
+    "vt": 0.4,
+    "em": "conflicto",
+    "sec": "zona-media"
+  },
+  {
+    "n": 9,
+    "t": "Like Animals",
+    "vt": 0.7,
+    "em": "pasión",
+    "sec": "zona-media"
+  },
+  {
+    "n": 10,
+    "t": "they don't know 'bout us",
+    "vt": 0.7,
+    "em": "esperanza",
+    "sec": "zona-media"
+  },
+  {
+    "n": 11,
+    "t": "One More Night",
+    "vt": 0.7,
+    "em": "nostalgia",
+    "sec": "cierre"
+  },
+  {
+    "n": 12,
+    "t": "Please",
+    "vt": 0.7,
+    "em": "esperanza",
+    "sec": "cierre"
+  },
+  {
+    "n": 13,
+    "t": "Into the Sun",
+    "vt": 0.8,
+    "em": "amor",
+    "sec": "cierre"
+  }
+];
+
+const SECTION_LABEL = { 'apertura': 'Apertura', 'zona-media': 'Zona media', 'cierre': 'Cierre' };
+
+let activeSections = new Set(['apertura', 'zona-media', 'cierre']);
+let activeRow = null;
+
+const tbody = document.getElementById('table-body');
+
+function fmt(v) { return v.toFixed(2).replace('.', ','); }
+
+function render() {
+  let html = '';
+  let lastSec = null;
+  DATA.forEach(d => {
+    if (d.sec !== lastSec && lastSec !== null) {
+      html += `<tr class="section-divider"><td colspan="4"></td></tr>`;
+    }
+    lastSec = d.sec;
+    const isActive = activeRow === d.n;
+    const dimmed = !activeSections.has(d.sec);
+    html += `
+      <tr class="sec-${d.sec}${dimmed ? ' dim-row' : ''}${isActive ? ' active-row' : ''}" data-n="${d.n}">
+        <td class="num-cell">${d.n}</td>
+        <td class="song-cell">${d.t}</td>
+        <td class="track-cell">
+          <div class="track-line">
+            <span class="track-dot${isActive ? ' active' : ''}" style="left:${d.vt * 100}%"></span>
+            <span class="track-value${isActive ? ' active' : ''}" style="left:calc(${d.vt * 100}% + 14px)">${fmt(d.vt)}</span>
+          </div>
+        </td>
+        <td class="emotion-cell">${d.em}</td>
+      </tr>`;
+  });
+  tbody.innerHTML = html;
+
+  tbody.querySelectorAll('tr[data-n]').forEach(tr => {
+    tr.addEventListener('click', (e) => {
+      const n = parseInt(tr.dataset.n, 10);
+      activeRow = activeRow === n ? null : n;
+      render();
+      if (activeRow) openDetail(DATA.find(d => d.n === activeRow));
+      else closeDetail();
+    });
+  });
+}
+
+/* ===== Section pill filters ===== */
+document.querySelectorAll('.pill').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const sec = btn.dataset.sec;
+    if (activeSections.has(sec)) {
+      if (activeSections.size > 1) activeSections.delete(sec);
+    } else {
+      activeSections.add(sec);
+    }
+    btn.classList.toggle('dim', !activeSections.has(sec));
+    if (activeRow && !activeSections.has(DATA.find(d => d.n === activeRow)?.sec)) {
+      activeRow = null;
+      closeDetail();
+    }
+    render();
+  });
+});
+
+/* ===== Detail card ===== */
+const detailCard = document.getElementById('detail-card');
+document.getElementById('detail-close').addEventListener('click', () => {
+  activeRow = null;
+  render();
+  closeDetail();
+});
+
+function openDetail(d) {
+  document.getElementById('detail-title').textContent = d.t;
+  document.getElementById('detail-sub').textContent = `Track ${d.n} · ARIRANG`;
+  document.getElementById('detail-value').textContent = fmt(d.vt);
+  document.getElementById('detail-emotion').textContent = d.em.charAt(0).toUpperCase() + d.em.slice(1);
+  document.getElementById('detail-position').textContent = SECTION_LABEL[d.sec];
+  detailCard.classList.add('open');
+}
+function closeDetail() {
+  detailCard.classList.remove('open');
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.detail-card') && !e.target.closest('tr[data-n]')) {
+    if (activeRow) { activeRow = null; render(); }
+    closeDetail();
+  }
+});
+
+render();
+</script>
+</body>
+</html>
