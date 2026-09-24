@@ -138,17 +138,17 @@
   .indicators-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
   .ind-card { border: 1.5px solid var(--ink); border-radius: 16px; padding: 1.25rem 1.4rem 1.5rem; }
   .ind-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem; }
-  .ind-icon { flex: none; color: var(--red); }
-  .ind-label { font-size: 14.5px; font-weight: 800; line-height: 1.25; }
-  .ind-label span { display: block; font-weight: 600; color: var(--muted); font-size: 12.5px; }
+  .ind-icon { flex: none; color: var(--red); max-width: 30px;}
+  .ind-label { font-size: 15px; line-height: 1.25; font-family: 'Prelo Extrabold';}
+  .ind-label span { display: block; font-size: 14px; }
 
   .slider { position: relative; height: 46px; margin: 0 4px; }
   .slider-track { position: absolute; top: 22px; left: 0; right: 0; height: 2px; background: var(--line); }
   .slider-fill { position: absolute; top: 22px; height: 2px; background: var(--red); }
-  .slider-dot { position: absolute; top: 16px; width: 14px; height: 14px; border-radius: 50%; background: #b7b7c0; transform: translateX(-50%); }
+  .slider-dot { position: absolute; top: 18px; width: 10px; height: 10px; border-radius: 50%; background: #B7B7B7; transform: translateX(-50%); }
   .slider-dot.active { background: var(--red); }
-  .slider-val { position: absolute; top: -22px; transform: translateX(-50%); font-size: 15px; font-weight: 800; white-space: nowrap; }
-  .slider-era { position: absolute; top: 30px; transform: translateX(-50%); font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .slider-val { position: absolute; top: -10px; transform: translateX(-50%); font-size: 15px; font-weight: 800; white-space: nowrap; font-family: 'Prelo Medium';}
+  .slider-era { position: absolute; top: 30px; transform: translateX(-50%); font-size: 11px; color: #B1B1B1; white-space: nowrap; }
 
   footer { margin-top: 2.5rem; font-size: 12px; color: #b0b0b8; text-align: center; }
 
@@ -441,10 +441,10 @@ const IND_LABEL = {
   Speechiness: ["Speechiness", "(Más voz hablada)"]
 };
 const ICONS = {
-  Valence: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
-  Energy: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg>',
-  Danceability: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="4" r="2"/><path d="M12 6v6l-4 8M12 12l4 8M8 10l-3 3M16 10l3 3"/></svg>',
-  Acousticness: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><path d="M16 8L2 22M17.5 15H9"/></svg>',
+  Valence: '<img src="../img/icon-valence.jpg" width="100%">',
+  Energy: '<img src="../img/icon-energia.jpg" width="100%">',
+  Danceability: '<img src="../img/icon-acustico.jpg" width="100%">',
+  Acousticness: '<img src="../img/icon-acustico.jpg" width="100%">',
   Speechiness: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>'
 };
 
