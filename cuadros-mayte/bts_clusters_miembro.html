@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BTS · Composición de clusters por miembro</title>
+<style>
+  :root {
+    --ink: #16161d;
+    --muted: #7a7a85;
+    --line: #e6e6ea;
+    --panel: #f4f4f6;
+    --card: #ffffff;
+    --pre: #6C63FF;
+    --post: #E8637F;
+    --font: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+
+    --c-bailable: #8B85FF;
+    --c-intenso: #E8637F;
+    --c-melancolico: #7EC8E3;
+    --c-spoken: #8FD9A8;
+
+    --bar-h: 320px;
+  }
+
+@font-face {
+    font-family: 'Bobby Jones Condensed';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/BobbyJones-Condensed.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/BobbyJones-Condensed.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Monigue Regular';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Monigue-Regular.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Monigue-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Book';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Book.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Book.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Medium';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Medium.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Medium.woff') format('woff');
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Semibold';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-SemiBold.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Bold';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Bold.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Extrabold';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Exbd.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Exbd.woff') format('woff');
+    font-style: normal;
+    font-display: swap;
+}
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #fff; color: var(--ink); font-family: var(--font); padding: 3rem 2rem 5rem; }
+  .wrap { max-width: 980px; margin: 0 auto; }
+
+  .eyebrow { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 800; margin-bottom: 0.5rem; }
+  p.lead { font-size: 14.5px; color: var(--muted); max-width: 640px; line-height: 1.6;  margin: 0 auto 30px; }
+  p.lead b { color: var(--ink); }
+
+  /* Legend */
+  .legend-card {
+    display: flex; flex-wrap: wrap; gap: 1.25rem 1.75rem; align-items: center;
+    border-radius: 14px;
+    padding: 1rem 1.4rem; margin-bottom: 2.25rem;
+    justify-content: center;
+  }
+  .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 13px; font-weight: 700; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex: none; }
+
+  /* Chart */
+  .chart-card {
+    background: var(--card); border-radius: 18px;
+    
+  }
+
+  .chart-row { display: flex; }
+
+  /* Y axis */
+  .y-axis {
+    display: flex; flex-direction: column-reverse; justify-content: space-between;
+    height: var(--bar-h); padding-right: 0.75rem; flex: none;
+  }
+  .y-axis span {
+    font-size: 12px; font-weight: 700; color: var(--muted); transform: translateY(50%);
+    line-height: 1;
+  }
+  .y-axis span:last-child { transform: translateY(-50%); }
+
+  /* Plot area (bars + gridlines) */
+  .plot-area {
+    position: relative; flex: 1; height: var(--bar-h);
+    border-left: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink);
+  }
+  .gridline {
+    position: absolute; left: 0; right: 0; height: 1px; background: var(--line);
+  }
+
+  .bars {
+    position: absolute; inset: 0;
+    display: grid; grid-template-columns: repeat(8, 1fr); gap: 1rem;
+    align-items: end; padding: 0 0.75rem;
+  }
+  .bar-col { display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
+  .bar-shell {
+    width: 100%; max-width: 64px; height: 100%; border-radius: 0; overflow: hidden;
+    display: flex; flex-direction: column-reverse;
+  }
+  .seg {
+    width: 100%; display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .seg-label {
+    font-size: 10.5px; font-weight: 800; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.18);
+  }
+
+  /* X axis labels + avatars, below the plot area */
+  .x-axis {
+    display: grid; grid-template-columns: repeat(8, 1fr); gap: 1rem;
+    padding: 0 0.75rem; margin-left: calc(38px + 0.75rem);
+  }
+  .x-col { display: flex; flex-direction: column; align-items: center; }
+  .member-name { margin-top: 0.9rem; font-size: 12.5px; font-weight: 800; text-align: center; }
+  .member-total { margin-top: 0.15rem; font-size: 11px; color: var(--muted); }
+
+  .avatar {
+    width: 56px; height: 56px; border-radius: 50%; margin-top: 0.55rem;
+    display: flex; align-items: center; justify-content: center;
+    
+    overflow: hidden;
+  }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  footer { margin-top: 2.5rem; font-size: 12px; color: #b0b0b8; }
+
+  @media (max-width: 860px) {
+    .bars, .x-axis { grid-template-columns: repeat(4, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .bars, .x-axis { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="lead">Ahí sí entra el gráfico de composición de clusters por miembro, para la ARMY que quiera mirar el panorama completo. <b>Estos grupos se generaron a partir de características musicales, no del significado de las letras.</b></p>
+
+  <div class="legend-card" id="legend"></div>
+
+  <div class="chart-card">
+    <div class="chart-row">
+      <div class="y-axis" id="y-axis"></div>
+      <div class="plot-area">
+        <div id="gridlines"></div>
+        <div class="bars" id="bars"></div>
+      </div>
+    </div>
+    <div class="x-axis" id="x-axis"></div>
+  </div>
+
+</div>
+
+<script>
+  const CLUSTERS = ["Bailable y alegre", "Intenso y oscuro", "Melancólico y acústico", "Spoken word"];
+  const CLUSTER_COLORS = {
+    "Bailable y alegre": "#a8a9dc",
+    "Intenso y oscuro": "#e3b8c9",
+    "Melancólico y acústico": "#e9969d",
+    "Spoken word": "#e1c0ae"
+  };
+
+  const DATA = [
+    { member: "BTS", label: "BTS", total: 421, img: "avatar-bts-cluster.png", pct: { "Bailable y alegre": 32, "Intenso y oscuro": 57, "Melancólico y acústico": 9, "Spoken word": 2 } },
+    { member: "RM", label: "RM", total: 32, img: "avatar-rm-cluster.png", pct: { "Bailable y alegre": 25, "Intenso y oscuro": 41, "Melancólico y acústico": 31, "Spoken word": 3 } },
+    { member: "SUGA", label: "SUGA", total: 31, img: "avatar-suga-cluster.png", pct: { "Bailable y alegre": 20, "Intenso y oscuro": 58, "Melancólico y acústico": 19, "Spoken word": 3 } },
+    { member: "JHOPE", label: "J-HOPE", total: 71, img: "avatar-j-hope-cluster.png", pct: { "Bailable y alegre": 66, "Intenso y oscuro": 28, "Melancólico y acústico": 3, "Spoken word": 3 } },
+    { member: "JIMIN", label: "JIMIN", total: 54, img: "avatar-jimin-cluster.png", pct: { "Bailable y alegre": 50, "Intenso y oscuro": 20, "Melancólico y acústico": 30, "Spoken word": 0 } },
+    { member: "JIN", label: "JIN", total: 87, img: "avatar-jin-cluster.png", pct: { "Bailable y alegre": 22, "Intenso y oscuro": 68, "Melancólico y acústico": 10, "Spoken word": 0 } },
+    { member: "JUNGKOOK", label: "JUNGKOOK", total: 58, img: "avatar-jungkook-cluster.png", pct: { "Bailable y alegre": 81, "Intenso y oscuro": 10, "Melancólico y acústico": 9, "Spoken word": 0 } },
+    { member: "V", label: "V", total: 32, img: "avatar-v-cluster.png", pct: { "Bailable y alegre": 22, "Intenso y oscuro": 16, "Melancólico y acústico": 62, "Spoken word": 0 } }
+  ];
+
+  // --- Legend ---
+  const legend = document.getElementById('legend');
+  CLUSTERS.forEach(c => {
+    const item = document.createElement('div');
+    item.className = 'legend-item';
+    item.innerHTML = `<span class="legend-dot" style="background:${CLUSTER_COLORS[c]}"></span>${c}`;
+    legend.appendChild(item);
+  });
+
+  // --- Y axis (0% to 100%, 20% steps) ---
+  const yAxis = document.getElementById('y-axis');
+  for (let v = 0; v <= 100; v += 20) {
+    const span = document.createElement('span');
+    span.textContent = v + '%';
+    yAxis.appendChild(span);
+  }
+
+  // --- Gridlines behind the bars, aligned to the same 20% steps ---
+  const gridlines = document.getElementById('gridlines');
+  for (let v = 20; v <= 80; v += 20) {
+    const gl = document.createElement('div');
+    gl.className = 'gridline';
+    gl.style.bottom = v + '%';
+    gridlines.appendChild(gl);
+  }
+
+  // --- Bars ---
+  const bars = document.getElementById('bars');
+  const xAxis = document.getElementById('x-axis');
+
+  DATA.forEach(d => {
+    const col = document.createElement('div');
+    col.className = 'bar-col';
+
+    const shell = document.createElement('div');
+    shell.className = 'bar-shell';
+    CLUSTERS.forEach(c => {
+      const pct = d.pct[c];
+      if (pct <= 0) return;
+      const seg = document.createElement('div');
+      seg.className = 'seg';
+      seg.style.height = pct + '%';
+      seg.style.background = CLUSTER_COLORS[c];
+      if (pct >= 6) {
+        const lbl = document.createElement('span');
+        lbl.className = 'seg-label';
+        lbl.textContent = pct + '%';
+        seg.appendChild(lbl);
+      }
+      shell.appendChild(seg);
+    });
+    col.appendChild(shell);
+    bars.appendChild(col);
+
+    const xcol = document.createElement('div');
+    xcol.className = 'x-col';
+
+    const name = document.createElement('div');
+    name.className = 'member-name';
+    name.textContent = d.label;
+    xcol.appendChild(name);
+
+    const avatar = document.createElement('div');
+    avatar.className = 'avatar';
+    const avatarImg = document.createElement('img');
+    avatarImg.src = '../img/' + d.img;
+    avatarImg.alt = d.label;
+    avatar.appendChild(avatarImg);
+    xcol.appendChild(avatar);
+
+    const total = document.createElement('div');
+    total.className = 'member-total';
+    total.textContent = d.total + ' canciones';
+    xcol.appendChild(total);
+
+    xAxis.appendChild(xcol);
+  });
+</script>
+</body>
+</html>
