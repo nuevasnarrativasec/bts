@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta name="robots" content="noindex" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Landing interactiva sobre BTS controlada por scroll: la historia de una ARMY a través de una ballena cósmica." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Archivo+Black&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+
+    <div class="main-hero">
+
+    </div>
+
+    <div class="main-animacion-1">
+
+    </div>
+
+    <div class="main-canciones">
+        <h3>las canciones</h3>
+
+        <div class="box-universo-musical">
+            <div class="ctn-box-universo-musical">
+                <h4><i></i>Universo musical:</h4>
+                <p>
+                    <b>El repertorio de BTS se divide en dos grandes fuerzas:</b> su trayectoria grupal, con 54 discos y más de 440 canciones, y las carreras solistas de sus siete miembros, que aportan más de 70 proyectos y 300 temas adicionales. En total, el archivo oficial de la banda supera las 700 canciones disponibles en todo el mundo.
+                </p>
+
+                <div class="hint-desliza">
+                    <img src="./img/icon-desliza.png" alt="" width="100%">
+                    <span>Desliza para interactuar</span>
+                </div>
+
+                <!--
+                    Carrusel horizontal de portadas.
+                    Duplica un ".disco-item" completo por cada disco/track:
+                      - Cambia la imagen (./img/discos/tu-portada.jpg)
+                      - Cambia data-embed por la URL de embed de Spotify
+                        (Spotify → Compartir → Copiar código para insertar → toma el valor de "src")
+                -->
+                <div class="scroll-discos" id="scrollDiscos" data-per-page="6">
+
+                    <div class="disco-item" data-embed="https://open.spotify.com/embed/album/6egaEe9JaULuUCkihSnYlH?utm_source=generator&theme=0">
+                        <div class="disco-cover-wrap">
+                            <img src="./img/discos/disco-01.jpg" alt="Don't Say You Love Me — Jin" class="disco-cover" loading="lazy" />
+                            <button class="btn-play" type="button" aria-label="Reproducir">
+                                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                            </button>
+                        </div>
+                        <div class="disco-embed"></div>
+                    </div>
+
+                    <div class="disco-item" data-embed="https://open.spotify.com/embed/album/6rWmdSJIaGTVtdMJQ35Lvf?utm_source=generator&theme=0">
+                        <div class="disco-cover-wrap">
+                            <img src="./img/discos/disco-02.jpg" alt="Don't Say You Love Me — Jin" class="disco-cover" loading="lazy" />
+                            <button class="btn-play" type="button" aria-label="Reproducir">
+                                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                            </button>
+                        </div>
+                        <div class="disco-embed"></div>
+                    </div>
+
+                    <div class="disco-item" data-embed="https://open.spotify.com/embed/album/5r35iS0uSSoQBKzQj0IeI3?utm_source=generator&theme=0">
+                        <div class="disco-cover-wrap">
+                            <img src="./img/discos/disco-03.jpg" alt="Don't Say You Love Me — Jin" class="disco-cover" loading="lazy" />
+                            <button class="btn-play" type="button" aria-label="Reproducir">
+                                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                            </button>
+                        </div>
+                        <div class="disco-embed"></div>
+                    </div>
+
+                    <div class="disco-item" data-embed="https://open.spotify.com/embed/album/0pX41mddl0CZXxpxkQ7347?utm_source=generator&theme=0">
+                        <div class="disco-cover-wrap">
+                            <img src="./img/discos/disco-04.jpg" alt="Don't Say You Love Me — Jin" class="disco-cover" loading="lazy" />
+                            <button class="btn-play" type="button" aria-label="Reproducir">
+                                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                            </button>
+                        </div>
+                        <div class="disco-embed"></div>
+                    </div>
+
+                    <div class="disco-item" data-embed="https://open.spotify.com/embed/album/35voVqYGkotyJ945O9egDY?utm_source=generator&theme=0">
+                        <div class="disco-cover-wrap">
+                            <img src="./img/discos/disco-05.jpg" alt="Don't Say You Love Me — Jin" class="disco-cover" loading="lazy" />
+                            <button class="btn-play" type="button" aria-label="Reproducir">
+                                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                            </button>
+                        </div>
+                        <div class="disco-embed"></div>
+                    </div>
+
+                    <div class="disco-item" data-embed="https://open.spotify.com/embed/album/0mEeCuKJQ8Xh9tQ5dMm89X?utm_source=generator&theme=0">
+                        <div class="disco-cover-wrap">
+                            <img src="./img/discos/disco-06.jpg" alt="Don't Say You Love Me — Jin" class="disco-cover" loading="lazy" />
+                            <button class="btn-play" type="button" aria-label="Reproducir">
+                                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                            </button>
+                        </div>
+                        <div class="disco-embed"></div>
+                    </div>
+
+                    <div class="disco-item" data-embed="https://open.spotify.com/embed/album/2ds8iT4wkaN1Q1gZe1qcOD?utm_source=generator&theme=0">
+                        <div class="disco-cover-wrap">
+                            <img src="./img/discos/disco-07.jpg" alt="Don't Say You Love Me — Jin" class="disco-cover" loading="lazy" />
+                            <button class="btn-play" type="button" aria-label="Reproducir">
+                                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                            </button>
+                        </div>
+                        <div class="disco-embed"></div>
+                    </div>
+
+                    <div class="disco-item" data-embed="https://open.spotify.com/embed/album/1k5bJ8l5oL5xxVBVHjil09?utm_source=generator&theme=0">
+                        <div class="disco-cover-wrap">
+                            <img src="./img/discos/disco-08.jpg" alt="Don't Say You Love Me — Jin" class="disco-cover" loading="lazy" />
+                            <button class="btn-play" type="button" aria-label="Reproducir">
+                                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                            </button>
+                        </div>
+                        <div class="disco-embed"></div>
+                    </div>
+
+                    <div class="disco-item" data-embed="https://open.spotify.com/embed/album/1vhNGBTFoaSTLbHjPGFIlF?utm_source=generator&theme=0">
+                        <div class="disco-cover-wrap">
+                            <img src="./img/discos/disco-09.jpg" alt="Don't Say You Love Me — Jin" class="disco-cover" loading="lazy" />
+                            <button class="btn-play" type="button" aria-label="Reproducir">
+                                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                            </button>
+                        </div>
+                        <div class="disco-embed"></div>
+                    </div>
+
+                    <div class="disco-item" data-embed="https://open.spotify.com/embed/album/6THpewjqJ15ORBJkh5CEYb?utm_source=generator&theme=0">
+                        <div class="disco-cover-wrap">
+                            <img src="./img/discos/disco-10.jpg" alt="Don't Say You Love Me — Jin" class="disco-cover" loading="lazy" />
+                            <button class="btn-play" type="button" aria-label="Reproducir">
+                                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                            </button>
+                        </div>
+                        <div class="disco-embed"></div>
+                    </div>
+
+                    <div class="disco-item" data-embed="https://open.spotify.com/embed/album/07Rq17GzCnIdWJcyVHb57G?utm_source=generator&theme=0">
+                        <div class="disco-cover-wrap">
+                            <img src="./img/discos/disco-11.jpg" alt="Don't Say You Love Me — Jin" class="disco-cover" loading="lazy" />
+                            <button class="btn-play" type="button" aria-label="Reproducir">
+                                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                            </button>
+                        </div>
+                        <div class="disco-embed"></div>
+                    </div>
+
+                    <div class="disco-item" data-embed="https://open.spotify.com/embed/album/4NIqCxqP9o8Tp6tGLBqd8O?utm_source=generator&theme=0">
+                        <div class="disco-cover-wrap">
+                            <img src="./img/discos/disco-12.jpg" alt="Don't Say You Love Me — Jin" class="disco-cover" loading="lazy" />
+                            <button class="btn-play" type="button" aria-label="Reproducir">
+                                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                            </button>
+                        </div>
+                        <div class="disco-embed"></div>
+                    </div>
+
+                    <div class="disco-item" data-embed="https://open.spotify.com/embed/album/43wFM1HquliY3iwKWzPN4y?utm_source=generator&theme=0">
+                        <div class="disco-cover-wrap">
+                            <img src="./img/discos/disco-13.jpg" alt="Don't Say You Love Me — Jin" class="disco-cover" loading="lazy" />
+                            <button class="btn-play" type="button" aria-label="Reproducir">
+                                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                            </button>
+                        </div>
+                        <div class="disco-embed"></div>
+                    </div>
+
+                    <div class="disco-item" data-embed="https://open.spotify.com/embed/album/2KqlAl1Kl5fZvbFgJ0qFB6?utm_source=generator&theme=0">
+                        <div class="disco-cover-wrap">
+                            <img src="./img/discos/disco-14.jpg" alt="Don't Say You Love Me — Jin" class="disco-cover" loading="lazy" />
+                            <button class="btn-play" type="button" aria-label="Reproducir">
+                                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                            </button>
+                        </div>
+                        <div class="disco-embed"></div>
+                    </div>
+
+                    <div class="disco-item" data-embed="https://open.spotify.com/embed/album/2SVMQ9dcWrlZj4vmKBPiE6?utm_source=generator&theme=0">
+                        <div class="disco-cover-wrap">
+                            <img src="./img/discos/disco-15.jpg" alt="Don't Say You Love Me — Jin" class="disco-cover" loading="lazy" />
+                            <button class="btn-play" type="button" aria-label="Reproducir">
+                                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                            </button>
+                        </div>
+                        <div class="disco-embed"></div>
+                    </div>
+
+                    <div class="disco-item" data-embed="https://open.spotify.com/embed/album/5W1XY5ucNATjTULERvXx9j?utm_source=generator&theme=0">
+                        <div class="disco-cover-wrap">
+                            <img src="./img/discos/disco-16.jpg" alt="Don't Say You Love Me — Jin" class="disco-cover" loading="lazy" />
+                            <button class="btn-play" type="button" aria-label="Reproducir">
+                                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                            </button>
+                        </div>
+                        <div class="disco-embed"></div>
+                    </div>
+
+                    <div class="disco-item" data-embed="https://open.spotify.com/embed/album/6nYfHQnvkvOTNHnOhDT3sr?utm_source=generator&theme=0">
+                        <div class="disco-cover-wrap">
+                            <img src="./img/discos/disco-17.jpg" alt="Don't Say You Love Me — Jin" class="disco-cover" loading="lazy" />
+                            <button class="btn-play" type="button" aria-label="Reproducir">
+                                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                            </button>
+                        </div>
+                        <div class="disco-embed"></div>
+                    </div>
+
+                    <div class="disco-item" data-embed="https://open.spotify.com/embed/album/3ukkRHDHbN8tNRPKsGZR1h?utm_source=generator&theme=0">
+                        <div class="disco-cover-wrap">
+                            <img src="./img/discos/disco-18.jpg" alt="Don't Say You Love Me — Jin" class="disco-cover" loading="lazy" />
+                            <button class="btn-play" type="button" aria-label="Reproducir">
+                                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                            </button>
+                        </div>
+                        <div class="disco-embed"></div>
+                    </div>
+
+
+                </div>
+
+                <!--<div class="disclaimer-box">
+                    <i class="disclaimer-icon">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="0"/><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" d="M7 7l10 10M17 8v9h-9"/></svg>
+                    </i>
+                    <p>
+                        <b>Pie de página o disclaimer de la gráfica:</b> Compilación del catálogo oficial de BTS y proyectos solistas editados por BIGHIT MUSIC / HYBE en plataformas digitales y formato físico. No incluye maquetas caseras, actuaciones en vivo de televisión ni remezclas no autorizadas.
+                    </p>
+                </div>-->
+
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/carrusel-discos.js"></script>
+</body>
+</html>

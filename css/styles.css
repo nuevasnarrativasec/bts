@@ -34,8 +34,11 @@
 html { scroll-behavior: auto; }
 body {
   font-family: var(--font); color: var(--ink);
-  background: var(--lav-100); overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
+  /*background: var(--lav-100);*/ overflow-x: hidden;
+   font-style: normal;
+    font-display: swap;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: none; }
 
@@ -404,3 +407,193 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
   .masthead__headlines em:nth-child(n+2) { display: none; }
   .dot-matrix { grid-template-columns: repeat(10, 1fr); }
 }
+
+/** INDEX BTS **/
+
+.main-hero{
+    height: 100vh;
+}
+
+.main-canciones{
+
+}
+    .main-canciones h3{
+        background-color: #F42439;
+        display: block;
+        font: 4rem/1.3 'Monigue Regular';
+        margin: 20px auto;
+        padding: 0 20px;
+        text-align: center;
+        text-transform: uppercase;
+        width: fit-content;
+    }
+    .box-universo-musical{
+        background-color: #F0F0F0;
+        padding: 40px 0;
+    }
+        .ctn-box-universo-musical{
+            margin: 0 auto;
+            max-width: 900px;
+        }
+            .ctn-box-universo-musical h4{
+                color: #F42439;
+                font: 1.5rem/1.3 'Monigue Regular';
+                margin: 0 auto 20px;
+                max-width: 600px;
+            }
+            .ctn-box-universo-musical h4 i{
+                background: url('../img/punto-rojo.png') no-repeat center;
+                background-size: 100%;
+                display: inline-block;
+                height: 10px;
+                margin: 0 10px 0 0;
+                vertical-align: middle;
+                width: 10px;
+            }
+            .ctn-box-universo-musical p{
+                font: 1.2rem/1.4 'Prelo Book';
+                margin: 0 auto 10px;
+                max-width: 600px;
+            }
+                .ctn-box-universo-musical p b{
+                    font-family: 'Prelo Bold';
+                }
+
+            /* --- Carrusel horizontal de portadas --- */
+            .hint-desliza{
+                align-items: center;
+                color: #000;
+                display: flex;
+                font: 600 .95rem/1 'Prelo Semibold';
+                gap: 8px;
+                justify-content: center;
+                margin: 36px auto 6px;
+                opacity: .65;
+            }
+                .hint-desliza img{
+                    height: 18px;
+                    width: 18px;
+                }
+
+            .scroll-discos{
+                display: flex;
+                gap: 0;
+                margin: 30px auto 10px;
+                overflow-x: auto;
+                overflow-y: visible;
+                padding: 10px 24px 34px;
+                scroll-padding: 0 24px;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+            }
+                .scroll-discos::-webkit-scrollbar{ height: 8px; }
+                .scroll-discos::-webkit-scrollbar-track{ background: #e4e4e4; border-radius: 10px; }
+                .scroll-discos::-webkit-scrollbar-thumb{ background: var(--red); border-radius: 10px; }
+
+                /* Cada .discos-page agrupa hasta 6 portadas (3 columnas x 2 filas) y
+                   ocupa "una pantalla" del scroll: el usuario desliza de grupo en grupo. */
+                .discos-page{
+                    display: grid;
+                    flex: 0 0 auto;
+                    gap: 60px 44px;
+                    grid-template-columns: repeat(3, 240px);
+                    grid-template-rows: repeat(2, auto);
+                    padding: 0 24px;
+                    scroll-snap-align: start;
+                }
+
+                .disco-item:nth-child(odd) .disco-cover{ transform: rotate(-4deg); }
+                .disco-item:nth-child(even) .disco-cover{ transform: rotate(3deg); }
+                .disco-item:hover .disco-cover{ transform: rotate(0deg) scale(1.03); }
+
+                    .disco-cover-wrap{
+                        position: relative;
+                    }
+                        .disco-cover{
+                            aspect-ratio: 1 / 1;
+                            background: #fff;
+                            border-radius: 2px;
+                            /*box-shadow: 0 18px 30px rgba(20, 18, 31, .18);*/
+                            display: block;
+                            object-fit: cover;
+                            transition: transform .35s var(--ease);
+                            width: 100%;
+                        }
+
+                        .btn-play{
+                            align-items: center;
+                            background: #3ddc71;
+                            border: none;
+                            border-radius: 50%;
+                            bottom: -24px;
+                            /*box-shadow: 0 8px 16px rgba(0, 0, 0, .25);*/
+                            cursor: pointer;
+                            display: flex;
+                            height: 52px;
+                            justify-content: center;
+                            left: 24px;
+                            position: absolute;
+                            transition: background .2s ease, transform .2s ease;
+                            width: 52px;
+                        }
+                            .btn-play:hover{ transform: scale(1.07); }
+                            .btn-play svg{ color: #000; height: 20px; width: 20px; }
+                            .btn-play .icon-pause{ display: none; }
+                            .btn-play.is-playing{ background: var(--red); }
+                            .btn-play.is-playing .icon-play{ display: none; }
+                            .btn-play.is-playing .icon-pause{ display: block; }
+
+                    .disco-embed{
+                        display: none;
+                        margin-top: 40px;
+                    }
+                        .disco-embed.is-active{ display: block; }
+                        .disco-embed iframe{ border: 0; border-radius: 12px; width: 100%; }
+
+            .disclaimer-box{
+                border: 2px solid var(--red);
+                border-radius: 14px;
+                margin: 30px auto 0;
+                max-width: 700px;
+                padding: 24px 24px 24px 50px;
+                position: relative;
+                text-align: left;
+            }
+                .disclaimer-box .disclaimer-icon{
+                    align-items: center;
+                    background: var(--red);
+                    border-radius: 50%;
+                    color: #fff;
+                    display: flex;
+                    font-style: normal;
+                    height: 26px;
+                    justify-content: center;
+                    left: -14px;
+                    position: absolute;
+                    top: -14px;
+                    width: 26px;
+                }
+                    .disclaimer-box .disclaimer-icon svg{ height: 14px; width: 14px; }
+                .disclaimer-box p{
+                    font: 1rem/1.4 'Prelo Book';
+                    margin: 0;
+                }
+                    .disclaimer-box p b{
+                        font-family: 'Prelo Bold';
+                    }
+
+            @media (max-width: 900px){
+                .discos-page{
+                    grid-template-columns: repeat(2, 200px);
+                    grid-template-rows: repeat(3, auto);
+                    gap: 54px 28px;
+                }
+            }
+
+            @media (max-width: 560px){
+                .discos-page{
+                    grid-template-columns: repeat(2, 150px);
+                    gap: 46px 20px;
+                    padding: 0 14px;
+                }
+            }
