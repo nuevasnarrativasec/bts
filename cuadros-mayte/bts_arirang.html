@@ -199,10 +199,33 @@
   .detail-row b { font-size: 13.5px; font-weight: 700; display: block; }
 
   @media (max-width: 640px) {
-    thead th.col-song, thead th.col-emotion { display: none; }
+    body { padding: 1.75rem 1rem 3rem; }
+    .legend-box { min-width: 0; width: 100%; }
+    thead { display: none; }
+    table, tbody { display: block; width: 100%; }
+    tr[data-n] { display: flex; align-items: center; width: 100%; }
+    tr[data-n].dim-row { display: none; }
+    .section-divider { display: block; }
+    .section-divider td { display: block; padding: 0.3rem 0; }
+    td { border: none; }
+    .num-cell { flex: 0 0 20px; padding: 0.85rem 0 0.85rem 0.1rem; }
+    .song-cell {
+      flex: 0 0 28%; max-width: 28%; box-sizing: border-box;
+      padding: 0.85rem 0.5rem 0.85rem 0.3rem;
+      white-space: normal; word-break: break-word; line-height: 1.25; font-size: 12.5px;
+    }
+    .track-cell { flex: 1 1 auto; min-width: 0; padding: 0.85rem 0.2rem; }
     .emotion-cell { display: none; }
     .section-pills { flex-direction: column; align-items: stretch; }
-    .detail-card { top: 220px; right: 8px; width: 220px; padding: 1rem 1.1rem 1.2rem; }
+    .pill { width: 100%; }
+    .table-card { padding: 1.25rem 1rem 1rem; }
+    .detail-card { top: 220px; right: 8px; left: 8px; width: auto; padding: 1rem 1.1rem 1.2rem; }
+  }
+
+  @media (max-width: 420px) {
+    .num-cell { flex-basis: 16px; }
+    .song-cell { flex-basis: 26%; max-width: 26%; }
+    .track-value { font-size: 11px; }
   }
 </style>
 </head>
