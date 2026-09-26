@@ -434,7 +434,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         .ctn-box-universo-musical,
         .ctn-box-canciones,
         .ctn-box-capas,
-        .ctn-box-analisis-cancion{
+        .ctn-box-analisis-cancion,
+        .ctn-box-buscador-cancion{
             margin: 0 auto;
             max-width: 900px;
         }
@@ -442,7 +443,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-radiografia h4,
             .ctn-box-canciones h4,
             .ctn-box-capas h4,
-            .ctn-box-analisis-cancion h4{
+            .ctn-box-analisis-cancion h4,
+            .ctn-box-buscador-cancion h4{
                 color: #F42439;
                 font: 1.5rem/1.3 'Monigue Regular';
                 margin: 0 auto 20px;
@@ -452,7 +454,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-radiografia h4 i,
             .ctn-box-canciones h4 i,
             .ctn-box-capas h4 i,
-            .ctn-box-analisis-cancion h4 i{
+            .ctn-box-analisis-cancion h4 i,
+            .ctn-box-buscador-cancion h4 i{
                 background: url('../img/punto-rojo.png') no-repeat center;
                 background-size: 100%;
                 display: inline-block;
@@ -466,7 +469,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-canciones p,
             .ctn-box-canciones p,
             .ctn-box-capas p,
-            .ctn-box-analisis-cancion p{
+            .ctn-box-analisis-cancion p,
+            .ctn-box-buscador-cancion p{
                 font: 1.2rem/1.4 'Prelo Book';
                 margin: 0 auto 10px;
                 max-width: 600px;
@@ -475,7 +479,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .ctn-box-radiografia p b,
                 .ctn-box-canciones p b,
                 .ctn-box-capas p b,
-                .ctn-box-analisis-cancion p b{
+                .ctn-box-analisis-cancion p b,
+                .ctn-box-buscador-cancion p b{
                     font-family: 'Prelo Bold';
                 }
 
@@ -745,7 +750,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                         color: #F42439;
                     }
             .ctn-box-capas h6,
-            .ctn-box-analisis-cancion h6{
+            .ctn-box-analisis-cancion h6,
+            .ctn-box-buscador-cancion h6{
                 background-color: #F42439;
                 color: #fff;
                 display: block;
@@ -757,7 +763,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 width: fit-content;
             }
                 .ctn-box-capas h6::after,
-                .ctn-box-analisis-cancion h6::after{
+                .ctn-box-analisis-cancion h6::after,
+                .ctn-box-buscador-cancion h6::after{
                     content: '';
                     width: 0; height: 0;
                     border-style: solid;
@@ -795,9 +802,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     }
                     ul.medida li p{
                         text-align: left;
-                    }
-
-        
+                    }        
 
     .box-analisis-cancion{
         background-color: #F0F0F0;
@@ -889,3 +894,28 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                         font-size: .95rem;
                     }
                 }
+    .box-buscador-cancion{
+
+    }
+        .ctn-box-buscador-cancion{
+
+        }
+            ul.lectura-grafico{
+                list-style-type: none;
+                margin: 30px auto;
+                max-width: 600px;
+            }
+                ul.lectura-grafico li{
+                    font: 1.2rem / 1.4 'Prelo Book';
+                    letter-spacing: -0.4px;
+                }
+                    ul.lectura-grafico li i{
+                        background-color: #F42439;
+                        border-radius: 30px;
+                        content: '';
+                        display: inline-block;
+                        height: 10px;
+                        margin: 0 10px 0 0;
+                        vertical-align: middle;
+                        width: 10px;
+                    }
