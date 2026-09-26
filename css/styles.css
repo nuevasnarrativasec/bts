@@ -417,10 +417,11 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 .main-canciones{
 
 }
-    .main-canciones h3{
+    .main-canciones h3,
+    .main-protagonistas h3{
         background-color: #F42439;
         display: block;
-        font: 4rem/1.3 'Monigue Regular';
+        font: 5rem/1.3 'Monigue Regular';
         margin: 20px auto;
         padding: 0 20px;
         text-align: center;
@@ -437,7 +438,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         .ctn-box-analisis-cancion,
         .ctn-box-buscador-cancion,
         .ctn-box-arirang,
-        .ctn-box-cronologia{
+        .ctn-box-cronologia,
+        .ctn-box-siete-voces{
             margin: 0 auto;
             max-width: 900px;
         }
@@ -448,7 +450,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-analisis-cancion h4,
             .ctn-box-buscador-cancion h4,
             .ctn-box-arirang h4,
-            .ctn-box-cronologia h4{
+            .ctn-box-cronologia h4,
+            .ctn-box-siete-voces h4{
                 color: #F42439;
                 font: 1.9rem/1.3 'Monigue Regular';
                 margin: 0 auto 20px;
@@ -461,7 +464,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-analisis-cancion h4 i,
             .ctn-box-buscador-cancion h4 i,
             .ctn-box-arirang h4 i,
-            .ctn-box-cronologia h4 i{
+            .ctn-box-cronologia h4 i,
+            .ctn-box-siete-voces h4 i{
                 background: url('../img/punto-rojo.png') no-repeat center;
                 background-size: 100%;
                 display: inline-block;
@@ -478,7 +482,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-analisis-cancion p,
             .ctn-box-buscador-cancion p,
             .ctn-box-arirang p,
-            .ctn-box-cronologia p{
+            .ctn-box-cronologia p,
+            .ctn-box-siete-voces p{
                 font: 1.2rem/1.4 'Prelo Book';
                 margin: 0 auto 10px;
                 max-width: 600px;
@@ -490,7 +495,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .ctn-box-analisis-cancion p b,
                 .ctn-box-buscador-cancion p b,
                 .ctn-box-arirang p b,
-                .ctn-box-cronologia p b{
+                .ctn-box-cronologia p b,
+                .ctn-box-siete-voces p b{
                     font-family: 'Prelo Bold';
                 }
 
@@ -700,7 +706,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             max-width: 900px;
         }
         .ctn-box-radiografia h5,
-        .ctn-box-cronologia h5{
+        .ctn-box-cronologia h5,
+        .ctn-box-siete-voces h5{
             color: #5254BF;
             font: 3rem/1.4'Monigue Regular';
             text-align: center;
@@ -1271,4 +1278,261 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     .crono-eje b{ font-size: 1.15rem; }
                     .crono-decor{ flex-basis: 130px; padding: 8px; }
                     .crono-decor::before{ height: 190px; top: 130px; }
+                }
+
+.main-protagonistas{
+
+}
+    .box-siete-voces{
+        background-color: #F0F0F0;
+        padding: 0 0 60px;
+    }
+
+        /* --- Selector de integrantes --- */
+        .perfiles-selector{
+            margin: 30px auto 0;
+            max-width: 980px;
+            text-align: center;
+        }
+            .perfiles-hint{
+                align-items: center;
+                color: #000;
+                display: flex;
+                font: 600 .95rem/1 'Prelo Semibold';
+                gap: 8px;
+                justify-content: center;
+                margin: 0 auto 22px;
+            }
+                .perfiles-hint img{
+                    height: 18px;
+                    width: 15px;
+                }
+
+            .perfiles-avatares{
+                display: flex;
+                flex-wrap: wrap;
+                gap: 22px;
+                justify-content: center;
+            }
+                .perfil-avatar-btn{
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 10px;
+                    padding: 0;
+                }
+                    .perfil-avatar-wrap{
+                        align-items: center;
+                        /*background-color: #F2B9C0;*/
+                        /*border-radius: 50%;*/
+                        display: flex;
+                        height: 110px;
+                        justify-content: center;
+                        padding: 6px;
+                        transition: background-color .25s ease;
+                        width: 110px;
+                    }
+                        .perfil-avatar-wrap img{
+                            border-radius: 50%;
+                            filter: grayscale(.85);
+                            height: 100%;
+                            object-fit: cover;
+                            opacity: .6;
+                            transition: filter .25s ease, opacity .25s ease;
+                            width: 100%;
+                        }
+                    .perfil-avatar-btn.is-active .perfil-avatar-wrap{
+                        /*background-color: #F42439;*/
+                    }
+                    .perfil-avatar-btn.is-active .perfil-avatar-wrap img{
+                        filter: none;
+                        opacity: 1;
+                    }
+                    .perfil-avatar-btn:hover .perfil-avatar-wrap img{
+                        filter: none;
+                        opacity: .9;
+                    }
+                    .perfil-avatar-name{
+                        color: #8a8a8a;
+                        font: 800 .95rem/1 'Prelo Bold';
+                        letter-spacing: .02em;
+                        text-transform: uppercase;
+                    }
+                    .perfil-avatar-btn.is-active .perfil-avatar-name{
+                        color: #000;
+                    }
+
+        /* --- Ficha de perfil --- */
+        .perfil-card{
+            background-color: #fff;
+            border: 1px solid #707070;
+            border-radius: 24px;
+            /*box-shadow: 0 10px 30px rgba(20,18,31,.08);*/
+            display: flex;
+            gap: 40px;
+            margin: 40px auto 0;
+            max-width: 1100px;
+            padding: 40px;
+        }
+            .perfil-foto{
+                flex: 0 0 220px;
+            }
+                .perfil-foto img{
+                    width: 100%;
+                }
+
+            .perfil-info{
+                /*border-right: 2px solid #000;*/
+                flex: 1 1 380px;
+                padding-right: 30px;
+            }
+                .perfil-cabecera{
+                    border-bottom: 2px solid #000;
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: baseline;
+                    column-gap: 14px;
+                    padding-bottom: 20px;
+                    margin-bottom: 20px;
+                }
+                    .perfil-nombre{
+                        color: #000;
+                        font: 3.2rem/1 'Monigue Regular';
+                        text-transform: uppercase;
+                        width: 100%;
+                    }
+                    .perfil-nombre-real{
+                        color: #F42439;
+                        font: 700 1.2rem/1 'Prelo Bold';
+                    }
+                    .perfil-fecha{
+                        color: #000;
+                        font: 700 1.2rem/1 'Prelo Bold';
+                    }
+
+                ul.perfil-ficha{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 18px;
+                    list-style: none;
+                }
+                    ul.perfil-ficha li{
+                        align-items: flex-start;
+                        display: flex;
+                        gap: 14px;
+                    }
+                        ul.perfil-ficha li img{
+                            flex: 0 0 auto;
+                            height: 26px;
+                            margin-top: 2px;
+                            width: 26px;
+                        }
+                        ul.perfil-ficha li p{
+                            font: 1.05rem/1.4 'Prelo Book';
+                        }
+                            ul.perfil-ficha li p b{
+                                font-family: 'Prelo Bold';
+                            }
+
+            .perfil-stats{
+                display: flex;
+                flex: 0 0 320px;
+                flex-direction: column;
+                gap: 20px;
+            }
+                .perfil-headline{
+                    background-color: #F42439;
+                    border-radius: 30px;
+                    color: #fff;
+                    font: 700 1.15rem/1.3 'Prelo Bold';
+                    padding: 14px 20px;
+                    text-align: center;
+                }
+
+                .perfil-metrics{
+                    border: 1px solid #e0e0e0;
+                    border-radius: 16px;
+                    padding: 22px 24px;
+                }
+                    .perfil-metric + .perfil-metric{
+                        margin-top: 22px;
+                    }
+                    .perfil-metric-label{
+                        display: block;
+                        font: 700 1.05rem/1 'Prelo Bold';
+                        margin-bottom: 12px;
+                    }
+                    .perfil-metric-bar{
+                        align-items: center;
+                        display: flex;
+                        gap: 8px;
+                    }
+                        .perfil-metric-value{
+                            font: 1.05rem/1 'Prelo Book';
+                            white-space: nowrap;
+                        }
+                        .perfil-metric-dot{
+                            background-color: var(--red);
+                            border-radius: 50%;
+                            flex: 0 0 auto;
+                            height: 12px;
+                            width: 12px;
+                        }
+                        .perfil-metric-dot--start{
+                            opacity: .45;
+                        }
+                        .perfil-metric-line{
+                            background-color: var(--red);
+                            flex: 1 1 auto;
+                            height: 2px;
+                            opacity: .45;
+                        }
+                        .perfil-metric--single .perfil-metric-bar{
+                            justify-content: flex-end;
+                        }
+                    .perfil-nota{
+                        color: #8a8a8a;
+                        font: italic 400 .85rem/1.35 'Prelo Book';
+                        margin-top: 16px;
+                    }
+
+                .perfil-quote{
+                    border: 2px solid var(--red);
+                    border-radius: 18px;
+                    font: 700 italic 1rem/1.45 'Prelo Bold';
+                    margin: 0;
+                    padding: 20px 22px;
+                    position: relative;
+                }
+
+                @media (max-width: 900px){
+                    .perfil-card{
+                        flex-direction: column;
+                        gap: 26px;
+                        padding: 26px;
+                    }
+                        .perfil-foto{
+                            flex-basis: auto;
+                            margin: 0 auto;
+                            max-width: 160px;
+                        }
+                        .perfil-info{
+                            border-right: none;
+                            border-bottom: 2px solid #000;
+                            padding-bottom: 26px;
+                            padding-right: 0;
+                        }
+                        .perfil-nombre{ font-size: 2.4rem; }
+                        .perfil-stats{ flex-basis: auto; }
+                }
+                @media (max-width: 560px){
+                    .perfiles-avatares{ gap: 14px; }
+                    .perfil-avatar-wrap{ height: 76px; width: 76px; }
+                    .perfil-avatar-name{ font-size: .7rem; }
+                    .perfil-card{ padding: 20px; }
+                    .perfil-nombre{ font-size: 2rem; }
+                    ul.perfil-ficha li p{ font-size: .92rem; }
                 }
