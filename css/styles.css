@@ -1000,3 +1000,171 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-cronologia h5{
                 padding: 50px 0;
             }
+
+        /* --- Cronología horizontal con columna de categorías fija --- */
+        .crono-wrap{
+            -webkit-overflow-scrolling: touch;
+            background-color: #fff;
+            cursor: grab;
+            margin: 10px auto 60px;
+            max-width: 1200px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE / Edge legacy */
+        }
+            .crono-wrap::-webkit-scrollbar{
+                display: none; /* Chrome / Safari / Edge */
+            }
+            .crono-wrap.is-dragging{
+                cursor: grabbing;
+                scroll-behavior: auto;
+                user-select: none;
+            }
+            .crono-inner{
+                align-items: stretch;
+                display: flex;
+                width: max-content;
+            }
+
+            /* Columna fija de categorías */
+            .crono-labels{
+                background-color: #fff;
+                box-shadow: 6px 0 14px rgba(20,18,31,.10);
+                display: flex;
+                flex: 0 0 190px;
+                flex-direction: column;
+                left: 0;
+                position: sticky;
+                z-index: 20;
+            }
+                .crono-label{
+                    align-items: center;
+                    color: #fff;
+                    display: flex;
+                    font: 800 1rem/1.2 'Prelo Bold';
+                    padding: 14px 18px;
+                    text-transform: uppercase;
+                }
+                .crono-label--musical{ background-color: #5255c0; min-height: 160px; }
+                .crono-label--bts{ background-color: #F42439; font-size: 1.3rem; min-height: 210px; }
+                .crono-label--politico{ background-color: #3fd0ae; min-height: 160px; }
+                .crono-label--eje{ min-height: 76px; }
+
+            /* Pista horizontal con los años */
+            .crono-track{
+                display: flex;
+                position: relative;
+            }
+                .crono-linea{
+                    background-color: var(--red);
+                    bottom: 37px;
+                    height: 3px;
+                    left: 0;
+                    position: absolute;
+                    right: 0;
+                    z-index: 1;
+                }
+
+                .crono-col{
+                    display: flex;
+                    flex: 0 0 230px;
+                    flex-direction: column;
+                    position: relative;
+                    z-index: 2;
+                }
+                    .crono-cell{
+                        padding: 16px 18px;
+                    }
+                        .crono-cell p{
+                            font: .98rem/1.35 'Prelo Book';
+                            margin: 0;
+                        }
+                    .crono-cell--musical,
+                    .crono-cell--politico{
+                        background-color: #F5F5F5;
+                        min-height: 160px;
+                    }
+                    .crono-cell--bts{
+                        background-color: #F2B9C0;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                        min-height: 210px;
+                    }
+                        .crono-cell--bts img{
+                            border: 2px solid #fff;
+                            border-radius: 50%;
+                            height: 62px;
+                            object-fit: cover;
+                            width: 62px;
+                        }
+                    .crono-col:nth-child(even) .crono-cell--musical,
+                    .crono-col:nth-child(even) .crono-cell--politico{
+                        background-color: #fff;
+                    }
+                    .crono-col:nth-child(even) .crono-cell--bts{
+                        background-color: #f8d4d9;
+                    }
+
+                    .crono-eje{
+                        align-items: center;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 8px;
+                        justify-content: center;
+                        min-height: 76px;
+                    }
+                        .crono-punto{
+                            background-color: var(--red);
+                            border: 3px solid #fff;
+                            border-radius: 50%;
+                            box-shadow: 0 0 0 1px var(--red);
+                            height: 14px;
+                            width: 14px;
+                        }
+                        .crono-eje b{
+                            font: 1.5rem/1 'Monigue Regular';
+                        }
+
+                /* Imágenes decorativas grandes entre ciertos años */
+                .crono-decor{
+                    align-items: center;
+                    display: flex;
+                    flex: 0 0 200px;
+                    justify-content: center;
+                    padding: 14px;
+                }
+                    .crono-decor img{
+                        border-radius: 14px;
+                        max-height: 520px;
+                        max-width: 100%;
+                        object-fit: contain;
+                    }
+
+                @media (max-width: 900px){
+                    .crono-labels{ flex-basis: 150px; }
+                    .crono-label{ font-size: .85rem; padding: 12px; }
+                    .crono-label--bts{ font-size: 1.05rem; }
+                    .crono-col{ flex-basis: 190px; }
+                    .crono-cell{ padding: 12px 14px; }
+                    .crono-cell p{ font-size: .88rem; }
+                    .crono-decor{ flex-basis: 160px; }
+                }
+                @media (max-width: 560px){
+                    .crono-labels{ flex-basis: 118px; }
+                    .crono-label{ font-size: .7rem; letter-spacing: -.2px; padding: 8px 10px; }
+                    .crono-label--bts{ font-size: .85rem; }
+                    .crono-label--musical,
+                    .crono-label--politico{ min-height: 130px; }
+                    .crono-label--bts{ min-height: 190px; }
+                    .crono-col{ flex-basis: 150px; }
+                    .crono-cell--musical,
+                    .crono-cell--politico{ min-height: 130px; }
+                    .crono-cell--bts{ min-height: 190px; }
+                    .crono-cell{ padding: 10px 12px; }
+                    .crono-cell p{ font-size: .78rem; }
+                    .crono-cell--bts img{ height: 48px; width: 48px; }
+                    .crono-eje b{ font-size: 1.15rem; }
+                    .crono-decor{ flex-basis: 130px; padding: 8px; }
+                }
