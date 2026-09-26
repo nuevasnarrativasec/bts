@@ -632,9 +632,12 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     padding: 0 14px;
                 }
             }
+.box-iframe{
+    margin-bottom: 40px;
+}
 
 .main-radiografia{
-
+    
 }
     .ctn-separador{
         margin: 0 auto 40px;
@@ -648,7 +651,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             width: 100px;
         }
     .ctn-box-radiografia{
-
+        padding-bottom: 40px;
     }
         .ctn-box-clustering{
             margin: 30px auto 0;
