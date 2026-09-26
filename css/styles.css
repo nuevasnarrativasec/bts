@@ -744,7 +744,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     .box-disclaimer-lineal p span.red{
                         color: #F42439;
                     }
-            .ctn-box-capas h6{
+            .ctn-box-capas h6,
+            .ctn-box-analisis-cancion h6{
                 background-color: #F42439;
                 color: #fff;
                 display: block;
@@ -755,7 +756,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 text-align: center;
                 width: fit-content;
             }
-                .ctn-box-capas h6::after{
+                .ctn-box-capas h6::after,
+                .ctn-box-analisis-cancion h6::after{
                     content: '';
                     width: 0; height: 0;
                     border-style: solid;
@@ -803,7 +805,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     }
         /* --- Patrón más amplio: brecha por periodo --- */
         .ctn-patron-amplio{
-            margin: 34px auto 0;
+            margin: 34px auto 40px;
             max-width: 600px;
         }
             .patron-amplio{
@@ -817,12 +819,12 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 }
                 .patron-anios{
                     color: #b5b5b5;
-                    font: 2.4rem/1 'Bobby Jones Condensed';
+                    font: 1.8rem/1 'Monigue Regular';
                     letter-spacing: .02em;
                     margin: 0 0 14px;
                 }
                 .ctn-box-analisis-cancion .patron-brecha{
-                    font: 1.15rem/1.2 'Prelo Bold';
+                    font: 1.15rem/1.2 'Prelo Extrabold';
                     margin: 0 0 16px;
                     max-width: none;
                 }
@@ -867,6 +869,10 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     font: .95rem/1 'Prelo Bold';
                     margin: 16px 0 0;
                     max-width: none;
+                }
+                .ctn-box-analisis-cancion h6{
+                    margin-bottom: 40px;
+                    margin-top: 40px;
                 }
 
                 @media (max-width: 560px){
