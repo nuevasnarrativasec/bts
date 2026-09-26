@@ -1059,7 +1059,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             }
                 .crono-linea{
                     background-color: var(--red);
-                    bottom: 74px;
+                    bottom: 73px;
                     height: 3px;
                     left: 0;
                     position: absolute;
@@ -1143,7 +1143,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     position: relative;
                 }
                     .crono-decor::before{
-                        background-color: #F2B9C0;
+                        background-color: #f9d5da;
                         content: '';
                         height: 210px;
                         left: 0;
@@ -1151,6 +1151,9 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                         right: 0;
                         top: 160px;
                         z-index: 0;
+                    }
+                    .crono-decor-2026::before{
+                        background-color: #f2b9c0;
                     }
                     .crono-decor img{
                         /*border-radius: 14px;*/
