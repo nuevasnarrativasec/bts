@@ -424,6 +424,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         font: 5rem/1.3 'Monigue Regular';
         margin: 20px auto;
         padding: 0 20px;
+        position: relative;
         text-align: center;
         text-transform: uppercase;
         width: fit-content;
@@ -1285,8 +1286,12 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 }
     .box-siete-voces{
         background-color: #F0F0F0;
+        margin-top: -80px;
         padding: 0 0 60px;
     }
+        .ctn-box-siete-voces h5{
+            padding: 100px 0 50px;
+        }
 
         /* --- Selector de integrantes --- */
         .perfiles-selector{
