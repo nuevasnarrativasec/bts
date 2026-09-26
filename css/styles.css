@@ -503,7 +503,6 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 gap: 8px;
                 justify-content: center;
                 margin: 36px auto 6px;
-                opacity: .65;
             }
                 .hint-desliza img{
                     height: 18px;
@@ -1006,7 +1005,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             -webkit-overflow-scrolling: touch;
             background-color: #fff;
             cursor: grab;
-            margin: 10px auto 60px;
+            margin: 40px auto 60px;
             max-width: 1200px;
             overflow-x: auto;
             overflow-y: hidden;
