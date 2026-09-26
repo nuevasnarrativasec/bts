@@ -34,7 +34,7 @@
 
                 <div class="hint-desliza">
                     <img src="./img/icon-desliza.png" alt="" width="100%">
-                    <span>Desliza para interactuar</span>
+                    <span>Desliza o usa las flechas para interactuar</span>
                 </div>
 
                 <!--
@@ -44,7 +44,12 @@
                       - Cambia data-embed por la URL de embed de Spotify
                         (Spotify → Compartir → Copiar código para insertar → toma el valor de "src")
                 -->
-                <div class="scroll-discos" id="scrollDiscos" data-per-page="6">
+                <div class="carousel-discos" id="carouselDiscos">
+                    <button class="carousel-arrow carousel-arrow--prev" type="button" aria-label="Ver discos anteriores" disabled>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M15 6l-6 6 6 6"/></svg>
+                    </button>
+
+                    <div class="scroll-discos" id="scrollDiscos" data-per-page="6">
 
                     <div class="disco-item" data-embed="https://open.spotify.com/embed/album/6egaEe9JaULuUCkihSnYlH?utm_source=generator&theme=0">
                         <div class="disco-cover-wrap">
@@ -311,6 +316,11 @@
                     </div>
 
 
+                    </div>
+
+                    <button class="carousel-arrow carousel-arrow--next" type="button" aria-label="Ver más discos">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6"/></svg>
+                    </button>
                 </div>
 
                 <!--<div class="disclaimer-box">

@@ -34,6 +34,67 @@
 
   agruparEnPaginas();
 
+  // --- Navegación con flechas laterales ---
+  const arrowPrev = document.querySelector(".carousel-arrow--prev");
+  const arrowNext = document.querySelector(".carousel-arrow--next");
+
+  function paginas() {
+    return Array.from(wrapper.querySelectorAll(".discos-page"));
+  }
+
+  // Determina qué página está actualmente visible según el scroll actual.
+  function paginaActualIndex() {
+    const pages = paginas();
+    if (!pages.length) return 0;
+    const centro = wrapper.scrollLeft + wrapper.clientWidth / 2;
+    let idx = 0;
+    pages.forEach((pagina, i) => {
+      if (pagina.offsetLeft <= centro) idx = i;
+    });
+    return idx;
+  }
+
+  function irAPagina(idx) {
+    const pages = paginas();
+    if (!pages.length) return;
+    const clamped = Math.max(0, Math.min(idx, pages.length - 1));
+    wrapper.scrollTo({ left: pages[clamped].offsetLeft, behavior: "smooth" });
+  }
+
+  // Deshabilita/oculta las flechas cuando ya no hay más hacia dónde ir.
+  function actualizarFlechas() {
+    if (!arrowPrev && !arrowNext) return;
+    const pages = paginas();
+    const soloUnaPagina = pages.length <= 1;
+
+    if (arrowPrev) arrowPrev.hidden = soloUnaPagina;
+    if (arrowNext) arrowNext.hidden = soloUnaPagina;
+    if (soloUnaPagina) return;
+
+    const maxScroll = wrapper.scrollWidth - wrapper.clientWidth - 1;
+    if (arrowPrev) arrowPrev.disabled = wrapper.scrollLeft <= 0;
+    if (arrowNext) arrowNext.disabled = wrapper.scrollLeft >= maxScroll;
+  }
+
+  if (arrowPrev) {
+    arrowPrev.addEventListener("click", () => irAPagina(paginaActualIndex() - 1));
+  }
+  if (arrowNext) {
+    arrowNext.addEventListener("click", () => irAPagina(paginaActualIndex() + 1));
+  }
+
+  let flechaRaf = null;
+  wrapper.addEventListener("scroll", () => {
+    if (flechaRaf) return;
+    flechaRaf = requestAnimationFrame(() => {
+      actualizarFlechas();
+      flechaRaf = null;
+    });
+  });
+  window.addEventListener("resize", actualizarFlechas);
+
+  actualizarFlechas();
+
   const items = Array.from(wrapper.querySelectorAll(".disco-item"));
   let activeItem = null;
 
