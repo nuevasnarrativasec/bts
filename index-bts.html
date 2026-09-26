@@ -379,6 +379,63 @@
                         </div>
                     </div>
                 </div>
+
+                <p>
+                    <b>La distancia entre los dos es lo que llamamos brecha</b>
+                </p>
+                <p>
+                    No buscamos decidir qué canción es “feliz” o “triste”, ni interpretar qué quiso decir BTS buscamos algo más concreto: cuándo letra y sonido apuntan en la misma dirección y cuándo no.
+                </p>
+
+                <div class="box-disclaimer-rojo">
+                    <p>
+                        ¿Por qué mirar esto? Porque permite volver a escuchar canciones conocidas con otra pregunta: ¿la emoción está en las palabras, en el sonido o precisamente en la tensión entre ambos?
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="box-capas">
+            <div class="ctn-separador">
+                <span class="separador"></span>
+            </div>
+            <div class="ctn-box-capas">
+                <h4>
+                    <i></i>Una canción, dos capas
+                </h4>
+                <p>
+                    La música suena más luminosa que la letra, en <b>Don’t Say You Love Me, de Jin</b>, las dos mediciones se separan con claridad.
+                </p>
+                <img src="./img/bg-cancion-capas.jpg" alt="" width="100%" class="bg-cancion-capas">
+                <div class="box-disclaimer-lineal">
+                    <p>
+                        La música resulta considerablemente <span class="red">más luminosa</span> que el tono detectado en su letra.
+                    </p>
+                </div>
+                <h6>¿Cómo lo medimos?</h6>
+                <ul class="medida">
+                    <li>
+                        <img src="./img/bg-item-medida-1.png" alt="" width="100%">
+                        <h5>música</h5>
+                        <p>
+                            Usamos la variable valence de Spotify, que estima cuán positiva o luminosa suena musicalmente una <b>pista en una escala de 0 a 1.</b>
+                        </p>
+                    </li>
+                    <li>
+                        <img src="./img/bg-item-medida-2.png" alt="" width="100%">
+                        <h5>letra</h5>
+                        <p>
+                            Aplicamos una clasificación semántica con el mismo procedimiento a todas las canciones del corpus para estimar su tono emocional también en una <b>escala de 0 a 1.</b>
+                        </p>
+                    </li>
+                    <li>
+                        <img src="./img/bg-item-medida-3.png" alt="" width="100%">
+                        <h5>brecha</h5>
+                        <p>
+                            Restamos la valencia musical a la textual. <b>En este caso, 0,30 − 0,76 = −0,46.</b> Un valor negativo indica que la música resulta más luminosa que la letra.
+                        </p>
+                    </li>
+                </ul>
             </div>
         </div>
         
