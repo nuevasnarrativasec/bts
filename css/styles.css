@@ -418,7 +418,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 
 }
     .main-canciones h3,
-    .main-protagonistas h3{
+    .main-protagonistas h3,
+    .main-facturando h3{
         background-color: #F42439;
         display: block;
         font: 5rem/1.3 'Monigue Regular';
@@ -443,7 +444,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         .ctn-box-siete-voces,
         .ctn-box-compara,
         .ctn-box-perfil-radar,
-        .ctn-box-comunidad{
+        .ctn-box-comunidad,
+        .ctn-box-facturando{
             margin: 0 auto;
             max-width: 900px;
         }
@@ -458,7 +460,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-siete-voces h4,
             .ctn-box-compara h4,
             .ctn-box-perfil-radar h4,
-            .ctn-box-comunidad h4{
+            .ctn-box-comunidad h4,
+            .ctn-box-facturando h4{
                 color: #F42439;
                 font: 1.9rem/1.3 'Monigue Regular';
                 margin: 0 auto 20px;
@@ -475,7 +478,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-siete-voces h4 i,
             .ctn-box-compara h4 i,
             .ctn-box-perfil-radar h4 i,
-            .ctn-box-comunidad h4 i{
+            .ctn-box-comunidad h4 i,
+            .ctn-box-facturando h4 i{
                 background: url('../img/punto-rojo.png') no-repeat center;
                 background-size: 100%;
                 display: inline-block;
@@ -496,7 +500,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-siete-voces p,
             .ctn-box-compara p,
             .ctn-box-perfil-radar p,
-            .ctn-box-comunidad p{
+            .ctn-box-comunidad p,
+            .ctn-box-facturando p{
                 font: 1.2rem/1.4 'Prelo Book';
                 margin: 0 auto 20px;
                 max-width: 600px;
@@ -512,7 +517,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .ctn-box-siete-voces p b,
                 .ctn-box-compara p b,
                 .ctn-box-perfil-radar p b,
-                .ctn-box-comunidad p b{
+                .ctn-box-comunidad p b,
+                .ctn-box-facturando p b{
                     font-family: 'Prelo Bold';
                 }
                 span.sub{
@@ -729,7 +735,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         .ctn-box-radiografia h5,
         .ctn-box-cronologia h5,
         .ctn-box-siete-voces h5,
-        .ctn-box-comunidad h5{
+        .ctn-box-comunidad h5,
+        .ctn-box-facturando h5{
             color: #5254BF;
             font: 3rem/1.4'Monigue Regular';
             text-align: center;
@@ -1577,4 +1584,60 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     }
         .ctn-box-comunidad h5{
             margin-bottom: 40px;
+        }
+.main-facturando{
+
+}
+    .ctn-box-facturando{
+
+    }
+        .ctn-box-facturando h5{
+            margin: 40px auto;
+        }
+
+        .impacto-cards{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 28px 0 8px;
+        }
+        .impacto-card{
+            background-color: var(--white);
+            border: 2px solid var(--ink);
+            border-radius: 18px;
+            flex: 1 1 260px;
+            padding: 22px 26px;
+        }
+        .impacto-icono{
+            background-color: transparent;
+            border: 2px solid var(--red);
+            border-radius: 50%;
+            display: inline-block;
+            height: 56px;
+            margin-bottom: 16px;
+            margin-right: 10px;
+            width: 56px;
+        }
+        .impacto-label{
+            color: var(--ink);
+            display: inline-block;
+            font: 1.3rem/1.35 'Prelo Extrabold' !important;
+            margin-bottom: 12px;
+            max-width: 310px !important;
+            vertical-align: top;
+        }
+        .impacto-cifra{
+            color: var(--red);
+            font: 2.6rem/1.05 'Monigue Regular' !important;
+            text-transform: uppercase;
+        }
+        @media (max-width: 900px){
+            .impacto-cifra{ font-size: 1.7rem; }
+        }
+        @media (max-width: 560px){
+            .impacto-cards{ flex-direction: column; }
+            .impacto-card{ padding: 20px; }
+            .impacto-icono{ height: 46px; margin-bottom: 12px; width: 46px; }
+            .impacto-label{ font-size: .9rem; }
+            .impacto-cifra{ font-size: 1.5rem; }
         }
