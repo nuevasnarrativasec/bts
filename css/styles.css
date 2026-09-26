@@ -1069,7 +1069,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 
                 .crono-col{
                     display: flex;
-                    flex: 0 0 300px;
+                    flex: 0 0 390px;
                     flex-direction: column;
                     position: relative;
                     z-index: 2;
@@ -1083,10 +1083,15 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                         }
                     .crono-cell--musical,
                     .crono-cell--politico{
+                        align-items: center;
                         background-color: #F5F5F5;
+                        display: flex;
+                        justify-content: center;
                         min-height: 160px;
+                        text-align: center;
                     }
                     .crono-cell--bts{
+                        align-items: center;
                         background-color: #F2B9C0;
                         display: flex;
                         flex-direction: row;
@@ -1094,11 +1099,11 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                         min-height: 210px;
                     }
                         .crono-cell--bts img{
-                            border: 2px solid #fff;
+                            /*border: 2px solid #fff;
                             border-radius: 50%;
                             height: 62px;
                             object-fit: cover;
-                            width: 62px;
+                            width: 62px;*/
                         }
                     .crono-col:nth-child(even) .crono-cell--musical,
                     .crono-col:nth-child(even) .crono-cell--politico{
@@ -1130,18 +1135,113 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 
                 /* Imágenes decorativas grandes entre ciertos años */
                 .crono-decor{
-                    align-items: center;
+                    align-items: normal;
                     display: flex;
                     flex: 0 0 200px;
                     justify-content: center;
                     padding: 14px;
+                    position: relative;
                 }
-                    .crono-decor img{
-                        border-radius: 14px;
-                        max-height: 520px;
-                        max-width: 100%;
-                        object-fit: contain;
+                    .crono-decor::before{
+                        background-color: #F2B9C0;
+                        content: '';
+                        height: 210px;
+                        left: 0;
+                        position: absolute;
+                        right: 0;
+                        top: 160px;
+                        z-index: 0;
                     }
+                    .crono-decor img{
+                        /*border-radius: 14px;*/
+                        max-height: 520px;
+                        /*max-width: 100%;*/
+                        object-fit: contain;
+                        position: relative;
+                        z-index: 1;
+                    }
+                
+                .crono-foto-2005{
+                    height: 80px;
+                    max-width: 80px;
+                }
+                .crono-foto-2008{
+                    height: 110px;
+                    max-width: 140px;
+                }
+                .crono-foto-2010{
+                    height: 80px;
+                    max-width: 80px;
+                }
+                .crono-foto-2012{
+                    height: 110px;
+                    max-width: 140px;
+                }
+                .crono-decor-1{
+                    max-width: 250px;
+                }
+                .crono-foto-2013{
+                    height: 110px;
+                    max-width: 140px;
+                }
+                .crono-foto-2014{
+                    height: 110px;
+                    max-width: 140px;
+                }
+                .crono-foto-2015{
+                    height: 110px;
+                    max-width: 140px;
+                }
+                .crono-foto-2016{
+                    height: 110px;
+                    max-width: 140px;
+                }
+                .crono-decor-2{
+                    max-width: 250px;
+                }
+                .crono-foto-2017{
+                    height: 110px;
+                    max-width: 140px;
+                }
+                .crono-foto-2018{
+                    height: 110px;
+                    max-width: 140px;
+                }
+                .crono-foto-2019{
+                    height: 110px;
+                    max-width: 140px;
+                }
+                .crono-foto-2020{
+                    height: 110px;
+                    max-width: 140px;
+                }
+                .crono-decor-3{
+                    max-width: 350px;
+                }
+                .crono-foto-2021{
+                    height: 110px;
+                    max-width: 140px;
+                }
+                .crono-foto-2022{
+                    height: 80px;
+                    max-width: 80px;
+                }
+                .crono-foto-2023{
+                    height: 110px;
+                    max-width: 140px;
+                }
+                .crono-foto-2024{
+                    height: 110px;
+                    max-width: 140px;
+                }
+                .crono-foto-2025{
+                    height: 110px;
+                    max-width: 140px;
+                }
+                .crono-foto-2026{
+                    height: 110px;
+                    max-width: 140px;
+                }
 
                 @media (max-width: 900px){
                     .crono-labels{ flex-basis: 150px; }
@@ -1168,4 +1268,5 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     .crono-cell--bts img{ height: 48px; width: 48px; }
                     .crono-eje b{ font-size: 1.15rem; }
                     .crono-decor{ flex-basis: 130px; padding: 8px; }
+                    .crono-decor::before{ height: 190px; top: 130px; }
                 }
