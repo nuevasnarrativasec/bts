@@ -435,7 +435,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         .ctn-box-canciones,
         .ctn-box-capas,
         .ctn-box-analisis-cancion,
-        .ctn-box-buscador-cancion{
+        .ctn-box-buscador-cancion,
+        .ctn-box-arirang{
             margin: 0 auto;
             max-width: 900px;
         }
@@ -444,9 +445,10 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-canciones h4,
             .ctn-box-capas h4,
             .ctn-box-analisis-cancion h4,
-            .ctn-box-buscador-cancion h4{
+            .ctn-box-buscador-cancion h4,
+            .ctn-box-arirang h4{
                 color: #F42439;
-                font: 1.5rem/1.3 'Monigue Regular';
+                font: 1.9rem/1.3 'Monigue Regular';
                 margin: 0 auto 20px;
                 max-width: 600px;
             }
@@ -455,7 +457,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-canciones h4 i,
             .ctn-box-capas h4 i,
             .ctn-box-analisis-cancion h4 i,
-            .ctn-box-buscador-cancion h4 i{
+            .ctn-box-buscador-cancion h4 i,
+            .ctn-box-arirang h4 i{
                 background: url('../img/punto-rojo.png') no-repeat center;
                 background-size: 100%;
                 display: inline-block;
@@ -470,7 +473,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-canciones p,
             .ctn-box-capas p,
             .ctn-box-analisis-cancion p,
-            .ctn-box-buscador-cancion p{
+            .ctn-box-buscador-cancion p,
+            .ctn-box-arirang p{
                 font: 1.2rem/1.4 'Prelo Book';
                 margin: 0 auto 10px;
                 max-width: 600px;
@@ -480,7 +484,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .ctn-box-canciones p b,
                 .ctn-box-capas p b,
                 .ctn-box-analisis-cancion p b,
-                .ctn-box-buscador-cancion p b{
+                .ctn-box-buscador-cancion p b,
+                .ctn-box-arirang p b{
                     font-family: 'Prelo Bold';
                 }
 
@@ -919,3 +924,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                         vertical-align: middle;
                         width: 10px;
                     }
+    .box-arirang{
+        background-color: #F0F0F0;
+        padding: 0 0 60px;
+    }
