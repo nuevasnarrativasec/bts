@@ -436,7 +436,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         .ctn-box-capas,
         .ctn-box-analisis-cancion,
         .ctn-box-buscador-cancion,
-        .ctn-box-arirang{
+        .ctn-box-arirang,
+        .ctn-box-cronologia{
             margin: 0 auto;
             max-width: 900px;
         }
@@ -446,7 +447,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-capas h4,
             .ctn-box-analisis-cancion h4,
             .ctn-box-buscador-cancion h4,
-            .ctn-box-arirang h4{
+            .ctn-box-arirang h4,
+            .ctn-box-cronologia h4{
                 color: #F42439;
                 font: 1.9rem/1.3 'Monigue Regular';
                 margin: 0 auto 20px;
@@ -458,7 +460,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-capas h4 i,
             .ctn-box-analisis-cancion h4 i,
             .ctn-box-buscador-cancion h4 i,
-            .ctn-box-arirang h4 i{
+            .ctn-box-arirang h4 i,
+            .ctn-box-cronologia h4 i{
                 background: url('../img/punto-rojo.png') no-repeat center;
                 background-size: 100%;
                 display: inline-block;
@@ -474,7 +477,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-capas p,
             .ctn-box-analisis-cancion p,
             .ctn-box-buscador-cancion p,
-            .ctn-box-arirang p{
+            .ctn-box-arirang p,
+            .ctn-box-cronologia p{
                 font: 1.2rem/1.4 'Prelo Book';
                 margin: 0 auto 10px;
                 max-width: 600px;
@@ -485,7 +489,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .ctn-box-capas p b,
                 .ctn-box-analisis-cancion p b,
                 .ctn-box-buscador-cancion p b,
-                .ctn-box-arirang p b{
+                .ctn-box-arirang p b,
+                .ctn-box-cronologia p b{
                     font-family: 'Prelo Bold';
                 }
 
@@ -645,7 +650,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     .ctn-box-radiografia{
 
     }
-        .ctn-box-radiografia h5{
+        .ctn-box-radiografia h5,
+        .ctn-box-cronologia h5{
             color: #5254BF;
             font: 3rem/1.4'Monigue Regular';
             text-align: center;
@@ -756,7 +762,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     }
             .ctn-box-capas h6,
             .ctn-box-analisis-cancion h6,
-            .ctn-box-buscador-cancion h6{
+            .ctn-box-buscador-cancion h6,
+            .ctn-box-arirang h6{
                 background-color: #F42439;
                 color: #fff;
                 display: block;
@@ -769,7 +776,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             }
                 .ctn-box-capas h6::after,
                 .ctn-box-analisis-cancion h6::after,
-                .ctn-box-buscador-cancion h6::after{
+                .ctn-box-buscador-cancion h6::after,
+                .ctn-box-arirang h6::after{
                     content: '';
                     width: 0; height: 0;
                     border-style: solid;
@@ -911,7 +919,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             ul.lectura-grafico{
                 list-style-type: none;
                 margin: 30px auto 60px;
-                max-width: 600px;
+                max-width: 680px;
             }
                 ul.lectura-grafico li{
                     font: 1.2rem / 1.4 'Prelo Book';
@@ -931,3 +939,12 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         background-color: #F0F0F0;
         padding: 0 0 60px;
     }
+    .box-cronologia{
+
+    }
+        .ctn-box-cronologia{
+
+        }
+            .ctn-box-cronologia h5{
+                padding: 50px 0;
+            }
