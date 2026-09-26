@@ -3,366 +3,524 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>BTS — Clustering K-means</title>
+<title>BTS: Clustering — Cuatro tipos de canción</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <style>
-:root {
-  --bg: #0f0f13; --card: #1a1a22; --border: #2a2a38;
-  --text: #f0f0f5; --muted: #888899;
-  --c0: #6C63FF; --c1: #FF6584; --c2: #2ECC71; --c3: #F39C12;
-  --font: 'Helvetica Neue', Arial, sans-serif;
+  :root {
+    --c0: #6C63FF;
+    --c1: #E8637F;
+    --c2: #4CAF7D;
+    --c3: #D98E4A;
+    --c0-tint: rgba(108,99,255,0.08);
+    --c1-tint: rgba(232,99,127,0.08);
+    --c2-tint: rgba(76,175,125,0.08);
+    --c3-tint: rgba(217,142,74,0.10);
+    --ink: #16161d;
+    --muted: #7a7a85;
+    --line: #e6e6ea;
+    --panel: #f4f4f6;
+    --card: #ffffff;
+    --accent-red: #e5484d;
+    --font: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+@font-face {
+    font-family: 'Bobby Jones Condensed';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/BobbyJones-Condensed.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/BobbyJones-Condensed.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; }
-header { padding: 1.5rem 2rem 1rem; border-bottom: 1px solid var(--border); }
-.header-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.3rem; }
-.header-title { font-size: 22px; font-weight: 600; margin-bottom: 0.3rem; }
-.header-sub { font-size: 13px; color: var(--muted); line-height: 1.5; }
-.controls { display: flex; gap: 1rem; padding: 0.75rem 2rem; flex-wrap: wrap; border-bottom: 1px solid var(--border); align-items: center; }
-.control-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
-.btn-group { display: flex; gap: 4px; flex-wrap: wrap; }
-.btn { font-size: 12px; padding: 4px 12px; border-radius: 99px; border: 1px solid var(--border); background: var(--card); color: var(--muted); cursor: pointer; transition: all 0.15s; }
-.btn:hover { color: var(--text); border-color: #555; }
-.btn.active { font-weight: 600; }
-.btn.c0.active { background: var(--c0); border-color: var(--c0); color: white; }
-.btn.c1.active { background: var(--c1); border-color: var(--c1); color: white; }
-.btn.c2.active { background: var(--c2); border-color: var(--c2); color: white; }
-.btn.c3.active { background: var(--c3); border-color: var(--c3); color: white; }
-.btn.era.active, .btn.member.active { background: var(--text); border-color: var(--text); color: var(--bg); }
-.main { display: grid; grid-template-columns: 1fr 300px; height: calc(100vh - 170px); }
-#chart { padding: 1rem 1.5rem; }
-.sidebar { border-left: 1px solid var(--border); overflow-y: auto; padding: 1rem; }
-.sidebar-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.75rem; }
-.cluster-card { border-radius: 10px; padding: 0.9rem 1rem; margin-bottom: 0.6rem; border: 1px solid var(--border); background: var(--card); }
-.cluster-name { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
-.cluster-desc { font-size: 11px; color: var(--muted); line-height: 1.5; margin-bottom: 6px; }
-.cluster-stat { font-size: 11px; color: var(--muted); }
-.cluster-stat span { color: var(--text); font-weight: 600; }
-.song-detail { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1rem; margin-bottom: 0.6rem; }
-.song-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
-.song-meta { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
-.feat-bars { display: flex; flex-direction: column; gap: 3px; }
-.feat-row { display: flex; align-items: center; gap: 5px; }
-.feat-label { font-size: 10px; color: var(--muted); width: 70px; flex-shrink: 0; }
-.feat-track { flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
-.feat-fill { height: 100%; border-radius: 3px; }
-.feat-val { font-size: 10px; color: var(--muted); width: 28px; text-align: right; }
-.stats-row { display: flex; gap: 0.75rem; padding: 0.5rem 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
-.stat { text-align: center; }
-.stat-val { font-size: 18px; font-weight: 700; }
-.stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
-.legend { display: flex; gap: 1rem; padding: 0.4rem 2rem; flex-wrap: wrap; }
-.leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
-.leg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+@font-face {
+    font-family: 'Monigue Regular';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Monigue-Regular.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Monigue-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Book';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Book.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Book.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Medium';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Medium.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Medium.woff') format('woff');
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Semibold';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-SemiBold.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Bold';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Bold.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Prelo Extrabold';
+    src: url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Exbd.woff2') format('woff2'),
+        url('https://nuevasnarrativasec.github.io/bts/fonts/Prelo-Exbd.woff') format('woff');
+    font-style: normal;
+    font-display: swap;
+}
+
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #fff; color: var(--ink); font-family: var(--font); padding: 2.5rem 2rem 4rem; }
+  .wrap { max-width: 700px; margin: 0 auto; }
+
+  h2.title { font-size: 20px; font-weight: 800; margin-bottom: 0.35rem; text-align: center; font-family: 'Prelo Extrabold'; }
+  p.subtitle { font-size: 14px; color: var(--muted); margin-bottom: 1.5rem; text-align: center; font-family: 'Prelo Medium'; }
+
+  .box-texto-cuadro { max-width: 600px; margin: 0 auto; }
+
+  .filters-row { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .select-wrap { position: relative; flex: 1; min-width: 200px; }
+  select.filter-select {
+    width: 100%; appearance: none; -webkit-appearance: none;
+    font: inherit; font-weight: 700; font-size: 14px; color: var(--ink);
+    background: var(--card); border: 1px solid var(--ink); border-radius: 10px;
+    padding: 0.75rem 2.2rem 0.75rem 1rem; cursor: pointer; font-family: 'Prelo Bold';
+  }
+  .select-wrap::after {
+    content: ""; position: absolute; right: 1rem; top: 50%; width: 10px; height: 10px;
+    border-right: 2px solid var(--ink); border-bottom: 2px solid var(--ink);
+    transform: translateY(-65%) rotate(45deg); pointer-events: none;
+  }
+
+  .legend-card { background: var(--panel); border-radius: 4px; padding: 1.4rem 1.6rem; margin: 0 auto 1.25rem; max-width: 600px; }
+  .legend-title { font-size: 16px; font-weight: 800; margin-bottom: 0.9rem; font-family: 'Prelo Extrabold'; }
+  .legend-section-label { font-size: 13px; font-weight: 700; color: #3a3a42; margin-bottom: 0.6rem; font-family: 'Prelo Semibold'; }
+  .legend-row { display: flex; gap: 1.25rem; flex-wrap: wrap; margin-bottom: 1.1rem; }
+  .legend-row:last-child { margin-bottom: 0; }
+  .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 13.5px; cursor: pointer; user-select: none; opacity: 1; transition: opacity 0.15s; font-family: 'Prelo Medium'; }
+  .legend-item.dim { opacity: 0.35; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .legend-item b { font-family: 'Prelo Bold'; }
+  .legend-item .legend-desc { color: var(--muted); }
+
+  .legend-shape { width: 12px; height: 12px; flex-shrink: 0; background: #9a9aa3; }
+  .legend-shape.circle { border-radius: 50%; }
+  .legend-shape.diamond { border-radius: 2px; transform: rotate(45deg); }
+
+  .axis-legend {
+    display: flex; align-items: center; justify-content: center; gap: 1.75rem;
+    flex-wrap: wrap; margin-bottom: 0.75rem; font-size: 12.5px; color: var(--muted);
+  }
+  .axis-legend-item { display: flex; align-items: center; gap: 0.4rem; }
+  .axis-legend-item b { color: var(--ink); font-weight: 700; }
+  .axis-legend-arrow { color: var(--accent-red); font-weight: 700; }
+
+  .stats-line { text-align: center; font-size: 12.5px; color: var(--muted); margin-bottom: 1rem; font-family: 'Prelo Medium'; }
+  .stats-line b { color: var(--ink); font-family: 'Prelo Bold'; }
+
+  #scatter-wrap { position: relative; }
+  #scatter { width: 100%; }
+  svg text { font-family: var(--font); }
+
+  .tooltip-card {
+    position: fixed; pointer-events: none; opacity: 0; background: var(--card);
+    border: 1px solid var(--line); border-radius: 12px; padding: 0.9rem 1.1rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12); font-size: 13px; max-width: 230px; line-height: 1.5;
+    z-index: 999; transition: opacity 0.1s;
+  }
+  .tooltip-card .tt-title { font-weight: 700; font-size: 13.5px; margin-bottom: 2px; }
+  .tooltip-card .tt-meta { color: var(--muted); font-size: 12px; margin-bottom: 6px; }
+  .tooltip-card .tt-row { font-size: 12.5px; margin-bottom: 1px; }
+  .tooltip-card .tt-row b { font-weight: 700; }
+  .tooltip-card .tt-cluster { display: inline-block; margin-top: 4px; font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 99px; }
+
+  /* Detail card — inline, mobile-friendly (no absolute positioning) */
+  .detail-card {
+    display: none; background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08); padding: 1.25rem 1.4rem 1.4rem; margin: 1.25rem auto 0; max-width: 600px; position: relative;
+  }
+  .detail-card.open { display: block; }
+  .detail-close {
+    position: absolute; top: 0.9rem; right: 0.9rem; width: 24px; height: 24px; border-radius: 50%;
+    border: 1.5px solid var(--ink); background: none; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 12px; color: var(--ink); line-height: 1;
+  }
+  .detail-title { font-size: 17px; font-weight: 800; margin-bottom: 2px; padding-right: 2rem; font-family: 'Prelo Extrabold'; }
+  .detail-sub { font-size: 12.5px; color: var(--muted); margin-bottom: 1rem; }
+  .detail-cluster-tag { display: inline-block; font-size: 11.5px; font-weight: 700; padding: 3px 10px; border-radius: 99px; margin-bottom: 1rem; }
+  .feat-bars { display: flex; flex-direction: column; gap: 7px; }
+  .feat-row { display: flex; align-items: center; gap: 8px; }
+  .feat-label { font-size: 11.5px; color: var(--muted); width: 92px; flex-shrink: 0; font-family: 'Prelo Medium'; }
+  .feat-track { flex: 1; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+  .feat-fill { height: 100%; border-radius: 3px; }
+  .feat-val { font-size: 11.5px; color: var(--ink); width: 32px; text-align: right; font-family: 'Prelo Bold'; }
+
+  /* Cluster cards */
+  .cluster-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem; margin: 1.5rem auto 0; max-width: 640px; }
+  .cluster-card {
+    background: var(--card); border: 1px solid var(--line); padding: 1rem 1.1rem;
+    border-left: 4px solid transparent; cursor: pointer; transition: opacity 0.15s, transform 0.1s;
+  }
+  .cluster-card:active { transform: scale(0.98); }
+  .cluster-card.dim { opacity: 0.4; }
+  .cluster-card-name { font-size: 13.5px; font-weight: 800; margin-bottom: 4px; font-family: 'Prelo Bold'; }
+  .cluster-card-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 8px; }
+  .cluster-card-stat { font-size: 11px; color: var(--muted); font-family: 'Prelo Medium'; }
+  .cluster-card-stat b { color: var(--ink); font-family: 'Prelo Bold'; }
+
+  .box-texto-cuadro { margin-bottom: 1.5rem; }
+
+  @media (max-width: 720px) {
+    .axis-legend { flex-direction: column; gap: 0.4rem; }
+  }
+  @media (max-width: 560px) {
+    .cluster-cards { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    body { padding: 1.75rem 1rem 3rem; }
+    .legend-card { padding: 1.1rem 1.2rem; }
+    .legend-row { gap: 0.9rem 1.1rem; }
+    .filters-row { gap: 0.6rem; }
+    .select-wrap { min-width: 0; }
+    .feat-label { width: 76px; }
+  }
 </style>
 </head>
 <body>
-<header>
-  <div class="header-label">Especial BTS · Clustering K-means</div>
-  <div class="header-title">Cuatro tipos de canción en 786 tracks</div>
-  <div class="header-sub">K-means con K=4 sobre 5 variables de Spotify. Cada punto es una canción. Haz clic para ver detalles.</div>
-</header>
+<div class="wrap">
 
-<div class="controls">
-  <span class="control-label">Cluster</span>
-  <div class="btn-group" id="cluster-btns">
-    <button class="btn c0 active" data-cluster="0">● Bailable y alegre</button>
-    <button class="btn c1 active" data-cluster="1">● Intenso y oscuro</button>
-    <button class="btn c2 active" data-cluster="2">● Melancólico y acústico</button>
-    <button class="btn c3 active" data-cluster="3">● Spoken word</button>
+  <div class="box-texto-cuadro">
+    <div class="filters-row">
+      <div class="select-wrap">
+        <select id="miembro-select" class="filter-select">
+          <option value="ALL">Todos los miembros</option>
+        </select>
+      </div>
+      <div class="select-wrap">
+        <select id="era-select" class="filter-select">
+          <option value="ALL">Todas las eras</option>
+          <option value="pre">Pre-servicio</option>
+          <option value="post">Reencuentro</option>
+        </select>
+      </div>
+    </div>
   </div>
-  <span class="control-label" style="margin-left:0.5rem">Era</span>
-  <div class="btn-group" id="era-btns">
-    <button class="btn era active" data-era="ALL">Todas</button>
-    <button class="btn era" data-era="pre">Pre-servicio</button>
-    <button class="btn era" data-era="post">Reencuentro</button>
+
+  <div class="legend-card">
+    <div class="legend-title">Leyenda</div>
+
+    <div class="legend-section-label">Tipo de canción</div>
+    <div class="legend-row" id="legend-cluster"></div>
+
+    <div class="legend-section-label">Era</div>
+    <div class="legend-row" id="legend-era">
+      <div class="legend-item"><span class="legend-shape circle"></span><span>Pre-servicio</span></div>
+      <div class="legend-item"><span class="legend-shape diamond"></span><span>Reencuentro</span></div>
+    </div>
   </div>
-  <span class="control-label" style="margin-left:0.5rem">Miembro</span>
-  <div class="btn-group" id="member-btns">
-    <button class="btn member active" data-member="ALL">Todos</button>
-    <button class="btn member" data-member="BTS">BTS</button>
-    <button class="btn member" data-member="RM">RM</button>
-    <button class="btn member" data-member="SUGA">Suga</button>
-    <button class="btn member" data-member="JHOPE">J-Hope</button>
-    <button class="btn member" data-member="JIMIN">Jimin</button>
-    <button class="btn member" data-member="JIN">Jin</button>
-    <button class="btn member" data-member="JUNGKOOK">Jungkook</button>
-    <button class="btn member" data-member="V">V</button>
+
+  <div class="axis-legend">
+    <span class="axis-legend-item"><b>Eje X — Valence</b> 0 sombrío <span class="axis-legend-arrow">&#8594;</span> 1 luminoso</span>
+    <span class="axis-legend-item"><b>Eje Y — Energy</b> 0 tranquilo <span class="axis-legend-arrow">&#8594;</span> 1 intenso</span>
   </div>
+
+  <div class="stats-line" id="stats-line"></div>
+
+  <div id="scatter-wrap">
+    <div id="scatter"></div>
+  </div>
+
+  <div class="detail-card" id="detail-card">
+    <button class="detail-close" id="detail-close">&#10005;</button>
+    <div class="detail-title" id="detail-title"></div>
+    <div class="detail-sub" id="detail-sub"></div>
+    <div class="detail-cluster-tag" id="detail-cluster-tag"></div>
+    <div class="feat-bars" id="detail-bars"></div>
+  </div>
+
+  <div class="cluster-cards" id="cluster-cards"></div>
+
 </div>
 
-<div class="legend">
-  <div class="leg-item"><div class="leg-dot" style="background:var(--c0)"></div>Bailable y alegre</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--c1)"></div>Intenso y oscuro</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--c2)"></div>Melancólico y acústico</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--c3)"></div>Spoken word</div>
-  <div class="leg-item"><div class="leg-dot" style="background:#555;border-radius:2px"></div>Círculo = pre-servicio · Diamante = reencuentro</div>
-</div>
-
-<div class="main">
-  <div id="chart"></div>
-  <div class="sidebar">
-    <div class="sidebar-title">Clusters · haz clic en un punto</div>
-    <div id="sidebar-content"></div>
-  </div>
-</div>
-
-<div class="stats-row" id="stats"></div>
+<div class="tooltip-card" id="tooltip"></div>
 
 <script>
-const COLORS = ['#6C63FF','#FF6584','#2ECC71','#F39C12'];
-const NOMBRES = ['Bailable y alegre','Intenso y oscuro','Melancólico y acústico','Spoken word'];
-const DESCS = [
-  'Alta energía, alto valence, alta bailabilidad. El BTS de estadio.',
-  'Alta energía, bajo valence. Canciones de crítica social y rap denso.',
-  'Bajo valence, baja energía, alta acousticness. El BTS más íntimo.',
-  'Speechiness muy alto. Skits, interludes hablados, spoken word.'
-];
+/* ===== Data (corpus_con_clusters.csv — 786 tracks) ===== */
+const DATA = [{"t":"Intro: 2 Cool 4 Skool (ft. DJ Friz)","s":"BTS","e":"pre","y":2013,"v":0.532,"en":0.835,"sp":0.245,"ac":0.179,"da":0.894,"c":0},{"t":"We Are Bulletproof Pt.2","s":"BTS","e":"pre","y":2013,"v":0.868,"en":0.95,"sp":0.16,"ac":0.01,"da":0.753,"c":0},{"t":"Skit: Circle Room Talk","s":"BTS","e":"pre","y":2013,"v":0.817,"en":0.356,"sp":0.802,"ac":0.912,"da":0.598,"c":3},{"t":"No More Dream","s":"BTS","e":"pre","y":2013,"v":0.594,"en":0.864,"sp":0.47,"ac":0.012,"da":0.438,"c":1},{"t":"Interlude","s":"BTS","e":"pre","y":2013,"v":0.854,"en":0.276,"sp":0.319,"ac":0.494,"da":0.914,"c":0},{"t":"좋아요 (I Like It)","s":"BTS","e":"pre","y":2013,"v":0.783,"en":0.723,"sp":0.07,"ac":0.303,"da":0.737,"c":0},{"t":"Outro: Circle Room Cypher","s":"BTS","e":"pre","y":2013,"v":0.852,"en":0.515,"sp":0.523,"ac":0.536,"da":0.688,"c":3},{"t":"Intro: O!RUL8,2? ","s":"BTS","e":"pre","y":2013,"v":0.188,"en":0.9,"sp":0.393,"ac":0.272,"da":0.455,"c":1},{"t":"N.O","s":"BTS","e":"pre","y":2013,"v":0.572,"en":0.914,"sp":0.166,"ac":0.039,"da":0.595,"c":1},{"t":"We On","s":"BTS","e":"pre","y":2013,"v":0.801,"en":0.797,"sp":0.163,"ac":0.041,"da":0.801,"c":0},{"t":"Skit: R U Happy Now?","s":"BTS","e":"pre","y":2013,"v":0.609,"en":0.382,"sp":0.645,"ac":0.852,"da":0.535,"c":3},{"t":"If I Ruled the World","s":"BTS","e":"pre","y":2013,"v":0.729,"en":0.725,"sp":0.112,"ac":0.043,"da":0.744,"c":0},{"t":"Coffee","s":"BTS","e":"pre","y":2013,"v":0.573,"en":0.798,"sp":0.103,"ac":0.009,"da":0.656,"c":1},{"t":"BTS Cypher Pt.1","s":"BTS","e":"pre","y":2013,"v":0.858,"en":0.903,"sp":0.354,"ac":0.539,"da":0.751,"c":0},{"t":"진격의 방탄 (Attack on Bangtan/The Rise of Bangtan)","s":"BTS","e":"pre","y":2013,"v":0.667,"en":0.962,"sp":0.268,"ac":0.2,"da":0.72,"c":0},{"t":"팔도강산 (Satoori Rap)","s":"BTS","e":"pre","y":2013,"v":0.871,"en":0.945,"sp":0.243,"ac":0.079,"da":0.564,"c":0},{"t":"OUTRO: LUV IN SKOOL","s":"BTS","e":"pre","y":2013,"v":0.472,"en":0.392,"sp":0.044,"ac":0.051,"da":0.693,"c":0},{"t":"Intro: Skool Luv Affair","s":"BTS","e":"pre","y":2014,"v":0.671,"en":0.82,"sp":0.428,"ac":0.06,"da":0.587,"c":1},{"t":"상남자 (Boy in Luv)","s":"BTS","e":"pre","y":2014,"v":0.474,"en":0.947,"sp":0.306,"ac":0.003,"da":0.491,"c":1},{"t":"Skit: Soulmate","s":"BTS","e":"pre","y":2014,"v":0.749,"en":0.285,"sp":0.841,"ac":0.898,"da":0.633,"c":3},{"t":"어디에서 왔는지 (Where Did You Come From)","s":"BTS","e":"pre","y":2014,"v":0.919,"en":0.867,"sp":0.313,"ac":0.432,"da":0.654,"c":0},{"t":"하루만 (Just One Day)","s":"BTS","e":"pre","y":2014,"v":0.301,"en":0.713,"sp":0.266,"ac":0.179,"da":0.685,"c":1},{"t":"Tomorrow","s":"BTS","e":"pre","y":2014,"v":0.627,"en":0.887,"sp":0.201,"ac":0.009,"da":0.399,"c":1},{"t":"BTS Cypher PT. 2 : Triptych","s":"BTS","e":"pre","y":2014,"v":0.837,"en":0.98,"sp":0.37,"ac":0.127,"da":0.585,"c":0},{"t":"등골브레이커 (Spine Breaker)","s":"BTS","e":"pre","y":2014,"v":0.861,"en":0.927,"sp":0.15,"ac":0.164,"da":0.679,"c":0},{"t":"JUMP","s":"BTS","e":"pre","y":2014,"v":0.763,"en":0.974,"sp":0.282,"ac":0.035,"da":0.495,"c":1},{"t":"Outro: Propose","s":"BTS","e":"pre","y":2014,"v":0.514,"en":0.847,"sp":0.159,"ac":0.467,"da":0.397,"c":1},{"t":"Miss Right","s":"BTS","e":"pre","y":2014,"v":0.855,"en":0.835,"sp":0.213,"ac":0.371,"da":0.718,"c":0},{"t":"좋아요 [Slow Jam Remix] (I Like It [Slow Jam Remix])","s":"BTS","e":"pre","y":2014,"v":0.653,"en":0.673,"sp":0.185,"ac":0.336,"da":0.532,"c":1},{"t":"Intro: Skool Luv Affair","s":"BTS","e":"pre","y":2014,"v":0.671,"en":0.82,"sp":0.428,"ac":0.06,"da":0.587,"c":1},{"t":"상남자 (Boy in Luv)","s":"BTS","e":"pre","y":2014,"v":0.474,"en":0.947,"sp":0.306,"ac":0.003,"da":0.491,"c":1},{"t":"Skit: Soulmate","s":"BTS","e":"pre","y":2014,"v":0.749,"en":0.285,"sp":0.841,"ac":0.898,"da":0.633,"c":3},{"t":"어디에서 왔는지 (Where Did You Come From)","s":"BTS","e":"pre","y":2014,"v":0.919,"en":0.867,"sp":0.313,"ac":0.432,"da":0.654,"c":0},{"t":"하루만 (Just One Day)","s":"BTS","e":"pre","y":2014,"v":0.301,"en":0.713,"sp":0.266,"ac":0.179,"da":0.685,"c":1},{"t":"Tomorrow","s":"BTS","e":"pre","y":2014,"v":0.627,"en":0.887,"sp":0.201,"ac":0.009,"da":0.399,"c":1},{"t":"BTS Cypher PT. 2 : Triptych","s":"BTS","e":"pre","y":2014,"v":0.837,"en":0.98,"sp":0.37,"ac":0.127,"da":0.585,"c":0},{"t":"등골브레이커 (Spine Breaker)","s":"BTS","e":"pre","y":2014,"v":0.861,"en":0.927,"sp":0.15,"ac":0.164,"da":0.679,"c":0},{"t":"JUMP","s":"BTS","e":"pre","y":2014,"v":0.763,"en":0.974,"sp":0.282,"ac":0.035,"da":0.495,"c":1},{"t":"Outro: Propose","s":"BTS","e":"pre","y":2014,"v":0.514,"en":0.847,"sp":0.159,"ac":0.467,"da":0.397,"c":1},{"t":"No More Dream - Japanese Ver.","s":"BTS","e":"pre","y":2014,"v":0.616,"en":0.863,"sp":0.408,"ac":0.022,"da":0.666,"c":1},{"t":"進撃の防弾 (Attack on Bangtan)","s":"BTS","e":"pre","y":2014,"v":0.57,"en":0.972,"sp":0.338,"ac":0.042,"da":0.645,"c":1},{"t":"いいね! (I Like It!)","s":"BTS","e":"pre","y":2014,"v":0.702,"en":0.691,"sp":0.168,"ac":0.241,"da":0.71,"c":0},{"t":"Boy In Luv - Japanese Ver.","s":"BTS","e":"pre","y":2014,"v":0.578,"en":0.903,"sp":0.144,"ac":0.001,"da":0.563,"c":1},{"t":"N.O - Japanese Ver.","s":"BTS","e":"pre","y":2014,"v":0.588,"en":0.858,"sp":0.14,"ac":0.029,"da":0.597,"c":1},{"t":"Just One Day - Japanese Ver.","s":"BTS","e":"pre","y":2014,"v":0.34,"en":0.579,"sp":0.232,"ac":0.061,"da":0.694,"c":1},{"t":"Intro: What Am I to You?","s":"BTS","e":"pre","y":2014,"v":0.568,"en":0.899,"sp":0.292,"ac":0.426,"da":0.475,"c":1},{"t":"Danger","s":"BTS","e":"pre","y":2014,"v":0.377,"en":0.868,"sp":0.07,"ac":0.001,"da":0.738,"c":1},{"t":"호르몬 전쟁 (War of Hormone)","s":"BTS","e":"pre","y":2014,"v":0.488,"en":0.993,"sp":0.24,"ac":0.116,"da":0.612,"c":1},{"t":"힙합성애자 (Hip Hop Lover/Phile)","s":"BTS","e":"pre","y":2014,"v":0.795,"en":0.878,"sp":0.185,"ac":0.171,"da":0.796,"c":0},{"t":"Let Me Know","s":"BTS","e":"pre","y":2014,"v":0.156,"en":0.829,"sp":0.085,"ac":0.011,"da":0.61,"c":1},{"t":"Rain","s":"BTS","e":"pre","y":2014,"v":0.315,"en":0.851,"sp":0.144,"ac":0.031,"da":0.703,"c":1},{"t":"Cypher Pt. 3: Killer  (Ft. Supreme Boi)","s":"BTS","e":"pre","y":2014,"v":0.665,"en":0.924,"sp":0.321,"ac":0.022,"da":0.793,"c":0},{"t":"Interlude:뭐해 (Interlude: What Are You Doing Now)","s":"BTS","e":"pre","y":2014,"v":0.55,"en":0.683,"sp":0.089,"ac":0.053,"da":0.783,"c":0},{"t":"핸드폰 좀 꺼줄래 (Could You Turn Off Your Cell Phone?)","s":"BTS","e":"pre","y":2014,"v":0.917,"en":0.856,"sp":0.232,"ac":0.152,"da":0.459,"c":1},{"t":"이불킥 (Blanket Kick)","s":"BTS","e":"pre","y":2014,"v":0.551,"en":0.897,"sp":0.282,"ac":0.181,"da":0.556,"c":1},{"t":"24/7=Heaven","s":"BTS","e":"pre","y":2014,"v":0.573,"en":0.903,"sp":0.117,"ac":0.064,"da":0.642,"c":1},{"t":"여기 봐 (Look Here)","s":"BTS","e":"pre","y":2014,"v":0.784,"en":0.854,"sp":0.089,"ac":0.042,"da":0.863,"c":0},{"t":"2학년 (Second Grade/So 4 More)","s":"BTS","e":"pre","y":2014,"v":0.798,"en":0.925,"sp":0.111,"ac":0.004,"da":0.676,"c":0},{"t":"Outro: 그게 말이 돼? (Outro: Do You Think It Makes Sense?)","s":"BTS","e":"pre","y":2014,"v":0.553,"en":0.815,"sp":0.041,"ac":0.071,"da":0.634,"c":1},{"t":"Danger - Japanese Ver.","s":"BTS","e":"pre","y":2014,"v":0.413,"en":0.847,"sp":0.052,"ac":0.001,"da":0.727,"c":1},{"t":"Shingeki no Boudan - Sonpub Remix","s":"BTS","e":"pre","y":2014,"v":0.725,"en":0.91,"sp":0.181,"ac":0.002,"da":0.718,"c":0},{"t":"Miss Right - Japanese Ver.","s":"BTS","e":"pre","y":2014,"v":0.873,"en":0.806,"sp":0.256,"ac":0.42,"da":0.693,"c":0},{"t":"MIC Drop (feat. Desiigner) [Steve Aoki Remix]","s":"BTS","e":"pre","y":2017,"v":0.644,"en":0.841,"sp":0.219,"ac":0.016,"da":0.612,"c":1},{"t":"Intro.","s":"BTS","e":"pre","y":2014,"v":0.786,"en":0.903,"sp":0.311,"ac":0.146,"da":0.807,"c":0},{"t":"The Stars","s":"BTS","e":"pre","y":2014,"v":0.574,"en":0.957,"sp":0.244,"ac":0.029,"da":0.602,"c":1},{"t":"Jump - Japanese Ver.","s":"BTS","e":"pre","y":2014,"v":0.698,"en":0.969,"sp":0.357,"ac":0.036,"da":0.489,"c":1},{"t":"Danger - Japanese Ver.","s":"BTS","e":"pre","y":2014,"v":0.408,"en":0.837,"sp":0.053,"ac":0.001,"da":0.726,"c":1},{"t":"Boy In Luv - Japanese Ver.","s":"BTS","e":"pre","y":2014,"v":0.542,"en":0.902,"sp":0.154,"ac":0.001,"da":0.527,"c":1},{"t":"Just One Day - Japanese Ver.","s":"BTS","e":"pre","y":2014,"v":0.368,"en":0.486,"sp":0.114,"ac":0.093,"da":0.526,"c":1},{"t":"いいね! (I Like It!)","s":"BTS","e":"pre","y":2014,"v":0.769,"en":0.674,"sp":0.09,"ac":0.227,"da":0.766,"c":0},{"t":"いいね！Pt.2～あの場所で～ (I Like It Pt.2 ~In That Place~)","s":"BTS","e":"pre","y":2014,"v":0.861,"en":0.717,"sp":0.151,"ac":0.478,"da":0.684,"c":0},{"t":"No More Dream - Japanese Ver.","s":"BTS","e":"pre","y":2014,"v":0.639,"en":0.866,"sp":0.398,"ac":0.022,"da":0.663,"c":1},{"t":"進撃の防弾 (Attack on Bangtan)","s":"BTS","e":"pre","y":2014,"v":0.566,"en":0.967,"sp":0.352,"ac":0.053,"da":0.636,"c":1},{"t":"N.O - Japanese Ver.","s":"BTS","e":"pre","y":2014,"v":0.588,"en":0.86,"sp":0.145,"ac":0.027,"da":0.602,"c":1},{"t":"Wake Up","s":"BTS","e":"pre","y":2014,"v":0.734,"en":0.686,"sp":0.049,"ac":0.1,"da":0.709,"c":0},{"t":"Outro.","s":"BTS","e":"pre","y":2014,"v":0.786,"en":0.7,"sp":0.079,"ac":0.696,"da":0.679,"c":0},{"t":"Intro: 화양연화 (Intro: The Most Beautiful Moment In Life)","s":"BTS","e":"pre","y":2015,"v":0.257,"en":0.97,"sp":0.535,"ac":0.236,"da":0.36,"c":1},{"t":"I NEED U","s":"BTS","e":"pre","y":2015,"v":0.707,"en":0.88,"sp":0.074,"ac":0.021,"da":0.478,"c":1},{"t":"잡아줘 (Hold Me Tight)","s":"BTS","e":"pre","y":2015,"v":0.394,"en":0.728,"sp":0.286,"ac":0.051,"da":0.622,"c":1},{"t":"Skit: Expectation!","s":"BTS","e":"pre","y":2015,"v":0.712,"en":0.167,"sp":0.665,"ac":0.893,"da":0.635,"c":3},{"t":"쩔어 (DOPE)","s":"BTS","e":"pre","y":2015,"v":0.62,"en":0.89,"sp":0.245,"ac":0.049,"da":0.595,"c":1},{"t":"흥탄소년단 (Boyz With Fun)","s":"BTS","e":"pre","y":2015,"v":0.751,"en":0.96,"sp":0.192,"ac":0.081,"da":0.704,"c":0},{"t":"Converse High","s":"BTS","e":"pre","y":2015,"v":0.817,"en":0.793,"sp":0.089,"ac":0.06,"da":0.724,"c":0},{"t":"이사 (Moving On)","s":"BTS","e":"pre","y":2015,"v":0.929,"en":0.914,"sp":0.204,"ac":0.013,"da":0.684,"c":0},{"t":"Outro: Love is Not Over","s":"BTS","e":"pre","y":2015,"v":0.218,"en":0.335,"sp":0.06,"ac":0.632,"da":0.719,"c":2},{"t":"For You","s":"BTS","e":"pre","y":2015,"v":0.572,"en":0.814,"sp":0.211,"ac":0.477,"da":0.554,"c":1},{"t":"Hormone Sensou - Japanese Ver.","s":"BTS","e":"pre","y":2015,"v":0.401,"en":0.996,"sp":0.254,"ac":0.161,"da":0.634,"c":1},{"t":"Let Me Know - Japanese Ver.","s":"BTS","e":"pre","y":2015,"v":0.245,"en":0.831,"sp":0.272,"ac":0.029,"da":0.442,"c":1},{"t":"INTRO : Never Mind","s":"BTS","e":"pre","y":2015,"v":0.397,"en":0.949,"sp":0.904,"ac":0.008,"da":0.339,"c":3},{"t":"Run","s":"BTS","e":"pre","y":2015,"v":0.55,"en":0.878,"sp":0.051,"ac":0.001,"da":0.554,"c":1},{"t":"Butterfly","s":"BTS","e":"pre","y":2015,"v":0.291,"en":0.776,"sp":0.057,"ac":0.015,"da":0.461,"c":1},{"t":"Whalien 52","s":"BTS","e":"pre","y":2015,"v":0.735,"en":0.93,"sp":0.241,"ac":0.099,"da":0.585,"c":1},{"t":"Ma City","s":"BTS","e":"pre","y":2015,"v":0.807,"en":0.967,"sp":0.096,"ac":0.0,"da":0.668,"c":0},{"t":"뱁새 (Silver Spoon/Baepsae)","s":"BTS","e":"pre","y":2015,"v":0.536,"en":0.879,"sp":0.073,"ac":0.001,"da":0.65,"c":1},{"t":"Skit: One Night in a Strange City","s":"BTS","e":"pre","y":2015,"v":0.667,"en":0.499,"sp":0.936,"ac":0.772,"da":0.575,"c":3},{"t":"고엽 (Autumn Leaves)","s":"BTS","e":"pre","y":2015,"v":0.314,"en":0.804,"sp":0.042,"ac":0.013,"da":0.619,"c":1},{"t":"Outro: House of Cards","s":"BTS","e":"pre","y":2015,"v":0.265,"en":0.652,"sp":0.04,"ac":0.4,"da":0.37,"c":2},{"t":"I Need U - Japanese Ver.","s":"BTS","e":"pre","y":2015,"v":0.702,"en":0.872,"sp":0.073,"ac":0.014,"da":0.487,"c":1},{"t":"超ヤベー (Dope - Japanese Ver.)","s":"BTS","e":"pre","y":2015,"v":0.539,"en":0.901,"sp":0.231,"ac":0.031,"da":0.579,"c":1},{"t":"フンタン少年団 (Boyz with Fun - Japanese Ver.)","s":"BTS","e":"pre","y":2015,"v":0.714,"en":0.96,"sp":0.192,"ac":0.045,"da":0.683,"c":0},{"t":"Run - Japanese Ver.","s":"BTS","e":"pre","y":2016,"v":0.592,"en":0.853,"sp":0.038,"ac":0.001,"da":0.544,"c":1},{"t":"Butterfly - Japanese Ver.","s":"BTS","e":"pre","y":2016,"v":0.232,"en":0.787,"sp":0.072,"ac":0.022,"da":0.289,"c":1},{"t":"Good Day","s":"BTS","e":"pre","y":2016,"v":0.705,"en":0.855,"sp":0.074,"ac":0.01,"da":0.365,"c":1},{"t":"Intro: 화양연화 (Intro: The Most Beautiful Moment In Life)","s":"BTS","e":"pre","y":2016,"v":0.23,"en":0.97,"sp":0.444,"ac":0.205,"da":0.494,"c":1},{"t":"I NEED U","s":"BTS","e":"pre","y":2016,"v":0.649,"en":0.897,"sp":0.068,"ac":0.018,"da":0.485,"c":1},{"t":"잡아줘 (Hold Me Tight)","s":"BTS","e":"pre","y":2016,"v":0.376,"en":0.799,"sp":0.262,"ac":0.015,"da":0.64,"c":1},{"t":"고엽 (Autumn Leaves)","s":"BTS","e":"pre","y":2016,"v":0.316,"en":0.799,"sp":0.043,"ac":0.011,"da":0.625,"c":1},{"t":"Butterfly (Prologue Mix)","s":"BTS","e":"pre","y":2016,"v":0.134,"en":0.541,"sp":0.053,"ac":0.045,"da":0.373,"c":2},{"t":"Run","s":"BTS","e":"pre","y":2016,"v":0.514,"en":0.878,"sp":0.044,"ac":0.002,"da":0.577,"c":1},{"t":"Ma City","s":"BTS","e":"pre","y":2016,"v":0.783,"en":0.97,"sp":0.099,"ac":0.0,"da":0.678,"c":0},{"t":"뱁새 (Silver Spoon/Baepsae)","s":"BTS","e":"pre","y":2016,"v":0.557,"en":0.875,"sp":0.07,"ac":0.001,"da":0.649,"c":1},{"t":"쩔어 (DOPE)","s":"BTS","e":"pre","y":2016,"v":0.678,"en":0.896,"sp":0.225,"ac":0.027,"da":0.579,"c":1},{"t":"불타오르네 (Fire)","s":"BTS","e":"pre","y":2016,"v":0.534,"en":0.706,"sp":0.06,"ac":0.002,"da":0.626,"c":1},{"t":"Save Me","s":"BTS","e":"pre","y":2016,"v":0.54,"en":0.822,"sp":0.062,"ac":0.027,"da":0.613,"c":1},{"t":"Epilogue: Young Forever","s":"BTS","e":"pre","y":2016,"v":0.386,"en":0.815,"sp":0.232,"ac":0.04,"da":0.606,"c":1},{"t":"Converse High","s":"BTS","e":"pre","y":2016,"v":0.804,"en":0.803,"sp":0.096,"ac":0.025,"da":0.72,"c":0},{"t":"이사 (Moving On)","s":"BTS","e":"pre","y":2016,"v":0.936,"en":0.926,"sp":0.162,"ac":0.002,"da":0.68,"c":0},{"t":"Whalien 52","s":"BTS","e":"pre","y":2016,"v":0.771,"en":0.937,"sp":0.28,"ac":0.087,"da":0.572,"c":1},{"t":"Butterfly","s":"BTS","e":"pre","y":2016,"v":0.275,"en":0.747,"sp":0.053,"ac":0.011,"da":0.439,"c":1},{"t":"House of Cards (Full Length Edition)","s":"BTS","e":"pre","y":2016,"v":0.384,"en":0.668,"sp":0.052,"ac":0.336,"da":0.367,"c":2},{"t":"Love is Not Over (Full Length Edition)","s":"BTS","e":"pre","y":2016,"v":0.278,"en":0.576,"sp":0.083,"ac":0.124,"da":0.462,"c":1},{"t":"I NEED U (Urban Mix)","s":"BTS","e":"pre","y":2016,"v":0.532,"en":0.814,"sp":0.069,"ac":0.108,"da":0.56,"c":1},{"t":"I NEED U (Remix)","s":"BTS","e":"pre","y":2016,"v":0.49,"en":0.918,"sp":0.208,"ac":0.003,"da":0.519,"c":1},{"t":"Run (Ballad Mix)","s":"BTS","e":"pre","y":2016,"v":0.595,"en":0.775,"sp":0.036,"ac":0.031,"da":0.568,"c":1},{"t":"Run (Alternative Mix)","s":"BTS","e":"pre","y":2016,"v":0.586,"en":0.87,"sp":0.032,"ac":0.0,"da":0.595,"c":1},{"t":"Butterfly (Alternative Mix)","s":"BTS","e":"pre","y":2016,"v":0.209,"en":0.717,"sp":0.048,"ac":0.006,"da":0.345,"c":1},{"t":"Introduction : Youth","s":"BTS","e":"pre","y":2016,"v":0.547,"en":0.909,"sp":0.086,"ac":0.001,"da":0.563,"c":1},{"t":"Run - Japanese Ver.","s":"BTS","e":"pre","y":2016,"v":0.551,"en":0.863,"sp":0.041,"ac":0.001,"da":0.531,"c":1},{"t":"Fire - Japanese Ver.","s":"BTS","e":"pre","y":2016,"v":0.508,"en":0.714,"sp":0.07,"ac":0.004,"da":0.651,"c":1},{"t":"超ヤベー (Dope - Japanese Ver.)","s":"BTS","e":"pre","y":2016,"v":0.545,"en":0.897,"sp":0.212,"ac":0.029,"da":0.579,"c":1},{"t":"Good Day","s":"BTS","e":"pre","y":2016,"v":0.665,"en":0.89,"sp":0.045,"ac":0.011,"da":0.611,"c":0},{"t":"Save Me - Japanese Ver.","s":"BTS","e":"pre","y":2016,"v":0.394,"en":0.804,"sp":0.073,"ac":0.05,"da":0.623,"c":1},{"t":"フンタン少年団 (Boyz with Fun - Japanese Ver.)","s":"BTS","e":"pre","y":2016,"v":0.77,"en":0.962,"sp":0.199,"ac":0.054,"da":0.69,"c":0},{"t":"ペップセ (Baepsae - Japanese Ver.)","s":"BTS","e":"pre","y":2016,"v":0.544,"en":0.885,"sp":0.118,"ac":0.001,"da":0.669,"c":1},{"t":"Wishing On A Star","s":"BTS","e":"pre","y":2016,"v":0.636,"en":0.832,"sp":0.209,"ac":0.017,"da":0.543,"c":1},{"t":"Butterfly - Japanese Ver.","s":"BTS","e":"pre","y":2016,"v":0.231,"en":0.785,"sp":0.067,"ac":0.025,"da":0.319,"c":1},{"t":"For You","s":"BTS","e":"pre","y":2016,"v":0.574,"en":0.809,"sp":0.185,"ac":0.44,"da":0.548,"c":1},{"t":"I Need U - Japanese Ver.","s":"BTS","e":"pre","y":2016,"v":0.732,"en":0.866,"sp":0.068,"ac":0.015,"da":0.497,"c":1},{"t":"Epilogue : Young Forever - Japanese Ver.","s":"BTS","e":"pre","y":2016,"v":0.349,"en":0.76,"sp":0.236,"ac":0.022,"da":0.461,"c":1},{"t":"Intro: Boy Meets Evil","s":"BTS","e":"pre","y":2016,"v":0.242,"en":0.89,"sp":0.214,"ac":0.021,"da":0.573,"c":1},{"t":"피 땀 눈물 (Blood Sweat & Tears)","s":"BTS","e":"pre","y":2016,"v":0.605,"en":0.885,"sp":0.104,"ac":0.024,"da":0.584,"c":1},{"t":"Begin","s":"BTS","e":"pre","y":2016,"v":0.308,"en":0.842,"sp":0.044,"ac":0.004,"da":0.566,"c":1},{"t":"Lie","s":"BTS","e":"pre","y":2016,"v":0.501,"en":0.779,"sp":0.033,"ac":0.003,"da":0.541,"c":1},{"t":"Stigma","s":"BTS","e":"pre","y":2016,"v":0.335,"en":0.475,"sp":0.089,"ac":0.148,"da":0.566,"c":2},{"t":"First Love","s":"BTS","e":"pre","y":2016,"v":0.671,"en":0.74,"sp":0.308,"ac":0.364,"da":0.545,"c":1},{"t":"Reflection","s":"BTS","e":"pre","y":2016,"v":0.273,"en":0.607,"sp":0.085,"ac":0.013,"da":0.555,"c":1},{"t":"MAMA","s":"BTS","e":"pre","y":2016,"v":0.466,"en":0.739,"sp":0.232,"ac":0.0,"da":0.543,"c":1},{"t":"Awake","s":"BTS","e":"pre","y":2016,"v":0.34,"en":0.498,"sp":0.033,"ac":0.023,"da":0.35,"c":2},{"t":"Lost","s":"BTS","e":"pre","y":2016,"v":0.47,"en":0.838,"sp":0.054,"ac":0.0,"da":0.547,"c":1},{"t":"BTS Cypher 4","s":"BTS","e":"pre","y":2016,"v":0.361,"en":0.797,"sp":0.084,"ac":0.005,"da":0.817,"c":0},{"t":"Am I Wrong","s":"BTS","e":"pre","y":2016,"v":0.679,"en":0.834,"sp":0.049,"ac":0.001,"da":0.76,"c":0},{"t":"21세기 소녀 (21st Century Girl)","s":"BTS","e":"pre","y":2016,"v":0.763,"en":0.906,"sp":0.072,"ac":0.004,"da":0.716,"c":0},{"t":"둘! 셋! (그래도 좋은 날이 더 많기를) (2! 3! (Still Wishing For More Good Days))","s":"BTS","e":"pre","y":2016,"v":0.601,"en":0.928,"sp":0.207,"ac":0.026,"da":0.442,"c":1},{"t":"Interlude: Wings","s":"BTS","e":"pre","y":2016,"v":0.6,"en":0.851,"sp":0.066,"ac":0.01,"da":0.638,"c":1},{"t":"Intro: Boy Meets Evil","s":"BTS","e":"pre","y":2017,"v":0.242,"en":0.89,"sp":0.214,"ac":0.021,"da":0.573,"c":1},{"t":"피 땀 눈물 (Blood Sweat & Tears)","s":"BTS","e":"pre","y":2017,"v":0.605,"en":0.885,"sp":0.104,"ac":0.024,"da":0.584,"c":1},{"t":"Begin","s":"BTS","e":"pre","y":2017,"v":0.308,"en":0.842,"sp":0.044,"ac":0.004,"da":0.566,"c":1},{"t":"Lie","s":"BTS","e":"pre","y":2017,"v":0.501,"en":0.779,"sp":0.033,"ac":0.003,"da":0.541,"c":1},{"t":"Stigma","s":"BTS","e":"pre","y":2017,"v":0.335,"en":0.475,"sp":0.089,"ac":0.148,"da":0.566,"c":2},{"t":"First Love","s":"BTS","e":"pre","y":2017,"v":0.671,"en":0.74,"sp":0.308,"ac":0.364,"da":0.545,"c":1},{"t":"Reflection","s":"BTS","e":"pre","y":2017,"v":0.273,"en":0.607,"sp":0.085,"ac":0.013,"da":0.555,"c":1},{"t":"MAMA","s":"BTS","e":"pre","y":2017,"v":0.466,"en":0.739,"sp":0.232,"ac":0.0,"da":0.543,"c":1},{"t":"Awake","s":"BTS","e":"pre","y":2017,"v":0.34,"en":0.498,"sp":0.033,"ac":0.023,"da":0.35,"c":2},{"t":"Lost","s":"BTS","e":"pre","y":2017,"v":0.47,"en":0.838,"sp":0.054,"ac":0.0,"da":0.547,"c":1},{"t":"BTS Cypher 4","s":"BTS","e":"pre","y":2017,"v":0.361,"en":0.797,"sp":0.084,"ac":0.005,"da":0.817,"c":0},{"t":"Am I Wrong","s":"BTS","e":"pre","y":2017,"v":0.679,"en":0.834,"sp":0.049,"ac":0.001,"da":0.76,"c":0},{"t":"21세기 소녀 (21st Century Girl)","s":"BTS","e":"pre","y":2017,"v":0.763,"en":0.906,"sp":0.072,"ac":0.004,"da":0.716,"c":0},{"t":"둘! 셋! (그래도 좋은 날이 더 많기를) (2! 3! (Still Wishing For More Good Days))","s":"BTS","e":"pre","y":2017,"v":0.601,"en":0.928,"sp":0.207,"ac":0.026,"da":0.442,"c":1},{"t":"봄날 (Spring Day)","s":"BTS","e":"pre","y":2017,"v":0.462,"en":0.846,"sp":0.035,"ac":0.006,"da":0.539,"c":1},{"t":"Not Today","s":"BTS","e":"pre","y":2017,"v":0.674,"en":0.945,"sp":0.126,"ac":0.002,"da":0.593,"c":1},{"t":"Outro: Wings","s":"BTS","e":"pre","y":2017,"v":0.658,"en":0.903,"sp":0.129,"ac":0.005,"da":0.651,"c":0},{"t":"A Supplementary Story: You Never Walk Alone","s":"BTS","e":"pre","y":2017,"v":0.59,"en":0.903,"sp":0.151,"ac":0.006,"da":0.696,"c":0},{"t":"血、汗、涙 - Japanese ver.","s":"BTS","e":"pre","y":2017,"v":0.574,"en":0.897,"sp":0.076,"ac":0.045,"da":0.553,"c":1},{"t":"Not Today - Japanese ver.","s":"BTS","e":"pre","y":2017,"v":0.641,"en":0.955,"sp":0.143,"ac":0.002,"da":0.591,"c":1},{"t":"Spring Day - Japanese ver.","s":"BTS","e":"pre","y":2017,"v":0.327,"en":0.837,"sp":0.036,"ac":0.015,"da":0.548,"c":1},{"t":"Come Back Home","s":"BTS","e":"pre","y":2017,"v":0.456,"en":0.881,"sp":0.076,"ac":0.002,"da":0.647,"c":1},{"t":"Intro: Serendipity","s":"BTS","e":"pre","y":2017,"v":0.282,"en":0.581,"sp":0.119,"ac":0.523,"da":0.477,"c":2},{"t":"DNA","s":"BTS","e":"pre","y":2017,"v":0.696,"en":0.775,"sp":0.054,"ac":0.022,"da":0.599,"c":0},{"t":"Best of Me","s":"BTS","e":"pre","y":2017,"v":0.469,"en":0.756,"sp":0.07,"ac":0.03,"da":0.655,"c":1},{"t":"보조개 (Dimple)","s":"BTS","e":"pre","y":2017,"v":0.652,"en":0.844,"sp":0.076,"ac":0.14,"da":0.612,"c":0},{"t":"Pied Piper","s":"BTS","e":"pre","y":2017,"v":0.778,"en":0.712,"sp":0.033,"ac":0.2,"da":0.583,"c":0},{"t":"Skit: Billboard Music Awards Speech","s":"BTS","e":"pre","y":2017,"v":0.327,"en":0.694,"sp":0.398,"ac":0.38,"da":0.315,"c":1},{"t":"MIC Drop","s":"BTS","e":"pre","y":2017,"v":0.541,"en":0.889,"sp":0.092,"ac":0.009,"da":0.667,"c":1},{"t":"고민보다 Go (Go Go)","s":"BTS","e":"pre","y":2017,"v":0.759,"en":0.617,"sp":0.084,"ac":0.171,"da":0.856,"c":0},{"t":"Outro: Her","s":"BTS","e":"pre","y":2017,"v":0.45,"en":0.927,"sp":0.27,"ac":0.317,"da":0.48,"c":1},{"t":"MIC Drop - Japanese ver.","s":"BTS","e":"pre","y":2017,"v":0.636,"en":0.913,"sp":0.149,"ac":0.016,"da":0.662,"c":0},{"t":"DNA - Japanese ver.","s":"BTS","e":"pre","y":2017,"v":0.665,"en":0.763,"sp":0.059,"ac":0.003,"da":0.578,"c":1},{"t":"Crystal Snow","s":"BTS","e":"pre","y":2017,"v":0.402,"en":0.778,"sp":0.032,"ac":0.132,"da":0.61,"c":1},{"t":"INTRO : Ringwanderung","s":"BTS","e":"pre","y":2018,"v":0.207,"en":0.824,"sp":0.26,"ac":0.552,"da":0.589,"c":1},{"t":"Best Of Me - Japanese ver.","s":"BTS","e":"pre","y":2018,"v":0.398,"en":0.769,"sp":0.083,"ac":0.037,"da":0.659,"c":1},{"t":"血、汗、涙 - Japanese ver.","s":"BTS","e":"pre","y":2018,"v":0.576,"en":0.892,"sp":0.108,"ac":0.07,"da":0.61,"c":1},{"t":"DNA - Japanese ver.","s":"BTS","e":"pre","y":2018,"v":0.597,"en":0.761,"sp":0.085,"ac":0.003,"da":0.574,"c":1},{"t":"Not Today - Japanese ver.","s":"BTS","e":"pre","y":2018,"v":0.672,"en":0.938,"sp":0.143,"ac":0.002,"da":0.598,"c":1},{"t":"MIC Drop - Japanese ver.","s":"BTS","e":"pre","y":2018,"v":0.622,"en":0.913,"sp":0.148,"ac":0.014,"da":0.664,"c":0},{"t":"Don't Leave Me","s":"BTS","e":"pre","y":2018,"v":0.386,"en":0.778,"sp":0.072,"ac":0.116,"da":0.62,"c":1},{"t":"Go Go - Japanese ver.","s":"BTS","e":"pre","y":2018,"v":0.847,"en":0.69,"sp":0.088,"ac":0.222,"da":0.837,"c":0},{"t":"Crystal Snow","s":"BTS","e":"pre","y":2018,"v":0.448,"en":0.766,"sp":0.032,"ac":0.117,"da":0.618,"c":1},{"t":"Spring Day - Japanese ver.","s":"BTS","e":"pre","y":2018,"v":0.424,"en":0.825,"sp":0.037,"ac":0.104,"da":0.572,"c":1},{"t":"Let Go","s":"BTS","e":"pre","y":2018,"v":0.388,"en":0.863,"sp":0.178,"ac":0.17,"da":0.558,"c":1},{"t":"OUTRO : Crack","s":"BTS","e":"pre","y":2018,"v":0.057,"en":0.386,"sp":0.382,"ac":0.864,"da":0.729,"c":2},{"t":"Intro: Singularity","s":"BTS","e":"pre","y":2018,"v":0.198,"en":0.272,"sp":0.091,"ac":0.56,"da":0.775,"c":2},{"t":"Fake Love","s":"BTS","e":"pre","y":2018,"v":0.345,"en":0.719,"sp":0.037,"ac":0.003,"da":0.557,"c":1},{"t":"전하지 못한 진심 (feat. Steve Aoki) (The Truth Untold (feat. Steve Aoki))","s":"BTS","e":"pre","y":2018,"v":0.169,"en":0.422,"sp":0.042,"ac":0.374,"da":0.571,"c":2},{"t":"134340","s":"BTS","e":"pre","y":2018,"v":0.651,"en":0.687,"sp":0.055,"ac":0.155,"da":0.665,"c":0},{"t":"낙원 (Paradise)","s":"BTS","e":"pre","y":2018,"v":0.928,"en":0.828,"sp":0.352,"ac":0.214,"da":0.551,"c":0},{"t":"Love Maze","s":"BTS","e":"pre","y":2018,"v":0.759,"en":0.876,"sp":0.062,"ac":0.048,"da":0.637,"c":0},{"t":"Magic Shop","s":"BTS","e":"pre","y":2018,"v":0.278,"en":0.661,"sp":0.091,"ac":0.103,"da":0.531,"c":1},{"t":"Airplane pt.2","s":"BTS","e":"pre","y":2018,"v":0.866,"en":0.817,"sp":0.034,"ac":0.026,"da":0.77,"c":0},{"t":"Anpanman","s":"BTS","e":"pre","y":2018,"v":0.757,"en":0.876,"sp":0.092,"ac":0.024,"da":0.813,"c":0},{"t":"So What","s":"BTS","e":"pre","y":2018,"v":0.461,"en":0.883,"sp":0.073,"ac":0.024,"da":0.657,"c":1},{"t":"Outro: Tear","s":"BTS","e":"pre","y":2018,"v":0.469,"en":0.903,"sp":0.246,"ac":0.327,"da":0.711,"c":1},{"t":"FAKE LOVE (Rocking Vibe Mix)","s":"BTS","e":"pre","y":2018,"v":0.352,"en":0.804,"sp":0.039,"ac":0.057,"da":0.466,"c":1},{"t":"Euphoria","s":"BTS","e":"pre","y":2018,"v":0.57,"en":0.799,"sp":0.034,"ac":0.394,"da":0.637,"c":0},{"t":"Trivia 起: Just Dance","s":"BTS","e":"pre","y":2018,"v":0.393,"en":0.906,"sp":0.281,"ac":0.093,"da":0.723,"c":1},{"t":"Serendipity (Full Length Edition)","s":"BTS","e":"pre","y":2018,"v":0.227,"en":0.578,"sp":0.055,"ac":0.443,"da":0.422,"c":2},{"t":"DNA","s":"BTS","e":"pre","y":2018,"v":0.703,"en":0.775,"sp":0.054,"ac":0.022,"da":0.599,"c":0},{"t":"보조개 (Dimple)","s":"BTS","e":"pre","y":2018,"v":0.652,"en":0.844,"sp":0.076,"ac":0.14,"da":0.612,"c":0},{"t":"Trivia 起: Love","s":"BTS","e":"pre","y":2018,"v":0.484,"en":0.761,"sp":0.09,"ac":0.242,"da":0.761,"c":0},{"t":"Her","s":"BTS","e":"pre","y":2018,"v":0.45,"en":0.927,"sp":0.27,"ac":0.317,"da":0.48,"c":1},{"t":"Singularity","s":"BTS","e":"pre","y":2018,"v":0.198,"en":0.272,"sp":0.091,"ac":0.56,"da":0.775,"c":2},{"t":"Fake Love","s":"BTS","e":"pre","y":2018,"v":0.345,"en":0.719,"sp":0.037,"ac":0.003,"da":0.557,"c":1},{"t":"전하지 못한 진심 (feat. Steve Aoki) (The Truth Untold (feat. Steve Aoki))","s":"BTS","e":"pre","y":2018,"v":0.169,"en":0.422,"sp":0.042,"ac":0.374,"da":0.571,"c":2},{"t":"Trivia 轉: Seesaw","s":"BTS","e":"pre","y":2018,"v":0.674,"en":0.791,"sp":0.035,"ac":0.179,"da":0.707,"c":0},{"t":"Tear","s":"BTS","e":"pre","y":2018,"v":0.469,"en":0.903,"sp":0.246,"ac":0.327,"da":0.711,"c":1},{"t":"Epiphany","s":"BTS","e":"pre","y":2018,"v":0.329,"en":0.559,"sp":0.028,"ac":0.288,"da":0.508,"c":2},{"t":"I'm Fine","s":"BTS","e":"pre","y":2018,"v":0.303,"en":0.84,"sp":0.103,"ac":0.009,"da":0.511,"c":1},{"t":"IDOL","s":"BTS","e":"pre","y":2018,"v":0.42,"en":0.855,"sp":0.118,"ac":0.005,"da":0.733,"c":1},{"t":"Answer: Love Myself","s":"BTS","e":"pre","y":2018,"v":0.45,"en":0.793,"sp":0.041,"ac":0.189,"da":0.568,"c":1},{"t":"Magic Shop","s":"BTS","e":"pre","y":2018,"v":0.278,"en":0.661,"sp":0.091,"ac":0.103,"da":0.531,"c":1},{"t":"Best of Me","s":"BTS","e":"pre","y":2018,"v":0.469,"en":0.756,"sp":0.07,"ac":0.03,"da":0.655,"c":1},{"t":"Airplane pt.2","s":"BTS","e":"pre","y":2018,"v":0.866,"en":0.817,"sp":0.034,"ac":0.026,"da":0.77,"c":0},{"t":"고민보다 Go (Go Go)","s":"BTS","e":"pre","y":2018,"v":0.759,"en":0.617,"sp":0.084,"ac":0.171,"da":0.856,"c":0},{"t":"Anpanman","s":"BTS","e":"pre","y":2018,"v":0.757,"en":0.876,"sp":0.092,"ac":0.024,"da":0.813,"c":0},{"t":"MIC Drop","s":"BTS","e":"pre","y":2018,"v":0.541,"en":0.889,"sp":0.092,"ac":0.009,"da":0.667,"c":1},{"t":"DNA (Pedal 2 LA Mix)","s":"BTS","e":"pre","y":2018,"v":0.482,"en":0.956,"sp":0.134,"ac":0.035,"da":0.487,"c":1},{"t":"FAKE LOVE (Rocking Vibe Mix)","s":"BTS","e":"pre","y":2018,"v":0.352,"en":0.804,"sp":0.039,"ac":0.057,"da":0.466,"c":1},{"t":"MIC Drop (Steve Aoki Remix)","s":"BTS","e":"pre","y":2018,"v":0.542,"en":0.85,"sp":0.183,"ac":0.011,"da":0.606,"c":1},{"t":"IDOL (Remix) ft. Nicki Minaj","s":"BTS","e":"pre","y":2018,"v":0.449,"en":0.857,"sp":0.083,"ac":0.002,"da":0.708,"c":1},{"t":"FAKE LOVE - Japanese ver.","s":"BTS","e":"pre","y":2018,"v":0.382,"en":0.746,"sp":0.039,"ac":0.003,"da":0.577,"c":1},{"t":"Airplane pt.2 - Japanese ver.","s":"BTS","e":"pre","y":2018,"v":0.903,"en":0.803,"sp":0.03,"ac":0.054,"da":0.77,"c":0},{"t":"FAKE LOVE - Japanese ver. / Remix","s":"BTS","e":"pre","y":2018,"v":0.37,"en":0.762,"sp":0.06,"ac":0.032,"da":0.558,"c":1},{"t":"Intro: Persona","s":"BTS","e":"pre","y":2019,"v":0.659,"en":0.871,"sp":0.337,"ac":0.028,"da":0.486,"c":1},{"t":"작은 것들을 위한 시 (feat. Halsey) (Boy With Luv (feat. Halsey))","s":"BTS","e":"pre","y":2019,"v":0.803,"en":0.862,"sp":0.085,"ac":0.093,"da":0.645,"c":0},{"t":"소우주 (Mikrokosmos)","s":"BTS","e":"pre","y":2019,"v":0.475,"en":0.858,"sp":0.114,"ac":0.125,"da":0.579,"c":1},{"t":"Make It Right","s":"BTS","e":"pre","y":2019,"v":0.259,"en":0.706,"sp":0.448,"ac":0.01,"da":0.639,"c":1},{"t":"HOME","s":"BTS","e":"pre","y":2019,"v":0.534,"en":0.799,"sp":0.043,"ac":0.014,"da":0.633,"c":1},{"t":"Jamais Vu","s":"BTS","e":"pre","y":2019,"v":0.241,"en":0.47,"sp":0.043,"ac":0.226,"da":0.608,"c":2},{"t":"Dionysus","s":"BTS","e":"pre","y":2019,"v":0.588,"en":0.91,"sp":0.107,"ac":0.04,"da":0.502,"c":1},{"t":"Dream Glow","s":"BTS","e":"pre","y":2019,"v":0.541,"en":0.74,"sp":0.052,"ac":0.097,"da":0.735,"c":0},{"t":"A Brand New Day","s":"BTS","e":"pre","y":2019,"v":0.711,"en":0.498,"sp":0.058,"ac":0.341,"da":0.804,"c":0},{"t":"All Night","s":"BTS","e":"pre","y":2019,"v":0.634,"en":0.705,"sp":0.121,"ac":0.194,"da":0.726,"c":0},{"t":"Heartbeat","s":"BTS","e":"pre","y":2019,"v":0.296,"en":0.716,"sp":0.045,"ac":0.39,"da":0.352,"c":2},{"t":"Dream Glow","s":"BTS","e":"pre","y":2019,"v":0.541,"en":0.74,"sp":0.052,"ac":0.097,"da":0.735,"c":0},{"t":"A Brand New Day","s":"BTS","e":"pre","y":2019,"v":0.711,"en":0.498,"sp":0.058,"ac":0.341,"da":0.804,"c":0},{"t":"All Night","s":"BTS","e":"pre","y":2019,"v":0.634,"en":0.705,"sp":0.121,"ac":0.194,"da":0.726,"c":0},{"t":"Captain (Namjun Theme)","s":"BTS","e":"pre","y":2019,"v":0.249,"en":0.827,"sp":0.069,"ac":0.001,"da":0.281,"c":1},{"t":"Cake Waltz (Jimin Theme)","s":"BTS","e":"pre","y":2019,"v":0.128,"en":0.208,"sp":0.036,"ac":0.67,"da":0.268,"c":2},{"t":"Shine (Yunki Theme)","s":"BTS","e":"pre","y":2019,"v":0.351,"en":0.316,"sp":0.038,"ac":0.685,"da":0.753,"c":2},{"t":"Not Alone (Jeongguk Theme)","s":"BTS","e":"pre","y":2019,"v":0.148,"en":0.395,"sp":0.033,"ac":0.491,"da":0.392,"c":2},{"t":"Friends (Hoseok Theme)","s":"BTS","e":"pre","y":2019,"v":0.399,"en":0.7,"sp":0.03,"ac":0.002,"da":0.469,"c":1},{"t":"Wish (Seok Jin Theme)","s":"BTS","e":"pre","y":2019,"v":0.038,"en":0.191,"sp":0.037,"ac":0.666,"da":0.147,"c":2},{"t":"Flying (Taehyung Theme)","s":"BTS","e":"pre","y":2019,"v":0.063,"en":0.331,"sp":0.036,"ac":0.73,"da":0.111,"c":2},{"t":"LaLaLa","s":"BTS","e":"pre","y":2019,"v":0.509,"en":0.68,"sp":0.029,"ac":0.542,"da":0.4,"c":2},{"t":"You Are Here","s":"BTS","e":"pre","y":2019,"v":0.17,"en":0.613,"sp":0.038,"ac":0.072,"da":0.304,"c":1},{"t":"You Are Here (Instrumental)","s":"BTS","e":"pre","y":2019,"v":0.106,"en":0.411,"sp":0.029,"ac":0.013,"da":0.364,"c":2},{"t":"Lights","s":"BTS","e":"pre","y":2019,"v":0.398,"en":0.663,"sp":0.03,"ac":0.112,"da":0.625,"c":1},{"t":"Boy With Luv - Japanese ver.","s":"BTS","e":"pre","y":2019,"v":0.807,"en":0.843,"sp":0.08,"ac":0.131,"da":0.677,"c":0},{"t":"IDOL - Japanese ver.","s":"BTS","e":"pre","y":2019,"v":0.424,"en":0.844,"sp":0.117,"ac":0.002,"da":0.714,"c":1},{"t":"Black Swan","s":"BTS","e":"pre","y":2020,"v":0.489,"en":0.757,"sp":0.085,"ac":0.137,"da":0.719,"c":0},{"t":"Intro: Persona","s":"BTS","e":"pre","y":2020,"v":0.659,"en":0.871,"sp":0.337,"ac":0.028,"da":0.486,"c":1},{"t":"작은 것들을 위한 시 (feat. Halsey) (Boy With Luv (feat. Halsey))","s":"BTS","e":"pre","y":2020,"v":0.803,"en":0.862,"sp":0.085,"ac":0.093,"da":0.645,"c":0},{"t":"Make It Right","s":"BTS","e":"pre","y":2020,"v":0.259,"en":0.706,"sp":0.448,"ac":0.01,"da":0.639,"c":1},{"t":"Jamais Vu","s":"BTS","e":"pre","y":2020,"v":0.241,"en":0.47,"sp":0.043,"ac":0.226,"da":0.608,"c":2},{"t":"Dionysus","s":"BTS","e":"pre","y":2020,"v":0.588,"en":0.91,"sp":0.107,"ac":0.04,"da":0.502,"c":1},{"t":"Interlude: Shadow","s":"BTS","e":"pre","y":2020,"v":0.146,"en":0.798,"sp":0.434,"ac":0.115,"da":0.384,"c":1},{"t":"Black Swan","s":"BTS","e":"pre","y":2020,"v":0.489,"en":0.757,"sp":0.085,"ac":0.137,"da":0.719,"c":0},{"t":"Filter","s":"BTS","e":"pre","y":2020,"v":0.859,"en":0.762,"sp":0.063,"ac":0.022,"da":0.779,"c":0},{"t":"시차 (My Time)","s":"BTS","e":"pre","y":2020,"v":0.664,"en":0.641,"sp":0.034,"ac":0.149,"da":0.674,"c":0},{"t":"Louder than bombs","s":"BTS","e":"pre","y":2020,"v":0.478,"en":0.667,"sp":0.151,"ac":0.043,"da":0.643,"c":1},{"t":"ON","s":"BTS","e":"pre","y":2020,"v":0.437,"en":0.817,"sp":0.099,"ac":0.118,"da":0.583,"c":1},{"t":"욱 (UGH!)","s":"BTS","e":"pre","y":2020,"v":0.333,"en":0.824,"sp":0.128,"ac":0.039,"da":0.72,"c":1},{"t":"00:00 (Zero O'Clock)","s":"BTS","e":"pre","y":2020,"v":0.199,"en":0.547,"sp":0.068,"ac":0.081,"da":0.56,"c":1},{"t":"Inner Child","s":"BTS","e":"pre","y":2020,"v":0.33,"en":0.696,"sp":0.072,"ac":0.017,"da":0.589,"c":1},{"t":"친구 (Friends)","s":"BTS","e":"pre","y":2020,"v":0.649,"en":0.747,"sp":0.041,"ac":0.067,"da":0.55,"c":1},{"t":"Moon","s":"BTS","e":"pre","y":2020,"v":0.64,"en":0.646,"sp":0.06,"ac":0.01,"da":0.704,"c":0},{"t":"Respect","s":"BTS","e":"pre","y":2020,"v":0.526,"en":0.838,"sp":0.116,"ac":0.005,"da":0.661,"c":1},{"t":"We Are Bulletproof: The Eternal","s":"BTS","e":"pre","y":2020,"v":0.176,"en":0.574,"sp":0.032,"ac":0.224,"da":0.522,"c":2},{"t":"Outro: Ego","s":"BTS","e":"pre","y":2020,"v":0.473,"en":0.903,"sp":0.096,"ac":0.012,"da":0.808,"c":0},{"t":"ON (Feat. Sia)","s":"BTS","e":"pre","y":2020,"v":0.385,"en":0.848,"sp":0.083,"ac":0.137,"da":0.591,"c":1},{"t":"Stay Gold","s":"BTS","e":"pre","y":2020,"v":0.548,"en":0.631,"sp":0.052,"ac":0.087,"da":0.724,"c":0},{"t":"INTRO : Calling","s":"BTS","e":"pre","y":2020,"v":0.081,"en":0.61,"sp":0.035,"ac":0.582,"da":0.486,"c":2},{"t":"Stay Gold","s":"BTS","e":"pre","y":2020,"v":0.582,"en":0.634,"sp":0.054,"ac":0.089,"da":0.723,"c":0},{"t":"Boy With Luv - Japanese ver.","s":"BTS","e":"pre","y":2020,"v":0.78,"en":0.855,"sp":0.089,"ac":0.066,"da":0.673,"c":0},{"t":"Make It Right - Japanese ver.","s":"BTS","e":"pre","y":2020,"v":0.238,"en":0.703,"sp":0.468,"ac":0.016,"da":0.571,"c":1},{"t":"Dionysus - Japanese ver.","s":"BTS","e":"pre","y":2020,"v":0.588,"en":0.893,"sp":0.148,"ac":0.022,"da":0.455,"c":1},{"t":"IDOL - Japanese ver.","s":"BTS","e":"pre","y":2020,"v":0.422,"en":0.754,"sp":0.089,"ac":0.0,"da":0.705,"c":1},{"t":"Airplane pt.2 - Japanese ver.","s":"BTS","e":"pre","y":2020,"v":0.901,"en":0.782,"sp":0.03,"ac":0.04,"da":0.752,"c":0},{"t":"FAKE LOVE - Japanese ver.","s":"BTS","e":"pre","y":2020,"v":0.433,"en":0.682,"sp":0.039,"ac":0.004,"da":0.546,"c":1},{"t":"Black Swan - Japanese ver.","s":"BTS","e":"pre","y":2020,"v":0.536,"en":0.736,"sp":0.082,"ac":0.166,"da":0.714,"c":0},{"t":"ON - Japanese ver.","s":"BTS","e":"pre","y":2020,"v":0.428,"en":0.821,"sp":0.114,"ac":0.119,"da":0.598,"c":1},{"t":"Lights","s":"BTS","e":"pre","y":2020,"v":0.431,"en":0.644,"sp":0.031,"ac":0.156,"da":0.608,"c":1},{"t":"Your eyes tell","s":"BTS","e":"pre","y":2020,"v":0.258,"en":0.491,"sp":0.029,"ac":0.279,"da":0.449,"c":2},{"t":"OUTRO : The Journey","s":"BTS","e":"pre","y":2020,"v":0.165,"en":0.455,"sp":0.063,"ac":0.704,"da":0.523,"c":2},{"t":"Dynamite","s":"BTS","e":"pre","y":2020,"v":0.737,"en":0.765,"sp":0.099,"ac":0.011,"da":0.746,"c":0},{"t":"Dynamite (Instrumental)","s":"BTS","e":"pre","y":2020,"v":0.625,"en":0.658,"sp":0.05,"ac":0.009,"da":0.861,"c":0},{"t":"Dynamite (Acoustic Remix)","s":"BTS","e":"pre","y":2020,"v":0.575,"en":0.889,"sp":0.203,"ac":0.023,"da":0.656,"c":1},{"t":"Dynamite (EDM Remix)","s":"BTS","e":"pre","y":2020,"v":0.318,"en":0.838,"sp":0.06,"ac":0.002,"da":0.707,"c":1},{"t":"Dynamite (Tropical Remix)","s":"BTS","e":"pre","y":2020,"v":0.62,"en":0.896,"sp":0.067,"ac":0.029,"da":0.729,"c":0},{"t":"Dynamite (Poolside Remix)","s":"BTS","e":"pre","y":2020,"v":0.406,"en":0.877,"sp":0.143,"ac":0.009,"da":0.686,"c":1},{"t":"Dynamite","s":"BTS","e":"pre","y":2020,"v":0.737,"en":0.765,"sp":0.099,"ac":0.011,"da":0.746,"c":0},{"t":"Dynamite (Instrumental)","s":"BTS","e":"pre","y":2020,"v":0.625,"en":0.658,"sp":0.05,"ac":0.009,"da":0.861,"c":0},{"t":"Dynamite (Slow Jam Remix)","s":"BTS","e":"pre","y":2020,"v":0.534,"en":0.683,"sp":0.04,"ac":0.36,"da":0.653,"c":0},{"t":"Dynamite (Midnight Remix)","s":"BTS","e":"pre","y":2020,"v":0.402,"en":0.795,"sp":0.122,"ac":0.069,"da":0.782,"c":0},{"t":"Dynamite (Retro Remix)","s":"BTS","e":"pre","y":2020,"v":0.776,"en":0.915,"sp":0.148,"ac":0.066,"da":0.647,"c":0},{"t":"Dynamite (Bedroom Remix)","s":"BTS","e":"pre","y":2020,"v":0.726,"en":0.745,"sp":0.034,"ac":0.063,"da":0.756,"c":0},{"t":"Life Goes On","s":"BTS","e":"pre","y":2020,"v":0.45,"en":0.716,"sp":0.042,"ac":0.007,"da":0.566,"c":1},{"t":"내 방을 여행하는 법 (Fly To My Room)","s":"BTS","e":"pre","y":2020,"v":0.588,"en":0.526,"sp":0.212,"ac":0.048,"da":0.764,"c":0},{"t":"Blue & Grey","s":"BTS","e":"pre","y":2020,"v":0.364,"en":0.605,"sp":0.042,"ac":0.42,"da":0.547,"c":2},{"t":"Skit","s":"BTS","e":"pre","y":2020,"v":0.544,"en":0.321,"sp":0.884,"ac":0.864,"da":0.703,"c":3},{"t":"잠시 (Telepathy)","s":"BTS","e":"pre","y":2020,"v":0.57,"en":0.669,"sp":0.043,"ac":0.008,"da":0.787,"c":0},{"t":"Dis-ease","s":"BTS","e":"pre","y":2020,"v":0.484,"en":0.845,"sp":0.132,"ac":0.013,"da":0.731,"c":0},{"t":"Stay","s":"BTS","e":"pre","y":2020,"v":0.341,"en":0.693,"sp":0.046,"ac":0.114,"da":0.582,"c":1},{"t":"Dynamite","s":"BTS","e":"pre","y":2020,"v":0.737,"en":0.765,"sp":0.099,"ac":0.011,"da":0.746,"c":0},{"t":"Dynamite (Holiday Remix)","s":"BTS","e":"pre","y":2020,"v":0.595,"en":0.875,"sp":0.077,"ac":0.018,"da":0.676,"c":0},{"t":"Film out","s":"BTS","e":"pre","y":2021,"v":0.314,"en":0.709,"sp":0.134,"ac":0.296,"da":0.499,"c":1},{"t":"Butter","s":"BTS","e":"pre","y":2021,"v":0.695,"en":0.459,"sp":0.095,"ac":0.003,"da":0.759,"c":0},{"t":"Butter (Hotter Remix)","s":"BTS","e":"pre","y":2021,"v":0.789,"en":0.748,"sp":0.049,"ac":0.002,"da":0.702,"c":0},{"t":"Butter (Sweeter Remix)","s":"BTS","e":"pre","y":2021,"v":0.792,"en":0.551,"sp":0.058,"ac":0.067,"da":0.728,"c":0},{"t":"Butter (Cooler Remix)","s":"BTS","e":"pre","y":2021,"v":0.893,"en":0.809,"sp":0.132,"ac":0.006,"da":0.651,"c":0},{"t":"Butter (Instrumental)","s":"BTS","e":"pre","y":2021,"v":0.41,"en":0.387,"sp":0.075,"ac":0.0,"da":0.429,"c":2},{"t":"Film out","s":"BTS","e":"pre","y":2021,"v":0.293,"en":0.71,"sp":0.085,"ac":0.297,"da":0.503,"c":1},{"t":"DNA - Japanese ver.","s":"BTS","e":"pre","y":2021,"v":0.658,"en":0.726,"sp":0.06,"ac":0.003,"da":0.582,"c":1},{"t":"Best Of Me - Japanese ver.","s":"BTS","e":"pre","y":2021,"v":0.437,"en":0.781,"sp":0.085,"ac":0.038,"da":0.676,"c":1},{"t":"Lights","s":"BTS","e":"pre","y":2021,"v":0.421,"en":0.636,"sp":0.032,"ac":0.179,"da":0.607,"c":1},{"t":"血、汗、涙 - Japanese ver.","s":"BTS","e":"pre","y":2021,"v":0.539,"en":0.866,"sp":0.101,"ac":0.07,"da":0.605,"c":1},{"t":"FAKE LOVE - Japanese ver.","s":"BTS","e":"pre","y":2021,"v":0.433,"en":0.689,"sp":0.036,"ac":0.004,"da":0.579,"c":1},{"t":"Black Swan - Japanese ver.","s":"BTS","e":"pre","y":2021,"v":0.528,"en":0.732,"sp":0.089,"ac":0.18,"da":0.714,"c":0},{"t":"Airplane pt.2 - Japanese ver.","s":"BTS","e":"pre","y":2021,"v":0.916,"en":0.771,"sp":0.029,"ac":0.037,"da":0.753,"c":0},{"t":"Go Go - Japanese ver.","s":"BTS","e":"pre","y":2021,"v":0.84,"en":0.695,"sp":0.082,"ac":0.21,"da":0.836,"c":0},{"t":"IDOL - Japanese ver.","s":"BTS","e":"pre","y":2021,"v":0.401,"en":0.791,"sp":0.112,"ac":0.0,"da":0.692,"c":1},{"t":"Dionysus - Japanese ver.","s":"BTS","e":"pre","y":2021,"v":0.56,"en":0.893,"sp":0.158,"ac":0.022,"da":0.456,"c":1},{"t":"MIC Drop - Japanese ver.","s":"BTS","e":"pre","y":2021,"v":0.621,"en":0.906,"sp":0.136,"ac":0.014,"da":0.662,"c":0},{"t":"Boy With Luv - Japanese ver.","s":"BTS","e":"pre","y":2021,"v":0.77,"en":0.844,"sp":0.088,"ac":0.06,"da":0.663,"c":0},{"t":"Stay Gold","s":"BTS","e":"pre","y":2021,"v":0.559,"en":0.621,"sp":0.05,"ac":0.085,"da":0.723,"c":0},{"t":"Let Go","s":"BTS","e":"pre","y":2021,"v":0.433,"en":0.86,"sp":0.2,"ac":0.171,"da":0.558,"c":1},{"t":"Spring Day - Japanese ver.","s":"BTS","e":"pre","y":2021,"v":0.418,"en":0.818,"sp":0.036,"ac":0.099,"da":0.572,"c":1},{"t":"ON - Japanese ver.","s":"BTS","e":"pre","y":2021,"v":0.434,"en":0.817,"sp":0.099,"ac":0.112,"da":0.599,"c":1},{"t":"Don't Leave Me","s":"BTS","e":"pre","y":2021,"v":0.399,"en":0.761,"sp":0.068,"ac":0.101,"da":0.621,"c":1},{"t":"Not Today - Japanese ver.","s":"BTS","e":"pre","y":2021,"v":0.638,"en":0.929,"sp":0.16,"ac":0.006,"da":0.615,"c":1},{"t":"Make It Right - Japanese ver.","s":"BTS","e":"pre","y":2021,"v":0.262,"en":0.703,"sp":0.456,"ac":0.018,"da":0.626,"c":1},{"t":"Your eyes tell","s":"BTS","e":"pre","y":2021,"v":0.256,"en":0.483,"sp":0.029,"ac":0.292,"da":0.445,"c":2},{"t":"Crystal Snow","s":"BTS","e":"pre","y":2021,"v":0.428,"en":0.767,"sp":0.033,"ac":0.131,"da":0.616,"c":1},{"t":"Butter","s":"BTS","e":"pre","y":2021,"v":0.695,"en":0.459,"sp":0.095,"ac":0.003,"da":0.759,"c":0},{"t":"Permission to Dance","s":"BTS","e":"pre","y":2021,"v":0.646,"en":0.741,"sp":0.043,"ac":0.005,"da":0.702,"c":0},{"t":"Butter (Instrumental)","s":"BTS","e":"pre","y":2021,"v":0.41,"en":0.387,"sp":0.075,"ac":0.0,"da":0.429,"c":2},{"t":"Permission to Dance (Instrumental)","s":"BTS","e":"pre","y":2021,"v":0.406,"en":0.655,"sp":0.05,"ac":0.0,"da":0.75,"c":0},{"t":"Permission to Dance","s":"BTS","e":"pre","y":2021,"v":0.646,"en":0.741,"sp":0.043,"ac":0.005,"da":0.702,"c":0},{"t":"Permission to Dance (R&B Remix)","s":"BTS","e":"pre","y":2021,"v":0.351,"en":0.597,"sp":0.031,"ac":0.073,"da":0.662,"c":1},{"t":"Permission to Dance (Instrumental)","s":"BTS","e":"pre","y":2021,"v":0.406,"en":0.655,"sp":0.05,"ac":0.0,"da":0.75,"c":0},{"t":"Butter (Megan Thee Stallion Remix)","s":"BTS","e":"pre","y":2021,"v":0.774,"en":0.588,"sp":0.136,"ac":0.003,"da":0.739,"c":0},{"t":"Butter (Holiday Remix)","s":"BTS","e":"pre","y":2021,"v":0.87,"en":0.838,"sp":0.053,"ac":0.002,"da":0.698,"c":0},{"t":"Born Singer","s":"BTS","e":"pre","y":2022,"v":0.684,"en":0.841,"sp":0.109,"ac":0.035,"da":0.602,"c":0},{"t":"No More Dream","s":"BTS","e":"pre","y":2022,"v":0.594,"en":0.864,"sp":0.47,"ac":0.012,"da":0.438,"c":1},{"t":"N.O","s":"BTS","e":"pre","y":2022,"v":0.564,"en":0.909,"sp":0.16,"ac":0.044,"da":0.597,"c":1},{"t":"상남자 (Boy in Luv)","s":"BTS","e":"pre","y":2022,"v":0.444,"en":0.931,"sp":0.297,"ac":0.002,"da":0.492,"c":1},{"t":"Danger","s":"BTS","e":"pre","y":2022,"v":0.37,"en":0.848,"sp":0.102,"ac":0.001,"da":0.734,"c":1},{"t":"I NEED U","s":"BTS","e":"pre","y":2022,"v":0.737,"en":0.858,"sp":0.069,"ac":0.022,"da":0.482,"c":1},{"t":"RUN","s":"BTS","e":"pre","y":2022,"v":0.53,"en":0.856,"sp":0.053,"ac":0.002,"da":0.558,"c":1},{"t":"불타오르네 (Fire)","s":"BTS","e":"pre","y":2022,"v":0.529,"en":0.668,"sp":0.071,"ac":0.003,"da":0.63,"c":1},{"t":"피 땀 눈물 (Blood Sweat & Tears)","s":"BTS","e":"pre","y":2022,"v":0.612,"en":0.882,"sp":0.121,"ac":0.025,"da":0.574,"c":1},{"t":"봄날 (Spring Day)","s":"BTS","e":"pre","y":2022,"v":0.461,"en":0.831,"sp":0.035,"ac":0.007,"da":0.538,"c":1},{"t":"DNA","s":"BTS","e":"pre","y":2022,"v":0.672,"en":0.754,"sp":0.055,"ac":0.025,"da":0.595,"c":0},{"t":"FAKE LOVE","s":"BTS","e":"pre","y":2022,"v":0.357,"en":0.714,"sp":0.046,"ac":0.003,"da":0.522,"c":1},{"t":"IDOL","s":"BTS","e":"pre","y":2022,"v":0.42,"en":0.855,"sp":0.118,"ac":0.005,"da":0.733,"c":1},{"t":"작은 것들을 위한 시 (feat. Halsey) (Boy With Luv (feat. Halsey))","s":"BTS","e":"pre","y":2022,"v":0.803,"en":0.862,"sp":0.085,"ac":0.093,"da":0.645,"c":0},{"t":"ON","s":"BTS","e":"pre","y":2022,"v":0.456,"en":0.811,"sp":0.117,"ac":0.111,"da":0.577,"c":1},{"t":"Dynamite","s":"BTS","e":"pre","y":2022,"v":0.737,"en":0.765,"sp":0.099,"ac":0.011,"da":0.746,"c":0},{"t":"Life Goes On","s":"BTS","e":"pre","y":2022,"v":0.462,"en":0.698,"sp":0.037,"ac":0.008,"da":0.576,"c":1},{"t":"Butter","s":"BTS","e":"pre","y":2022,"v":0.695,"en":0.459,"sp":0.095,"ac":0.003,"da":0.759,"c":0},{"t":"Yet To Come","s":"BTS","e":"pre","y":2022,"v":0.683,"en":0.885,"sp":0.189,"ac":0.043,"da":0.559,"c":1},{"t":"달려라 방탄 (Run BTS)","s":"BTS","e":"pre","y":2022,"v":0.696,"en":0.818,"sp":0.168,"ac":0.02,"da":0.724,"c":0},{"t":"Intro: Persona","s":"BTS","e":"pre","y":2022,"v":0.659,"en":0.871,"sp":0.337,"ac":0.028,"da":0.486,"c":1},{"t":"Stay","s":"BTS","e":"pre","y":2022,"v":0.35,"en":0.69,"sp":0.046,"ac":0.114,"da":0.583,"c":1},{"t":"Moon","s":"BTS","e":"pre","y":2022,"v":0.64,"en":0.646,"sp":0.06,"ac":0.01,"da":0.704,"c":0},{"t":"Jamais Vu","s":"BTS","e":"pre","y":2022,"v":0.241,"en":0.47,"sp":0.043,"ac":0.226,"da":0.608,"c":2},{"t":"Trivia 轉: Seesaw","s":"BTS","e":"pre","y":2022,"v":0.685,"en":0.739,"sp":0.034,"ac":0.172,"da":0.707,"c":0},{"t":"Cypher Pt. 3: Killer  (Ft. Supreme Boi)","s":"BTS","e":"pre","y":2022,"v":0.655,"en":0.919,"sp":0.333,"ac":0.022,"da":0.798,"c":0},{"t":"Outro: Ego","s":"BTS","e":"pre","y":2022,"v":0.482,"en":0.896,"sp":0.096,"ac":0.012,"da":0.809,"c":0},{"t":"Her","s":"BTS","e":"pre","y":2022,"v":0.447,"en":0.929,"sp":0.24,"ac":0.306,"da":0.681,"c":1},{"t":"Filter","s":"BTS","e":"pre","y":2022,"v":0.859,"en":0.762,"sp":0.063,"ac":0.022,"da":0.779,"c":0},{"t":"친구 (Friends)","s":"BTS","e":"pre","y":2022,"v":0.649,"en":0.747,"sp":0.041,"ac":0.067,"da":0.55,"c":1},{"t":"Singularity","s":"BTS","e":"pre","y":2022,"v":0.206,"en":0.259,"sp":0.092,"ac":0.568,"da":0.785,"c":2},{"t":"00:00 (Zero O'Clock)","s":"BTS","e":"pre","y":2022,"v":0.199,"en":0.547,"sp":0.068,"ac":0.081,"da":0.56,"c":1},{"t":"Euphoria","s":"BTS","e":"pre","y":2022,"v":0.577,"en":0.79,"sp":0.034,"ac":0.404,"da":0.635,"c":0},{"t":"보조개 (Dimple)","s":"BTS","e":"pre","y":2022,"v":0.64,"en":0.846,"sp":0.073,"ac":0.146,"da":0.61,"c":0},{"t":"For Youth","s":"BTS","e":"pre","y":2022,"v":0.29,"en":0.511,"sp":0.037,"ac":0.434,"da":0.633,"c":2},{"t":"Yet To Come (Hyundai Ver.)","s":"BTS","e":"pre","y":2022,"v":0.44,"en":0.842,"sp":0.061,"ac":0.078,"da":0.508,"c":1},{"t":"The Planet","s":"BTS","e":"post","y":2023,"v":0.687,"en":0.848,"sp":0.071,"ac":0.0,"da":0.665,"c":0},{"t":"Take Two","s":"BTS","e":"post","y":2023,"v":0.566,"en":0.589,"sp":0.035,"ac":0.027,"da":0.617,"c":1},{"t":"ON - Live","s":"BTS","e":"post","y":2025,"v":0.202,"en":0.964,"sp":0.213,"ac":0.077,"da":0.302,"c":1},{"t":"Burning Up (FIRE) - Live","s":"BTS","e":"post","y":2025,"v":0.31,"en":0.918,"sp":0.079,"ac":0.011,"da":0.546,"c":1},{"t":"Dope - Live","s":"BTS","e":"post","y":2025,"v":0.408,"en":0.964,"sp":0.177,"ac":0.001,"da":0.462,"c":1},{"t":"DNA - Live","s":"BTS","e":"post","y":2025,"v":0.532,"en":0.924,"sp":0.073,"ac":0.009,"da":0.509,"c":1},{"t":"Blue & Grey - Live","s":"BTS","e":"post","y":2025,"v":0.254,"en":0.55,"sp":0.037,"ac":0.699,"da":0.464,"c":2},{"t":"Black Swan - Live","s":"BTS","e":"post","y":2025,"v":0.312,"en":0.845,"sp":0.095,"ac":0.338,"da":0.58,"c":1},{"t":"Blood Sweat & Tears - Live","s":"BTS","e":"post","y":2025,"v":0.564,"en":0.883,"sp":0.245,"ac":0.029,"da":0.47,"c":1},{"t":"FAKE LOVE - Live","s":"BTS","e":"post","y":2025,"v":0.306,"en":0.836,"sp":0.049,"ac":0.031,"da":0.485,"c":1},{"t":"Life Goes On - Live","s":"BTS","e":"post","y":2025,"v":0.21,"en":0.715,"sp":0.032,"ac":0.071,"da":0.476,"c":1},{"t":"Boy With Luv (Feat. Halsey) - Live","s":"BTS","e":"post","y":2025,"v":0.509,"en":0.892,"sp":0.093,"ac":0.052,"da":0.567,"c":1},{"t":"Dynamite - Live","s":"BTS","e":"post","y":2025,"v":0.533,"en":0.916,"sp":0.131,"ac":0.135,"da":0.613,"c":1},{"t":"Butter - Live","s":"BTS","e":"post","y":2025,"v":0.61,"en":0.872,"sp":0.062,"ac":0.011,"da":0.629,"c":1},{"t":"Telepathy - Live","s":"BTS","e":"post","y":2025,"v":0.558,"en":0.865,"sp":0.067,"ac":0.039,"da":0.64,"c":1},{"t":"Outro : Wings - Live","s":"BTS","e":"post","y":2025,"v":0.291,"en":0.986,"sp":0.227,"ac":0.116,"da":0.611,"c":1},{"t":"Stay - Live","s":"BTS","e":"post","y":2025,"v":0.419,"en":0.819,"sp":0.181,"ac":0.513,"da":0.409,"c":1},{"t":"So What - Live","s":"BTS","e":"post","y":2025,"v":0.236,"en":0.914,"sp":0.117,"ac":0.027,"da":0.577,"c":1},{"t":"IDOL - Live","s":"BTS","e":"post","y":2025,"v":0.13,"en":0.983,"sp":0.185,"ac":0.045,"da":0.559,"c":1},{"t":"Airplane pt.2 - Live","s":"BTS","e":"post","y":2025,"v":0.629,"en":0.859,"sp":0.048,"ac":0.21,"da":0.643,"c":0},{"t":"Silver Spoon - Live","s":"BTS","e":"post","y":2025,"v":0.428,"en":0.906,"sp":0.246,"ac":0.024,"da":0.52,"c":1},{"t":"Dis-ease - Live","s":"BTS","e":"post","y":2025,"v":0.439,"en":0.958,"sp":0.386,"ac":0.129,"da":0.459,"c":1},{"t":"Spring Day - Live","s":"BTS","e":"post","y":2025,"v":0.319,"en":0.789,"sp":0.035,"ac":0.195,"da":0.493,"c":1},{"t":"Permission to Dance - Live","s":"BTS","e":"post","y":2025,"v":0.404,"en":0.906,"sp":0.064,"ac":0.097,"da":0.589,"c":1},{"t":"Change","s":"RM","e":"pre","y":2017,"v":0.326,"en":0.85,"sp":0.195,"ac":0.024,"da":0.511,"c":1},{"t":"Bicycle","s":"RM","e":"pre","y":2021,"v":0.513,"en":0.702,"sp":0.045,"ac":0.04,"da":0.61,"c":1},{"t":"tokyo","s":"RM","e":"pre","y":2018,"v":0.071,"en":0.263,"sp":0.034,"ac":0.828,"da":0.445,"c":2},{"t":"seoul (prod. HONNE)","s":"RM","e":"pre","y":2018,"v":0.452,"en":0.664,"sp":0.065,"ac":0.344,"da":0.581,"c":1},{"t":"moonchild","s":"RM","e":"pre","y":2018,"v":0.191,"en":0.869,"sp":0.214,"ac":0.026,"da":0.503,"c":1},{"t":"badbye (with 이이언/eAeon)","s":"RM","e":"pre","y":2018,"v":0.23,"en":0.536,"sp":0.043,"ac":0.095,"da":0.241,"c":2},{"t":"어긋 (uhgood)","s":"RM","e":"pre","y":2018,"v":0.094,"en":0.56,"sp":0.057,"ac":0.001,"da":0.531,"c":1},{"t":"지나가 (everythingoes) with NELL","s":"RM","e":"pre","y":2018,"v":0.14,"en":0.722,"sp":0.03,"ac":0.143,"da":0.47,"c":1},{"t":"forever rain","s":"RM","e":"pre","y":2018,"v":0.255,"en":0.591,"sp":0.062,"ac":0.031,"da":0.389,"c":1},{"t":"Yun (with Erykah Badu)","s":"RM","e":"pre","y":2022,"v":0.625,"en":0.7,"sp":0.276,"ac":0.429,"da":0.476,"c":1},{"t":"Still Life (with Anderson .Paak)","s":"RM","e":"pre","y":2022,"v":0.443,"en":0.721,"sp":0.164,"ac":0.277,"da":0.831,"c":0},{"t":"All Day (with Tablo)","s":"RM","e":"pre","y":2022,"v":0.553,"en":0.692,"sp":0.122,"ac":0.103,"da":0.756,"c":0},{"t":"건망증 (Forg_tful) (with Kim Sawol)","s":"RM","e":"pre","y":2022,"v":0.305,"en":0.26,"sp":0.056,"ac":0.674,"da":0.766,"c":2},{"t":"Closer (with Paul Blanco, Mahalia)","s":"RM","e":"pre","y":2022,"v":0.403,"en":0.706,"sp":0.173,"ac":0.459,"da":0.507,"c":1},{"t":"Change pt.2","s":"RM","e":"pre","y":2022,"v":0.384,"en":0.477,"sp":0.208,"ac":0.077,"da":0.677,"c":1},{"t":"Lonely","s":"RM","e":"pre","y":2022,"v":0.674,"en":0.583,"sp":0.037,"ac":0.168,"da":0.786,"c":0},{"t":"Hectic (with Colde)","s":"RM","e":"pre","y":2022,"v":0.366,"en":0.735,"sp":0.047,"ac":0.019,"da":0.695,"c":1},{"t":"들꽃놀이 (Wild Flower) (with youjeen)","s":"RM","e":"pre","y":2022,"v":0.417,"en":0.766,"sp":0.094,"ac":0.028,"da":0.486,"c":1},{"t":"No.2 (with parkjiyoon)","s":"RM","e":"pre","y":2022,"v":0.549,"en":0.619,"sp":0.081,"ac":0.599,"da":0.727,"c":2},{"t":"Come back to me","s":"RM","e":"post","y":2024,"v":0.344,"en":0.462,"sp":0.033,"ac":0.397,"da":0.623,"c":2},{"t":"Come back to me (Radio Edit)","s":"RM","e":"post","y":2024,"v":0.487,"en":0.38,"sp":0.063,"ac":0.476,"da":0.597,"c":2},{"t":"Right People Wrong Place","s":"RM","e":"post","y":2024,"v":0.645,"en":0.724,"sp":0.042,"ac":0.204,"da":0.576,"c":0},{"t":"Nuts","s":"RM","e":"post","y":2024,"v":0.64,"en":0.573,"sp":0.186,"ac":0.166,"da":0.749,"c":0},{"t":"out of love","s":"RM","e":"post","y":2024,"v":0.543,"en":0.68,"sp":0.27,"ac":0.229,"da":0.677,"c":0},{"t":"Domodachi (feat. Little Simz)","s":"RM","e":"post","y":2024,"v":0.2,"en":0.778,"sp":0.133,"ac":0.184,"da":0.632,"c":1},{"t":"? (Interlude)","s":"RM","e":"post","y":2024,"v":0.793,"en":0.781,"sp":0.05,"ac":0.147,"da":0.672,"c":0},{"t":"Groin","s":"RM","e":"post","y":2024,"v":0.483,"en":0.587,"sp":0.551,"ac":0.18,"da":0.621,"c":3},{"t":"Heaven","s":"RM","e":"post","y":2024,"v":0.333,"en":0.458,"sp":0.025,"ac":0.776,"da":0.682,"c":2},{"t":"LOST!","s":"RM","e":"post","y":2024,"v":0.336,"en":0.68,"sp":0.056,"ac":0.216,"da":0.771,"c":0},{"t":"Around the world in a day (feat. Moses Sumney)","s":"RM","e":"post","y":2024,"v":0.438,"en":0.416,"sp":0.137,"ac":0.516,"da":0.506,"c":2},{"t":"ㅠㅠ (Credit Roll)","s":"RM","e":"post","y":2024,"v":0.526,"en":0.161,"sp":0.081,"ac":0.938,"da":0.794,"c":2},{"t":"Come back to me","s":"RM","e":"post","y":2024,"v":0.344,"en":0.462,"sp":0.033,"ac":0.397,"da":0.623,"c":2},{"t":"Intro : DT sugA (Feat. DJ Friz)","s":"SUGA","e":"pre","y":2016,"v":0.621,"en":0.893,"sp":0.439,"ac":0.007,"da":0.589,"c":1},{"t":"Agust D","s":"SUGA","e":"pre","y":2016,"v":0.592,"en":0.984,"sp":0.309,"ac":0.025,"da":0.499,"c":1},{"t":"give it to me","s":"SUGA","e":"pre","y":2016,"v":0.43,"en":0.751,"sp":0.185,"ac":0.001,"da":0.657,"c":1},{"t":"skit","s":"SUGA","e":"pre","y":2016,"v":0.127,"en":0.711,"sp":0.1,"ac":0.46,"da":0.503,"c":2},{"t":"치리사일사팔 (724148)","s":"SUGA","e":"pre","y":2016,"v":0.591,"en":0.964,"sp":0.338,"ac":0.013,"da":0.684,"c":1},{"t":"140503 새벽에 (140503 at dawn)","s":"SUGA","e":"pre","y":2016,"v":0.31,"en":0.896,"sp":0.874,"ac":0.213,"da":0.756,"c":3},{"t":"마지막 (The Last)","s":"SUGA","e":"pre","y":2016,"v":0.444,"en":0.837,"sp":0.203,"ac":0.002,"da":0.755,"c":1},{"t":"Tony Montana (Feat. Yankie)","s":"SUGA","e":"pre","y":2016,"v":0.266,"en":0.776,"sp":0.059,"ac":0.0,"da":0.609,"c":1},{"t":"Interlude : Dream, Reality","s":"SUGA","e":"pre","y":2016,"v":0.077,"en":0.255,"sp":0.045,"ac":0.641,"da":0.593,"c":2},{"t":"so far away (Feat. SURAN)","s":"SUGA","e":"pre","y":2016,"v":0.274,"en":0.828,"sp":0.104,"ac":0.009,"da":0.482,"c":1},{"t":"저 달 (Moonlight)","s":"SUGA","e":"pre","y":2020,"v":0.773,"en":0.729,"sp":0.225,"ac":0.273,"da":0.689,"c":0},{"t":"대취타 (Daechwita)","s":"SUGA","e":"pre","y":2020,"v":0.223,"en":0.827,"sp":0.06,"ac":0.023,"da":0.65,"c":1},{"t":"어떻게 생각해? (What do you think?)","s":"SUGA","e":"pre","y":2020,"v":0.136,"en":0.725,"sp":0.084,"ac":0.149,"da":0.739,"c":1},{"t":"이상하지 않은가 (Strange) (feat. RM)","s":"SUGA","e":"pre","y":2020,"v":0.207,"en":0.662,"sp":0.203,"ac":0.002,"da":0.627,"c":1},{"t":"점점 어른이 되나봐 (I Guess I’m Slowly Becoming an Adult) (feat. 니화) / 28 (feat. NiiHWA)","s":"SUGA","e":"pre","y":2020,"v":0.349,"en":0.645,"sp":0.051,"ac":0.09,"da":0.679,"c":1},{"t":"Burn It (feat. MAX)","s":"SUGA","e":"pre","y":2020,"v":0.336,"en":0.776,"sp":0.049,"ac":0.012,"da":0.658,"c":1},{"t":"사람 (People)","s":"SUGA","e":"pre","y":2020,"v":0.372,"en":0.682,"sp":0.037,"ac":0.062,"da":0.76,"c":0},{"t":"혼술 (Honsool)","s":"SUGA","e":"pre","y":2020,"v":0.187,"en":0.574,"sp":0.061,"ac":0.0,"da":0.478,"c":1},{"t":"Interlude : Set me free","s":"SUGA","e":"pre","y":2020,"v":0.207,"en":0.416,"sp":0.035,"ac":0.075,"da":0.31,"c":2},{"t":"어땠을까 (What Would It Be Like) (feat. 김종완 of NELL)","s":"SUGA","e":"pre","y":2020,"v":0.27,"en":0.735,"sp":0.064,"ac":0.018,"da":0.561,"c":1},{"t":"사람 Pt.2 (People Pt.2) (feat. IU)","s":"SUGA","e":"post","y":2023,"v":0.438,"en":0.574,"sp":0.059,"ac":0.391,"da":0.729,"c":2},{"t":"D-Day","s":"SUGA","e":"post","y":2023,"v":0.699,"en":0.878,"sp":0.266,"ac":0.294,"da":0.59,"c":1},{"t":"해금 (Haegeum)","s":"SUGA","e":"post","y":2023,"v":0.831,"en":0.837,"sp":0.304,"ac":0.313,"da":0.697,"c":0},{"t":"HUH?! (feat. j-hope)","s":"SUGA","e":"post","y":2023,"v":0.522,"en":0.806,"sp":0.302,"ac":0.207,"da":0.763,"c":0},{"t":"AMYGDALA","s":"SUGA","e":"post","y":2023,"v":0.16,"en":0.769,"sp":0.055,"ac":0.226,"da":0.311,"c":1},{"t":"SDL","s":"SUGA","e":"post","y":2023,"v":0.609,"en":0.854,"sp":0.214,"ac":0.2,"da":0.575,"c":1},{"t":"사람 Pt.2 (People Pt.2) (feat. IU)","s":"SUGA","e":"post","y":2023,"v":0.438,"en":0.574,"sp":0.059,"ac":0.391,"da":0.729,"c":2},{"t":"극야 (Polar Night)","s":"SUGA","e":"post","y":2023,"v":0.906,"en":0.877,"sp":0.223,"ac":0.137,"da":0.68,"c":0},{"t":"Interlude : Dawn","s":"SUGA","e":"post","y":2023,"v":0.068,"en":0.309,"sp":0.029,"ac":0.898,"da":0.188,"c":2},{"t":"Snooze (feat. Ryuichi Sakamoto, WOOSUNG of The Rose)","s":"SUGA","e":"post","y":2023,"v":0.377,"en":0.777,"sp":0.094,"ac":0.21,"da":0.761,"c":0},{"t":"Life Goes On","s":"SUGA","e":"post","y":2023,"v":0.615,"en":0.733,"sp":0.077,"ac":0.035,"da":0.439,"c":1},{"t":"Hope World","s":"JHOPE","e":"pre","y":2018,"v":0.771,"en":0.895,"sp":0.16,"ac":0.014,"da":0.706,"c":0},{"t":"P.O.P (Piece Of Peace) Pt. 1","s":"JHOPE","e":"pre","y":2018,"v":0.666,"en":0.844,"sp":0.086,"ac":0.007,"da":0.547,"c":1},{"t":"백일몽 (Daydream)","s":"JHOPE","e":"pre","y":2018,"v":0.859,"en":0.961,"sp":0.087,"ac":0.005,"da":0.749,"c":0},{"t":"Base Line","s":"JHOPE","e":"pre","y":2018,"v":0.228,"en":0.644,"sp":0.203,"ac":0.038,"da":0.909,"c":0},{"t":"항상 (HANGSANG)","s":"JHOPE","e":"pre","y":2018,"v":0.618,"en":0.896,"sp":0.233,"ac":0.161,"da":0.832,"c":0},{"t":"Airplane","s":"JHOPE","e":"pre","y":2018,"v":0.238,"en":0.651,"sp":0.058,"ac":0.65,"da":0.801,"c":2},{"t":"Blue Side (Outro)","s":"JHOPE","e":"pre","y":2018,"v":0.083,"en":0.394,"sp":0.026,"ac":0.015,"da":0.512,"c":2},{"t":"Chicken Noodle Soup (feat. Becky G)","s":"JHOPE","e":"pre","y":2019,"v":0.167,"en":0.817,"sp":0.095,"ac":0.005,"da":0.827,"c":1},{"t":"Blue Side","s":"JHOPE","e":"pre","y":2021,"v":0.28,"en":0.706,"sp":0.037,"ac":0.001,"da":0.469,"c":1},{"t":"MORE","s":"JHOPE","e":"pre","y":2022,"v":0.306,"en":0.722,"sp":0.036,"ac":0.005,"da":0.783,"c":1},{"t":"Intro","s":"JHOPE","e":"pre","y":2022,"v":0.964,"en":0.355,"sp":0.828,"ac":0.948,"da":0.607,"c":3},{"t":"Pandora's Box","s":"JHOPE","e":"pre","y":2022,"v":0.228,"en":0.807,"sp":0.178,"ac":0.198,"da":0.785,"c":1},{"t":"MORE","s":"JHOPE","e":"pre","y":2022,"v":0.306,"en":0.722,"sp":0.036,"ac":0.005,"da":0.783,"c":1},{"t":"STOP","s":"JHOPE","e":"pre","y":2022,"v":0.796,"en":0.826,"sp":0.157,"ac":0.09,"da":0.881,"c":0},{"t":"= (Equal Sign)","s":"JHOPE","e":"pre","y":2022,"v":0.708,"en":0.75,"sp":0.066,"ac":0.015,"da":0.673,"c":0},{"t":"Music Box : Reflection","s":"JHOPE","e":"pre","y":2022,"v":0.116,"en":0.708,"sp":0.072,"ac":0.053,"da":0.75,"c":1},{"t":"What if…","s":"JHOPE","e":"pre","y":2022,"v":0.184,"en":0.75,"sp":0.034,"ac":0.004,"da":0.694,"c":1},{"t":"Safety Zone","s":"JHOPE","e":"pre","y":2022,"v":0.694,"en":0.742,"sp":0.162,"ac":0.561,"da":0.676,"c":0},{"t":"Future","s":"JHOPE","e":"pre","y":2022,"v":0.764,"en":0.822,"sp":0.088,"ac":0.065,"da":0.717,"c":0},{"t":"Arson","s":"JHOPE","e":"pre","y":2022,"v":0.265,"en":0.798,"sp":0.103,"ac":0.008,"da":0.938,"c":0},{"t":"on the street (with J. Cole)","s":"JHOPE","e":"post","y":2023,"v":0.813,"en":0.821,"sp":0.131,"ac":0.532,"da":0.681,"c":0},{"t":"Intro","s":"JHOPE","e":"post","y":2023,"v":0.964,"en":0.355,"sp":0.828,"ac":0.948,"da":0.607,"c":3},{"t":"Pandora's Box","s":"JHOPE","e":"post","y":2023,"v":0.228,"en":0.807,"sp":0.178,"ac":0.198,"da":0.785,"c":1},{"t":"MORE","s":"JHOPE","e":"post","y":2023,"v":0.306,"en":0.722,"sp":0.036,"ac":0.005,"da":0.783,"c":1},{"t":"STOP","s":"JHOPE","e":"post","y":2023,"v":0.796,"en":0.826,"sp":0.157,"ac":0.09,"da":0.881,"c":0},{"t":"= (Equal Sign)","s":"JHOPE","e":"post","y":2023,"v":0.708,"en":0.75,"sp":0.066,"ac":0.015,"da":0.673,"c":0},{"t":"Music Box : Reflection","s":"JHOPE","e":"post","y":2023,"v":0.116,"en":0.708,"sp":0.072,"ac":0.053,"da":0.75,"c":1},{"t":"What if…","s":"JHOPE","e":"post","y":2023,"v":0.184,"en":0.75,"sp":0.034,"ac":0.004,"da":0.694,"c":1},{"t":"Safety Zone","s":"JHOPE","e":"post","y":2023,"v":0.694,"en":0.742,"sp":0.162,"ac":0.561,"da":0.676,"c":0},{"t":"Future","s":"JHOPE","e":"post","y":2023,"v":0.764,"en":0.822,"sp":0.088,"ac":0.065,"da":0.717,"c":0},{"t":"Arson","s":"JHOPE","e":"post","y":2023,"v":0.265,"en":0.798,"sp":0.103,"ac":0.008,"da":0.938,"c":0},{"t":"Equal Sign (Lollapalooza ver.)","s":"JHOPE","e":"post","y":2023,"v":0.621,"en":0.938,"sp":0.111,"ac":0.005,"da":0.491,"c":1},{"t":"STOP (Lollapalooza ver.)","s":"JHOPE","e":"post","y":2023,"v":0.498,"en":0.927,"sp":0.116,"ac":0.006,"da":0.704,"c":1},{"t":"Future (Lollapalooza ver.)","s":"JHOPE","e":"post","y":2023,"v":0.413,"en":0.94,"sp":0.191,"ac":0.036,"da":0.491,"c":1},{"t":"MORE (Instrumental)","s":"JHOPE","e":"post","y":2023,"v":0.407,"en":0.522,"sp":0.041,"ac":0.0,"da":0.835,"c":0},{"t":"Arson (Instrumental)","s":"JHOPE","e":"post","y":2023,"v":0.037,"en":0.734,"sp":0.184,"ac":0.001,"da":0.874,"c":1},{"t":"on the street (solo version)","s":"JHOPE","e":"post","y":2024,"v":0.839,"en":0.786,"sp":0.062,"ac":0.499,"da":0.714,"c":0},{"t":"i wonder... (with Jung Kook of BTS)","s":"JHOPE","e":"post","y":2024,"v":0.549,"en":0.692,"sp":0.089,"ac":0.147,"da":0.79,"c":0},{"t":"lock / unlock (with benny blanco & Nile Rodgers)","s":"JHOPE","e":"post","y":2024,"v":0.725,"en":0.765,"sp":0.034,"ac":0.014,"da":0.706,"c":0},{"t":"i don't know (with HUH YUNJIN of LE SSERAFIM)","s":"JHOPE","e":"post","y":2024,"v":0.437,"en":0.824,"sp":0.084,"ac":0.043,"da":0.618,"c":1},{"t":"what if… (dance mix)","s":"JHOPE","e":"post","y":2024,"v":0.178,"en":0.815,"sp":0.081,"ac":0.02,"da":0.531,"c":1},{"t":"NEURON (with Gaeko & YOON MIRAE)","s":"JHOPE","e":"post","y":2024,"v":0.699,"en":0.9,"sp":0.253,"ac":0.081,"da":0.669,"c":0},{"t":"Sweet Dreams (feat. Miguel)","s":"JHOPE","e":"post","y":2025,"v":0.797,"en":0.577,"sp":0.077,"ac":0.153,"da":0.564,"c":0},{"t":"Sweet Dreams (feat. Miguel)","s":"JHOPE","e":"post","y":2025,"v":0.796,"en":0.577,"sp":0.077,"ac":0.153,"da":0.564,"c":0},{"t":"Sweet Dreams (feat. Miguel) (Instrumental)","s":"JHOPE","e":"post","y":2025,"v":0.219,"en":0.574,"sp":0.061,"ac":0.037,"da":0.695,"c":1},{"t":"Sweet Dreams (feat. Miguel) (Band Remix)","s":"JHOPE","e":"post","y":2025,"v":0.823,"en":0.644,"sp":0.046,"ac":0.143,"da":0.696,"c":0},{"t":"Sweet Dreams (feat. Miguel) (Johnny GOLD Remix)","s":"JHOPE","e":"post","y":2025,"v":0.564,"en":0.573,"sp":0.043,"ac":0.035,"da":0.752,"c":0},{"t":"Sweet Dreams (feat. Miguel) (Sped Up)","s":"JHOPE","e":"post","y":2025,"v":0.785,"en":0.663,"sp":0.104,"ac":0.186,"da":0.684,"c":0},{"t":"Sweet Dreams (feat. Miguel) (Slowed Down)","s":"JHOPE","e":"post","y":2025,"v":0.628,"en":0.5,"sp":0.07,"ac":0.256,"da":0.6,"c":0},{"t":"Sweet Dreams (feat. Miguel) (FNZ Remix)","s":"JHOPE","e":"post","y":2025,"v":0.694,"en":0.88,"sp":0.036,"ac":0.084,"da":0.681,"c":0},{"t":"MONA LISA","s":"JHOPE","e":"post","y":2025,"v":0.96,"en":0.805,"sp":0.037,"ac":0.028,"da":0.799,"c":0},{"t":"MONA LISA","s":"JHOPE","e":"post","y":2025,"v":0.96,"en":0.805,"sp":0.037,"ac":0.028,"da":0.799,"c":0},{"t":"MONA LISA (Band Remix)","s":"JHOPE","e":"post","y":2025,"v":0.899,"en":0.853,"sp":0.037,"ac":0.078,"da":0.722,"c":0},{"t":"MONA LISA (Afropop Remix)","s":"JHOPE","e":"post","y":2025,"v":0.935,"en":0.608,"sp":0.032,"ac":0.057,"da":0.793,"c":0},{"t":"MONA LISA","s":"JHOPE","e":"post","y":2025,"v":0.96,"en":0.805,"sp":0.037,"ac":0.028,"da":0.799,"c":0},{"t":"MONA LISA (UK Garage Remix)","s":"JHOPE","e":"post","y":2025,"v":0.728,"en":0.857,"sp":0.037,"ac":0.129,"da":0.721,"c":0},{"t":"MONA LISA (Afro House Remix)","s":"JHOPE","e":"post","y":2025,"v":0.508,"en":0.9,"sp":0.036,"ac":0.067,"da":0.666,"c":1},{"t":"MONA LISA (Sped Up)","s":"JHOPE","e":"post","y":2025,"v":0.971,"en":0.843,"sp":0.069,"ac":0.03,"da":0.708,"c":0},{"t":"MONA LISA (Slowed Down)","s":"JHOPE","e":"post","y":2025,"v":0.843,"en":0.724,"sp":0.037,"ac":0.037,"da":0.874,"c":0},{"t":"Killin' It Girl (feat. GloRilla)","s":"JHOPE","e":"post","y":2025,"v":0.708,"en":0.923,"sp":0.058,"ac":0.003,"da":0.771,"c":0},{"t":"Killin' It Girl (Solo Version)","s":"JHOPE","e":"post","y":2025,"v":0.803,"en":0.887,"sp":0.149,"ac":0.002,"da":0.659,"c":0},{"t":"Killin' It Girl (feat. GloRilla)","s":"JHOPE","e":"post","y":2025,"v":0.708,"en":0.923,"sp":0.058,"ac":0.003,"da":0.771,"c":0},{"t":"Killin' It Girl (Solo Version)","s":"JHOPE","e":"post","y":2025,"v":0.803,"en":0.887,"sp":0.149,"ac":0.002,"da":0.659,"c":0},{"t":"Killin' It Girl (feat. GloRilla) (Instrumental)","s":"JHOPE","e":"post","y":2025,"v":0.656,"en":0.847,"sp":0.145,"ac":0.0,"da":0.666,"c":0},{"t":"Killin' It Girl (feat. GloRilla) (Clean Version)","s":"JHOPE","e":"post","y":2025,"v":0.684,"en":0.919,"sp":0.059,"ac":0.003,"da":0.77,"c":0},{"t":"Killin' It Girl (feat. GloRilla) (Band Remix)","s":"JHOPE","e":"post","y":2025,"v":0.803,"en":0.951,"sp":0.076,"ac":0.011,"da":0.6,"c":0},{"t":"Killin' It Girl (feat. GloRilla) (Boom Bap Remix)","s":"JHOPE","e":"post","y":2025,"v":0.855,"en":0.82,"sp":0.04,"ac":0.105,"da":0.797,"c":0},{"t":"Killin' It Girl (feat. GloRilla) (West Coast Remix)","s":"JHOPE","e":"post","y":2025,"v":0.698,"en":0.897,"sp":0.047,"ac":0.083,"da":0.688,"c":0},{"t":"Killin' It Girl (feat. GloRilla) (Soul Remix)","s":"JHOPE","e":"post","y":2025,"v":0.734,"en":0.831,"sp":0.036,"ac":0.03,"da":0.685,"c":0},{"t":"Killin' It Girl (feat. GloRilla) (Brazilian Phonk Remix)","s":"JHOPE","e":"post","y":2025,"v":0.644,"en":0.939,"sp":0.055,"ac":0.178,"da":0.717,"c":0},{"t":"Killin' It Girl (feat. GloRilla) (Electro Pop Remix)","s":"JHOPE","e":"post","y":2025,"v":0.468,"en":0.827,"sp":0.041,"ac":0.283,"da":0.836,"c":0},{"t":"Promise","s":"JIMIN","e":"pre","y":2018,"v":0.739,"en":0.534,"sp":0.043,"ac":0.83,"da":0.692,"c":2},{"t":"Christmas Love","s":"JIMIN","e":"pre","y":2020,"v":0.622,"en":0.753,"sp":0.029,"ac":0.095,"da":0.608,"c":0},{"t":"With you","s":"JIMIN","e":"pre","y":2022,"v":0.137,"en":0.426,"sp":0.029,"ac":0.639,"da":0.532,"c":2},{"t":"With you - Instrumental","s":"JIMIN","e":"pre","y":2022,"v":0.064,"en":0.307,"sp":0.029,"ac":0.461,"da":0.637,"c":2},{"t":"Closer Than This","s":"JIMIN","e":"post","y":2023,"v":0.373,"en":0.54,"sp":0.038,"ac":0.389,"da":0.716,"c":2},{"t":"Set Me Free Pt.2","s":"JIMIN","e":"post","y":2023,"v":0.564,"en":0.815,"sp":0.057,"ac":0.115,"da":0.585,"c":1},{"t":"Face-off","s":"JIMIN","e":"post","y":2023,"v":0.239,"en":0.539,"sp":0.048,"ac":0.178,"da":0.689,"c":2},{"t":"Interlude : Dive","s":"JIMIN","e":"post","y":2023,"v":0.26,"en":0.495,"sp":0.042,"ac":0.789,"da":0.284,"c":2},{"t":"Like Crazy","s":"JIMIN","e":"post","y":2023,"v":0.362,"en":0.733,"sp":0.042,"ac":0.003,"da":0.629,"c":1},{"t":"Alone","s":"JIMIN","e":"post","y":2023,"v":0.168,"en":0.446,"sp":0.027,"ac":0.283,"da":0.593,"c":2},{"t":"Set Me Free Pt.2","s":"JIMIN","e":"post","y":2023,"v":0.564,"en":0.815,"sp":0.057,"ac":0.115,"da":0.585,"c":1},{"t":"Like Crazy (English Version)","s":"JIMIN","e":"post","y":2023,"v":0.32,"en":0.755,"sp":0.042,"ac":0.003,"da":0.623,"c":1},{"t":"Like Crazy","s":"JIMIN","e":"post","y":2023,"v":0.362,"en":0.733,"sp":0.042,"ac":0.003,"da":0.629,"c":1},{"t":"Like Crazy (English Version)","s":"JIMIN","e":"post","y":2023,"v":0.32,"en":0.755,"sp":0.042,"ac":0.003,"da":0.623,"c":1},{"t":"Like Crazy (Deep House Remix)","s":"JIMIN","e":"post","y":2023,"v":0.359,"en":0.881,"sp":0.033,"ac":0.023,"da":0.583,"c":1},{"t":"Like Crazy (UK Garage Remix)","s":"JIMIN","e":"post","y":2023,"v":0.198,"en":0.763,"sp":0.051,"ac":0.09,"da":0.604,"c":1},{"t":"Like Crazy (Instrumental)","s":"JIMIN","e":"post","y":2023,"v":0.684,"en":0.693,"sp":0.033,"ac":0.0,"da":0.631,"c":0},{"t":"Closer Than This","s":"JIMIN","e":"post","y":2023,"v":0.373,"en":0.54,"sp":0.038,"ac":0.389,"da":0.716,"c":2},{"t":"Smeraldo Garden Marching Band (feat. Loco)","s":"JIMIN","e":"post","y":2024,"v":0.726,"en":0.915,"sp":0.146,"ac":0.037,"da":0.79,"c":0},{"t":"Rebirth (Intro)","s":"JIMIN","e":"post","y":2024,"v":0.093,"en":0.567,"sp":0.036,"ac":0.142,"da":0.372,"c":2},{"t":"Interlude : Showtime","s":"JIMIN","e":"post","y":2024,"v":0.921,"en":0.836,"sp":0.063,"ac":0.558,"da":0.786,"c":0},{"t":"Smeraldo Garden Marching Band (feat. Loco)","s":"JIMIN","e":"post","y":2024,"v":0.726,"en":0.915,"sp":0.146,"ac":0.037,"da":0.79,"c":0},{"t":"Slow Dance (feat. Sofia Carson)","s":"JIMIN","e":"post","y":2024,"v":0.8,"en":0.719,"sp":0.071,"ac":0.132,"da":0.68,"c":0},{"t":"Be Mine","s":"JIMIN","e":"post","y":2024,"v":0.56,"en":0.747,"sp":0.088,"ac":0.056,"da":0.687,"c":0},{"t":"Who","s":"JIMIN","e":"post","y":2024,"v":0.838,"en":0.756,"sp":0.032,"ac":0.003,"da":0.66,"c":0},{"t":"Closer Than This","s":"JIMIN","e":"post","y":2024,"v":0.431,"en":0.531,"sp":0.037,"ac":0.391,"da":0.716,"c":2},{"t":"Rebirth (Intro)","s":"JIMIN","e":"post","y":2024,"v":0.093,"en":0.567,"sp":0.036,"ac":0.142,"da":0.372,"c":2},{"t":"Interlude : Showtime","s":"JIMIN","e":"post","y":2024,"v":0.921,"en":0.836,"sp":0.063,"ac":0.558,"da":0.786,"c":0},{"t":"Smeraldo Garden Marching Band (feat. Loco)","s":"JIMIN","e":"post","y":2024,"v":0.726,"en":0.915,"sp":0.146,"ac":0.037,"da":0.79,"c":0},{"t":"Slow Dance (feat. Sofia Carson)","s":"JIMIN","e":"post","y":2024,"v":0.8,"en":0.719,"sp":0.071,"ac":0.132,"da":0.68,"c":0},{"t":"Be Mine","s":"JIMIN","e":"post","y":2024,"v":0.561,"en":0.747,"sp":0.088,"ac":0.056,"da":0.687,"c":0},{"t":"Who","s":"JIMIN","e":"post","y":2024,"v":0.838,"en":0.757,"sp":0.032,"ac":0.003,"da":0.66,"c":0},{"t":"Closer Than This","s":"JIMIN","e":"post","y":2024,"v":0.431,"en":0.531,"sp":0.037,"ac":0.391,"da":0.716,"c":2},{"t":"Who (Shibuyakei Remix)","s":"JIMIN","e":"post","y":2024,"v":0.596,"en":0.862,"sp":0.036,"ac":0.035,"da":0.638,"c":1},{"t":"Who (Funky Remix)","s":"JIMIN","e":"post","y":2024,"v":0.802,"en":0.751,"sp":0.034,"ac":0.02,"da":0.659,"c":0},{"t":"Who (Beautiful Mind Remix)","s":"JIMIN","e":"post","y":2024,"v":0.618,"en":0.851,"sp":0.051,"ac":0.046,"da":0.651,"c":0},{"t":"Rebirth (Intro)","s":"JIMIN","e":"post","y":2024,"v":0.093,"en":0.567,"sp":0.036,"ac":0.142,"da":0.372,"c":2},{"t":"Interlude : Showtime","s":"JIMIN","e":"post","y":2024,"v":0.921,"en":0.836,"sp":0.063,"ac":0.558,"da":0.786,"c":0},{"t":"Smeraldo Garden Marching Band (feat. Loco)","s":"JIMIN","e":"post","y":2024,"v":0.726,"en":0.915,"sp":0.146,"ac":0.037,"da":0.79,"c":0},{"t":"Slow Dance (feat. Sofia Carson)","s":"JIMIN","e":"post","y":2024,"v":0.801,"en":0.719,"sp":0.071,"ac":0.132,"da":0.68,"c":0},{"t":"Be Mine","s":"JIMIN","e":"post","y":2024,"v":0.56,"en":0.747,"sp":0.088,"ac":0.056,"da":0.687,"c":0},{"t":"Who","s":"JIMIN","e":"post","y":2024,"v":0.838,"en":0.757,"sp":0.032,"ac":0.003,"da":0.66,"c":0},{"t":"Closer Than This","s":"JIMIN","e":"post","y":2024,"v":0.431,"en":0.531,"sp":0.037,"ac":0.391,"da":0.716,"c":2},{"t":"Who (Instrumental)","s":"JIMIN","e":"post","y":2024,"v":0.762,"en":0.588,"sp":0.048,"ac":0.003,"da":0.761,"c":0},{"t":"Who (Acoustic Remix)","s":"JIMIN","e":"post","y":2024,"v":0.453,"en":0.425,"sp":0.028,"ac":0.545,"da":0.676,"c":2},{"t":"Who (Rock Remix)","s":"JIMIN","e":"post","y":2024,"v":0.755,"en":0.806,"sp":0.033,"ac":0.018,"da":0.65,"c":0},{"t":"Who","s":"JIMIN","e":"post","y":2024,"v":0.838,"en":0.757,"sp":0.032,"ac":0.003,"da":0.66,"c":0},{"t":"Who (Instrumental)","s":"JIMIN","e":"post","y":2024,"v":0.762,"en":0.588,"sp":0.048,"ac":0.003,"da":0.761,"c":0},{"t":"Who (Acoustic Remix)","s":"JIMIN","e":"post","y":2024,"v":0.453,"en":0.425,"sp":0.028,"ac":0.545,"da":0.676,"c":2},{"t":"Who (Rock Remix)","s":"JIMIN","e":"post","y":2024,"v":0.755,"en":0.806,"sp":0.033,"ac":0.018,"da":0.65,"c":0},{"t":"Who (Shibuyakei Remix)","s":"JIMIN","e":"post","y":2024,"v":0.59,"en":0.862,"sp":0.036,"ac":0.035,"da":0.638,"c":1},{"t":"Who (Funky Remix)","s":"JIMIN","e":"post","y":2024,"v":0.802,"en":0.751,"sp":0.034,"ac":0.02,"da":0.659,"c":0},{"t":"Who (Beautiful Mind Remix)","s":"JIMIN","e":"post","y":2024,"v":0.616,"en":0.851,"sp":0.051,"ac":0.046,"da":0.651,"c":0},{"t":"Be Mine (English Version)","s":"JIMIN","e":"post","y":2024,"v":0.526,"en":0.76,"sp":0.113,"ac":0.063,"da":0.509,"c":1},{"t":"It's Definitely You (죽어도 너야)","s":"JIN","e":"pre","y":2016,"v":0.761,"en":0.731,"sp":0.071,"ac":0.241,"da":0.737,"c":0},{"t":"It's Definitely You - Instrumental","s":"JIN","e":"pre","y":2016,"v":0.795,"en":0.727,"sp":0.038,"ac":0.001,"da":0.613,"c":0},{"t":"Tonight (이 밤)","s":"JIN","e":"pre","y":2019,"v":0.346,"en":0.418,"sp":0.044,"ac":0.673,"da":0.603,"c":2},{"t":"Abyss","s":"JIN","e":"pre","y":2020,"v":0.346,"en":0.506,"sp":0.032,"ac":0.535,"da":0.434,"c":2},{"t":"Yours","s":"JIN","e":"pre","y":2021,"v":0.157,"en":0.427,"sp":0.038,"ac":0.354,"da":0.488,"c":2},{"t":"Yours - Instrumental","s":"JIN","e":"pre","y":2021,"v":0.039,"en":0.336,"sp":0.029,"ac":0.019,"da":0.406,"c":2},{"t":"Super Tuna (슈퍼 참치)","s":"JIN","e":"pre","y":2021,"v":0.44,"en":0.965,"sp":0.199,"ac":0.004,"da":0.636,"c":1},{"t":"The Astronaut","s":"JIN","e":"pre","y":2022,"v":0.215,"en":0.761,"sp":0.031,"ac":0.004,"da":0.54,"c":1},{"t":"Super Tuna","s":"JIN","e":"post","y":2024,"v":0.601,"en":0.964,"sp":0.149,"ac":0.006,"da":0.641,"c":1},{"t":"I'll Be There","s":"JIN","e":"post","y":2024,"v":0.736,"en":0.738,"sp":0.044,"ac":0.035,"da":0.538,"c":1},{"t":"Running Wild","s":"JIN","e":"post","y":2024,"v":0.317,"en":0.711,"sp":0.032,"ac":0.0,"da":0.487,"c":1},{"t":"I’ll Be There","s":"JIN","e":"post","y":2024,"v":0.736,"en":0.738,"sp":0.044,"ac":0.035,"da":0.538,"c":1},{"t":"Another Level","s":"JIN","e":"post","y":2024,"v":0.348,"en":0.577,"sp":0.028,"ac":0.159,"da":0.548,"c":1},{"t":"Falling","s":"JIN","e":"post","y":2024,"v":0.607,"en":0.708,"sp":0.034,"ac":0.038,"da":0.662,"c":0},{"t":"Heart on the Window (with WENDY)","s":"JIN","e":"post","y":2024,"v":0.52,"en":0.865,"sp":0.052,"ac":0.054,"da":0.615,"c":1},{"t":"I will come to you","s":"JIN","e":"post","y":2024,"v":0.496,"en":0.129,"sp":0.034,"ac":0.897,"da":0.625,"c":2},{"t":"Running Wild","s":"JIN","e":"post","y":2024,"v":0.317,"en":0.711,"sp":0.032,"ac":0.0,"da":0.487,"c":1},{"t":"I’ll Be There","s":"JIN","e":"post","y":2024,"v":0.736,"en":0.738,"sp":0.044,"ac":0.035,"da":0.538,"c":1},{"t":"Another Level","s":"JIN","e":"post","y":2024,"v":0.348,"en":0.577,"sp":0.028,"ac":0.159,"da":0.548,"c":1},{"t":"Falling","s":"JIN","e":"post","y":2024,"v":0.607,"en":0.708,"sp":0.034,"ac":0.038,"da":0.662,"c":0},{"t":"Heart on the Window (with WENDY)","s":"JIN","e":"post","y":2024,"v":0.52,"en":0.865,"sp":0.052,"ac":0.054,"da":0.615,"c":1},{"t":"I will come to you","s":"JIN","e":"post","y":2024,"v":0.496,"en":0.129,"sp":0.034,"ac":0.897,"da":0.625,"c":2},{"t":"Running Wild (Extended Ver.)","s":"JIN","e":"post","y":2024,"v":0.312,"en":0.733,"sp":0.032,"ac":0.0,"da":0.479,"c":1},{"t":"Running Wild (Band Ver.)","s":"JIN","e":"post","y":2024,"v":0.36,"en":0.877,"sp":0.04,"ac":0.0,"da":0.48,"c":1},{"t":"Running Wild","s":"JIN","e":"post","y":2024,"v":0.317,"en":0.711,"sp":0.032,"ac":0.0,"da":0.487,"c":1},{"t":"I’ll Be There","s":"JIN","e":"post","y":2024,"v":0.736,"en":0.738,"sp":0.044,"ac":0.035,"da":0.538,"c":1},{"t":"Another Level","s":"JIN","e":"post","y":2024,"v":0.348,"en":0.577,"sp":0.028,"ac":0.159,"da":0.548,"c":1},{"t":"Falling","s":"JIN","e":"post","y":2024,"v":0.607,"en":0.708,"sp":0.034,"ac":0.038,"da":0.662,"c":0},{"t":"Heart on the Window (with WENDY)","s":"JIN","e":"post","y":2024,"v":0.52,"en":0.865,"sp":0.052,"ac":0.054,"da":0.615,"c":1},{"t":"I will come to you","s":"JIN","e":"post","y":2024,"v":0.496,"en":0.129,"sp":0.034,"ac":0.897,"da":0.625,"c":2},{"t":"Running Wild (Ballad Remix)","s":"JIN","e":"post","y":2024,"v":0.31,"en":0.698,"sp":0.034,"ac":0.082,"da":0.429,"c":1},{"t":"Running Wild (Holiday Remix)","s":"JIN","e":"post","y":2024,"v":0.364,"en":0.73,"sp":0.029,"ac":0.006,"da":0.52,"c":1},{"t":"Running Wild (Afropop Remix)","s":"JIN","e":"post","y":2024,"v":0.482,"en":0.716,"sp":0.031,"ac":0.003,"da":0.64,"c":1},{"t":"Running Wild (UK Garage Remix)","s":"JIN","e":"post","y":2024,"v":0.55,"en":0.916,"sp":0.133,"ac":0.061,"da":0.599,"c":1},{"t":"Running Wild","s":"JIN","e":"post","y":2024,"v":0.317,"en":0.711,"sp":0.032,"ac":0.0,"da":0.487,"c":1},{"t":"Running Wild (Instrumental)","s":"JIN","e":"post","y":2024,"v":0.608,"en":0.679,"sp":0.029,"ac":0.0,"da":0.453,"c":1},{"t":"Running Wild (Extended Ver.)","s":"JIN","e":"post","y":2024,"v":0.312,"en":0.733,"sp":0.032,"ac":0.0,"da":0.479,"c":1},{"t":"Running Wild (Band Ver.)","s":"JIN","e":"post","y":2024,"v":0.36,"en":0.877,"sp":0.04,"ac":0.0,"da":0.48,"c":1},{"t":"Running Wild (Ballad Remix)","s":"JIN","e":"post","y":2024,"v":0.31,"en":0.698,"sp":0.034,"ac":0.082,"da":0.429,"c":1},{"t":"Running Wild (Holiday Remix)","s":"JIN","e":"post","y":2024,"v":0.364,"en":0.73,"sp":0.029,"ac":0.006,"da":0.52,"c":1},{"t":"Running Wild (Afropop Remix)","s":"JIN","e":"post","y":2024,"v":0.482,"en":0.716,"sp":0.031,"ac":0.003,"da":0.64,"c":1},{"t":"Running Wild (UK Garage Remix)","s":"JIN","e":"post","y":2024,"v":0.55,"en":0.916,"sp":0.133,"ac":0.061,"da":0.599,"c":1},{"t":"Falling (feat. Taka)","s":"JIN","e":"post","y":2024,"v":0.506,"en":0.74,"sp":0.035,"ac":0.023,"da":0.663,"c":1},{"t":"Close to You","s":"JIN","e":"post","y":2025,"v":0.207,"en":0.404,"sp":0.035,"ac":0.779,"da":0.355,"c":2},{"t":"Close to You (Inst.)","s":"JIN","e":"post","y":2025,"v":0.059,"en":0.364,"sp":0.03,"ac":0.819,"da":0.278,"c":2},{"t":"Don’t Say You Love Me","s":"JIN","e":"post","y":2025,"v":0.757,"en":0.562,"sp":0.03,"ac":0.484,"da":0.729,"c":0},{"t":"Nothing Without Your Love","s":"JIN","e":"post","y":2025,"v":0.246,"en":0.837,"sp":0.062,"ac":0.009,"da":0.494,"c":1},{"t":"Loser (feat. YENA)","s":"JIN","e":"post","y":2025,"v":0.697,"en":0.914,"sp":0.069,"ac":0.013,"da":0.561,"c":1},{"t":"Rope It","s":"JIN","e":"post","y":2025,"v":0.597,"en":0.856,"sp":0.085,"ac":0.036,"da":0.547,"c":1},{"t":"With the Clouds","s":"JIN","e":"post","y":2025,"v":0.308,"en":0.868,"sp":0.064,"ac":0.003,"da":0.264,"c":1},{"t":"Background","s":"JIN","e":"post","y":2025,"v":0.26,"en":0.787,"sp":0.054,"ac":0.054,"da":0.498,"c":1},{"t":"To Me Today","s":"JIN","e":"post","y":2025,"v":0.583,"en":0.777,"sp":0.063,"ac":0.006,"da":0.583,"c":1},{"t":"Don’t Say You Love Me","s":"JIN","e":"post","y":2025,"v":0.757,"en":0.562,"sp":0.03,"ac":0.484,"da":0.729,"c":0},{"t":"Don’t Say You Love Me (Instrumental)","s":"JIN","e":"post","y":2025,"v":0.869,"en":0.359,"sp":0.046,"ac":0.062,"da":0.867,"c":0},{"t":"Don’t Say You Love Me (Band Ver.)","s":"JIN","e":"post","y":2025,"v":0.431,"en":0.672,"sp":0.031,"ac":0.231,"da":0.613,"c":1},{"t":"Don’t Say You Love Me (Lofi Remix)","s":"JIN","e":"post","y":2025,"v":0.593,"en":0.608,"sp":0.029,"ac":0.313,"da":0.721,"c":0},{"t":"Don’t Say You Love Me (Disco Remix)","s":"JIN","e":"post","y":2025,"v":0.821,"en":0.731,"sp":0.048,"ac":0.389,"da":0.738,"c":0},{"t":"Don’t Say You Love Me (Synthwave Remix)","s":"JIN","e":"post","y":2025,"v":0.666,"en":0.76,"sp":0.038,"ac":0.314,"da":0.701,"c":0},{"t":"Don’t Say You Love Me (90s Pop Remix)","s":"JIN","e":"post","y":2025,"v":0.377,"en":0.921,"sp":0.033,"ac":0.004,"da":0.719,"c":1},{"t":"Don’t Say You Love Me (Future Pop Remix)","s":"JIN","e":"post","y":2025,"v":0.42,"en":0.66,"sp":0.043,"ac":0.393,"da":0.704,"c":0},{"t":"Don’t Say You Love Me","s":"JIN","e":"post","y":2025,"v":0.757,"en":0.562,"sp":0.03,"ac":0.484,"da":0.729,"c":0},{"t":"Nothing Without Your Love","s":"JIN","e":"post","y":2025,"v":0.246,"en":0.837,"sp":0.062,"ac":0.009,"da":0.494,"c":1},{"t":"Loser (feat. YENA)","s":"JIN","e":"post","y":2025,"v":0.697,"en":0.914,"sp":0.069,"ac":0.013,"da":0.561,"c":1},{"t":"Rope It","s":"JIN","e":"post","y":2025,"v":0.597,"en":0.856,"sp":0.085,"ac":0.036,"da":0.547,"c":1},{"t":"With the Clouds","s":"JIN","e":"post","y":2025,"v":0.308,"en":0.868,"sp":0.064,"ac":0.003,"da":0.264,"c":1},{"t":"Background","s":"JIN","e":"post","y":2025,"v":0.26,"en":0.787,"sp":0.054,"ac":0.054,"da":0.498,"c":1},{"t":"To Me Today","s":"JIN","e":"post","y":2025,"v":0.583,"en":0.777,"sp":0.063,"ac":0.006,"da":0.583,"c":1},{"t":"Don’t Say You Love Me (Band Ver.)","s":"JIN","e":"post","y":2025,"v":0.431,"en":0.672,"sp":0.031,"ac":0.231,"da":0.613,"c":1},{"t":"Don’t Say You Love Me (Lofi Remix)","s":"JIN","e":"post","y":2025,"v":0.593,"en":0.608,"sp":0.029,"ac":0.313,"da":0.721,"c":0},{"t":"Don’t Say You Love Me","s":"JIN","e":"post","y":2025,"v":0.757,"en":0.562,"sp":0.03,"ac":0.484,"da":0.729,"c":0},{"t":"Nothing Without Your Love","s":"JIN","e":"post","y":2025,"v":0.246,"en":0.837,"sp":0.062,"ac":0.009,"da":0.494,"c":1},{"t":"Loser (feat. YENA)","s":"JIN","e":"post","y":2025,"v":0.697,"en":0.914,"sp":0.069,"ac":0.013,"da":0.561,"c":1},{"t":"Rope It","s":"JIN","e":"post","y":2025,"v":0.597,"en":0.856,"sp":0.085,"ac":0.036,"da":0.547,"c":1},{"t":"With the Clouds","s":"JIN","e":"post","y":2025,"v":0.308,"en":0.868,"sp":0.064,"ac":0.003,"da":0.264,"c":1},{"t":"Background","s":"JIN","e":"post","y":2025,"v":0.26,"en":0.787,"sp":0.054,"ac":0.054,"da":0.498,"c":1},{"t":"To Me Today","s":"JIN","e":"post","y":2025,"v":0.583,"en":0.777,"sp":0.063,"ac":0.006,"da":0.583,"c":1},{"t":"Don’t Say You Love Me (Disco Remix)","s":"JIN","e":"post","y":2025,"v":0.821,"en":0.731,"sp":0.048,"ac":0.389,"da":0.738,"c":0},{"t":"Don’t Say You Love Me (Synthwave Remix)","s":"JIN","e":"post","y":2025,"v":0.667,"en":0.76,"sp":0.039,"ac":0.314,"da":0.701,"c":0},{"t":"Don’t Say You Love Me","s":"JIN","e":"post","y":2025,"v":0.757,"en":0.562,"sp":0.03,"ac":0.484,"da":0.729,"c":0},{"t":"Nothing Without Your Love","s":"JIN","e":"post","y":2025,"v":0.246,"en":0.837,"sp":0.062,"ac":0.009,"da":0.494,"c":1},{"t":"Loser (feat. YENA)","s":"JIN","e":"post","y":2025,"v":0.697,"en":0.914,"sp":0.069,"ac":0.013,"da":0.561,"c":1},{"t":"Rope It","s":"JIN","e":"post","y":2025,"v":0.597,"en":0.856,"sp":0.085,"ac":0.036,"da":0.547,"c":1},{"t":"With the Clouds","s":"JIN","e":"post","y":2025,"v":0.308,"en":0.868,"sp":0.064,"ac":0.003,"da":0.264,"c":1},{"t":"Background","s":"JIN","e":"post","y":2025,"v":0.26,"en":0.787,"sp":0.054,"ac":0.054,"da":0.498,"c":1},{"t":"To Me Today","s":"JIN","e":"post","y":2025,"v":0.583,"en":0.777,"sp":0.063,"ac":0.006,"da":0.583,"c":1},{"t":"Don’t Say You Love Me (90s Pop Remix)","s":"JIN","e":"post","y":2025,"v":0.377,"en":0.921,"sp":0.033,"ac":0.004,"da":0.719,"c":1},{"t":"Don’t Say You Love Me (Future Pop Remix)","s":"JIN","e":"post","y":2025,"v":0.42,"en":0.66,"sp":0.043,"ac":0.393,"da":0.704,"c":0},{"t":"Still With You","s":"JUNGKOOK","e":"pre","y":2020,"v":0.344,"en":0.469,"sp":0.036,"ac":0.09,"da":0.529,"c":2},{"t":"Stay Alive (Prod. SUGA of BTS)","s":"JUNGKOOK","e":"pre","y":2022,"v":0.495,"en":0.76,"sp":0.068,"ac":0.299,"da":0.512,"c":1},{"t":"My You","s":"JUNGKOOK","e":"pre","y":2022,"v":0.354,"en":0.691,"sp":0.037,"ac":0.421,"da":0.451,"c":2},{"t":"Dreamers [Music from the FIFA World Cup Qatar 2022 Official Soundtrack]","s":"JUNGKOOK","e":"pre","y":2022,"v":0.34,"en":0.879,"sp":0.042,"ac":0.158,"da":0.709,"c":1},{"t":"Seven (feat. Latto) (Clean Ver.)","s":"JUNGKOOK","e":"post","y":2023,"v":0.891,"en":0.831,"sp":0.046,"ac":0.316,"da":0.776,"c":0},{"t":"Seven (feat. Latto) (Explicit Ver.)","s":"JUNGKOOK","e":"post","y":2023,"v":0.89,"en":0.832,"sp":0.043,"ac":0.311,"da":0.802,"c":0},{"t":"Seven (feat. Latto) (Instrumental)","s":"JUNGKOOK","e":"post","y":2023,"v":0.565,"en":0.9,"sp":0.086,"ac":0.048,"da":0.846,"c":0},{"t":"Seven (feat. Latto) (Clean Ver.)","s":"JUNGKOOK","e":"post","y":2023,"v":0.914,"en":0.839,"sp":0.044,"ac":0.318,"da":0.782,"c":0},{"t":"Seven (feat. Latto) (Explicit Ver.)","s":"JUNGKOOK","e":"post","y":2023,"v":0.904,"en":0.841,"sp":0.043,"ac":0.301,"da":0.788,"c":0},{"t":"Seven (feat. Latto) (Instrumental)","s":"JUNGKOOK","e":"post","y":2023,"v":0.565,"en":0.9,"sp":0.086,"ac":0.048,"da":0.846,"c":0},{"t":"Seven (feat. Latto) (Summer Mix)","s":"JUNGKOOK","e":"post","y":2023,"v":0.61,"en":0.805,"sp":0.084,"ac":0.011,"da":0.66,"c":0},{"t":"Seven (feat. Latto) (Band Ver.)","s":"JUNGKOOK","e":"post","y":2023,"v":0.928,"en":0.754,"sp":0.037,"ac":0.194,"da":0.761,"c":0},{"t":"Seven (feat. Latto) (Clean Ver.)","s":"JUNGKOOK","e":"post","y":2023,"v":0.914,"en":0.839,"sp":0.044,"ac":0.318,"da":0.782,"c":0},{"t":"Seven (feat. Latto) (Explicit Ver.)","s":"JUNGKOOK","e":"post","y":2023,"v":0.904,"en":0.841,"sp":0.043,"ac":0.301,"da":0.788,"c":0},{"t":"Seven (feat. Latto) (Instrumental)","s":"JUNGKOOK","e":"post","y":2023,"v":0.565,"en":0.9,"sp":0.086,"ac":0.048,"da":0.846,"c":0},{"t":"Seven (feat. Latto) (Island Mix)","s":"JUNGKOOK","e":"post","y":2023,"v":0.602,"en":0.728,"sp":0.041,"ac":0.184,"da":0.698,"c":0},{"t":"Seven (feat. Latto) (Nightfall Mix)","s":"JUNGKOOK","e":"post","y":2023,"v":0.663,"en":0.664,"sp":0.084,"ac":0.58,"da":0.711,"c":0},{"t":"Seven (feat. Latto) (Festival Mix)","s":"JUNGKOOK","e":"post","y":2023,"v":0.914,"en":0.775,"sp":0.04,"ac":0.036,"da":0.715,"c":0},{"t":"Seven (feat. Latto) (Lofi Mix)","s":"JUNGKOOK","e":"post","y":2023,"v":0.77,"en":0.615,"sp":0.045,"ac":0.166,"da":0.716,"c":0},{"t":"Seven (feat. Latto) (Clean Ver.)","s":"JUNGKOOK","e":"post","y":2023,"v":0.914,"en":0.839,"sp":0.044,"ac":0.318,"da":0.782,"c":0},{"t":"Seven (feat. Latto) (Explicit Ver.)","s":"JUNGKOOK","e":"post","y":2023,"v":0.904,"en":0.841,"sp":0.043,"ac":0.301,"da":0.788,"c":0},{"t":"Seven (feat. Latto) (Instrumental)","s":"JUNGKOOK","e":"post","y":2023,"v":0.565,"en":0.9,"sp":0.086,"ac":0.048,"da":0.846,"c":0},{"t":"Seven (feat. Latto) (Alesso Remix)","s":"JUNGKOOK","e":"post","y":2023,"v":0.777,"en":0.893,"sp":0.047,"ac":0.033,"da":0.685,"c":0},{"t":"3D (feat. Jack Harlow)","s":"JUNGKOOK","e":"post","y":2023,"v":0.888,"en":0.824,"sp":0.103,"ac":0.032,"da":0.853,"c":0},{"t":"3D (feat. Jack Harlow) (Instrumental)","s":"JUNGKOOK","e":"post","y":2023,"v":0.378,"en":0.761,"sp":0.154,"ac":0.0,"da":0.827,"c":0},{"t":"3D (Alternate Ver.)","s":"JUNGKOOK","e":"post","y":2023,"v":0.836,"en":0.785,"sp":0.048,"ac":0.022,"da":0.865,"c":0},{"t":"3D (feat. Jack Harlow)","s":"JUNGKOOK","e":"post","y":2023,"v":0.888,"en":0.824,"sp":0.103,"ac":0.032,"da":0.853,"c":0},{"t":"3D (feat. Jack Harlow) (Instrumental)","s":"JUNGKOOK","e":"post","y":2023,"v":0.378,"en":0.761,"sp":0.154,"ac":0.0,"da":0.827,"c":0},{"t":"3D (Alternate Ver.)","s":"JUNGKOOK","e":"post","y":2023,"v":0.836,"en":0.785,"sp":0.048,"ac":0.022,"da":0.865,"c":0},{"t":"3D (feat. Jack Harlow) (A. G. Cook Remix)","s":"JUNGKOOK","e":"post","y":2023,"v":0.497,"en":0.828,"sp":0.04,"ac":0.026,"da":0.59,"c":1},{"t":"3D (feat. Jack Harlow) (Clean Ver.)","s":"JUNGKOOK","e":"post","y":2023,"v":0.891,"en":0.83,"sp":0.089,"ac":0.026,"da":0.858,"c":0},{"t":"3D (feat. Jack Harlow) (Sped Up)","s":"JUNGKOOK","e":"post","y":2023,"v":0.897,"en":0.889,"sp":0.257,"ac":0.095,"da":0.84,"c":0},{"t":"3D (feat. Jack Harlow) (Slowed Down)","s":"JUNGKOOK","e":"post","y":2023,"v":0.457,"en":0.711,"sp":0.125,"ac":0.021,"da":0.789,"c":0},{"t":"3D (feat. Jack Harlow) (MK Remix)","s":"JUNGKOOK","e":"post","y":2023,"v":0.604,"en":0.855,"sp":0.035,"ac":0.002,"da":0.701,"c":0},{"t":"Seven (David Guetta Remix)","s":"JUNGKOOK","e":"post","y":2023,"v":0.821,"en":0.952,"sp":0.161,"ac":0.071,"da":0.645,"c":0},{"t":"Seven (David Guetta Remix - Extended)","s":"JUNGKOOK","e":"post","y":2023,"v":0.828,"en":0.914,"sp":0.101,"ac":0.002,"da":0.806,"c":0},{"t":"3D (feat. Jack Harlow)","s":"JUNGKOOK","e":"post","y":2023,"v":0.888,"en":0.824,"sp":0.103,"ac":0.032,"da":0.853,"c":0},{"t":"Closer to You (feat. Major Lazer)","s":"JUNGKOOK","e":"post","y":2023,"v":0.493,"en":0.655,"sp":0.046,"ac":0.114,"da":0.781,"c":0},{"t":"Seven (feat. Latto) (Explicit Ver.)","s":"JUNGKOOK","e":"post","y":2023,"v":0.872,"en":0.831,"sp":0.044,"ac":0.312,"da":0.79,"c":0},{"t":"Standing Next to You","s":"JUNGKOOK","e":"post","y":2023,"v":0.816,"en":0.809,"sp":0.096,"ac":0.045,"da":0.711,"c":0},{"t":"Yes or No","s":"JUNGKOOK","e":"post","y":2023,"v":0.882,"en":0.839,"sp":0.087,"ac":0.179,"da":0.671,"c":0},{"t":"Please Don't Change (feat. DJ Snake)","s":"JUNGKOOK","e":"post","y":2023,"v":0.768,"en":0.743,"sp":0.174,"ac":0.164,"da":0.797,"c":0},{"t":"Hate You","s":"JUNGKOOK","e":"post","y":2023,"v":0.25,"en":0.274,"sp":0.031,"ac":0.862,"da":0.419,"c":2},{"t":"Somebody","s":"JUNGKOOK","e":"post","y":2023,"v":0.256,"en":0.679,"sp":0.048,"ac":0.286,"da":0.65,"c":1},{"t":"Too Sad to Dance","s":"JUNGKOOK","e":"post","y":2023,"v":0.563,"en":0.467,"sp":0.081,"ac":0.611,"da":0.558,"c":2},{"t":"Shot Glass of Tears","s":"JUNGKOOK","e":"post","y":2023,"v":0.164,"en":0.394,"sp":0.035,"ac":0.508,"da":0.507,"c":2},{"t":"Seven (feat. Latto) (Clean Ver.)","s":"JUNGKOOK","e":"post","y":2023,"v":0.891,"en":0.83,"sp":0.044,"ac":0.277,"da":0.786,"c":0},{"t":"Standing Next to You","s":"JUNGKOOK","e":"post","y":2023,"v":0.816,"en":0.809,"sp":0.096,"ac":0.045,"da":0.711,"c":0},{"t":"Standing Next to You (Instrumental)","s":"JUNGKOOK","e":"post","y":2023,"v":0.773,"en":0.685,"sp":0.068,"ac":0.02,"da":0.762,"c":0},{"t":"Standing Next to You (Slow Jam Remix)","s":"JUNGKOOK","e":"post","y":2023,"v":0.529,"en":0.582,"sp":0.049,"ac":0.078,"da":0.812,"c":0},{"t":"Standing Next to You (PBR&B Remix)","s":"JUNGKOOK","e":"post","y":2023,"v":0.158,"en":0.627,"sp":0.039,"ac":0.006,"da":0.728,"c":1},{"t":"Standing Next to You (Latin Trap Remix)","s":"JUNGKOOK","e":"post","y":2023,"v":0.539,"en":0.63,"sp":0.051,"ac":0.029,"da":0.831,"c":0},{"t":"Standing Next to You (Holiday Remix)","s":"JUNGKOOK","e":"post","y":2023,"v":0.517,"en":0.855,"sp":0.054,"ac":0.007,"da":0.695,"c":0},{"t":"Standing Next to You (Future Funk Remix)","s":"JUNGKOOK","e":"post","y":2023,"v":0.46,"en":0.779,"sp":0.056,"ac":0.009,"da":0.771,"c":0},{"t":"Standing Next to You (Band Ver.)","s":"JUNGKOOK","e":"post","y":2023,"v":0.836,"en":0.808,"sp":0.076,"ac":0.039,"da":0.691,"c":0},{"t":"3D (Justin Timberlake Remix)","s":"JUNGKOOK","e":"post","y":2023,"v":0.884,"en":0.854,"sp":0.061,"ac":0.043,"da":0.817,"c":0},{"t":"Standing Next to You (Usher Remix)","s":"JUNGKOOK","e":"post","y":2023,"v":0.761,"en":0.823,"sp":0.127,"ac":0.054,"da":0.661,"c":0},{"t":"Never Let Go","s":"JUNGKOOK","e":"post","y":2024,"v":0.173,"en":0.773,"sp":0.069,"ac":0.048,"da":0.664,"c":1},{"t":"It's Definitely You (죽어도 너야)","s":"V","e":"pre","y":2016,"v":0.761,"en":0.731,"sp":0.071,"ac":0.241,"da":0.737,"c":0},{"t":"It's Definitely You - Instrumental","s":"V","e":"pre","y":2016,"v":0.795,"en":0.727,"sp":0.038,"ac":0.001,"da":0.613,"c":0},{"t":"Scenery","s":"V","e":"pre","y":2019,"v":0.247,"en":0.263,"sp":0.031,"ac":0.658,"da":0.367,"c":2},{"t":"Winter Bear","s":"V","e":"pre","y":2019,"v":0.291,"en":0.453,"sp":0.029,"ac":0.247,"da":0.291,"c":2},{"t":"Sweet Night","s":"V","e":"pre","y":2020,"v":0.146,"en":0.339,"sp":0.025,"ac":0.491,"da":0.459,"c":2},{"t":"Sweet Night (Inst.)","s":"V","e":"pre","y":2020,"v":0.113,"en":0.175,"sp":0.031,"ac":0.549,"da":0.608,"c":2},{"t":"Snow Flower (feat. Peakboy)","s":"V","e":"pre","y":2020,"v":0.355,"en":0.435,"sp":0.039,"ac":0.377,"da":0.767,"c":2},{"t":"Christmas Tree","s":"V","e":"pre","y":2021,"v":0.181,"en":0.384,"sp":0.042,"ac":0.699,"da":0.437,"c":2},{"t":"Christmas Tree - Inst.","s":"V","e":"pre","y":2021,"v":0.039,"en":0.194,"sp":0.042,"ac":0.721,"da":0.549,"c":2},{"t":"Rainy Days","s":"V","e":"post","y":2023,"v":0.282,"en":0.454,"sp":0.087,"ac":0.739,"da":0.633,"c":2},{"t":"Love Me Again","s":"V","e":"post","y":2023,"v":0.363,"en":0.607,"sp":0.053,"ac":0.183,"da":0.633,"c":1},{"t":"Rainy Days","s":"V","e":"post","y":2023,"v":0.282,"en":0.454,"sp":0.087,"ac":0.739,"da":0.633,"c":2},{"t":"Blue","s":"V","e":"post","y":2023,"v":0.277,"en":0.442,"sp":0.072,"ac":0.68,"da":0.735,"c":2},{"t":"Love Me Again","s":"V","e":"post","y":2023,"v":0.363,"en":0.607,"sp":0.053,"ac":0.183,"da":0.633,"c":1},{"t":"Slow Dancing","s":"V","e":"post","y":2023,"v":0.552,"en":0.63,"sp":0.058,"ac":0.257,"da":0.579,"c":1},{"t":"For Us","s":"V","e":"post","y":2023,"v":0.215,"en":0.339,"sp":0.033,"ac":0.798,"da":0.556,"c":2},{"t":"Slow Dancing (Piano Ver.)","s":"V","e":"post","y":2023,"v":0.564,"en":0.614,"sp":0.07,"ac":0.366,"da":0.609,"c":0},{"t":"Slow Dancing (FRNK Remix)","s":"V","e":"post","y":2023,"v":0.224,"en":0.95,"sp":0.041,"ac":0.246,"da":0.64,"c":1},{"t":"Slow Dancing (Cautious Clay Remix)","s":"V","e":"post","y":2023,"v":0.947,"en":0.908,"sp":0.046,"ac":0.29,"da":0.649,"c":0},{"t":"FRI(END)S","s":"V","e":"post","y":2024,"v":0.627,"en":0.601,"sp":0.053,"ac":0.032,"da":0.466,"c":1},{"t":"FRI(END)S (Instrumental)","s":"V","e":"post","y":2024,"v":0.456,"en":0.565,"sp":0.076,"ac":0.0,"da":0.73,"c":0},{"t":"FRI(END)S (Sped Up)","s":"V","e":"post","y":2024,"v":0.683,"en":0.7,"sp":0.04,"ac":0.022,"da":0.658,"c":0},{"t":"FRI(END)S (Slowed Down)","s":"V","e":"post","y":2024,"v":0.449,"en":0.562,"sp":0.031,"ac":0.064,"da":0.732,"c":0},{"t":"Winter Ahead (with PARK HYO SHIN)","s":"V","e":"post","y":2024,"v":0.229,"en":0.316,"sp":0.028,"ac":0.858,"da":0.36,"c":2},{"t":"Winter Ahead (with PARK HYO SHIN)","s":"V","e":"post","y":2024,"v":0.245,"en":0.306,"sp":0.029,"ac":0.858,"da":0.288,"c":2},{"t":"Winter Ahead (with PARK HYO SHIN) (Instrumental)","s":"V","e":"post","y":2024,"v":0.111,"en":0.208,"sp":0.026,"ac":0.762,"da":0.518,"c":2},{"t":"Winter Ahead (with PARK HYO SHIN) : Silent Carol Ver.","s":"V","e":"post","y":2024,"v":0.224,"en":0.308,"sp":0.029,"ac":0.876,"da":0.35,"c":2},{"t":"White Christmas (Instrumental)","s":"V","e":"post","y":2024,"v":0.163,"en":0.297,"sp":0.028,"ac":0.7,"da":0.376,"c":2},{"t":"White Christmas (with V of BTS)","s":"V","e":"post","y":2024,"v":0.158,"en":0.332,"sp":0.031,"ac":0.787,"da":0.227,"c":2},{"t":"White Christmas (with V of BTS) (Instrumental)","s":"V","e":"post","y":2024,"v":0.163,"en":0.297,"sp":0.028,"ac":0.7,"da":0.376,"c":2},{"t":"Winter Ahead (with PARK HYO SHIN)","s":"V","e":"post","y":2024,"v":0.245,"en":0.306,"sp":0.029,"ac":0.858,"da":0.288,"c":2},{"t":"Winter Ahead (with PARK HYO SHIN) : YUNSEOKCHEOL TRIO Ver.","s":"V","e":"post","y":2024,"v":0.192,"en":0.266,"sp":0.032,"ac":0.904,"da":0.489,"c":2}];
 
-// Datos embebidos — muestra representativa de cada cluster
-const RAW = [
-  // CLUSTER 0 — Bailable y alegre (muestra)
-  {t:"Intro: 2 Cool 4 Skool",s:"BTS",e:"pre",y:2013,v:0.532,en:0.835,sp:0.245,ac:0.179,da:0.894,c:0},
-  {t:"We Are Bulletproof Pt.2",s:"BTS",e:"pre",y:2013,v:0.868,en:0.896,sp:0.124,ac:0.011,da:0.776,c:0},
-  {t:"Dynamite",s:"BTS",e:"pre",y:2020,v:0.737,en:0.765,sp:0.085,ac:0.016,da:0.747,c:0},
-  {t:"Butter",s:"BTS",e:"pre",y:2021,v:0.695,en:0.807,sp:0.093,ac:0.003,da:0.847,c:0},
-  {t:"Permission to Dance",s:"BTS",e:"pre",y:2021,v:0.646,en:0.763,sp:0.031,ac:0.022,da:0.843,c:0},
-  {t:"Fire",s:"BTS",e:"pre",y:2016,v:0.617,en:0.877,sp:0.091,ac:0.001,da:0.699,c:0},
-  {t:"DNA",s:"BTS",e:"pre",y:2017,v:0.823,en:0.863,sp:0.063,ac:0.005,da:0.814,c:0},
-  {t:"Boy With Luv",s:"BTS",e:"pre",y:2019,v:0.817,en:0.815,sp:0.056,ac:0.024,da:0.798,c:0},
-  {t:"IDOL",s:"BTS",e:"pre",y:2018,v:0.782,en:0.867,sp:0.098,ac:0.019,da:0.761,c:0},
-  {t:"Fake Love",s:"BTS",e:"pre",y:2018,v:0.452,en:0.852,sp:0.11,ac:0.01,da:0.619,c:1},
-  {t:"Blood Sweat & Tears",s:"BTS",e:"pre",y:2016,v:0.563,en:0.793,sp:0.072,ac:0.016,da:0.681,c:0},
-  {t:"MIC Drop",s:"BTS",e:"pre",y:2017,v:0.459,en:0.876,sp:0.15,ac:0.002,da:0.712,c:1},
-  {t:"on the street",s:"JHOPE",e:"post",y:2023,v:0.813,en:0.635,sp:0.037,ac:0.225,da:0.72,c:0},
-  {t:"Killin' It Girl",s:"JHOPE",e:"post",y:2025,v:0.734,en:0.766,sp:0.062,ac:0.009,da:0.814,c:0},
-  {t:"MONA LISA",s:"JHOPE",e:"post",y:2025,v:0.96,en:0.806,sp:0.055,ac:0.015,da:0.804,c:0},
-  {t:"Seven (feat. Latto)",s:"JUNGKOOK",e:"post",y:2023,v:0.891,en:0.822,sp:0.037,ac:0.007,da:0.901,c:0},
-  {t:"3D (feat. Jack Harlow)",s:"JUNGKOOK",e:"post",y:2023,v:0.888,en:0.762,sp:0.064,ac:0.025,da:0.832,c:0},
-  {t:"Standing Next to You",s:"JUNGKOOK",e:"post",y:2023,v:0.816,en:0.807,sp:0.056,ac:0.01,da:0.785,c:0},
-  {t:"Golden Hour",s:"JUNGKOOK",e:"post",y:2023,v:0.847,en:0.663,sp:0.038,ac:0.095,da:0.782,c:0},
-  {t:"Who",s:"JIMIN",e:"post",y:2024,v:0.838,en:0.782,sp:0.035,ac:0.009,da:0.714,c:0},
-  {t:"Like Crazy",s:"JIMIN",e:"post",y:2023,v:0.32,en:0.628,sp:0.051,ac:0.063,da:0.588,c:1},
-  {t:"Be Mine",s:"JIMIN",e:"post",y:2024,v:0.526,en:0.734,sp:0.046,ac:0.072,da:0.747,c:0},
-  {t:"Running Wild",s:"JIN",e:"post",y:2024,v:0.317,en:0.803,sp:0.048,ac:0.047,da:0.617,c:1},
-  {t:"Happy",s:"JIN",e:"post",y:2024,v:0.802,en:0.7,sp:0.041,ac:0.142,da:0.615,c:0},
-  {t:"Echo",s:"JIN",e:"post",y:2025,v:0.492,en:0.801,sp:0.049,ac:0.048,da:0.543,c:1},
-  // CLUSTER 1 — Intenso y oscuro
-  {t:"No More Dream",s:"BTS",e:"pre",y:2013,v:0.612,en:0.956,sp:0.197,ac:0.009,da:0.691,c:1},
-  {t:"N.O",s:"BTS",e:"pre",y:2013,v:0.452,en:0.961,sp:0.177,ac:0.004,da:0.733,c:1},
-  {t:"Danger",s:"BTS",e:"pre",y:2014,v:0.327,en:0.931,sp:0.087,ac:0.008,da:0.685,c:1},
-  {t:"Run",s:"BTS",e:"pre",y:2015,v:0.442,en:0.889,sp:0.068,ac:0.005,da:0.659,c:1},
-  {t:"I Need U",s:"BTS",e:"pre",y:2015,v:0.468,en:0.749,sp:0.047,ac:0.134,da:0.611,c:1},
-  {t:"ON",s:"BTS",e:"pre",y:2020,v:0.364,en:0.88,sp:0.071,ac:0.013,da:0.641,c:1},
-  {t:"Black Swan",s:"BTS",e:"pre",y:2020,v:0.179,en:0.549,sp:0.052,ac:0.057,da:0.574,c:2},
-  {t:"Shadow",s:"BTS",e:"pre",y:2020,v:0.252,en:0.833,sp:0.322,ac:0.058,da:0.549,c:1},
-  {t:"Ego",s:"JHOPE",e:"pre",y:2020,v:0.645,en:0.937,sp:0.239,ac:0.001,da:0.754,c:1},
-  {t:"Trivia: Just Dance",s:"JHOPE",e:"pre",y:2018,v:0.723,en:0.889,sp:0.238,ac:0.004,da:0.842,c:0},
-  {t:"Agust D",s:"SUGA",e:"pre",y:2016,v:0.299,en:0.953,sp:0.431,ac:0.029,da:0.759,c:1},
-  {t:"give it to me",s:"SUGA",e:"pre",y:2016,v:0.331,en:0.955,sp:0.391,ac:0.017,da:0.697,c:1},
-  {t:"Daechwita",s:"SUGA",e:"post",y:2020,v:0.384,en:0.939,sp:0.183,ac:0.021,da:0.694,c:1},
-  {t:"HUH?! (feat. j-hope)",s:"SUGA",e:"post",y:2023,v:0.544,en:0.942,sp:0.287,ac:0.014,da:0.727,c:1},
-  {t:"Trivia: Seesaw",s:"SUGA",e:"pre",y:2018,v:0.352,en:0.673,sp:0.075,ac:0.174,da:0.583,c:1},
-  {t:"Mono intro",s:"RM",e:"pre",y:2018,v:0.189,en:0.638,sp:0.093,ac:0.218,da:0.531,c:1},
-  {t:"Moonchild",s:"RM",e:"pre",y:2018,v:0.359,en:0.463,sp:0.04,ac:0.485,da:0.553,c:2},
-  {t:"Indigo",s:"RM",e:"post",y:2022,v:0.358,en:0.636,sp:0.059,ac:0.208,da:0.561,c:1},
-  {t:"All Day",s:"RM",e:"post",y:2024,v:0.524,en:0.749,sp:0.095,ac:0.116,da:0.674,c:1},
-  {t:"Super Tuna",s:"JIN",e:"pre",y:2021,v:0.815,en:0.8,sp:0.094,ac:0.037,da:0.726,c:0},
-  {t:"The Astronaut",s:"JIN",e:"pre",y:2022,v:0.339,en:0.774,sp:0.031,ac:0.031,da:0.563,c:1},
-  {t:"Abyss",s:"JIN",e:"pre",y:2020,v:0.143,en:0.315,sp:0.033,ac:0.852,da:0.421,c:2},
-  // CLUSTER 2 — Melancólico y acústico
-  {t:"Butterfly",s:"BTS",e:"pre",y:2015,v:0.22,en:0.441,sp:0.044,ac:0.502,da:0.537,c:2},
-  {t:"House of Cards",s:"BTS",e:"pre",y:2016,v:0.151,en:0.32,sp:0.035,ac:0.862,da:0.383,c:2},
-  {t:"Spring Day",s:"BTS",e:"pre",y:2017,v:0.245,en:0.537,sp:0.031,ac:0.26,da:0.526,c:2},
-  {t:"The Truth Untold",s:"BTS",e:"pre",y:2018,v:0.135,en:0.316,sp:0.028,ac:0.786,da:0.376,c:2},
-  {t:"Whalien 52",s:"BTS",e:"pre",y:2016,v:0.362,en:0.475,sp:0.028,ac:0.337,da:0.617,c:2},
-  {t:"Magic Shop",s:"BTS",e:"pre",y:2018,v:0.399,en:0.553,sp:0.032,ac:0.203,da:0.591,c:2},
-  {t:"Winter Bear",s:"V",e:"pre",y:2019,v:0.291,en:0.354,sp:0.03,ac:0.527,da:0.517,c:2},
-  {t:"Sweet Night",s:"V",e:"pre",y:2020,v:0.146,en:0.218,sp:0.033,ac:0.902,da:0.382,c:2},
-  {t:"Scenery",s:"V",e:"pre",y:2019,v:0.188,en:0.283,sp:0.031,ac:0.747,da:0.461,c:2},
-  {t:"FRI(END)S",s:"V",e:"post",y:2024,v:0.627,en:0.607,sp:0.032,ac:0.244,da:0.622,c:0},
-  {t:"Winter Ahead",s:"V",e:"post",y:2024,v:0.229,en:0.395,sp:0.036,ac:0.622,da:0.521,c:2},
-  {t:"Layover intro",s:"V",e:"post",y:2023,v:0.159,en:0.209,sp:0.035,ac:0.892,da:0.384,c:2},
-  {t:"tokyo",s:"RM",e:"pre",y:2018,v:0.071,en:0.467,sp:0.044,ac:0.576,da:0.547,c:2},
-  {t:"forever rain",s:"RM",e:"pre",y:2018,v:0.113,en:0.353,sp:0.038,ac:0.721,da:0.489,c:2},
-  {t:"Promise",s:"JIMIN",e:"pre",y:2018,v:0.312,en:0.393,sp:0.028,ac:0.646,da:0.521,c:2},
-  {t:"Christmas Love",s:"JIMIN",e:"pre",y:2020,v:0.493,en:0.327,sp:0.027,ac:0.859,da:0.455,c:2},
-  {t:"Set Me Free Pt.2",s:"JIMIN",e:"post",y:2023,v:0.377,en:0.615,sp:0.048,ac:0.035,da:0.675,c:1},
-  {t:"Shot Glass of Tears",s:"JUNGKOOK",e:"post",y:2023,v:0.164,en:0.488,sp:0.035,ac:0.458,da:0.492,c:2},
-  {t:"Never Let Go",s:"JUNGKOOK",e:"post",y:2024,v:0.173,en:0.388,sp:0.042,ac:0.579,da:0.493,c:2},
-  {t:"Too Sad to Dance",s:"JUNGKOOK",e:"post",y:2023,v:0.563,en:0.528,sp:0.04,ac:0.092,da:0.712,c:0},
-  {t:"Closer",s:"RM",e:"pre",y:2022,v:0.403,en:0.599,sp:0.063,ac:0.322,da:0.568,c:2},
-  {t:"Blue & Grey",s:"V",e:"pre",y:2020,v:0.151,en:0.338,sp:0.027,ac:0.682,da:0.441,c:2},
-  // CLUSTER 3 — Spoken word
-  {t:"Skit: Circle Room Talk",s:"BTS",e:"pre",y:2016,v:0.714,en:0.331,sp:0.948,ac:0.769,da:0.635,c:3},
-  {t:"Skit: R U Happy Now?",s:"BTS",e:"pre",y:2017,v:0.577,en:0.419,sp:0.947,ac:0.795,da:0.576,c:3},
-  {t:"Skit: Billboard Music Awards",s:"BTS",e:"pre",y:2017,v:0.327,en:0.294,sp:0.963,ac:0.857,da:0.411,c:3},
-  {t:"Outro: Circle Room Cypher",s:"BTS",e:"pre",y:2016,v:0.793,en:0.627,sp:0.892,ac:0.465,da:0.682,c:3},
-];
+/* ===== Config ===== */
+const CLUSTER_COLOR = { 0: '#6C63FF', 1: '#E8637F', 2: '#4CAF7D', 3: '#D98E4A' };
+const CLUSTER_LABEL = { 0: 'Bailable y alegre', 1: 'Intenso y oscuro', 2: 'Melancólico y acústico', 3: 'Spoken word' };
+const CLUSTER_DESC = {
+  0: 'Alta energía, alto valence, alta bailabilidad. El BTS de estadio y los grandes hits comerciales.',
+  1: 'Alta energía, bajo valence. Canciones de crítica social, rap denso y las narrativas más complejas.',
+  2: 'Bajo valence, baja energía, alta acousticness. El BTS más íntimo y los álbumes en solitario más emotivos.',
+  3: 'Speechiness muy alto. Skits e interludes hablados: un grupo pequeño pero muy específico.'
+};
 
-const CLUSTER_INFO = [
-  { n:'Bailable y alegre', desc:'Alta energía, alto valence, alta bailabilidad. El BTS de estadio y los grandes hits comerciales.', pct_pre:'31.6%', pct_post:'47.2%' },
-  { n:'Intenso y oscuro', desc:'Alta energía, bajo valence. Canciones de crítica social, rap denso y las narrativas más complejas.', pct_pre:'53.2%', pct_post:'37.7%' },
-  { n:'Melancólico y acústico', desc:'Bajo valence, baja energía, alta acousticness. El BTS más íntimo y los álbumes en solitario más emotivos.', pct_pre:'12.9%', pct_post:'14.4%' },
-  { n:'Spoken word', desc:'Speechiness muy alto. Skits, interludes hablados. Un cluster pequeño pero muy específico.', pct_pre:'2.3%', pct_post:'0.7%' },
-];
+const MEMBER_ORDER = ['ALL','BTS','RM','SUGA','JHOPE','JIMIN','JIN','V','JUNGKOOK'];
+const MEMBER_LABEL = { ALL:'Todos los miembros', BTS:'BTS (grupo)', RM:'RM', SUGA:'SUGA', JHOPE:'J-HOPE', JIMIN:'JIMIN', JIN:'JIN', V:'V', JUNGKOOK:'JUNGKOOK' };
+const ERA_LABEL = { pre: 'Pre-servicio', post: 'Reencuentro' };
 
-let activeC = new Set([0,1,2,3]);
-let activeEra = 'ALL';
-let activeMember = 'ALL';
+let state = { miembro: 'ALL', era: 'ALL', activeClusters: new Set([0,1,2,3]), selected: null };
 
+/* ===== Populate member select ===== */
+const miembroSelect = document.getElementById('miembro-select');
+MEMBER_ORDER.forEach(m => {
+  if (m === 'ALL') return;
+  const opt = document.createElement('option');
+  opt.value = m; opt.textContent = MEMBER_LABEL[m];
+  miembroSelect.appendChild(opt);
+});
+
+/* ===== Cluster stats (por era, sobre todo el corpus) ===== */
+function clusterStats(c) {
+  const inCluster = DATA.filter(d => d.c === c);
+  const pre = DATA.filter(d => d.e === 'pre').length;
+  const post = DATA.filter(d => d.e === 'post').length;
+  const prePct = pre ? (inCluster.filter(d => d.e === 'pre').length / pre * 100) : 0;
+  const postPct = post ? (inCluster.filter(d => d.e === 'post').length / post * 100) : 0;
+  return { n: inCluster.length, prePct, postPct };
+}
+
+/* ===== Legend ===== */
+function renderLegend() {
+  const clusterWrap = document.getElementById('legend-cluster');
+  clusterWrap.innerHTML = [0,1,2,3].map(c => `
+    <div class="legend-item${state.activeClusters.has(c) ? '' : ' dim'}" data-cluster="${c}">
+      <span class="legend-dot" style="background:${CLUSTER_COLOR[c]}"></span>
+      <span><b>${CLUSTER_LABEL[c]}</b> <span class="legend-desc">(n=${clusterStats(c).n})</span></span>
+    </div>`).join('');
+
+  clusterWrap.querySelectorAll('[data-cluster]').forEach(el => {
+    el.addEventListener('click', () => {
+      const c = +el.dataset.cluster;
+      if (state.activeClusters.has(c)) {
+        if (state.activeClusters.size > 1) state.activeClusters.delete(c);
+      } else {
+        state.activeClusters.add(c);
+      }
+      renderLegend();
+      renderClusterCards();
+      drawPoints();
+    });
+  });
+}
+
+/* ===== Cluster description cards ===== */
+function renderClusterCards() {
+  const wrap = document.getElementById('cluster-cards');
+  wrap.innerHTML = [0,1,2,3].map(c => {
+    const st = clusterStats(c);
+    const dim = state.activeClusters.has(c) ? '' : ' dim';
+    return `<div class="cluster-card${dim}" data-cluster="${c}" style="border-left-color:${CLUSTER_COLOR[c]}">
+      <div class="cluster-card-name" style="color:${CLUSTER_COLOR[c]}">${CLUSTER_LABEL[c]}</div>
+      <div class="cluster-card-desc">${CLUSTER_DESC[c]}</div>
+      <div class="cluster-card-stat">Pre-servicio: <b>${st.prePct.toFixed(1)}%</b> · Reencuentro: <b>${st.postPct.toFixed(1)}%</b></div>
+    </div>`;
+  }).join('');
+
+  wrap.querySelectorAll('[data-cluster]').forEach(el => {
+    el.addEventListener('click', () => {
+      const c = +el.dataset.cluster;
+      if (state.activeClusters.has(c)) {
+        if (state.activeClusters.size > 1) state.activeClusters.delete(c);
+      } else {
+        state.activeClusters.add(c);
+      }
+      renderLegend();
+      renderClusterCards();
+      drawPoints();
+    });
+  });
+}
+
+/* ===== Filtering ===== */
 function filtered() {
-  return RAW.filter(d => {
-    if (!activeC.has(d.c)) return false;
-    if (activeEra !== 'ALL' && d.e !== activeEra) return false;
-    if (activeMember !== 'ALL' && d.s !== activeMember) return false;
+  return DATA.filter(d => {
+    if (!state.activeClusters.has(d.c)) return false;
+    if (state.era !== 'ALL' && d.e !== state.era) return false;
+    if (state.miembro !== 'ALL' && d.s !== state.miembro) return false;
     return true;
   });
 }
 
-// Scatter
-const margin = {top:20,right:20,bottom:50,left:55};
-let W, H, svg, xScale, yScale, gPts, tooltip;
+function renderStats() {
+  const n = filtered().length;
+  document.getElementById('stats-line').innerHTML = `Mostrando <b>${n}</b> de <b>${DATA.length}</b> canciones`;
+}
 
-function initChart() {
-  const el = document.getElementById('chart');
-  W = el.clientWidth - margin.left - margin.right;
-  H = el.clientHeight - margin.top - margin.bottom;
-  d3.select('#chart').selectAll('*').remove();
+/* ===== Chart ===== */
+const margin = { top: 20, right: 20, bottom: 45, left: 45 };
+let W, H, svg, xScale, yScale, gPoints, tooltip;
 
-  svg = d3.select('#chart').append('svg')
-    .attr('width', W+margin.left+margin.right)
-    .attr('height', H+margin.top+margin.bottom)
-    .append('g').attr('transform',`translate(${margin.left},${margin.top})`);
+function diamondPath(x, y, r) {
+  return `M${x},${y-r} L${x+r},${y} L${x},${y+r} L${x-r},${y} Z`;
+}
+
+function initScatter() {
+  const container = document.getElementById('scatter');
+  const size = Math.min(container.clientWidth, 640);
+  W = size - margin.left - margin.right;
+  H = size - margin.top - margin.bottom;
+
+  d3.select('#scatter').selectAll('*').remove();
+
+  svg = d3.select('#scatter').append('svg')
+    .attr('width', '100%')
+    .attr('viewBox', `0 0 ${size} ${size}`)
+    .append('g')
+    .attr('transform', `translate(${margin.left},${margin.top})`);
 
   xScale = d3.scaleLinear().domain([0,1]).range([0,W]);
   yScale = d3.scaleLinear().domain([0,1]).range([H,0]);
 
-  svg.append('g').attr('transform',`translate(0,${H})`).call(d3.axisBottom(xScale).ticks(5).tickFormat(d3.format('.1f'))).selectAll('text').style('fill','#888');
-  svg.append('g').call(d3.axisLeft(yScale).ticks(5).tickFormat(d3.format('.1f'))).selectAll('text').style('fill','#888');
-  svg.selectAll('.domain,.tick line').style('stroke','#333');
+  const ticks = [0,0.2,0.4,0.6,0.8,1.0];
+  svg.append('g').selectAll('line.gx').data(ticks).enter().append('line')
+    .attr('x1', d => xScale(d)).attr('x2', d => xScale(d)).attr('y1', 0).attr('y2', H)
+    .style('stroke', '#eee').style('stroke-width', 1);
+  svg.append('g').selectAll('line.gy').data(ticks).enter().append('line')
+    .attr('y1', d => yScale(d)).attr('y2', d => yScale(d)).attr('x1', 0).attr('x2', W)
+    .style('stroke', '#eee').style('stroke-width', 1);
 
-  svg.append('text').attr('x',W/2).attr('y',H+40).attr('text-anchor','middle').style('fill','#888').style('font-size','12px').text('Valence (positividad musical)');
-  svg.append('text').attr('transform','rotate(-90)').attr('x',-H/2).attr('y',-42).attr('text-anchor','middle').style('fill','#888').style('font-size','12px').text('Energy (intensidad)');
+  svg.append('g').attr('transform', `translate(0,${H})`)
+    .call(d3.axisBottom(xScale).tickValues(ticks).tickFormat(d3.format('.1f')))
+    .call(g => g.select('.domain').style('stroke', '#ccc'))
+    .selectAll('text').style('fill', '#888').style('font-size', '11px');
+  svg.append('g')
+    .call(d3.axisLeft(yScale).tickValues(ticks).tickFormat(d3.format('.1f')))
+    .call(g => g.select('.domain').style('stroke', '#ccc'))
+    .selectAll('text').style('fill', '#888').style('font-size', '11px');
+  svg.selectAll('.tick line').style('stroke', '#eee');
 
-  gPts = svg.append('g');
+  svg.append('text').attr('x', W/2).attr('y', H + 38).attr('text-anchor','middle')
+    .style('fill','#888').style('font-size','11px').text('Valence (positividad musical)');
+  svg.append('text').attr('transform','rotate(-90)').attr('x',-H/2).attr('y',-32).attr('text-anchor','middle')
+    .style('fill','#888').style('font-size','11px').text('Energy (intensidad)');
 
-  tooltip = d3.select('body').append('div')
-    .style('position','fixed').style('pointer-events','none').style('opacity',0)
-    .style('background','#1a1a22').style('border','1px solid #333').style('border-radius','8px')
-    .style('padding','10px 14px').style('font-size','12px').style('color','#f0f0f5')
-    .style('max-width','220px').style('line-height','1.5').style('z-index','999');
+  gPoints = svg.append('g');
+  tooltip = d3.select('#tooltip');
 
-  draw();
+  drawPoints();
 }
 
-// Diamond path for post-era
-function diamond(x, y, r) {
-  return `M${x},${y-r} L${x+r},${y} L${x},${y+r} L${x-r},${y} Z`;
+function showTooltip(event, d) {
+  tooltip.html(`
+    <div class="tt-title">${d.t}</div>
+    <div class="tt-meta">${MEMBER_LABEL[d.s] || d.s} · ${ERA_LABEL[d.e]} · ${d.y}</div>
+    <div class="tt-row">Valence: <b>${d.v.toFixed(2)}</b> · Energy: <b>${d.en.toFixed(2)}</b></div>
+    <span class="tt-cluster" style="background:${CLUSTER_COLOR[d.c]}22;color:${CLUSTER_COLOR[d.c]}">${CLUSTER_LABEL[d.c]}</span>
+  `).style('opacity', 1);
+  moveTooltip(event);
 }
+function moveTooltip(event) {
+  const x = event.clientX, y = event.clientY;
+  const ttW = 240, ttH = 120;
+  let left = x + 16, top = y - 20;
+  if (left + ttW > window.innerWidth) left = x - ttW - 16;
+  if (top + ttH > window.innerHeight) top = window.innerHeight - ttH - 10;
+  tooltip.style('left', left + 'px').style('top', Math.max(10, top) + 'px');
+}
+function hideTooltip() { tooltip.style('opacity', 0); }
 
-function draw() {
+function drawPoints() {
   const data = filtered();
-  gPts.selectAll('*').remove();
+  renderStats();
 
-  data.forEach(d => {
-    const x = xScale(d.v), y = yScale(d.en);
-    const color = COLORS[d.c];
-    const r = 6;
+  const key = d => d.t + '|' + d.s + '|' + d.y;
 
-    let el;
-    if (d.e === 'pre') {
-      el = gPts.append('circle').attr('cx',x).attr('cy',y).attr('r',r);
-    } else {
-      el = gPts.append('path').attr('d', diamond(x, y, r));
-    }
+  const circles = gPoints.selectAll('circle.pt').data(data.filter(d => d.e === 'pre'), key);
+  circles.exit().remove();
+  circles.enter().append('circle').attr('class','pt').merge(circles)
+    .attr('cx', d => xScale(d.v)).attr('cy', d => yScale(d.en))
+    .attr('r', d => isSelected(d) ? 8.5 : 6)
+    .attr('fill', d => CLUSTER_COLOR[d.c])
+    .attr('fill-opacity', 0.72)
+    .attr('stroke', d => isSelected(d) ? '#16161d' : '#fff')
+    .attr('stroke-width', d => isSelected(d) ? 2.5 : 1)
+    .style('cursor','pointer')
+    .on('mouseover', function(event,d){ d3.select(this).attr('r', 8.5); showTooltip(event,d); })
+    .on('mousemove', moveTooltip)
+    .on('mouseout', function(event,d){ d3.select(this).attr('r', isSelected(d)?8.5:6); hideTooltip(); })
+    .on('click', function(event,d){ state.selected = d; drawPoints(); openDetail(d); hideTooltip(); });
 
-    el.attr('fill', color).attr('opacity', 0.75).style('cursor','pointer')
-      .on('mouseover', function(event) {
-        d3.select(this).attr('opacity',1);
-        tooltip.style('opacity',1).html(`<strong>${d.t}</strong><br><span style="color:${color}">${NOMBRES[d.c]}</span><br>${d.s} · ${d.y}<br>Valence: ${d.v.toFixed(2)} · Energy: ${d.en.toFixed(2)}`);
-      })
-      .on('mousemove', function(event) { tooltip.style('left',(event.clientX+14)+'px').style('top',(event.clientY-28)+'px'); })
-      .on('mouseout', function() { d3.select(this).attr('opacity',0.75); tooltip.style('opacity',0); })
-      .on('click', function() { showSong(d); });
-  });
-
-  updateStats(data);
-  renderSidebar();
+  const diamonds = gPoints.selectAll('path.pt-d').data(data.filter(d => d.e === 'post'), key);
+  diamonds.exit().remove();
+  diamonds.enter().append('path').attr('class','pt-d').merge(diamonds)
+    .attr('d', d => diamondPath(xScale(d.v), yScale(d.en), isSelected(d) ? 8.5 : 6))
+    .attr('fill', d => CLUSTER_COLOR[d.c])
+    .attr('fill-opacity', 0.72)
+    .attr('stroke', d => isSelected(d) ? '#16161d' : '#fff')
+    .attr('stroke-width', d => isSelected(d) ? 2.5 : 1)
+    .style('cursor','pointer')
+    .on('mouseover', function(event,d){ d3.select(this).attr('d', diamondPath(xScale(d.v), yScale(d.en), 8.5)); showTooltip(event,d); })
+    .on('mousemove', moveTooltip)
+    .on('mouseout', function(event,d){ d3.select(this).attr('d', diamondPath(xScale(d.v), yScale(d.en), isSelected(d)?8.5:6)); hideTooltip(); })
+    .on('click', function(event,d){ state.selected = d; drawPoints(); openDetail(d); hideTooltip(); });
 }
 
-function showSong(d) {
-  const c = document.getElementById('sidebar-content');
-  const color = COLORS[d.c];
-  c.innerHTML = `
-    <div class="song-detail">
-      <div class="song-title">${d.t}</div>
-      <div class="song-meta" style="color:${color};font-weight:600">${NOMBRES[d.c]}</div>
-      <div class="song-meta">${d.s} · ${d.e === 'pre' ? 'Pre-servicio' : 'Reencuentro'} · ${d.y}</div>
-      <div class="feat-bars">
-        ${[['Valence',d.v],['Energy',d.en],['Speechiness',d.sp],['Acousticness',d.ac],['Danceability',d.da]].map(([l,v]) => `
-          <div class="feat-row">
-            <span class="feat-label">${l}</span>
-            <div class="feat-track"><div class="feat-fill" style="width:${v*100}%;background:${color}"></div></div>
-            <span class="feat-val">${v.toFixed(2)}</span>
-          </div>`).join('')}
-      </div>
-    </div>
-    <div style="font-size:11px;color:var(--muted);margin-top:0.5rem">← Haz clic en otro punto para comparar</div>
-  `;
-}
+function isSelected(d) { return state.selected && state.selected.t === d.t && state.selected.y === d.y; }
 
-function renderSidebar() {
-  const c = document.getElementById('sidebar-content');
-  c.innerHTML = CLUSTER_INFO.map((cl, i) => {
-    if (!activeC.has(i)) return '';
-    return `<div class="cluster-card" style="border-left:3px solid ${COLORS[i]}">
-      <div class="cluster-name" style="color:${COLORS[i]}">${cl.n}</div>
-      <div class="cluster-desc">${cl.desc}</div>
-      <div class="cluster-stat">Pre-servicio: <span>${cl.pct_pre}</span> · Reencuentro: <span>${cl.pct_post}</span></div>
-    </div>`;
-  }).join('');
-}
-
-function updateStats(data) {
-  const byC = [0,1,2,3].map(i => data.filter(d=>d.c===i).length);
-  document.getElementById('stats').innerHTML = `
-    <div class="stat"><div class="stat-val">${data.length}</div><div class="stat-label">Canciones</div></div>
-    ${byC.map((n,i) => n > 0 ? `<div class="stat"><div class="stat-val" style="color:${COLORS[i]}">${n}</div><div class="stat-label">${NOMBRES[i].split(' ').slice(0,2).join(' ')}</div></div>` : '').join('')}
-  `;
-}
-
-// Controls
-document.querySelectorAll('[data-cluster]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const c = +btn.dataset.cluster;
-    if (activeC.has(c)) { activeC.delete(c); btn.classList.remove('active'); }
-    else { activeC.add(c); btn.classList.add('active'); }
-    draw();
-  });
+/* ===== Detail card ===== */
+const detailCard = document.getElementById('detail-card');
+document.getElementById('detail-close').addEventListener('click', () => {
+  state.selected = null;
+  drawPoints();
+  closeDetail();
 });
 
-document.querySelectorAll('[data-era]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    activeEra = btn.dataset.era;
-    document.querySelectorAll('[data-era]').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    draw();
-  });
+function openDetail(d) {
+  document.getElementById('detail-title').textContent = d.t;
+  document.getElementById('detail-sub').textContent = `${MEMBER_LABEL[d.s] || d.s} · ${ERA_LABEL[d.e]} · ${d.y}`;
+  const tag = document.getElementById('detail-cluster-tag');
+  tag.textContent = CLUSTER_LABEL[d.c];
+  tag.style.background = CLUSTER_COLOR[d.c] + '22';
+  tag.style.color = CLUSTER_COLOR[d.c];
+
+  const feats = [['Valence', d.v], ['Energy', d.en], ['Danceability', d.da], ['Acousticness', d.ac], ['Speechiness', d.sp]];
+  document.getElementById('detail-bars').innerHTML = feats.map(([label, val]) => `
+    <div class="feat-row">
+      <span class="feat-label">${label}</span>
+      <div class="feat-track"><div class="feat-fill" style="width:${val*100}%;background:${CLUSTER_COLOR[d.c]}"></div></div>
+      <span class="feat-val">${val.toFixed(2)}</span>
+    </div>`).join('');
+
+  detailCard.classList.add('open');
+}
+function closeDetail() { detailCard.classList.remove('open'); }
+
+/* ===== Selects ===== */
+document.getElementById('miembro-select').addEventListener('change', (e) => {
+  state.miembro = e.target.value;
+  drawPoints();
+});
+document.getElementById('era-select').addEventListener('change', (e) => {
+  state.era = e.target.value;
+  drawPoints();
 });
 
-document.querySelectorAll('[data-member]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    activeMember = btn.dataset.member;
-    document.querySelectorAll('[data-member]').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    draw();
-    renderSidebar();
-  });
-});
-
-initChart();
-window.addEventListener('resize', initChart);
+/* ===== Init ===== */
+renderLegend();
+renderClusterCards();
+initScatter();
+window.addEventListener('resize', initScatter);
 </script>
 </body>
 </html>

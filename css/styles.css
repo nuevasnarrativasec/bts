@@ -650,6 +650,10 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     .ctn-box-radiografia{
 
     }
+        .ctn-box-clustering{
+            margin: 30px auto 0;
+            max-width: 900px;
+        }
         .ctn-box-radiografia h5,
         .ctn-box-cronologia h5{
             color: #5254BF;
@@ -763,7 +767,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-capas h6,
             .ctn-box-analisis-cancion h6,
             .ctn-box-buscador-cancion h6,
-            .ctn-box-arirang h6{
+            .ctn-box-arirang h6,
+            .ctn-box-radiografia h6{
                 background-color: #F42439;
                 color: #fff;
                 display: block;
@@ -777,7 +782,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .ctn-box-capas h6::after,
                 .ctn-box-analisis-cancion h6::after,
                 .ctn-box-buscador-cancion h6::after,
-                .ctn-box-arirang h6::after{
+                .ctn-box-arirang h6::after,
+                .ctn-box-radiografia h6::after{
                     content: '';
                     width: 0; height: 0;
                     border-style: solid;
