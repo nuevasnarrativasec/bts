@@ -2621,3 +2621,34 @@ img.bg-footer{
     }
 
 }
+
+@media (max-width: 640px){
+
+    .animacion-cta{
+        position: relative;
+        top: 20px;
+    }
+    .animacion-video--full{
+        height: 40vh;
+    }
+    .animacion-texto--2 {
+        bottom: 30px;
+        left: 50%;
+        width: 70%;
+    }
+    .ctn-box-universo-musical, 
+    .ctn-box-canciones, 
+    .ctn-box-capas, 
+    .ctn-box-analisis-cancion, 
+    .ctn-box-buscador-cancion, 
+    .ctn-box-arirang, 
+    .ctn-box-cronologia, 
+    .ctn-box-siete-voces, 
+    .ctn-box-compara, 
+    .ctn-box-perfil-radar, 
+    .ctn-box-comunidad, 
+    .ctn-box-facturando{
+        padding: 0 20px;
+    }
+
+}
