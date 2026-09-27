@@ -964,7 +964,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 display: flex;
                 gap: 0;
                 margin: 30px auto 10px;
-                overflow-x: hidden;
+                overflow-x: auto;
                 overflow-y: visible;
                 padding: 10px 24px 34px;
                 -webkit-overflow-scrolling: touch;
@@ -974,9 +974,9 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                    el arrastre). Las flechas siguen alineando por página
                    porque usan scrollTo() directo, no dependen del snap. */
             }
-                .scroll-discos::-webkit-scrollbar{ height: 8px; }
-                .scroll-discos::-webkit-scrollbar-track{ background: #e4e4e4; border-radius: 10px; }
-                .scroll-discos::-webkit-scrollbar-thumb{ background: var(--red); border-radius: 10px; }
+                .scroll-discos::-webkit-scrollbar{ height: 8px; opacity: 0;}
+                .scroll-discos::-webkit-scrollbar-track{ background: #e4e4e4; border-radius: 10px; opacity: 0;}
+                .scroll-discos::-webkit-scrollbar-thumb{ background: var(--red); border-radius: 10px; opacity: 0;}
                 .scroll-discos.is-dragging{
                     cursor: grabbing;
                     scroll-behavior: auto;
@@ -1091,10 +1091,16 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             }
 
             @media (max-width: 560px){
+                /* En móvil cada "página" trae un solo disco (ver carrusel-discos.js,
+                   que agrupa de a 1 por debajo de este mismo ancho), así que cada
+                   swipe/click de flecha muestra una portada a la vez. */
                 .discos-page{
-                    grid-template-columns: repeat(2, 150px);
-                    gap: 46px 20px;
+                    grid-template-columns: minmax(0, 240px);
+                    grid-template-rows: auto;
+                    gap: 0;
+                    justify-content: center;
                     padding: 0 14px;
+                    width: 100%;
                 }
             }
 .box-iframe{
@@ -2649,6 +2655,70 @@ img.bg-footer{
     .ctn-box-comunidad, 
     .ctn-box-facturando{
         padding: 0 20px;
+    }
+    .carousel-arrow--prev{
+        left: 15px;
+    }
+    .carousel-arrow--next{
+        right: 15px;
+    }
+    .ctn-box-radiografia h4{
+        padding: 0 20px;
+    }
+    .ctn-box-universo-musical p, 
+    .ctn-box-radiografia p, 
+    .ctn-box-canciones p, 
+    .ctn-box-canciones p, 
+    .ctn-box-capas p, 
+    .ctn-box-analisis-cancion p, 
+    .ctn-box-buscador-cancion p, 
+    .ctn-box-arirang p, 
+    .ctn-box-cronologia p, 
+    .ctn-box-siete-voces p, 
+    .ctn-box-compara p, 
+    .ctn-box-perfil-radar p, 
+    .ctn-box-comunidad p, 
+    .ctn-box-facturando p{
+        padding: 0 20px;
+    }
+    .ctn-box-universo-musical h4, 
+    .ctn-box-radiografia h4, 
+    .ctn-box-canciones h4, 
+    .ctn-box-capas h4, 
+    .ctn-box-analisis-cancion h4, 
+    .ctn-box-buscador-cancion h4, 
+    .ctn-box-arirang h4, 
+    .ctn-box-cronologia h4, 
+    .ctn-box-siete-voces h4, 
+    .ctn-box-compara h4, 
+    .ctn-box-perfil-radar h4, 
+    .ctn-box-comunidad h4, 
+    .ctn-box-facturando h4{
+        padding: 0 20px;
+    }
+    .ctn-box-capas h6, 
+    .ctn-box-analisis-cancion h6, 
+    .ctn-box-buscador-cancion h6, 
+    .ctn-box-arirang h6, 
+    .ctn-box-radiografia h6{
+        font: 1.9rem / 1 'Monigue Regular';
+    }
+    ul.lectura-grafico{
+        padding: 0 20px;
+    }
+    .ctn-box-radiografia h5, 
+    .ctn-box-cronologia h5, 
+    .ctn-box-siete-voces h5, 
+    .ctn-box-comunidad h5, 
+    .ctn-box-facturando h5{
+        font: 4rem / 1.2 'Monigue Regular';
+        padding: 0 20px;
+    }
+    span.separador{
+        margin-left: 40px;
+    }
+    .box-disclaimer-rojo p{
+        padding: 30px;
     }
 
 }
