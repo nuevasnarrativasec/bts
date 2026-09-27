@@ -1233,7 +1233,59 @@
     </div>
 
     <div class="main-animacion-5" id="mainAnimacion5">
+        <div class="animacion5-letra">
+            <p>
+                Mi momento aún está por llegar aún está por llegar. (¿Tú tienes un sueño? ¿Cómo será el fin de ese camino? El momento aún está por llegar, sí (en el silencio de la noche, no dejamos de movernos) aún está por llegar.
+            </p>
+        </div>
         <video class="animacion-video animacion-video--full" id="animacionVideo12" src="./video/animacion-12.mp4" muted loop playsinline preload="metadata"></video>
+    </div>
+
+    <div class="main-deja-tu-mensaje">
+        <img src="./img/bts-sello-deja-tu-mensaje.png" alt="" width="100%" class="sello">
+
+        <div class="ctn-box-deja-tu-mensaje">
+            <h3>
+                deja tu mensaje
+                <span>en el mural army</span>
+            </h3>
+            <h4>Tu saludo a BTS podría ser publicado en la edición impresa de El Comercio.</h4>
+
+            <form class="mensaje-form" id="mensajeForm" novalidate>
+                <label class="mensaje-label" for="mensajeNombre">Tu nombre o alias:</label>
+                <input class="mensaje-input" type="text" id="mensajeNombre" name="nombre" maxlength="60" required>
+
+                <label class="mensaje-label" for="mensajeCiudad">Tu ciudad / país:</label>
+                <input class="mensaje-input" type="text" id="mensajeCiudad" name="ciudad" maxlength="60" required>
+
+                <label class="mensaje-label" for="mensajeTexto">Tu mensaje: (máximo 200 caracteres)</label>
+                <textarea class="mensaje-input mensaje-textarea" id="mensajeTexto" name="mensaje" maxlength="200" rows="2" required></textarea>
+
+                <button type="submit" class="mensaje-btn-enviar" id="mensajeEnviarBtn">Envía tu mensaje</button>
+                <p class="mensaje-estado" id="mensajeEstado" role="status"></p>
+            </form>
+
+            <div class="mensaje-disclaimer">
+                <span class="mensaje-disclaimer-icono">
+                    <img src="./img/flecha-circular.png" alt="">
+                </span>
+                <div class="mensaje-disclaimer-texto">
+                    <b>Disclaimer:</b>
+                    <p>Una selección editorial de los mensajes enviados será publicada en el especial impreso de <b>El Comercio</b> con motivo de la visita de la banda a Lima. Al enviar tu texto, autorizas su edición por motivos de espacio y su difusión en nuestras plataformas impresas y digitales.</p>
+                </div>
+            </div>
+
+            <button type="button" class="mensaje-btn-ver" id="mensajeVerBtn">Ver mensajes</button>
+        </div>
+
+        <div class="mensaje-mural" id="mensajeMural" hidden>
+            <button class="mensaje-flecha mensaje-flecha--prev" id="mensajeFlechaPrev" type="button" aria-label="Mensaje anterior">&lsaquo;</button>
+            <div class="mensaje-carta" id="mensajeCarta">
+                <p class="mensaje-carta-texto" id="mensajeCartaTexto">Cargando mensajes de ARMY&hellip;</p>
+                <p class="mensaje-carta-autor" id="mensajeCartaAutor"></p>
+            </div>
+            <button class="mensaje-flecha mensaje-flecha--next" id="mensajeFlechaNext" type="button" aria-label="Mensaje siguiente">&rsaquo;</button>
+        </div>
     </div>
 
     <script src="./js/carrusel-discos.js"></script>
@@ -1245,5 +1297,6 @@
     <script src="./js/animacion-3.js"></script>
     <script src="./js/animacion-4.js"></script>
     <script src="./js/animacion-5.js"></script>
+    <script src="./js/deja-tu-mensaje.js"></script>
 </body>
 </html>

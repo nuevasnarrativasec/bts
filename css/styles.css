@@ -766,7 +766,22 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 .main-animacion-5{
     background-color: #fff;
     overflow: hidden;
+    position: relative;
 }
+    .animacion5-letra{
+        max-width: 400px;
+        position: absolute;
+        width: 100%;
+        left: 50%;
+        top: 100px;
+        transform: translate(-50%, 0);
+    }
+        .animacion5-letra p{
+            color: #fff;
+            font: 1.7rem / 1.4 'Bray Notes';
+            margin: 0 0 16px;
+            text-align: left;
+        }
 
 .main-canciones{
     margin-top: 50px;
@@ -2065,7 +2080,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .momento-card p{ font-size: .92rem; }
         }
 .main-trivia{
-    background-color: #349BC3;
+    background-color: #3ca6cb;
     padding: 40px 0;
 }
     .ctn-box-trivia{
@@ -2250,3 +2265,199 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .trivia-nivel-nombre{ font-size: 2.8rem; }
                 .trivia-nivel-subtitulo{ font-size: 1rem; padding: 12px 20px; }
             }
+.main-deja-tu-mensaje{
+    background-color: #F65464;
+    margin-top: -80px;
+    position: relative;
+}
+    .main-deja-tu-mensaje img.sello{
+        margin: 0 auto;
+        max-width: 650px;
+        transform: translate(0, -40%);
+    }
+    .ctn-box-deja-tu-mensaje{
+
+    }
+        .ctn-box-deja-tu-mensaje h3{
+            background-color: #000;
+            color: #fff;            
+            font: 6rem / 1.3 'Monigue Regular';
+            margin: 0 auto;
+            text-align: center;
+            text-transform: uppercase;
+            width: fit-content;
+        }
+            .ctn-box-deja-tu-mensaje h3 span{
+                background-color: #00CBEF;
+                color: #000;
+                display: block;
+                padding: 0 10px;
+            }
+        .ctn-box-deja-tu-mensaje h4{
+            color: #000;
+            font: 2rem / 1.2 'Monigue Regular';
+            margin: 30px auto;
+            max-width: 500px;
+        }
+
+        .mensaje-form{
+            background-color: #fff;
+            border-radius: 28px;
+            margin: 0 auto;
+            max-width: 650px;
+            padding: 36px 40px;
+        }
+            .mensaje-label{
+                color: var(--ink);
+                display: block;
+                font: 700 1.15rem/1.3 'Prelo Semibold', sans-serif;
+                margin: 0 0 10px;
+            }
+            .mensaje-input{
+                background-color: #F5AFB4;
+                border: none;
+                border-radius: 30px;
+                color: var(--ink);
+                display: block;
+                font: 1rem/1.4 'Prelo Book', sans-serif;
+                margin: 0 0 26px;
+                padding: 16px 24px;
+                width: 100%;
+            }
+                .mensaje-input::placeholder{ color: rgba(20,18,31,.55); }
+                .mensaje-textarea{
+                    border-radius: 22px;
+                    resize: vertical;
+                }
+            .mensaje-btn-enviar{
+                background-color: #000;
+                border: none;
+                border-radius: 40px;
+                color: #fff;
+                cursor: pointer;
+                display: block;
+                font: 700 1.2rem/1.3 'Prelo Bold', sans-serif;
+                margin: 6px auto 0;
+                padding: 18px 50px;
+                transition: transform .15s ease;
+            }
+                .mensaje-btn-enviar:hover{ transform: scale(1.03); }
+                .mensaje-btn-enviar:disabled{ cursor: wait; opacity: .7; }
+            .mensaje-estado{
+                color: var(--ink);
+                font: 1rem/1.4 'Prelo Semibold', sans-serif;
+                margin: 16px 0 0;
+                text-align: center;
+            }
+                .mensaje-estado.is-error{ color: #000; }
+
+        .mensaje-disclaimer{
+            border: 2px solid #fff;
+            border-radius: 24px;
+            display: flex;
+            gap: 16px;
+            margin: 50px auto 0;
+            max-width: 650px;
+            padding: 28px 32px;
+            position: relative;
+        }
+            .mensaje-disclaimer-icono{
+                background-color: var(--ink);
+                border-radius: 50%;
+                flex: 0 0 auto;
+                height: 40px;
+                left: -20px;
+                position: absolute;
+                top: -20px;
+                width: 40px;
+            }
+                .mensaje-disclaimer-icono img{
+                    height: 100%;
+                    object-fit: contain;
+                    width: 100%;
+                }
+            .mensaje-disclaimer-texto b{
+                color: var(--ink);
+                display: block;
+                font: 1.3rem/1.3 'Prelo Bold', sans-serif;
+                margin: 0 0 10px;
+            }
+            .mensaje-disclaimer-texto p{
+                color: var(--ink);
+                font: 1rem/1.5 'Prelo Book', sans-serif;
+            }
+
+        .mensaje-btn-ver{
+            background-color: #00CBEF;
+            border: none;
+            border-radius: 40px;
+            color: #000;
+            cursor: pointer;
+            display: block;
+            font: 700 1.2rem/1.3 'Prelo Bold', sans-serif;
+            letter-spacing: .5px;
+            margin: 50px auto 0;
+            padding: 18px 40px;
+            text-transform: uppercase;
+            transition: transform .15s ease;
+        }
+            .mensaje-btn-ver:hover{ transform: scale(1.03); }
+
+    .mensaje-mural{
+        align-items: center;
+        background-image: url('../img/deja-tu-mensaje/bg-deja-tu-mensaje.jpg');
+        background-position: center;
+        background-size: cover;
+        display: flex;
+        gap: 24px;
+        justify-content: center;
+        margin-top: 60px;
+        min-height: 620px;
+        padding: 60px 20px;
+    }
+        .mensaje-flecha{
+            background-color: var(--ink);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            flex: 0 0 auto;
+            font-size: 2rem;
+            height: 48px;
+            line-height: 1;
+            width: 48px;
+        }
+            .mensaje-flecha:hover{ transform: scale(1.08); }
+        .mensaje-carta{
+            background-color: #F4EFE3;
+            border-radius: 6px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.25);
+            max-width: 420px;
+            padding: 40px 32px;
+            text-align: center;
+        }
+            .mensaje-carta-texto{
+                color: var(--ink);
+                font: 1.3rem/1.5 'Prelo Semibold', sans-serif;
+                margin: 0 0 20px;
+            }
+            .mensaje-carta-autor{
+                color: var(--red);
+                font: 700 1.1rem/1.3 'Prelo Bold', sans-serif;
+            }
+
+        @media (max-width: 900px){
+            .mensaje-form{ padding: 28px 24px; }
+            .mensaje-disclaimer{ flex-direction: column; padding: 26px 24px; }
+            .mensaje-mural{ flex-direction: column; min-height: 480px; }
+                .mensaje-flecha{ transform: rotate(90deg); }
+                .mensaje-flecha:hover{ transform: rotate(90deg) scale(1.08); }
+        }
+        @media (max-width: 560px){
+            .ctn-box-deja-tu-mensaje h3{ font-size: 3.2rem; }
+            .ctn-box-deja-tu-mensaje h4{ font-size: 1.4rem; max-width: calc(100% - 40px); }
+            .mensaje-form{ border-radius: 20px; padding: 24px 18px; }
+            .mensaje-btn-enviar,
+            .mensaje-btn-ver{ padding: 16px 32px; width: 100%; }
+            .mensaje-carta{ padding: 28px 22px; }
+        }
