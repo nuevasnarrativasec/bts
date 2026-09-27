@@ -763,6 +763,11 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     overflow: hidden;
 }
 
+.main-animacion-5{
+    background-color: #fff;
+    overflow: hidden;
+}
+
 .main-canciones{
     margin-top: 50px;
 }
