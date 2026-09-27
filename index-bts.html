@@ -1069,8 +1069,50 @@
         </div>
     </div>
 
+    <div class="main-trivia">
+        <h3>tu memoria army</h3>
+        <div class="ctn-box-trivia">
+            <h5>descubre qué tan army eres</h5>
+            <h4>
+                <i></i>Pon a prueba tu memoria BTS
+            </h4>
+            <p>
+                Responde estas 8 preguntas sobre los orígenes del grupo, desde sus primeras maquetas hasta sus temas en solitario, y descubre qué nivel de ARMY llevas dentro.
+            </p>
+
+            <div class="trivia-app" id="triviaApp">
+
+                <div class="trivia-pantalla trivia-pantalla--pregunta" id="triviaPantallaPregunta">
+                    <div class="trivia-burbuja">
+                        <p class="trivia-burbuja-num">Pregunta <span id="triviaNum">1</span></p>
+                        <p class="trivia-burbuja-texto" id="triviaTexto"></p>
+                    </div>
+
+                    <div class="trivia-opciones" id="triviaOpciones"></div>
+
+                    <button class="trivia-btn trivia-btn--continuar" id="triviaContinuar" disabled>Continuar</button>
+                </div>
+
+                <div class="trivia-pantalla trivia-pantalla--resultado" id="triviaPantallaResultado" hidden>
+                    <p class="trivia-eres">Eres</p>
+                    <h3 class="trivia-nivel-nombre" id="triviaNivelNombre"></h3>
+
+                    <div class="trivia-nivel-img">
+                        <img id="triviaNivelImg" src="" alt="">
+                    </div>
+
+                    <p class="trivia-nivel-subtitulo" id="triviaNivelSubtitulo"></p>
+
+                    <button class="trivia-btn trivia-btn--jugar" id="triviaJugar">Volver a jugar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <script src="./js/carrusel-discos.js"></script>
     <script src="./js/cronologia-drag.js"></script>
     <script src="./js/perfiles.js"></script>
+    <script src="./js/trivia.js"></script>
 </body>
 </html>
