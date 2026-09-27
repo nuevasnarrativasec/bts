@@ -609,6 +609,115 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         .animacion-texto--2{ bottom: 30px; }
     }
 
+.main-animacion-2{
+    background-color: #fff;
+    overflow: hidden;
+}
+    .animacion2-fila--playa{
+        position: relative;
+    }
+        .animacion2-letra{
+            max-width: 280px;
+            position: absolute;
+            right: 40px;
+            top: 40px;
+        }
+            .animacion2-letra p{
+                color: var(--ink);
+                font: 1rem/1.4 'Bray Notes';
+                margin: 0 0 16px;
+            }
+                .animacion2-letra p:last-child{ margin-bottom: 0; }
+
+    .animacion2-quote{
+        margin: 0 auto;
+        max-width: 640px;
+        padding: 50px 20px;
+        text-align: center;
+    }
+        .animacion2-quote p{
+            color: var(--ink);
+            font: 1.8rem/1.4 'Bray Notes';
+        }
+
+    .animacion2-fila--caja{
+        align-items: center;
+        display: flex;
+        gap: 40px;
+        justify-content: center;
+        margin: 0 auto 60px;
+        max-width: 1200px;
+        padding: 0 20px;
+    }
+        .animacion2-caja-videos{
+            display: flex;
+            gap: 20px;
+        }
+            .animacion2-video-cuadrado{
+                aspect-ratio: 1 / 1;
+                height: 260px;
+                object-fit: cover;
+                width: 260px;
+            }
+
+    .animacion2-fila--puerta{
+        display: flex;
+        justify-content: center;
+        padding: 60px 20px;
+    }
+        .animacion2-video-puerta{
+            max-width: 360px;
+            width: 100%;
+        }
+
+    .animacion2-fila--llave{
+        align-items: center;
+        display: flex;
+        gap: 40px;
+        justify-content: center;
+        margin: 0 auto 60px;
+        max-width: 900px;
+        padding: 0 20px;
+    }
+        .animacion2-video-llave{
+            border-radius: 50%;
+            flex: 0 0 auto;
+            height: 220px;
+            object-fit: cover;
+            width: 220px;
+        }
+        .animacion2-quote--llave{
+            margin: 0;
+            max-width: 360px;
+            padding: 0;
+            text-align: left;
+        }
+            .animacion2-quote--llave p{ font-size: 1.5rem; }
+
+    #animacionCta2 iframe{
+        bottom: 0;
+        height: 1px;
+        opacity: 0;
+        position: absolute;
+    }
+
+    @media (max-width: 900px){
+        .animacion2-letra{ max-width: 220px; right: 20px; top: 20px; }
+            .animacion2-letra p{ font-size: .85rem; }
+        .animacion2-quote p{ font-size: 1.5rem; }
+        .animacion2-fila--caja{ flex-wrap: wrap; gap: 24px; }
+        .animacion2-video-cuadrado{ height: 200px; width: 200px; }
+        .animacion2-fila--llave{ flex-direction: column; text-align: center; }
+            .animacion2-quote--llave{ max-width: 100%; text-align: center; }
+    }
+    @media (max-width: 560px){
+        .animacion2-letra{ background: rgba(255,255,255,.85); border-radius: 10px; left: 16px; max-width: none; padding: 12px 16px; right: 16px; top: 16px; }
+        .animacion2-video-cuadrado{ height: 150px; width: 150px; }
+        .animacion2-video-puerta{ max-width: 260px; }
+        .animacion2-video-llave{ height: 160px; width: 160px; }
+        .animacion2-quote--llave p{ font-size: 1.3rem; }
+    }
+
 .main-canciones{
     margin-top: 50px;
 }
