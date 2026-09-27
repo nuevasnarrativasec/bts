@@ -8,7 +8,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Archivo+Black&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Archivo+Black&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="./css/styles.css" />
 </head>
@@ -30,7 +30,44 @@
         <h2>De sus inicios en Seúl a convertirse en un fenómeno global: <span>un recorrido por la música, las etapas y las historias de sus siete integrantes</span>, y por la conexión que BTS construyó con ARMY en Latinoamérica.</h2>
     </div>
 
-    <div class="main-animacion-1">
+    <div class="main-animacion-1" id="mainAnimacion1">
+
+        <div class="animacion-aviso">
+            <span class="animacion-aviso-punto"></span>
+            <p>Para una mejor experiencia activa las canciones.</p>
+        </div>
+
+        <div class="animacion-fila animacion-fila--1">
+            <div class="animacion-texto animacion-texto--1">
+                <p>&ldquo;La criatura más solitaria del mundo &iquest;quieres oír mi historia?, yo nunca le he dicho eso a nadie.&rdquo;</p>
+            </div>
+
+            <div class="animacion-video-wrap">
+                <video class="animacion-video" id="animacionVideo1" src="./video/animacion-1.mp4" muted loop playsinline preload="metadata"></video>
+            </div>
+
+            <!--
+                CTA de Spotify: reproduce/pausa solo este track.
+                Cambia data-embed por la URL de embed de la canción
+                (Spotify → Compartir → Copiar código para insertar → toma el valor de "src").
+            -->
+            <div class="animacion-cta" id="animacionCta1" data-embed="https://open.spotify.com/embed/track/4qiz8g1viE8tqpwXQThFxX?utm_source=generator&amp;theme=0">
+                <button class="animacion-cta-play" type="button" aria-label="Reproducir Whalien 52">
+                    <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                    <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                </button>
+                <span class="animacion-cta-nombre">Whalien 52</span>
+                <div class="animacion-cta-embed"></div>
+            </div>
+        </div>
+
+        <div class="animacion-fila animacion-fila--2">
+            <video class="animacion-video animacion-video--full" id="animacionVideo2" src="./video/animacion-2.mp4" muted loop playsinline preload="metadata"></video>
+
+            <div class="animacion-texto animacion-texto--2">
+                <p>&ldquo;Lo triste que me siento, mi dolor es como agua y aceite que no puede ser aliviado, ni siquiera al respirar sobre la superficie puedo dejar de pensar&hellip;&rdquo;</p>
+            </div>
+        </div>
 
     </div>
 
@@ -1126,5 +1163,6 @@
     <script src="./js/cronologia-drag.js"></script>
     <script src="./js/perfiles.js"></script>
     <script src="./js/trivia.js"></script>
+    <script src="./js/animacion-1.js"></script>
 </body>
 </html>
