@@ -2,8 +2,11 @@
    BTS · main-animacion-1 (Whalien 52)
    - Los dos videos se reproducen solos al entrar en el viewport
      y se pausan al salir.
-   - El CTA de Spotify reproduce/pausa solo ese track (embed) y se
-     detiene automáticamente si la sección sale del viewport.
+   - El CTA de Spotify usa la Spotify iFrame API oficial para poder
+     mandarle play()/pause() de verdad al reproductor embebido
+     (un simple <iframe src="...?autoplay=1"> no es confiable: la
+     mayoría de navegadores ignora ese autoplay).
+     Docs: https://developer.spotify.com/documentation/embeds/tutorials/using-the-iframe-api
    ============================================================ */
 (function () {
   "use strict";
@@ -34,60 +37,87 @@
     videos.forEach((video) => video.play().catch(() => {}));
   }
 
-  /* --- CTA de Spotify (mismo patrón que el carrusel de discos) --- */
+  /* --- CTA de Spotify (Spotify iFrame API) --- */
   const cta = document.getElementById("animacionCta1");
   if (!cta) return;
 
   const btn = cta.querySelector(".animacion-cta-play");
-  const embedBox = cta.querySelector(".animacion-cta-embed");
+  const embedEl = document.getElementById("animacionCta1Embed");
   const iconPlay = cta.querySelector(".icon-play");
   const iconPause = cta.querySelector(".icon-pause");
-  const src = cta.dataset.embed;
+  const uri = cta.dataset.spotifyUri;
 
-  let activo = false;
+  let controller = null;
+  let isPaused = true;
+  let pendingPlay = false; // si dieron click antes de que la API terminara de cargar
 
-  function reproducir() {
-    if (!src || activo) return;
-
-    const iframe = document.createElement("iframe");
-    iframe.src = src + (src.includes("?") ? "&" : "?") + "autoplay=1";
-    iframe.height = "80";
-    iframe.allow = "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
-    iframe.loading = "lazy";
-    iframe.title = "Reproductor de Spotify — Whalien 52";
-
-    embedBox.innerHTML = "";
-    embedBox.appendChild(iframe);
-    embedBox.classList.add("is-active");
-
-    btn.classList.add("is-playing");
-    btn.setAttribute("aria-label", "Pausar Whalien 52");
-    if (iconPlay) iconPlay.hidden = true;
-    if (iconPause) iconPause.hidden = false;
-
-    activo = true;
+  function actualizarIcono() {
+    btn.classList.toggle("is-playing", !isPaused);
+    btn.setAttribute("aria-label", isPaused ? "Reproducir Whalien 52" : "Pausar Whalien 52");
+    if (iconPlay) iconPlay.hidden = !isPaused;
+    if (iconPause) iconPause.hidden = isPaused;
   }
 
-  function pausar() {
-    if (!activo) return;
+  function crearController() {
+    if (!window.SpotifyIframeApi || controller || !uri) return;
 
-    // Quitar el iframe es la forma más segura de cortar el audio.
-    embedBox.innerHTML = "";
-    embedBox.classList.remove("is-active");
+    window.SpotifyIframeApi.createController(
+      embedEl,
+      { uri: uri, width: "100%", height: "80" },
+      (EmbedController) => {
+        controller = EmbedController;
 
-    btn.classList.remove("is-playing");
-    btn.setAttribute("aria-label", "Reproducir Whalien 52");
-    if (iconPlay) iconPlay.hidden = false;
-    if (iconPause) iconPause.hidden = true;
+        controller.addListener("playback_update", (e) => {
+          isPaused = !!(e && e.data && e.data.isPaused);
+          actualizarIcono();
+        });
 
-    activo = false;
+        controller.addListener("ready", () => {
+          if (pendingPlay) {
+            controller.play();
+            pendingPlay = false;
+          }
+        });
+      }
+    );
   }
+
+  // Carga el script oficial de la Spotify iFrame API (una sola vez por página).
+  function cargarSpotifyApi() {
+    if (window.SpotifyIframeApi) {
+      crearController();
+      return;
+    }
+    if (document.getElementById("spotify-iframe-api")) return; // ya se está cargando
+
+    // El callback global lo espera el script de Spotify por nombre exacto.
+    window.onSpotifyIframeApiReady = (IFrameAPI) => {
+      window.SpotifyIframeApi = IFrameAPI;
+      crearController();
+    };
+
+    const script = document.createElement("script");
+    script.id = "spotify-iframe-api";
+    script.src = "https://open.spotify.com/embed/iframe-api/v1";
+    script.async = true;
+    document.head.appendChild(script);
+  }
+
+  cargarSpotifyApi();
 
   btn.addEventListener("click", () => {
-    if (activo) {
-      pausar();
+    if (!controller) {
+      // La API/el iframe aún no terminan de inicializar: reproducir en
+      // cuanto estén listos, y mientras tanto reflejar el estado en el ícono.
+      pendingPlay = true;
+      isPaused = false;
+      actualizarIcono();
+      return;
+    }
+    if (isPaused) {
+      controller.play();
     } else {
-      reproducir();
+      controller.pause();
     }
   });
 
@@ -96,7 +126,9 @@
     const seccionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting) pausar();
+          if (!entry.isIntersecting && controller && !isPaused) {
+            controller.pause();
+          }
         });
       },
       { threshold: 0 }

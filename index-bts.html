@@ -15,7 +15,19 @@
 <body>
 
     <div class="main-hero">
+        <h1>bts</h1>
+        <div class="box-botones">
+            <div class="box-indicacion-desliza">
+                <p>
+                    Desliza para interactuar
+                </p>
+                <img src="./img/flecha-bajar-portada.png" alt="" width="100%">
+            </div>            
+        </div>
+    </div>
 
+    <div class="box-bajada">
+        <h2>De sus inicios en Seúl a convertirse en un fenómeno global: <span>un recorrido por la música, las etapas y las historias de sus siete integrantes</span>, y por la conexión que BTS construyó con ARMY en Latinoamérica.</h2>
     </div>
 
     <div class="main-animacion-1" id="mainAnimacion1">
@@ -35,17 +47,21 @@
             </div>
 
             <!--
-                CTA de Spotify: reproduce/pausa solo este track.
-                Cambia data-embed por la URL de embed de la canción
-                (Spotify → Compartir → Copiar código para insertar → toma el valor de "src").
+                CTA de Spotify: reproduce/pausa solo este track usando la
+                Spotify iFrame API oficial (así sí responde al click, a
+                diferencia de un <iframe src="...?autoplay=1"> suelto que
+                los navegadores casi siempre bloquean).
+                Cambia data-spotify-uri por el URI de la canción:
+                Spotify → clic derecho en el track → Compartir → Copiar URI de Spotify
+                (algo como spotify:track:XXXXXXXXXXXXXXXXXXXXXX).
             -->
-            <div class="animacion-cta" id="animacionCta1" data-embed="https://open.spotify.com/embed/track/4qiz8g1viE8tqpwXQThFxX?utm_source=generator&amp;theme=0">
+            <div class="animacion-cta" id="animacionCta1" data-spotify-uri="spotify:track:4qiz8g1viE8tqpwXQThFxX">
                 <button class="animacion-cta-play" type="button" aria-label="Reproducir Whalien 52">
                     <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
                     <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
                 </button>
                 <span class="animacion-cta-nombre">Whalien 52</span>
-                <div class="animacion-cta-embed"></div>
+                <div class="animacion-cta-embed" id="animacionCta1Embed"></div>
             </div>
         </div>
 
@@ -1070,7 +1086,7 @@
 
                     <div class="momento-card">
                         <div class="momento-foto">
-                            <img src="./img/cronologia-momentos-clave/bg-cronologia-2.jpg" alt="Tribuna en la ONU y rango diplomático" loading="lazy">
+                            <img src="./img/cronologia-momentos-clave/bg-cronologia-2.jpg?v2" alt="Tribuna en la ONU y rango diplomático" loading="lazy">
                             <span class="momento-cinta"></span>
                         </div>
                         <p><b>Tribuna en la ONU y rango diplomático (2021):</b> Tras su recordado discurso Speak Yourself de 2018 ante la Asamblea General, en 2021 regresaron investidos como Enviados Presidenciales Especiales de Corea del Sur con pasaporte diplomático, proyectando el video de Permission to Dance filmado en la sede de Naciones Unidas en Nueva York.</p>
@@ -1109,13 +1125,13 @@
     <div class="main-trivia">
         <h3>tu memoria army</h3>
         <div class="ctn-box-trivia">
-            <h5>descubre qué tan army eres</h5>
+            <!--<h5>descubre qué tan army eres</h5>
             <h4>
                 <i></i>Pon a prueba tu memoria BTS
             </h4>
             <p>
                 Responde estas 8 preguntas sobre los orígenes del grupo, desde sus primeras maquetas hasta sus temas en solitario, y descubre qué nivel de ARMY llevas dentro.
-            </p>
+            </p>-->
 
             <div class="trivia-app" id="triviaApp">
 
