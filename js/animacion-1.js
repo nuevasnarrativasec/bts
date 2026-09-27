@@ -82,13 +82,25 @@
     );
   }
 
-  // Carga el script oficial de la Spotify iFrame API (una sola vez por página).
+  // Carga el script oficial de la Spotify iFrame API (compartido con
+  // carrusel-discos.js / animacion-2.js: si ya está cargado o cargándose,
+  // no lo duplica, solo se engancha al mismo callback).
   function cargarSpotifyApi() {
     if (window.SpotifyIframeApi) {
       crearController();
       return;
     }
-    if (document.getElementById("spotify-iframe-api")) return; // ya se está cargando
+    if (document.getElementById("spotify-iframe-api")) {
+      // Ya lo está cargando otra sección: engánchate al mismo callback
+      // sin pisar el que ya haya registrado.
+      const anterior = window.onSpotifyIframeApiReady;
+      window.onSpotifyIframeApiReady = (IFrameAPI) => {
+        window.SpotifyIframeApi = IFrameAPI;
+        if (typeof anterior === "function") anterior(IFrameAPI);
+        crearController();
+      };
+      return;
+    }
 
     // El callback global lo espera el script de Spotify por nombre exacto.
     window.onSpotifyIframeApiReady = (IFrameAPI) => {

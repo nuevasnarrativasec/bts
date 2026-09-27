@@ -487,7 +487,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         padding: 0;
     }
         .animacion-aviso img{
-            max-width: 15px;
+            max-width: 22px;
         }
         .animacion-aviso p{
             font: 1rem/1.3 'Prelo Bold';
@@ -803,6 +803,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     }
     .box-universo-musical{
         background-color: #F0F0F0;
+        margin-top: 60px;
         padding: 40px 0 60px;
     }
         .ctn-box-universo-musical,
@@ -915,6 +916,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 
             .carousel-discos{
                 position: relative;
+                max-width: 960px;
+                margin: 0 auto;
             }
                 .carousel-arrow{
                     align-items: center;
@@ -977,7 +980,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     display: grid;
                     flex: 0 0 auto;
                     gap: 60px 44px;
-                    grid-template-columns: repeat(3, 240px);
+                    grid-template-columns: repeat(3, 270px);
                     grid-template-rows: repeat(2, auto);
                     padding: 0 24px;
                     scroll-snap-align: start;
@@ -2475,7 +2478,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         background-position: center top;
         background-size: cover;
         display: flex;
-        gap: 24px;
+        gap: 5px;
         justify-content: center;
         margin-top: 60px;
         min-height: 620px;
@@ -2500,7 +2503,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             border-radius: 6px;
             /*box-shadow: 0 10px 30px rgba(0,0,0,.25);*/
             max-width: 420px;
-            padding: 40px 32px;
+            padding: 40px 15px;
             text-align: center;
         }
             .mensaje-carta-texto{
@@ -2510,7 +2513,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             }
             .mensaje-carta-autor{
                 color: var(--red);
-                font: 1.1rem/1.3 'Monigue Regular';
+                font: 1.3rem/1.3 'Monigue Regular';
             }
 
         @media (max-width: 900px){
@@ -2586,4 +2589,19 @@ img.bg-footer{
     display: block;
     margin: 0 auto;
     max-width: 800px;
+}
+
+/** laptop Lore **/
+@media (max-height: 732px){
+
+    .main-hero{
+        height: 125vh;
+    }
+        .box-botones{
+            bottom: 170px;
+        }
+    .animacion-texto--2{
+        bottom: 130px;
+    }
+
 }
