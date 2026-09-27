@@ -766,7 +766,22 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 .main-animacion-5{
     background-color: #fff;
     overflow: hidden;
+    position: relative;
 }
+    .animacion5-letra{
+        max-width: 400px;
+        position: absolute;
+        width: 100%;
+        left: 50%;
+        top: 100px;
+        transform: translate(-50%, 0);
+    }
+        .animacion5-letra p{
+            color: #fff;
+            font: 1.7rem / 1.4 'Bray Notes';
+            margin: 0 0 16px;
+            text-align: left;
+        }
 
 .main-canciones{
     margin-top: 50px;
