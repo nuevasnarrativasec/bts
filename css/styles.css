@@ -569,10 +569,10 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     }
         .animacion-video--full{
             display: block;
-            height: 90vh;
-            max-height: 900px;
+            height: 100%;
             object-fit: cover;
             width: 100%;
+            object-position: top;
         }
         .animacion-texto--2{
             bottom: 60px;
@@ -617,14 +617,14 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         position: relative;
     }
         .animacion2-letra{
-            max-width: 280px;
+            max-width: 310px;
             position: absolute;
             right: 40px;
-            top: 40px;
+            top: 100px;
         }
             .animacion2-letra p{
                 color: var(--ink);
-                font: 1rem/1.4 'Bray Notes';
+                font: 1.7rem/1.4 'Bray Notes';
                 margin: 0 0 16px;
             }
                 .animacion2-letra p:last-child{ margin-bottom: 0; }
@@ -633,7 +633,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         margin: 0 auto;
         max-width: 640px;
         padding: 50px 20px;
-        text-align: center;
+        text-align: left;
+        transform: translate(35%, 0);
     }
         .animacion2-quote p{
             color: var(--ink);
