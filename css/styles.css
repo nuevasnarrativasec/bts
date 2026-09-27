@@ -2139,8 +2139,14 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         }
 .main-trivia{
     background-color: #3ca6cb;
+    overflow: hidden;
     padding: 40px 0;
+    position: relative;
 }
+    #triviaMascota{
+        bottom: 20px;
+        top: auto;
+    }
     .ctn-box-trivia{
         margin: 0 auto;
         max-width: 900px;
