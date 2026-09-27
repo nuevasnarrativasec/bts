@@ -2844,5 +2844,8 @@ img.bg-footer{
         height: 110px;
         width: 110px;
     }
+    .perfil-cabecera{
+        row-gap: 8px;
+    }
 
 }
