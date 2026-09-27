@@ -63,4 +63,26 @@
       true
     );
   });
+
+  /* --- Mascota de box-cronologia: entra deslizando de izquierda a
+     derecha (ease) la primera vez que la sección aparece en pantalla --- */
+  const mascota = document.getElementById("cronoMascota");
+  if (mascota) {
+    if ("IntersectionObserver" in window) {
+      const mascotaObserver = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              mascota.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.3 }
+      );
+      mascotaObserver.observe(mascota.closest(".box-cronologia") || mascota);
+    } else {
+      mascota.classList.add("is-visible");
+    }
+  }
 })();
