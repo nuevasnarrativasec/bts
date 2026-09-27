@@ -1641,3 +1641,71 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .impacto-label{ font-size: .9rem; }
             .impacto-cifra{ font-size: 1.5rem; }
         }
+
+        /* --- Momentos clave en el mapa diplomático (cronología horizontal) --- */
+        .momentos-wrap{
+            -webkit-overflow-scrolling: touch;
+            cursor: grab;
+            margin: 30px auto 20px;
+            max-width: 1100px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE / Edge legacy */
+        }
+            .momentos-wrap::-webkit-scrollbar{
+                display: none; /* Chrome / Safari / Edge */
+            }
+            .momentos-wrap.is-dragging{
+                cursor: grabbing;
+                scroll-behavior: auto;
+                user-select: none;
+            }
+            .momentos-track{
+                display: flex;
+                gap: 42px;
+                padding: 10px 20px 20px;
+                width: max-content;
+            }
+                .momento-card{
+                    flex: 0 0 260px;
+                }
+                    .momento-foto{
+                        /*aspect-ratio: 4 / 3;*/
+                        overflow: hidden;
+                        position: relative;
+                    }
+                        .momento-foto img{
+                            display: block;
+                            height: 100%;
+                            object-fit: cover;
+                            pointer-events: none;
+                            width: 100%;
+                        }
+                        .momento-cinta{
+                            background-color: var(--red);
+                            height: 26px;
+                            left: 50%;
+                            opacity: .9;
+                            position: absolute;
+                            top: -6px;
+                            transform: translateX(-50%) rotate(-4deg);
+                            width: 140px;
+                            display: none;
+                        }
+                    .momento-card p{
+                        font: 1rem/1.4 'Prelo Book';
+                        margin: 14px 0 0;
+                    }
+                        .momento-card p b{
+                            color: var(--red);
+                            font-family: 'Prelo Bold';
+                        }
+        @media (max-width: 900px){
+            .momento-card{ flex: 0 0 220px; }
+        }
+        @media (max-width: 560px){
+            .momentos-track{ gap: 16px; padding: 10px 16px 16px; }
+            .momento-card{ flex: 0 0 200px; }
+            .momento-card p{ font-size: .92rem; }
+        }
