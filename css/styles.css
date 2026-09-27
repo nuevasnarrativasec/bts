@@ -649,6 +649,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         margin: 0 auto 60px;
         max-width: 1200px;
         padding: 0 20px;
+        margin-top: -70px;
     }
         .animacion2-caja-videos{
             display: flex;
