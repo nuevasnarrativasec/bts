@@ -14,7 +14,7 @@
 (function () {
   "use strict";
 
-  var ENDPOINT_URL = "PEGA_AQUI_LA_URL_DE_TU_APPS_SCRIPT";
+  var ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbzeXjA7wraTY4E9bhauHfNdub-wI_kuVWxdXHy4fowPu-naUon99F7cenXVgzzGW2XLjw/exec";
 
   var form = document.getElementById("mensajeForm");
   if (!form) return;
