@@ -525,7 +525,9 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             flex: 0 0 auto;
             flex-direction: column;
             gap: 10px;
-            position: relative;
+            position: absolute;
+            right: 0;
+            top: 80px;
         }
             .animacion-cta-play{
                 align-items: center;
@@ -643,9 +645,6 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 
     .animacion2-fila--caja{
         align-items: center;
-        display: flex;
-        gap: 60px;
-        justify-content: center;
         margin: 0 auto 60px;
         max-width: 1200px;
         padding: 0 20px;
@@ -653,10 +652,10 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         position: relative;
     }
         .animacion2-caja-videos{
-            flex: 0 0 auto;
             height: 360px;
+            margin: 0 auto;
             position: relative;
-            width: 400px;
+            width: 600px;
         }
             .animacion2-video-cuadrado{
                 aspect-ratio: 1 / 1;
@@ -674,17 +673,15 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 bottom: 0;
                 height: 290px;
                 right: 0;
-                width: 290px;
-                z-index: 2;
+                width: 400px;
             }
 
     .animacion2-fila--puerta{
         display: flex;
         justify-content: center;
-        padding: 60px 20px;
+        padding: 60px 0;
     }
         .animacion2-video-puerta{
-            max-width: 360px;
             width: 100%;
         }
 
@@ -709,6 +706,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             max-width: 360px;
             padding: 0;
             text-align: left;
+            transform: none;
         }
             .animacion2-quote--llave p{ font-size: 1.5rem; }
 
@@ -739,6 +737,11 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         .animacion2-video-llave{ height: 160px; width: 160px; }
         .animacion2-quote--llave p{ font-size: 1.3rem; }
     }
+
+.main-animacion-3{
+    background-color: #fff;
+    overflow: hidden;
+}
 
 .main-canciones{
     margin-top: 50px;
@@ -1637,7 +1640,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 }
 
 .main-protagonistas{
-
+    padding-top: 60px;
 }
     .box-siete-voces{
         background-color: #F0F0F0;
