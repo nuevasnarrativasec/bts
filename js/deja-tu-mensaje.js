@@ -81,9 +81,40 @@
       });
   });
 
-  /* --- Mural de mensajes aprobados --- */
+  /* --- Mural de mensajes aprobados ---
+     Apps Script es lento respondiendo (1-3s en frío, a veces más),
+     así que para que "Ver mensajes" se sienta instantáneo:
+     1) precargamos en segundo plano apenas carga la página, y
+     2) guardamos el resultado en localStorage (5 min) para que
+        una segunda visita/click muestre los mensajes al toque
+        mientras se revalida en segundo plano.
+  */
+  var CACHE_KEY = "btsMensajesAprobados";
+  var CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutos
+
   var mensajes = [];
   var indice = 0;
+  var cargando = false;
+
+  function leerCache() {
+    try {
+      var raw = localStorage.getItem(CACHE_KEY);
+      if (!raw) return null;
+      var parsed = JSON.parse(raw);
+      if (!parsed || !Array.isArray(parsed.mensajes)) return null;
+      return parsed;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  function guardarCache(lista) {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ mensajes: lista, ts: Date.now() }));
+    } catch (err) {
+      // localStorage puede fallar (modo privado, cuota, etc.): no es crítico.
+    }
+  }
 
   function mostrarMensaje(i) {
     if (!mensajes.length) return;
@@ -92,32 +123,61 @@
     cartaAutor.textContent = m.nombre + (m.ciudad ? " de " + m.ciudad : "");
   }
 
-  function cargarMensajes() {
+  function mostrarSinMensajes(texto) {
+    mensajes = [];
+    indice = 0;
+    cartaTexto.textContent = texto;
+    cartaAutor.textContent = "";
+  }
+
+  // fondo = true: no pisar lo que ya se está viendo si la petición falla
+  // ni mostrar "Cargando…" (se usa para la precarga silenciosa al inicio).
+  function cargarMensajes(fondo) {
     if (!endpointListo()) {
-      cartaTexto.textContent = "Aún no hay mensajes publicados.";
-      cartaAutor.textContent = "";
+      if (!fondo) mostrarSinMensajes("Aún no hay mensajes publicados.");
       return;
     }
-    cartaTexto.textContent = "Cargando mensajes de ARMY…";
-    cartaAutor.textContent = "";
+    if (cargando) return;
+    cargando = true;
+
+    if (!fondo && !mensajes.length) {
+      cartaTexto.textContent = "Cargando mensajes de ARMY…";
+      cartaAutor.textContent = "";
+    }
 
     fetch(ENDPOINT_URL)
       .then(function (r) { return r.json(); })
       .then(function (data) {
-        mensajes = Array.isArray(data) ? data : [];
+        var lista = Array.isArray(data) ? data : [];
+        guardarCache(lista);
+        mensajes = lista;
         indice = 0;
         if (!mensajes.length) {
-          cartaTexto.textContent = "Aún no hay mensajes publicados.";
-          cartaAutor.textContent = "";
+          mostrarSinMensajes("Aún no hay mensajes publicados.");
           return;
         }
         mostrarMensaje(indice);
       })
       .catch(function () {
-        cartaTexto.textContent = "No se pudieron cargar los mensajes.";
-        cartaAutor.textContent = "";
+        if (!mensajes.length) mostrarSinMensajes("No se pudieron cargar los mensajes.");
+      })
+      .finally(function () {
+        cargando = false;
       });
   }
+
+  // Precarga silenciosa al cargar la página: si hay caché reciente la
+  // usamos de inmediato (para que "Ver mensajes" se sienta instantáneo)
+  // y de todas formas revalidamos contra el endpoint en segundo plano.
+  (function precargar() {
+    var cache = leerCache();
+    if (cache && cache.mensajes.length && Date.now() - cache.ts < CACHE_TTL_MS) {
+      mensajes = cache.mensajes;
+      indice = 0;
+      mostrarMensaje(indice);
+    }
+    cargarMensajes(true);
+  })();
 
   if (verBtn) {
     verBtn.addEventListener("click", function () {
@@ -129,7 +189,7 @@
       }
       mural.hidden = false;
       verBtn.textContent = "Ocultar mensajes";
-      if (!mensajes.length) cargarMensajes();
+      if (!mensajes.length) cargarMensajes(false);
       mural.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   }
