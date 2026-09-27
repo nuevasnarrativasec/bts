@@ -1414,7 +1414,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         }
             .crono-mascota.is-visible{
                 opacity: 1;
-                transform: translateX(0);
+                transform: translateX(-50px);
             }
             @media (max-width: 900px){
                 .crono-mascota{ max-width: 170px; top: -10px; }
