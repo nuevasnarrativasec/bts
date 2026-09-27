@@ -2052,7 +2052,27 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                         .perfil-stats{ flex-basis: auto; }
                 }
                 @media (max-width: 560px){
-                    .perfiles-avatares{ gap: 14px; }
+                    /* En vez de envolver en varias filas, se vuelve una
+                       fila con scroll horizontal (con grab, vía la clase
+                       "js-drag-scroll" que ya engancha cronologia-drag.js). */
+                    .perfiles-avatares{
+                        cursor: grab;
+                        flex-wrap: nowrap;
+                        gap: 14px;
+                        justify-content: flex-start;
+                        overflow-x: auto;
+                        padding: 4px 14px 10px;
+                        scrollbar-width: none;
+                        -ms-overflow-style: none;
+                        -webkit-overflow-scrolling: touch;
+                    }
+                        .perfiles-avatares::-webkit-scrollbar{ display: none; }
+                        .perfiles-avatares.is-dragging{
+                            cursor: grabbing;
+                            scroll-behavior: auto;
+                            user-select: none;
+                        }
+                        .perfil-avatar-btn{ flex: 0 0 auto; }
                     .perfil-avatar-wrap{ height: 76px; width: 76px; }
                     .perfil-avatar-name{ font-size: .7rem; }
                     .perfil-card{ padding: 20px; }
@@ -2846,6 +2866,63 @@ img.bg-footer{
     }
     .perfil-cabecera{
         row-gap: 8px;
+    }
+    .ctn-box-perfil-radar iframe{
+        height: 1520px;
+    }
+    .ind-label{
+        font-size: 17px;
+    }
+    .momento-card{
+        flex: 0 0 350px;
+    }
+    .momento-card p{
+        font-size: 1.2rem;
+    }
+    .main-animacion-5{
+        background-color: #3ea7cc;
+        padding-top: 250px;
+    }
+    .ctn-box-deja-tu-mensaje h3{
+        font-size: 3.6rem;
+    }
+    .ctn-box-deja-tu-mensaje h4{
+        font-size: 1.8rem;
+    }
+    .mensaje-label{
+        font-size: 1.6rem;
+    }
+    .mensaje-form{
+        width: 95%;
+    }
+    .mensaje-disclaimer{
+        margin: 50px 20px;
+    }
+    .mensaje-disclaimer-texto b{
+        font-size: 1.9rem;
+    }
+    .mensaje-disclaimer-texto p{
+        font-size: 1.3rem;
+    }
+    .mensaje-btn-enviar, .mensaje-btn-ver{
+        width: 60%;
+    }
+    .mensaje-mural{
+        flex-direction: inherit;
+    }
+    .mensaje-flecha{
+        transform: none;
+    }
+    .mensaje-carta-texto{
+        font-size: 1.6rem;
+    }
+    .footer-content ul{
+        display: block;
+        text-align: center;
+    }
+    .footer-content ul li h4,
+    .footer-content ul li p{
+        font-size: 1.1rem;
     }
 
 }
