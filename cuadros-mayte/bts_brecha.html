@@ -148,7 +148,8 @@
   .tooltip-card {
     position: fixed; pointer-events: none; opacity: 0; background: var(--card);
     border: 1px solid var(--line); border-radius: 12px; padding: 0.9rem 1.1rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.12); font-size: 13px; max-width: 230px; line-height: 1.5;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12); font-size: 13px;
+    max-width: min(230px, calc(100vw - 20px)); line-height: 1.5;
     z-index: 999; transition: opacity 0.1s;
   }
   .tooltip-card .tt-title { font-weight: 700; font-size: 13.5px; margin-bottom: 2px; }
@@ -168,7 +169,7 @@
     .axis-legend { flex-direction: column; gap: 0.4rem; }
   }
   @media (max-width: 480px) {
-    body { padding: 1.75rem 1rem 3rem; }
+    body { padding: 0; }
     .legend-card { padding: 1.1rem 1.2rem; }
     .legend-row { gap: 1rem 1.25rem; }
     .filters-row { gap: 0.6rem; }
@@ -921,12 +922,28 @@ function showTooltip(event, d) {
   moveTooltip(event);
 }
 function moveTooltip(event) {
+  const margin = 10;
   const x = event.clientX, y = event.clientY;
-  const ttW = 240, ttH = 140;
-  let left = x + 16, top = y - 20;
-  if (left + ttW > window.innerWidth) left = x - ttW - 16;
-  if (top + ttH > window.innerHeight) top = window.innerHeight - ttH - 10;
-  tooltip.style('left', left + 'px').style('top', Math.max(10, top) + 'px');
+  // Medimos la tarjeta ya renderizada (con su contenido real) en vez de
+  // asumir un ancho/alto fijo: en móvil el max-width es angosto y el
+  // contenido puede envolver en más líneas, cambiando el alto real.
+  const rect = tooltip.node().getBoundingClientRect();
+  const ttW = rect.width || 240;
+  const ttH = rect.height || 140;
+
+  let left = x + 16;
+  let top = y - 20;
+
+  // Si se sale por la derecha, la volteamos a la izquierda del cursor...
+  if (left + ttW + margin > window.innerWidth) left = x - ttW - 16;
+  // ...y si aun así se sale (pantallas angostas), la pegamos al borde.
+  if (left < margin) left = margin;
+  if (left + ttW > window.innerWidth - margin) left = window.innerWidth - ttW - margin;
+
+  if (top + ttH + margin > window.innerHeight) top = window.innerHeight - ttH - margin;
+  if (top < margin) top = margin;
+
+  tooltip.style('left', left + 'px').style('top', top + 'px');
 }
 function hideTooltip() { tooltip.style('opacity', 0); }
 

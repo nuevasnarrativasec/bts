@@ -1273,6 +1273,16 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     position: absolute;
                     transform: translate(-50%, 100%);
                 }
+            /* En escritorio los 3 ítems entran en línea y no hace falta
+               carrusel: las flechas quedan ocultas por defecto y solo se
+               muestran en el media query de abajo (móvil). */
+            .carousel-medida{
+                position: relative;
+            }
+                .carousel-medida .carousel-arrow{
+                    display: none;
+                }
+
             ul.medida{
                 list-style: none;
                 margin: 30px auto;
@@ -1291,14 +1301,45 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                         max-width: 40px;
                     }
                     ul.medida li h5{
-                        font: 1.4rem/1 'Monigue Regular';  
+                        font: 1.4rem/1 'Monigue Regular';
                         margin-bottom: 10px;
                         text-align: center;
                         text-transform: uppercase;
                     }
                     ul.medida li p{
                         text-align: left;
-                    }        
+                    }
+
+            @media (max-width: 560px){
+                /* Carrusel de a un ítem con flechas (ver js/carrusel-medida.js
+                   para la navegación con flechas y cronologia-drag.js, que ya
+                   engancha el arrastre vía la clase "js-drag-scroll"). */
+                .carousel-medida .carousel-arrow{
+                    display: flex;
+                }
+                ul.medida{
+                    cursor: grab;
+                    display: flex;
+                    flex-wrap: nowrap;
+                    margin: 20px 0;
+                    overflow-x: auto;
+                    padding: 0 24px;
+                    text-align: left;
+                    -webkit-overflow-scrolling: touch;
+                }
+                    ul.medida.is-dragging{
+                        cursor: grabbing;
+                        scroll-behavior: auto;
+                        user-select: none;
+                    }
+                    ul.medida li{
+                        box-sizing: border-box;
+                        flex: 0 0 100%;
+                        margin: 0;
+                        max-width: none;
+                        padding: 0 10px;
+                    }
+            }
 
     .box-analisis-cancion{
         background-color: #F0F0F0;
@@ -2719,6 +2760,89 @@ img.bg-footer{
     }
     .box-disclaimer-rojo p{
         padding: 30px;
+    }
+    .patron-track{
+        max-width: 90%;
+    }
+    .ctn-box-analisis-cancion .patron-brecha{
+        padding: 0;
+    }
+    .box-arirang iframe{
+        height: 1200px !important;
+    }
+    .crono-mascota{
+        display: none;
+    }
+    .box-cronologia{
+        padding-top: 50px;
+    }
+    .crono-label{
+        font-size: 1.5rem;
+    }
+    .crono-label--bts span{
+        font-size: 2rem;
+    }
+    .crono-col{
+        flex-basis: 210px;
+    }
+    .crono-cell p{
+        font-size: 1rem;
+    }
+    .animacion2-letra{
+        bottom: 0;
+        top: inherit;
+    }
+    .animacion2-letra p{
+        font-size: 1.3rem;
+    }
+    .animacion2-quote{
+        transform: translate(0);
+    }
+    .animacion2-caja-videos{
+        height: 360px;
+        width: 90%;
+    }
+    .animacion2-fila--caja{
+        margin-top: -25px;
+    }
+    #animacionVideo5{
+        height: 180px;
+        width: 180px;
+    }
+    #animacionVideo6{
+        height: 220px;
+        width: 290px;
+    }
+    .animacion2-fila--caja .animacion-cta{
+        justify-content: center;
+    }
+    .animacion2-video-puerta{
+        max-width: 100%;
+    }
+    .main-canciones h3, 
+    .main-protagonistas h3, 
+    .main-facturando h3, 
+    .main-trivia h3{
+        font: 4rem / 1.3 'Monigue Regular';
+    }
+    .perfil-card{
+        margin: 20px;
+    }
+    ul.perfil-ficha li p{
+        font-size: 1.1rem;
+    }
+    .box-siete-voces{
+        margin-top: -65px;
+    }
+    .ctn-box-siete-voces{
+        padding-top: 100px;
+    }
+    .ctn-box-siete-voces h5{
+        padding: 0;
+    }
+    .perfil-avatar-wrap{
+        height: 110px;
+        width: 110px;
     }
 
 }

@@ -507,29 +507,41 @@
                     </p>
                 </div>
                 <h6>¿Cómo lo medimos?</h6>
-                <ul class="medida">
-                    <li>
-                        <img src="./img/bg-item-medida-1.png" alt="" width="100%">
-                        <h5>música</h5>
-                        <p>
-                            Usamos la variable valence de Spotify, que estima cuán positiva o luminosa suena musicalmente una <b>pista en una escala de 0 a 1.</b>
-                        </p>
-                    </li>
-                    <li>
-                        <img src="./img/bg-item-medida-2.png" alt="" width="100%">
-                        <h5>letra</h5>
-                        <p>
-                            Aplicamos una clasificación semántica con el mismo procedimiento a todas las canciones del corpus para estimar su tono emocional también en una <b>escala de 0 a 1.</b>
-                        </p>
-                    </li>
-                    <li>
-                        <img src="./img/bg-item-medida-3.png" alt="" width="100%">
-                        <h5>brecha</h5>
-                        <p>
-                            Restamos la valencia musical a la textual. <b>En este caso, 0,30 − 0,76 = −0,46.</b> Un valor negativo indica que la música resulta más luminosa que la letra.
-                        </p>
-                    </li>
-                </ul>
+                <!-- En escritorio se ven los 3 en línea (tal cual antes). En
+                     móvil (≤560px) esto se vuelve un carrusel de a un ítem
+                     con flechas: ver carousel-medida en css/styles.css y
+                     js/carrusel-medida.js. -->
+                <div class="carousel-medida">
+                    <button class="carousel-arrow carousel-arrow--prev" type="button" aria-label="Ver medida anterior">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M15 6l-6 6 6 6"/></svg>
+                    </button>
+                    <ul class="medida js-drag-scroll" id="scrollMedida">
+                        <li>
+                            <img src="./img/bg-item-medida-1.png" alt="" width="100%">
+                            <h5>música</h5>
+                            <p>
+                                Usamos la variable valence de Spotify, que estima cuán positiva o luminosa suena musicalmente una <b>pista en una escala de 0 a 1.</b>
+                            </p>
+                        </li>
+                        <li>
+                            <img src="./img/bg-item-medida-2.png" alt="" width="100%">
+                            <h5>letra</h5>
+                            <p>
+                                Aplicamos una clasificación semántica con el mismo procedimiento a todas las canciones del corpus para estimar su tono emocional también en una <b>escala de 0 a 1.</b>
+                            </p>
+                        </li>
+                        <li>
+                            <img src="./img/bg-item-medida-3.png" alt="" width="100%">
+                            <h5>brecha</h5>
+                            <p>
+                                Restamos la valencia musical a la textual. <b>En este caso, 0,30 − 0,76 = −0,46.</b> Un valor negativo indica que la música resulta más luminosa que la letra.
+                            </p>
+                        </li>
+                    </ul>
+                    <button class="carousel-arrow carousel-arrow--next" type="button" aria-label="Ver medida siguiente">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6"/></svg>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -1337,6 +1349,7 @@
     </div>
 
     <script src="./js/carrusel-discos.js"></script>
+    <script src="./js/carrusel-medida.js"></script>
     <script src="./js/cronologia-drag.js"></script>
     <script src="./js/perfiles.js"></script>
     <script src="./js/trivia.js"></script>
