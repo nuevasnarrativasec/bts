@@ -64,24 +64,27 @@
     );
   });
 
-  /* --- Mascota de box-cronologia: entra deslizando de izquierda a
-     derecha (ease) cada vez que la sección aparece en pantalla, y se
-     revierte (vuelve a su posición inicial) si el usuario sale de la
-     sección, para que la animación se repita al volver a entrar. --- */
-  const mascota = document.getElementById("cronoMascota");
-  if (mascota) {
+  /* --- Mascotas (box-cronologia, box-comunidad, ...): entran deslizando
+     de izquierda a derecha (ease) cada vez que su sección aparece en
+     pantalla, y se revierten (vuelven a su posición inicial) si el
+     usuario sale de la sección, para que la animación se repita al
+     volver a entrar. --- */
+  const mascotas = document.querySelectorAll(".crono-mascota");
+  if (mascotas.length) {
     if ("IntersectionObserver" in window) {
-      const mascotaObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            mascota.classList.toggle("is-visible", entry.isIntersecting);
-          });
-        },
-        { threshold: 0.3 }
-      );
-      mascotaObserver.observe(mascota.closest(".box-cronologia") || mascota);
+      mascotas.forEach((mascota) => {
+        const mascotaObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              mascota.classList.toggle("is-visible", entry.isIntersecting);
+            });
+          },
+          { threshold: 0.3 }
+        );
+        mascotaObserver.observe(mascota.parentElement || mascota);
+      });
     } else {
-      mascota.classList.add("is-visible");
+      mascotas.forEach((mascota) => mascota.classList.add("is-visible"));
     }
   }
 })();

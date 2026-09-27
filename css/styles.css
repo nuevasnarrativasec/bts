@@ -501,7 +501,6 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         margin: 0 auto 60px;
         max-width: 1200px;
         padding: 0 20px;
-        position: relative;
     }
         .animacion-texto--1{
             flex: 0 0 260px;
@@ -767,22 +766,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 .main-animacion-5{
     background-color: #fff;
     overflow: hidden;
-    position: relative;
 }
-    .animacion5-letra{
-        max-width: 400px;
-        position: absolute;
-        width: 100%;
-        left: 50%;
-        top: 100px;
-        transform: translate(-50%, 0);
-    }
-        .animacion5-letra p{
-            color: #fff;
-            font: 1.7rem / 1.4 'Bray Notes';
-            margin: 0 0 16px;
-            text-align: left;
-        }
 
 .main-canciones{
     margin-top: 50px;
@@ -936,8 +920,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     .carousel-arrow svg{ color: #fff; height: 20px; width: 20px; }
                     .carousel-arrow:hover:not(:disabled){ background: var(--red); transform: translateY(-50%) scale(1.06); }
                         .carousel-arrow:hover:not(:disabled) svg{ color: #fff; }
-                    .carousel-arrow--prev{ left: -25px; }
-                    .carousel-arrow--next{ right: -50px; }
+                    .carousel-arrow--prev{ left: 2px; }
+                    .carousel-arrow--next{ right: 2px; }
                     .carousel-arrow:disabled{
                         cursor: default;
                         opacity: .25;
@@ -1414,7 +1398,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         }
             .crono-mascota.is-visible{
                 opacity: 1;
-                transform: translateX(-50px);
+                transform: translateX(0);
             }
             @media (max-width: 900px){
                 .crono-mascota{ max-width: 170px; top: -10px; }
@@ -1474,41 +1458,10 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     font: 1.5rem/1.2 'Monigue Regular';
                     padding: 14px 18px;
                     text-transform: uppercase;
-                    position: relative;
                 }
                 .crono-label--musical{ background-color: #5255c0; min-height: 160px; }
-                    .crono-label--musical::after{
-                        content: '';
-                        width: 0; height: 0;
-                        border-style: solid;
-                        border-width: 10px 0px 10px 15px;
-                        border-color: transparent transparent transparent #5255c0;
-                        transform: rotate(0deg);
-                        position: absolute;
-                        right: -15px;
-                    }
                 .crono-label--bts{ background-color: #F42439; font-size: 3rem; min-height: 210px; justify-content: center;}
-                    .crono-label--bts::after{
-                        content: '';
-                        width: 0; height: 0;
-                        border-style: solid;
-                        border-width: 10px 0px 10px 15px;
-                        border-color: transparent transparent transparent #F42439;
-                        transform: rotate(0deg);
-                        position: absolute;
-                        right: -15px;
-                    }
                 .crono-label--politico{ background-color: #3fd0ae; min-height: 160px; }
-                    .crono-label--politico::after{
-                        content: '';
-                        width: 0; height: 0;
-                        border-style: solid;
-                        border-width: 10px 0px 10px 15px;
-                        border-color: transparent transparent transparent #3fd0ae;
-                        transform: rotate(0deg);
-                        position: absolute;
-                        right: -15px;
-                    }
                 .crono-label--eje{ min-height: 76px; }
 
             /* Pista horizontal con los años */
@@ -2004,8 +1957,12 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 margin: 40px auto;
             }
     .box-comunidad{
-
+        overflow: hidden;
+        position: relative;
     }
+        #comunidadMascota{
+            top: 70px;
+        }
         .ctn-box-comunidad h5{
             margin-bottom: 40px;
         }
@@ -2134,7 +2091,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .momento-card p{ font-size: .92rem; }
         }
 .main-trivia{
-    background-color: #3ca6cb;
+    background-color: #349BC3;
     padding: 40px 0;
 }
     .ctn-box-trivia{
@@ -2320,7 +2277,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .trivia-nivel-subtitulo{ font-size: 1rem; padding: 12px 20px; }
             }
 .main-deja-tu-mensaje{
-    background-color: #ff606b;
+    background-color: #F65464;
     margin-top: -80px;
     position: relative;
 }
@@ -2334,7 +2291,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     }
         .ctn-box-deja-tu-mensaje h3{
             background-color: #000;
-            color: #fff;            
+            color: #fff;
             font: 6rem / 1.3 'Monigue Regular';
             margin: 0 auto;
             text-align: center;
@@ -2364,7 +2321,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .mensaje-label{
                 color: var(--ink);
                 display: block;
-                font: 1.2rem/1.3 'Monigue Regular';
+                font: 700 1.15rem/1.3 'Prelo Semibold', sans-serif;
                 margin: 0 0 10px;
             }
             .mensaje-input{
@@ -2390,7 +2347,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 color: #fff;
                 cursor: pointer;
                 display: block;
-                font: 1.6rem/1.3 'Monigue Regular';
+                font: 700 1.2rem/1.3 'Prelo Bold', sans-serif;
                 margin: 6px auto 0;
                 padding: 18px 50px;
                 transition: transform .15s ease;
@@ -2433,16 +2390,13 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .mensaje-disclaimer-texto b{
                 color: var(--ink);
                 display: block;
-                font: 1.5rem/1.3 'Monigue Regular';
+                font: 1.3rem/1.3 'Prelo Bold', sans-serif;
                 margin: 0 0 10px;
             }
             .mensaje-disclaimer-texto p{
                 color: var(--ink);
-                font: 1rem/1.5 'Prelo Medium', sans-serif;
+                font: 1rem/1.5 'Prelo Book', sans-serif;
             }
-                .mensaje-disclaimer-texto p span{
-                    font-family: 'Prelo Bold';
-                }
 
         .mensaje-btn-ver{
             background-color: #00CBEF;
@@ -2451,9 +2405,10 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             color: #000;
             cursor: pointer;
             display: block;
-            font: 1.8rem/1.2 'Monigue Regular';
+            font: 700 1.2rem/1.3 'Prelo Bold', sans-serif;
+            letter-spacing: .5px;
             margin: 50px auto 0;
-            padding: 9px 40px;
+            padding: 18px 40px;
             text-transform: uppercase;
             transition: transform .15s ease;
         }
@@ -2462,7 +2417,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     .mensaje-mural{
         align-items: center;
         background-image: url('../img/deja-tu-mensaje/bg-deja-tu-mensaje.jpg');
-        background-position: center top;
+        background-position: center;
         background-size: cover;
         display: flex;
         gap: 24px;
@@ -2470,37 +2425,36 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         margin-top: 60px;
         min-height: 620px;
         padding: 60px 20px;
-        height: 1138px;
     }
         .mensaje-flecha{
-            background: transparent;
+            background-color: var(--ink);
             border: none;
-            /*border-radius: 50%;*/
-            color: #000;
+            border-radius: 50%;
+            color: #fff;
             cursor: pointer;
             flex: 0 0 auto;
-            font-size: 3rem;
+            font-size: 2rem;
             height: 48px;
             line-height: 1;
             width: 48px;
         }
             .mensaje-flecha:hover{ transform: scale(1.08); }
         .mensaje-carta{
-            /*background-color: #F4EFE3;*/
+            background-color: #F4EFE3;
             border-radius: 6px;
-            /*box-shadow: 0 10px 30px rgba(0,0,0,.25);*/
+            box-shadow: 0 10px 30px rgba(0,0,0,.25);
             max-width: 420px;
             padding: 40px 32px;
             text-align: center;
         }
             .mensaje-carta-texto{
                 color: var(--ink);
-                font: 1.4rem/1.5 'Monigue Regular';
+                font: 1.3rem/1.5 'Prelo Semibold', sans-serif;
                 margin: 0 0 20px;
             }
             .mensaje-carta-autor{
                 color: var(--red);
-                font: 1.1rem/1.3 'Monigue Regular';
+                font: 700 1.1rem/1.3 'Prelo Bold', sans-serif;
             }
 
         @media (max-width: 900px){
@@ -2518,62 +2472,3 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .mensaje-btn-ver{ padding: 16px 32px; width: 100%; }
             .mensaje-carta{ padding: 28px 22px; }
         }
-
-/* ============================================
-   FOOTER
-   ============================================ */
-.footer-section {
-    background: #000;
-    color: white;
-    padding: 50px 40px 0;
-    text-align: center;
-}
-
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.logo-comercio-footer{
-    display: block;
-    margin: 0 auto 40px;
-    max-width: 130px;
-}
-
-span.separador-logo {
-    background-color: white;
-    display: block;
-    height: 1px;
-    margin: 0 auto var(--spacing-md);
-    max-width: 600px;
-}
-
-.footer-content ul {
-    display: inline-block;
-    list-style-type: none;
-    margin: 0 30px 0;
-    padding: 0;
-    text-align: left;
-    vertical-align: top;
-}
-
-.footer-content ul li {
-    margin-bottom: 15px;
-}
-
-.footer-content ul li h4 {
-    font: 0.9rem/1.3 'Roboto', sans-serif;
-    font-weight: 800;
-    margin-bottom: 0;
-}
-
-.footer-content ul li p {
-    font: 0.9rem/1.6 'Roboto', sans-serif;
-    font-weight: 300;
-    margin: 0;
-}
-img.bg-footer{
-    display: block;
-    margin: 0 auto;
-    max-width: 800px;
-}
