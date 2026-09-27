@@ -741,6 +741,26 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 .main-animacion-3{
     background-color: #fff;
     overflow: hidden;
+    position: relative;
+}
+    .animacion3-letra{
+        max-width: 400px;
+        position: absolute;
+        width: 100%;
+        left: 50%;
+        top: 100px;
+        transform: translate(-50%, 0);
+    }
+        .animacion3-letra p{
+            color: #fff;
+            font: 1.7rem / 1.4 'Bray Notes';
+            margin: 0 0 16px;
+            text-align: left;
+        }
+
+.main-animacion-4{
+    background-color: #fff;
+    overflow: hidden;
 }
 
 .main-canciones{
