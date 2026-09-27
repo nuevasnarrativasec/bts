@@ -960,19 +960,35 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 }
 
             .scroll-discos{
+                cursor: grab;
                 display: flex;
                 gap: 0;
                 margin: 30px auto 10px;
                 overflow-x: hidden;
                 overflow-y: visible;
                 padding: 10px 24px 34px;
-                scroll-padding: 0 24px;
-                scroll-snap-type: x mandatory;
                 -webkit-overflow-scrolling: touch;
+                /* Sin scroll-snap: con el grab activo, si el drag se soltaba
+                   a mitad de página, el snap "mandatory" forzaba el scroll de
+                   vuelta al punto anterior (se sentía como si se revirtiera
+                   el arrastre). Las flechas siguen alineando por página
+                   porque usan scrollTo() directo, no dependen del snap. */
             }
                 .scroll-discos::-webkit-scrollbar{ height: 8px; }
                 .scroll-discos::-webkit-scrollbar-track{ background: #e4e4e4; border-radius: 10px; }
                 .scroll-discos::-webkit-scrollbar-thumb{ background: var(--red); border-radius: 10px; }
+                .scroll-discos.is-dragging{
+                    cursor: grabbing;
+                    scroll-behavior: auto;
+                    user-select: none;
+                }
+                    /* Mientras se arrastra, ignora hover/click en los discos:
+                       si no, cada portada por la que pasa el mouse dispara su
+                       transición de :hover (rotar + escalar) y eso es lo que
+                       se ve como saltos/glitches durante el grab. */
+                    .scroll-discos.is-dragging .disco-item{
+                        pointer-events: none;
+                    }
 
                 /* Cada .discos-page agrupa hasta 6 portadas (3 columnas x 2 filas) y
                    ocupa "una pantalla" del scroll: el usuario desliza de grupo en grupo. */
