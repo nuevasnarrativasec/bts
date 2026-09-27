@@ -2266,7 +2266,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .trivia-nivel-subtitulo{ font-size: 1rem; padding: 12px 20px; }
             }
 .main-deja-tu-mensaje{
-    background-color: #F65464;
+    background-color: #ff606b;
     margin-top: -80px;
     position: relative;
 }
@@ -2310,7 +2310,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .mensaje-label{
                 color: var(--ink);
                 display: block;
-                font: 700 1.15rem/1.3 'Prelo Semibold', sans-serif;
+                font: 1.2rem/1.3 'Monigue Regular';
                 margin: 0 0 10px;
             }
             .mensaje-input{
@@ -2336,7 +2336,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 color: #fff;
                 cursor: pointer;
                 display: block;
-                font: 700 1.2rem/1.3 'Prelo Bold', sans-serif;
+                font: 1.6rem/1.3 'Monigue Regular';
                 margin: 6px auto 0;
                 padding: 18px 50px;
                 transition: transform .15s ease;
@@ -2379,13 +2379,16 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .mensaje-disclaimer-texto b{
                 color: var(--ink);
                 display: block;
-                font: 1.3rem/1.3 'Prelo Bold', sans-serif;
+                font: 1.5rem/1.3 'Monigue Regular';
                 margin: 0 0 10px;
             }
             .mensaje-disclaimer-texto p{
                 color: var(--ink);
-                font: 1rem/1.5 'Prelo Book', sans-serif;
+                font: 1rem/1.5 'Prelo Medium', sans-serif;
             }
+                .mensaje-disclaimer-texto p span{
+                    font-family: 'Prelo Bold';
+                }
 
         .mensaje-btn-ver{
             background-color: #00CBEF;
@@ -2394,10 +2397,9 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             color: #000;
             cursor: pointer;
             display: block;
-            font: 700 1.2rem/1.3 'Prelo Bold', sans-serif;
-            letter-spacing: .5px;
+            font: 1.8rem/1.2 'Monigue Regular';
             margin: 50px auto 0;
-            padding: 18px 40px;
+            padding: 9px 40px;
             text-transform: uppercase;
             transition: transform .15s ease;
         }
@@ -2406,7 +2408,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     .mensaje-mural{
         align-items: center;
         background-image: url('../img/deja-tu-mensaje/bg-deja-tu-mensaje.jpg');
-        background-position: center;
+        background-position: center top;
         background-size: cover;
         display: flex;
         gap: 24px;
@@ -2414,36 +2416,37 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         margin-top: 60px;
         min-height: 620px;
         padding: 60px 20px;
+        height: 135vh;
     }
         .mensaje-flecha{
-            background-color: var(--ink);
+            background: transparent;
             border: none;
-            border-radius: 50%;
-            color: #fff;
+            /*border-radius: 50%;*/
+            color: #000;
             cursor: pointer;
             flex: 0 0 auto;
-            font-size: 2rem;
+            font-size: 3rem;
             height: 48px;
             line-height: 1;
             width: 48px;
         }
             .mensaje-flecha:hover{ transform: scale(1.08); }
         .mensaje-carta{
-            background-color: #F4EFE3;
+            /*background-color: #F4EFE3;*/
             border-radius: 6px;
-            box-shadow: 0 10px 30px rgba(0,0,0,.25);
+            /*box-shadow: 0 10px 30px rgba(0,0,0,.25);*/
             max-width: 420px;
             padding: 40px 32px;
             text-align: center;
         }
             .mensaje-carta-texto{
                 color: var(--ink);
-                font: 1.3rem/1.5 'Prelo Semibold', sans-serif;
+                font: 1.4rem/1.5 'Monigue Regular';
                 margin: 0 0 20px;
             }
             .mensaje-carta-autor{
                 color: var(--red);
-                font: 700 1.1rem/1.3 'Prelo Bold', sans-serif;
+                font: 1.1rem/1.3 'Monigue Regular';
             }
 
         @media (max-width: 900px){
