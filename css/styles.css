@@ -2983,6 +2983,7 @@ img.bg-footer{
         position: relative;
         max-width: 300px;
         margin: 0 auto 40px;
+        z-index: 20;
     }
         .bodytobody-titulo{
             color: var(--ink);
@@ -3133,7 +3134,14 @@ img.bg-footer{
         .bodytobody-item img{
             display: block;
             width: 100%;
+            transform: scale(1.3);
         }
+            .bodytobody-item-2{
+                transform: scale(.9) !important;
+            }
+            .bodytobody-item-3{
+                transform: scale(.8) !important;
+            }
 
 /* --- Keyframes --- */
 @keyframes bodytobodyLatido{
