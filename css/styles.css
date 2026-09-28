@@ -964,10 +964,9 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             }
                 .carousel-arrow{
                     align-items: center;
-                    background: var(--red);
+                    /*background: var(--red);*/
                     border: none;
-                    border-radius: 50%;
-                    box-shadow: 0 6px 18px rgba(20, 18, 31, .22);
+                    /*box-shadow: 0 6px 18px rgba(20, 18, 31, .22);*/
                     cursor: pointer;
                     display: flex;
                     height: 44px;
@@ -979,10 +978,10 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     width: 44px;
                     z-index: 5;
                 }
-                    .carousel-arrow svg{ color: #fff; height: 20px; width: 20px; }
-                    .carousel-arrow:hover:not(:disabled){ background: var(--red); transform: translateY(-50%) scale(1.06); }
-                        .carousel-arrow:hover:not(:disabled) svg{ color: #fff; }
-                    .carousel-arrow--prev{ left: -25px; }
+                    .carousel-arrow svg{ color: #000; height: 35px; width: 35px; }
+                    .carousel-arrow:hover:not(:disabled){ transform: translateY(-50%) scale(1.06); }
+                        .carousel-arrow:hover:not(:disabled) svg{ color: #000; }
+                    .carousel-arrow--prev{ left: -50px; }
                     .carousel-arrow--next{ right: -50px; }
                     .carousel-arrow:disabled{
                         cursor: default;
@@ -1018,8 +1017,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                    porque usan scrollTo() directo, no dependen del snap. */
             }
                 .scroll-discos::-webkit-scrollbar{ height: 8px; opacity: 0;}
-                .scroll-discos::-webkit-scrollbar-track{ background: #e4e4e4; border-radius: 10px; opacity: 0;}
-                .scroll-discos::-webkit-scrollbar-thumb{ background: var(--red); border-radius: 10px; opacity: 0;}
+                .scroll-discos::-webkit-scrollbar-track{ background: #F0F0F0; border-radius: 10px; opacity: 0;}
+                .scroll-discos::-webkit-scrollbar-thumb{ background: #F0F0F0; border-radius: 10px; opacity: 0;}
                 .scroll-discos.is-dragging{
                     cursor: grabbing;
                     scroll-behavior: auto;
@@ -1061,6 +1060,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                             object-fit: cover;
                             transition: transform .35s var(--ease);
                             width: 100%;
+                            border: 1px solid #c2c2c2;
                         }
 
                         .btn-play{
