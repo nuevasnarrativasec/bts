@@ -518,7 +518,7 @@
         </div>
         
         <div class="box-capas">
-            <img class="crono-mascota" id="capasMascota" src="./img/mascotas/mascota-4.png" alt="">
+            <img class="crono-mascota" id="capasMascota" src="./img/mascotas/mascota-4.png" alt="" data-dato-titulo="El concepto original de ‘134340’:" data-dato-texto="En la fase de maquetación y registros preliminares de estudio, el tema se trabajó con los títulos provisionales Pluto y Call Me Pluto.">
 
             <div class="ctn-separador">
                 <span class="separador"></span>
@@ -644,7 +644,7 @@
         </div>
 
         <div class="box-buscador-cancion">
-            <img class="crono-mascota crono-mascota--der" id="buscadorMascota" src="./img/mascotas/mascota-5.png" alt="">
+            <img class="crono-mascota crono-mascota--der" id="buscadorMascota" src="./img/mascotas/mascota-5.png" alt="" data-dato-titulo="El falso inédito de la Vocal Line:" data-dato-texto="La versión extendida de Outro: Propose (2014), interpretada por Jin, Jimin, V y Jung Kook, no fue exclusiva de conciertos; se incluyó oficialmente en el álbum físico Skool Luv Affair Special Addition.">
 
             <div class="ctn-separador">
                 <span class="separador"></span>
@@ -742,7 +742,7 @@
         </div>
 
         <div class="box-cronologia">
-            <img class="crono-mascota" id="cronoMascota" src="./img/mascotas/mascota-1.png" alt="">
+            <img class="crono-mascota" id="cronoMascota" src="./img/mascotas/mascota-1.png" alt="" data-dato-titulo="El bautismo sonoro (2010):" data-dato-texto="El acrónimo “Bangtan Sonyeondan” se escuchó por primera vez en la maqueta Hook Gayo (septiembre de 2010), antes de que Big Hit considerara y descartara nombres comerciales alternativos como Big Kids o Young Nation.">
             <div class="ctn-separador">
                 <span class="separador"></span>
             </div>
@@ -1029,7 +1029,7 @@
         </div>
 
         <div class="box-compara">
-            <img class="crono-mascota crono-mascota--der" id="comparaMascota" src="./img/mascotas/mascota-6.png" alt="">
+            <img class="crono-mascota crono-mascota--der" id="comparaMascota" src="./img/mascotas/mascota-6.png" alt="" data-dato-titulo="Código de estudio de &quot;A Brand New Day&quot;:" data-dato-texto="En las sesiones con el productor Mura Masa, el tema se bautizó provisionalmente Daegeum en honor a la flauta tradicional de bambú coreana que define la base rítmica.">
 
             <div class="ctn-separador">
                 <span class="separador"></span>
@@ -1090,7 +1090,7 @@
         </div>
 
         <div class="box-comunidad">
-            <img class="crono-mascota" id="comunidadMascota" src="./img/mascotas/mascota-2.png" alt="">
+            <img class="crono-mascota" id="comunidadMascota" src="./img/mascotas/mascota-2.png" alt="" data-dato-titulo="El nexo RM–Zico:" data-dato-texto="Bajo el alias Runch Randa, RM colaboró en 2008 con Zico (entonces conocido como Nacseo) en la pista subterránea Fuck Cockroachez.">
 
             <div class="ctn-separador">
                 <span class="separador"></span>
@@ -1167,9 +1167,10 @@
         <video class="animacion-video animacion-video--full" id="animacionVideo11" src="./video/animacion-11.mp4" muted loop playsinline preload="metadata"></video>
     </div>
 
+    <img src="./img/corte-blanco.png" alt="" width="100%" class="corte-blanco">
     <div class="main-facturando">
-        <img class="crono-mascota crono-mascota--der" id="facturandoMascotaDer" src="./img/mascotas/mascota-7.png" alt="">
-        <img class="crono-mascota" id="facturandoMascotaIzq" src="./img/mascotas/mascota-3.png" alt="">
+        <img class="crono-mascota crono-mascota--der" id="facturandoMascotaDer" src="./img/mascotas/mascota-7.png" alt="" data-dato-titulo="Censura de &quot;Converse High&quot;:" data-dato-texto="La cadena KBS vetó la canción por infringir normas de radiodifusión al citar marcas comerciales directas; para presentarlo en televisión abierta, el grupo tuvo que sustituir los nombres de las firmas por términos genéricos referidos al calzado.">
+        <img class="crono-mascota" id="facturandoMascotaIzq" src="./img/mascotas/mascota-3.png" alt="" data-dato-titulo="Memoria histórica de Suga (Gloss):" data-dato-texto="En 2010, bajo el seudónimo Gloss, produjo el tema 518-062 con el grupo D-Town para conmemorar el Levantamiento Democrático de Gwangju del 18 de mayo y rendir tributo a la resistencia civil.">
 
         <h3>facturando</h3>
         <div class="ctn-box-facturando">
@@ -1485,6 +1486,22 @@
         </div>
     </div>
 
+    <div class="ctn-mascota-popup" id="ctnMascotaPopup" hidden aria-hidden="true">
+        <div class="mascota-popup-overlay" id="mascotaPopupOverlay"></div>
+        <div class="mascota-popup" role="dialog" aria-modal="true" aria-label="Dato curioso de BTS">
+            <button class="mascota-popup-close" id="mascotaPopupClose" type="button" aria-label="Cerrar">&times;</button>
+            <img class="mascota-popup-mascota" id="mascotaPopupImg" src="" alt="">
+            <div class="mascota-popup-card">
+                <span class="mascota-popup-tail"></span>
+                <p class="mascota-popup-texto">
+                    <b class="mascota-popup-titulo" id="mascotaPopupTitulo"></b>
+                    <span id="mascotaPopupCuerpo"></span>
+                </p>
+                <img class="mascota-popup-mano" src="./img/mano-dato.png" alt="">
+            </div>
+        </div>
+    </div>
+
     <script src="./js/carrusel-discos.js"></script>
     <script src="./js/carrusel-medida.js"></script>
     <script src="./js/cronologia-drag.js"></script>
@@ -1500,5 +1517,6 @@
     <script src="./js/body-to-body.js"></script>
     <script src="./js/menu-scroll.js"></script>
     <script src="./js/iframe-auto-alto.js"></script>
+    <script src="./js/mascota-popup.js"></script>
 </body>
 </html>
