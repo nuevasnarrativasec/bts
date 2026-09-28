@@ -80,15 +80,15 @@
             <video class="animacion-video animacion-video--full" id="animacionVideo2" src="./video/animacion-2.mp4" muted loop playsinline preload="metadata"></video>
 
             <div class="animacion-texto animacion-texto--2">
-                <p>El mundo nunca comprenderá la profundidad de mi tristeza; mi dolor es como el agua y el aceite, algo imposible de mezclar o de aliviar. Ni siquiera cuando salgo a la superficie a respirar logro despejar mi mente.</p>
+                <p>"El mundo nunca comprenderá la profundidad de mi tristeza; mi dolor es como el agua y el aceite, algo imposible de mezclar o de aliviar. Ni siquiera cuando salgo a la superficie a respirar logro despejar mi mente".</p>
             </div>
         </div>
 
         <div class="animacion2-fila animacion2-fila--playa">
             <video class="animacion-video animacion-video--full" id="animacionVideo3" src="./video/animacion-3.mp4" muted loop playsinline preload="metadata"></video>
             <div class="animacion2-letra">
-                <p>Sin embargo, elijo confiar en mi propia frecuencia en medio de este inmenso mar azul. Soy una ballena solitaria que sigue cantando en el aislamiento.</p>
-                <p>Cantando sola de esta manera, me pregunto si algún día seré capaz de brillar, incluso si por ahora me siento como una isla desierta.</p>
+                <p>"Sin embargo, elijo confiar en mi propia frecuencia en medio de este inmenso mar azul. Soy una ballena solitaria que sigue cantando en el aislamiento".</p>
+                <p>"Cantando sola de esta manera, me pregunto si algún día seré capaz de brillar, incluso si por ahora me siento como una isla desierta".</p>
             </div>
         </div>
 
@@ -422,12 +422,17 @@
 
             <div class="ctn-box-clustering">
                 <div class="box-iframe">
+                    <!-- data-auto-height: js/iframe-auto-alto.js mide el
+                         contenido real de este iframe (same-origin) y ajusta
+                         su altura, para no dejar espacio en blanco cuando el
+                         valor fijo de abajo queda más alto de lo necesario. -->
                     <iframe
                         src="./cuadros-mayte/bts_clustering.html"
                         title="Clustering de canciones BTS: cuatro tipos de canción"
                         scrolling="no"
                         loading="lazy"
-                        style=" width:100%; height:1700px; border:none; ">
+                        data-auto-height
+                        style=" width:100%; height:1200px; border:none; ">
                     </iframe>
                 </div>                
 
@@ -1478,5 +1483,6 @@
     <script src="./js/deja-tu-mensaje.js"></script>
     <script src="./js/body-to-body.js"></script>
     <script src="./js/menu-scroll.js"></script>
+    <script src="./js/iframe-auto-alto.js"></script>
 </body>
 </html>
