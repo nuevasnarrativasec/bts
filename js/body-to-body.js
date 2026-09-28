@@ -4,11 +4,13 @@
      main-animacion-1 / main-animacion-2 / el carrusel de discos;
      comparten el mismo <script id="spotify-iframe-api">, así que
      no se carga dos veces).
-   - Al primer click (además de reproducir/pausar el track):
-       1) los 3 elementos gráficos caen desde arriba y se acomodan
-          (clase "is-visible" en cada [data-bodytobody-item]).
-       2) la letra aparece con efecto máquina de escribir, primero
-          la estrofa 1 y, al terminar, la estrofa 2.
+   - La letra de cada estrofa se pinta entera desde que carga la
+     página, en un color suave/translúcido (cada letra queda en su
+     propio <span class="k-char">). Al primer click en play, esas
+     letras se van "iluminando" una por una (como en un karaoke),
+     primero la estrofa 1 y, al terminar, la estrofa 2 — y en
+     paralelo los 3 elementos gráficos caen desde arriba y se
+     acomodan (clase "is-visible" en cada [data-bodytobody-item]).
      Esta revelación ocurre una sola vez: pausar y volver a darle
      play no la repite ni la deshace.
    ============================================================ */
@@ -43,26 +45,47 @@
     if (iconPause) iconPause.hidden = isPaused;
   }
 
-  /* --- Efecto máquina de escribir --- */
-  function escribirTexto(el, texto, msPorLetra, alTerminar) {
-    if (!el) {
+  /* --- Efecto karaoke: separa el texto en <span class="k-char">
+     (uno por carácter) ya visibles en un color suave; "pintarKaraoke"
+     solo va agregando la clase "is-lit" letra por letra, y el color
+     pleno de esa letra se anima por transición CSS. --- */
+  function prepararKaraoke(el) {
+    if (!el) return [];
+    const texto = el.dataset.texto || "";
+    el.textContent = "";
+
+    const spans = [];
+    for (let i = 0; i < texto.length; i += 1) {
+      const span = document.createElement("span");
+      span.className = "k-char";
+      span.textContent = texto[i];
+      el.appendChild(span);
+      spans.push(span);
+    }
+    return spans;
+  }
+
+  function pintarKaraoke(spans, msPorLetra, alTerminar) {
+    if (!spans.length) {
       if (typeof alTerminar === "function") alTerminar();
       return;
     }
-    el.textContent = "";
-    el.classList.add("is-typing");
 
     let i = 0;
     const intervalo = window.setInterval(() => {
+      spans[i].classList.add("is-lit");
       i += 1;
-      el.textContent = texto.slice(0, i);
-      if (i >= texto.length) {
+      if (i >= spans.length) {
         window.clearInterval(intervalo);
-        el.classList.remove("is-typing");
         if (typeof alTerminar === "function") alTerminar();
       }
     }, msPorLetra);
   }
+
+  // El texto en su color suave se prepara ya, al cargar la página (no
+  // hay que esperar al play para que se vea la letra completa).
+  const lyric1Spans = prepararKaraoke(lyric1);
+  const lyric2Spans = prepararKaraoke(lyric2);
 
   function revelar() {
     if (yaRevelado) return;
@@ -72,7 +95,7 @@
 
     // Los elementos gráficos caen uno tras otro (no todos de golpe):
     // cada uno se revela con su propio setTimeout, apenas empieza a
-    // aparecer la letra.
+    // pintarse la letra.
     const RETRASO_ENTRE_ITEMS = 550; // ms entre la caída de un elemento y el siguiente
     items.forEach((item, i) => {
       window.setTimeout(() => {
@@ -80,11 +103,8 @@
       }, i * RETRASO_ENTRE_ITEMS);
     });
 
-    const texto1 = (lyric1 && lyric1.dataset.texto) || "";
-    const texto2 = (lyric2 && lyric2.dataset.texto) || "";
-
-    escribirTexto(lyric1, texto1, 30, () => {
-      escribirTexto(lyric2, texto2, 30);
+    pintarKaraoke(lyric1Spans, 30, () => {
+      pintarKaraoke(lyric2Spans, 30);
     });
   }
 
