@@ -1249,8 +1249,12 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 padding: 20px;
             }
     .box-capas{
-
+        overflow: hidden;
+        position: relative;
     }
+        #capasMascota{
+            top: 320px;
+        }
         .ctn-box-capas{
 
         }
@@ -1476,8 +1480,12 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     }
                 }
     .box-buscador-cancion{
-
+        overflow: hidden;
+        position: relative;
     }
+        #buscadorMascota{
+            top: 470px;
+        }
         .ctn-box-buscador-cancion{
 
         }
@@ -1503,6 +1511,13 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                         vertical-align: middle;
                         width: 10px;
                     }
+    .box-compara{
+        overflow: hidden;
+        position: relative;
+    }
+        #comparaMascota{
+            top: 20px;
+        }
     .box-arirang{
         background-color: #F0F0F0;
         padding: 0 0 60px;
@@ -1526,6 +1541,17 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 opacity: 1;
                 transform: translateX(-50px);
             }
+            /* Variante espejada: mascotas que entran/asoman por la derecha
+               en vez de por la izquierda (mismo efecto de "asomarse" desde
+               afuera del contenedor, solo que del otro lado). */
+            .crono-mascota--der{
+                left: auto;
+                right: -20px;
+                transform: translateX(120%);
+            }
+                .crono-mascota--der.is-visible{
+                    transform: translateX(50px);
+                }
             @media (max-width: 900px){
                 .crono-mascota{ max-width: 170px; top: -10px; }
             }
@@ -2144,8 +2170,15 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             margin-bottom: 40px;
         }
 .main-facturando{
-
+    overflow: hidden;
+    position: relative;
 }
+    #facturandoMascotaDer{
+        top: 1000px;
+    }
+    #facturandoMascotaIzq{
+        top: 1650px;
+    }
     .ctn-box-facturando{
 
     }
@@ -2161,7 +2194,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         }
         .impacto-card{
             background-color: var(--white);
-            border: 2px solid var(--ink);
+            border: 1px solid var(--ink);
             border-radius: 18px;
             flex: 1 1 260px;
             padding: 22px 26px;
@@ -2279,10 +2312,6 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     padding: 40px 0;
     position: relative;
 }
-    #triviaMascota{
-        bottom: 20px;
-        top: auto;
-    }
     .ctn-box-trivia{
         margin: 0 auto;
         max-width: 900px;
