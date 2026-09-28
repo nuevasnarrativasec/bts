@@ -1500,8 +1500,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             }
             ul.lectura-grafico{
                 list-style-type: none;
-                margin: 30px auto 60px;
-                max-width: 680px;
+                margin: 30px auto 120px;
+                max-width: 600px;
             }
                 ul.lectura-grafico li{
                     font: 1.2rem / 1.4 'Prelo Book';
@@ -1516,6 +1516,11 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                         margin: 0 10px 0 0;
                         vertical-align: middle;
                         width: 10px;
+                    }
+                    ul.lectura-grafico li p{
+                        display: inline-block;
+                        margin: 0;
+                        vertical-align: top;
                     }
     .box-compara{
         overflow: hidden;
