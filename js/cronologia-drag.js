@@ -31,6 +31,15 @@
       // Solo botón izquierdo del mouse (los dedos táctiles ya funcionan con scroll nativo)
       if (e.pointerType === "mouse" && e.button !== 0) return;
 
+      // Si el gesto arranca sobre un control interactivo (por ejemplo el
+      // .btn-play de un disco, o el CTA de Spotify), el drag-scroll ni
+      // siquiera se activa para este gesto: así un click/tap sobre ese
+      // control nunca puede confundirse con un arrastre ni quedar
+      // bloqueado por el listener de "click" de más abajo. El drag sigue
+      // funcionando normalmente si el gesto arranca en cualquier otro
+      // punto del carrusel (la portada, el espacio vacío, etc.).
+      if (e.target.closest("button, a, input, textarea, select, [data-no-drag]")) return;
+
       isDragScroll = canScroll();
       if (!isDragScroll) return;
 

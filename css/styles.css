@@ -1078,6 +1078,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                             position: absolute;
                             transition: background .2s ease, transform .2s ease;
                             width: 52px;
+                            z-index: 20;
                         }
                             .btn-play:hover{ transform: scale(1.07); }
                             .btn-play svg{ color: #000; height: 20px; width: 20px; }
