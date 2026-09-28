@@ -644,6 +644,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 .main-animacion-2{
     background-color: #fff;
     overflow: hidden;
+    position: relative;
 }
     .animacion2-fila--playa{
         position: relative;
@@ -660,6 +661,19 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 margin: 0 0 16px;
             }
                 .animacion2-letra p:last-child{ margin-bottom: 0; }
+
+        .animacion22-letra {
+            max-width: 600px;
+            position: absolute;
+            left: 50%;
+            top: 100px;
+            transform: translate(-50%, 0);
+        }
+            .animacion22-letra p{
+                color: var(--ink);
+                font: 1.7rem/1.4 'Bray Notes';
+                margin: 0 0 16px;
+            }
 
     .animacion2-quote{
         margin: 0 auto;
