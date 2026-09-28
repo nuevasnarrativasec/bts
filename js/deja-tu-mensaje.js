@@ -180,15 +180,10 @@
   })();
 
   if (verBtn) {
+    // Solo muestra el mural y hace scroll suave hacia él; no lo oculta
+    // de nuevo ni cambia el texto del botón a "Ocultar mensajes".
     verBtn.addEventListener("click", function () {
-      var abierto = !mural.hidden;
-      if (abierto) {
-        mural.hidden = true;
-        verBtn.textContent = "Ver mensajes";
-        return;
-      }
       mural.hidden = false;
-      verBtn.textContent = "Ocultar mensajes";
       if (!mensajes.length) cargarMensajes(false);
       mural.scrollIntoView({ behavior: "smooth", block: "start" });
     });
