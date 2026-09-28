@@ -1203,7 +1203,46 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 border: 1px solid #e0e0e0;
                 border-radius: 20px;
                 padding: 30px 34px;
+                position: relative;
             }
+                .escala-comparativa .info-badge{
+                    align-items: center;
+                    background-color: var(--red);
+                    border-radius: 50%;
+                    box-shadow: 0 4px 10px rgba(232,56,47,.35);
+                    color: #fff;
+                    cursor: default;
+                    display: flex;
+                    font-size: 13px;
+                    font-style: italic;
+                    font-weight: 800;
+                    height: 26px;
+                    justify-content: center;
+                    position: absolute;
+                    right: -12px;
+                    top: -12px;
+                    width: 26px;
+                }
+                .escala-comparativa .info-badge .info-tip{
+                    background-color: var(--ink);
+                    border-radius: 8px;
+                    color: #fff;
+                    display: none;
+                    font-size: 11.5px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 1.5;
+                    padding: .6rem .75rem;
+                    position: absolute;
+                    right: 0;
+                    text-align: left;
+                    top: calc(100% + 8px);
+                    width: 220px;
+                    z-index: 30;
+                }
+                .escala-comparativa .info-badge:hover .info-tip{
+                    display: block;
+                }
                 .escala-fila + .escala-fila{
                     margin-top: 34px;
                 }
@@ -1240,6 +1279,9 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     }
                     .escala-num{
                         font-size: 1.3rem;
+                    }
+                    .escala-comparativa .info-badge .info-tip{
+                        width: 160px;
                     }
                 }
         .box-disclaimer-rojo{
