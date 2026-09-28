@@ -10,29 +10,15 @@
   const wraps = document.querySelectorAll(".js-drag-scroll");
   if (!wraps.length) return;
 
-  const DRAG_THRESHOLD = 8; // px de tolerancia antes de considerarlo "arrastre" real
-
   wraps.forEach((wrap) => {
     let isDown = false;
-    let isDragScroll = false; // solo true si el wrap realmente tiene overflow que scrollear
     let startX = 0;
     let startScroll = 0;
     let moved = false;
 
-    function canScroll() {
-      // Si el contenido no desborda, no hay nada que arrastrar: dejamos
-      // pasar el click normal (por ejemplo, los perfil-avatar-btn) sin
-      // activar la lógica de "arrastre", que de lo contrario podría
-      // bloquear el click por un mínimo jitter del mouse.
-      return wrap.scrollWidth > wrap.clientWidth + 1;
-    }
-
     function onPointerDown(e) {
       // Solo botón izquierdo del mouse (los dedos táctiles ya funcionan con scroll nativo)
       if (e.pointerType === "mouse" && e.button !== 0) return;
-
-      isDragScroll = canScroll();
-      if (!isDragScroll) return;
 
       isDown = true;
       moved = false;
@@ -43,9 +29,9 @@
     }
 
     function onPointerMove(e) {
-      if (!isDown || !isDragScroll) return;
+      if (!isDown) return;
       const dx = e.clientX - startX;
-      if (Math.abs(dx) > DRAG_THRESHOLD) moved = true;
+      if (Math.abs(dx) > 3) moved = true;
       wrap.scrollLeft = startScroll - dx;
     }
 
@@ -64,15 +50,12 @@
     wrap.addEventListener("pointerleave", onPointerUp);
     wrap.addEventListener("pointercancel", onPointerUp);
 
-    // Evita que un arrastre real termine disparando un click no deseado
-    // sobre algún elemento interno (por ejemplo, los perfil-avatar-btn).
-    // Solo bloquea el click cuando efectivamente hubo un arrastre con
-    // desplazamiento (isDragScroll + moved); un click normal nunca llega
-    // a activar esta rama.
+    // Evita que un arrastre termine disparando un click no deseado
+    // sobre algún elemento interno (por ahora no hay enlaces, pero es defensivo).
     wrap.addEventListener(
       "click",
       (e) => {
-        if (isDragScroll && moved) {
+        if (moved) {
           e.preventDefault();
           e.stopPropagation();
         }
