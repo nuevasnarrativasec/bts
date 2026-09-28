@@ -70,9 +70,15 @@
 
     if (hint) hint.classList.add("is-hidden");
 
-    // Los elementos gráficos caen apenas empieza a aparecer la letra
-    // (cada uno con su propio transition-delay definido en el CSS).
-    items.forEach((item) => item.classList.add("is-visible"));
+    // Los elementos gráficos caen uno tras otro (no todos de golpe):
+    // cada uno se revela con su propio setTimeout, apenas empieza a
+    // aparecer la letra.
+    const RETRASO_ENTRE_ITEMS = 550; // ms entre la caída de un elemento y el siguiente
+    items.forEach((item, i) => {
+      window.setTimeout(() => {
+        item.classList.add("is-visible");
+      }, i * RETRASO_ENTRE_ITEMS);
+    });
 
     const texto1 = (lyric1 && lyric1.dataset.texto) || "";
     const texto2 = (lyric2 && lyric2.dataset.texto) || "";
