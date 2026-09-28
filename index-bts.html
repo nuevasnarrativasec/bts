@@ -1104,6 +1104,46 @@
         </div>
     </div>    
 
+    <div class="main-animacion-6" id="mainAnimacion6">
+
+        <!--
+            CTA de Spotify (Black Swan): mismo patrón que el de Whalien 52
+            en main-animacion-1 / Magic Shop en main-animacion-2 (misma
+            Spotify iFrame API, comparten el mismo <script id="spotify-iframe-api">).
+            Variante "oscura" (fondo negro en el nombre) porque esta sección
+            es de fondo oscuro y el texto plano no se vería.
+            Cambia data-spotify-uri por el URI real de "Black Swan":
+            Spotify → clic derecho en el track → Compartir → Copiar URI de Spotify.
+        -->
+        <div class="animacion-cta animacion-cta--oscuro" id="animacionCta3" data-spotify-uri="spotify:track:6wH3AP7b01vpzKYRJhreMy">
+            <button class="animacion-cta-play" type="button" aria-label="Reproducir Black Swan">
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+            </button>
+            <span class="animacion-cta-nombre">Black Swan</span>
+            <div class="animacion-cta-embed" id="animacionCta3Embed"></div>
+        </div>
+
+        <div class="animacion6-fila animacion6-fila--1">
+            <video class="animacion-video animacion-video--full" id="animacionVideo13" src="./video/animacion-13.mp4" muted loop playsinline preload="metadata"></video>
+            <div class="animacion6-texto animacion6-texto--1">
+                <p>&ldquo;Mis ángeles me dejaron, las penas son mías y ahora estoy aquí con el diablo, por mi cuenta, como una sombra de iglesia, arrastrándose detrás de mí. Sólo está ahí para aterrorizar mi mente&hellip;&rdquo;</p>
+            </div>
+        </div>
+
+        <div class="animacion6-fila animacion6-fila--2">
+            <video class="animacion-video animacion-video--full" id="animacionVideo14" src="./video/animacion-14.mp4" muted loop playsinline preload="metadata"></video>
+            <div class="animacion6-texto animacion6-texto--2">
+                <p>&ldquo;El cisne negro sigue persiguiéndome. Prometo que mi alma no será pagada, el viento siempre comienza como psicodélico y luego se vuelve negro, mi cabeza empieza a balancearse, olvidé lo que estaba diciendo, no sé dónde estoy y nunca, nunca volveré&rdquo;.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="main-animacion-4" id="mainAnimacion4">
+        <video class="animacion-video animacion-video--full" id="animacionVideo11" src="./video/animacion-11.mp4" muted loop playsinline preload="metadata"></video>
+    </div>
+
     <div class="main-facturando">
         <img class="crono-mascota crono-mascota--der" id="facturandoMascotaDer" src="./img/mascotas/mascota-7.png" alt="">
         <img class="crono-mascota" id="facturandoMascotaIzq" src="./img/mascotas/mascota-3.png" alt="">
@@ -1222,9 +1262,7 @@
         </div>
     </div>
 
-    <div class="main-animacion-4" id="mainAnimacion4">
-        <video class="animacion-video animacion-video--full" id="animacionVideo11" src="./video/animacion-11.mp4" muted loop playsinline preload="metadata"></video>
-    </div>
+    
 
     <div class="main-trivia" id="main-trivia">
 
@@ -1434,6 +1472,7 @@
     <script src="./js/animacion-3.js"></script>
     <script src="./js/animacion-4.js"></script>
     <script src="./js/animacion-5.js"></script>
+    <script src="./js/animacion-6.js"></script>
     <script src="./js/deja-tu-mensaje.js"></script>
     <script src="./js/body-to-body.js"></script>
     <script src="./js/menu-scroll.js"></script>

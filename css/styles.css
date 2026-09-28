@@ -805,6 +805,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 .main-animacion-4{
     background-color: #fff;
     overflow: hidden;
+    margin-top: -50px;
 }
 
 .main-animacion-5{
@@ -3269,3 +3270,72 @@ img.bg-footer{
     .bodytobody-titulo{ font: 1.8rem/1 'Monigue Regular'; }
     .bodytobody-lyric{ font-size: 1.3rem; }
 }
+
+/* ============================================================
+   BTS · main-animacion-6 (Black Swan)
+   Dos videos a pantalla completa apilados (animacion-13 / animacion-14),
+   cada uno con su letra superpuesta en blanco (mismo patrón que
+   .animacion3-letra / .animacion5-letra), más el CTA de Spotify fijo
+   arriba a la derecha de toda la sección (mismo componente
+   .animacion-cta que Whalien 52 / Magic Shop, con una variante
+   "oscura" para el nombre de la canción porque el fondo aquí es negro).
+   ============================================================ */
+.main-animacion-6{
+    background-color: #000;
+    overflow: hidden;
+    position: relative;
+}
+    #animacionCta3 iframe{
+        height: 1px;
+        opacity: 0;
+    }
+    .animacion-cta--oscuro{
+        right: 24px;
+        top: 150px;
+        z-index: 2;
+    }
+        .animacion-cta--oscuro .animacion-cta-nombre{
+            background-color: #000;
+            border-radius: 4px;
+            color: #fff;
+            padding: 6px 4px;
+        }
+
+    .animacion6-fila{
+        position: relative;
+    }
+        .animacion6-fila--2{
+            top: -45px;
+            z-index: 20;    
+        }
+
+    .animacion6-texto{
+        left: 50%;
+        max-width: 560px;
+        position: absolute;
+        text-align: center;
+        transform: translate(-50%, -50%);
+        width: 90%;
+    }
+        .animacion6-texto p{
+            color: #fff;
+            font: 1.5rem/1.4 'Bray Notes';
+            margin: 0;
+        }
+        .animacion6-texto--1{
+            top: 50%;
+            max-width: 500px;
+        }
+        .animacion6-texto--2{
+            top: 48%;
+            max-width: 500px;
+        }
+
+    @media (max-width: 900px){
+        .animacion-cta--oscuro{ top: 16px; right: 16px; }
+        .animacion6-texto p{ font-size: 1.25rem; }
+    }
+    @media (max-width: 560px){
+        .animacion6-texto{ max-width: 90%; }
+        .animacion6-texto p{ font-size: 1.05rem; }
+    }
