@@ -2387,6 +2387,11 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     img.corte-celeste{
         display: block;
     }
+    img.corte-rosado{
+        display: block;
+        margin-top: -140px;
+        position: relative;
+    }
     .ctn-box-trivia{
         margin: 0 auto;
         max-width: 900px;
