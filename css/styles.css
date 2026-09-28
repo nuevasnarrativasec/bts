@@ -2175,6 +2175,12 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             margin-right: 10px;
             width: 56px;
         }
+        .impacto-card img{
+            display: inline-block;
+            margin: 0 5px 0 0;
+            vertical-align: top;
+            max-width: 60px;
+        }
         .impacto-label{
             color: var(--ink);
             display: inline-block;
