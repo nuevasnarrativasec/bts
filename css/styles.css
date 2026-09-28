@@ -609,7 +609,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         .animacion-texto--2{
             bottom: 60px;
             left: 50%;
-            max-width: 340px;
+            max-width: 360px;
             position: absolute;
             transform: translate(-50%);
         }
@@ -774,7 +774,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     position: relative;
 }
     .animacion3-letra{
-        max-width: 400px;
+        max-width: 500px;
         position: absolute;
         width: 100%;
         left: 50%;
