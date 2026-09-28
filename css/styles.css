@@ -666,12 +666,12 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             max-width: 600px;
             position: absolute;
             left: 50%;
-            top: 100px;
+            top: 110px;
             transform: translate(-50%, 0);
         }
             .animacion22-letra p{
                 color: var(--ink);
-                font: 1.7rem/1.4 'Bray Notes';
+                font: 1.4rem / 1.4 'Bray Notes';
                 margin: 0 0 16px;
             }
 
@@ -723,7 +723,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     .animacion2-fila--puerta{
         display: flex;
         justify-content: center;
-        padding: 60px 0;
+        padding: 60px 0 0;
     }
         .animacion2-video-puerta{
             width: 100%;
@@ -734,20 +734,22 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         display: flex;
         gap: 40px;
         justify-content: center;
-        margin: 0 auto 60px;
-        max-width: 900px;
+        margin: 0 auto;
+        max-width: 980px;
         padding: 0 20px;
     }
         .animacion2-video-llave{
+            clip-path: circle(115px);
             border-radius: 50%;
             flex: 0 0 auto;
-            height: 220px;
+            height: 235px;
             object-fit: cover;
-            width: 220px;
+            width: 280px;
+            transform: translate(0%) scale(1.2);
         }
         .animacion2-quote--llave{
             margin: 0;
-            max-width: 360px;
+            max-width: 60%;
             padding: 0;
             text-align: left;
             transform: none;
@@ -847,9 +849,12 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     }
     .box-universo-musical{
         background-color: #F0F0F0;
-        margin-top: 60px;
+        margin-top: -70px;
         padding: 40px 0 60px;
     }
+        .ctn-box-universo-musical{
+            padding-top: 70px;
+        }
         .ctn-box-universo-musical,
         .ctn-box-canciones,
         .ctn-box-capas,
@@ -1540,7 +1545,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         }
             .crono-mascota.is-visible{
                 opacity: 1;
-                transform: translateX(-50px);
+                transform: translateX(-50px) rotate(25deg);
             }
             /* Variante espejada: mascotas que entran/asoman por la derecha
                en vez de por la izquierda (mismo efecto de "asomarse" desde
@@ -1551,7 +1556,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 transform: translateX(120%);
             }
                 .crono-mascota--der.is-visible{
-                    transform: translateX(50px);
+                    transform: translateX(50px) rotate(-25deg);
                 }
             @media (max-width: 900px){
                 .crono-mascota{ max-width: 170px; top: -10px; }
