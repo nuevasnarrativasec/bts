@@ -1273,7 +1273,61 @@
     <div class="main-deja-tu-mensaje">
         <img src="./img/bts-sello-deja-tu-mensaje.png" alt="" width="100%" class="sello">
 
-        <div class="ctn-body-to-body">
+        <div class="ctn-body-to-body" id="ctnBodyToBody">
+
+            <div class="bodytobody-header">
+                <h3 class="bodytobody-titulo">Body to body</h3>
+
+                <!--
+                    CTA de Spotify (misma Spotify iFrame API que main-animacion-1 /
+                    main-animacion-2 / el carrusel de discos, comparten el mismo
+                    <script id="spotify-iframe-api">, así que no se carga dos veces).
+                    Cambia data-spotify-uri por el URI real de "Body to body":
+                    Spotify → clic derecho en el track → Compartir → Copiar URI de Spotify
+                    (spotify:track:XXXXXXXXXXXXXXXXXXXXXX).
+                -->
+                <div class="bodytobody-play-wrap">
+                    <button
+                        class="animacion-cta-play bodytobody-play"
+                        id="bodyToBodyPlayBtn"
+                        type="button"
+                        data-spotify-uri="spotify:track:2rKkfc4VZ74FQDc1FF1Zo6"
+                        aria-label="Reproducir Body to body"
+                    >
+                        <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                        <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                    </button>
+                    <span class="bodytobody-hint" id="bodyToBodyHint">Presiona&nbsp;play</span>
+                </div>
+
+                <div class="animacion-cta-embed bodytobody-embed" id="bodyToBodyEmbed"></div>
+            </div>
+
+            <div class="bodytobody-escena" id="bodyToBodyEscena">
+
+                <div class="bodytobody-item bodytobody-item--polaroid" data-bodytobody-item>
+                    <div class="bodytobody-item-inner">
+                        <img src="./img/body-to-body/bg-body-to-body-1.png" alt="Selfie de un integrante de BTS con uniforme militar haciendo la señal de la paz" loading="lazy">
+                    </div>
+                </div>
+
+                <p class="bodytobody-lyric bodytobody-lyric--1" id="bodyToBodyLyric1" data-bodytobody-lyric data-texto="Necesito que todo el estadio empiece a saltar. Dejen los teléfonos a un lado y disfrutemos de la fiesta; tengo la mirada fija en la primera fila. Para ser sinceros, la vibra está en su punto más alto y la energía en el lugar no para de subir."></p>
+
+                <p class="bodytobody-lyric bodytobody-lyric--2" id="bodyToBodyLyric2" data-bodytobody-lyric data-texto="La vida es corta, así que dejemos de lado el odio; en la vida real somos gigantes. Olvídate del orgullo y del qué dirán, sube y acércate piel con piel. Necesito ese contacto cuerpo a cuerpo, sentirte a mi lado para que de la mano alcancemos la luna y sigamos sin parar. Aunque el sol comience a salir, no nos iremos a casa porque he encontrado a alguien como tú."></p>
+
+                <div class="bodytobody-item bodytobody-item--linterna" data-bodytobody-item>
+                    <div class="bodytobody-item-inner">
+                        <img src="./img/body-to-body/bg-body-to-body-2.png" alt="Lightstick oficial de BTS (Army Bomb)" loading="lazy">
+                    </div>
+                </div>
+
+                <div class="bodytobody-item bodytobody-item--llavero" data-bodytobody-item>
+                    <div class="bodytobody-item-inner">
+                        <img src="./img/body-to-body/bg-body-to-body-3.png" alt="Llavero del logo de BTS junto a fotos tipo polaroid de un concierto y de una fan con su lightstick" loading="lazy">
+                    </div>
+                </div>
+
+            </div>
 
         </div>
 
@@ -1374,6 +1428,7 @@
     <script src="./js/animacion-4.js"></script>
     <script src="./js/animacion-5.js"></script>
     <script src="./js/deja-tu-mensaje.js"></script>
+    <script src="./js/body-to-body.js"></script>
     <script src="./js/menu-scroll.js"></script>
 </body>
 </html>

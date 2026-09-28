@@ -2955,3 +2955,252 @@ img.bg-footer{
     }
 
 }
+/* ============================================================
+   BTS · ctn-body-to-body ("Body to body")
+   - Título + botón de play (reutiliza el look del botón verde/rojo
+     de .animacion-cta-play, ver ~línea 562) con un pulso llamativo
+     ("late") hasta que el usuario lo presiona.
+   - Al presionarlo: la letra aparece con efecto máquina de escribir
+     (bodytobody-lyric.is-typing, texto inyectado por body-to-body.js)
+     y los 3 elementos gráficos caen desde arriba y se acomodan con un
+     pequeño rebote (bodytobody-item.is-visible), quedando con un
+     balanceo de rotación suave e infinito (bodytobody-item-inner).
+   ============================================================ */
+.ctn-body-to-body{
+    margin: 0 auto;
+    max-width: 1280px;
+    padding: 0 0 110px;
+    position: relative;
+}
+    #ctnBodyToBody{
+        
+    }
+        #ctnBodyToBody iframe{
+            height: 1px;
+            opacity: 0;
+        }
+    .bodytobody-header{
+        position: relative;
+        max-width: 300px;
+        margin: 0 auto 40px;
+    }
+        .bodytobody-titulo{
+            color: var(--ink);
+            display: inline-block;
+            font: 1.8rem/1 'Monigue Regular';
+            margin: 0;
+            text-transform: uppercase;
+            vertical-align: top;
+            padding-top: 15px;
+        }
+        .bodytobody-play-wrap{
+            display: inline-block;
+            position: relative;
+            vertical-align: top;
+        }
+            .bodytobody-play{
+                animation: bodytobodyLatido 1.8s ease-in-out infinite;
+                position: relative;
+                margin: 0 20px;
+            }
+                .bodytobody-play::before{
+                    animation: bodytobodyOnda 1.8s ease-out infinite;
+                    background-color: #3ddc71;
+                    border-radius: 50%;
+                    content: "";
+                    height: 100%;
+                    left: 0;
+                    position: absolute;
+                    top: 0;
+                    width: 100%;
+                    z-index: -1;
+                }
+                .bodytobody-play.is-playing{
+                    animation: none;
+                }
+                    .bodytobody-play.is-playing::before{
+                        animation: none;
+                        display: none;
+                    }
+            .bodytobody-hint{
+                animation: bodytobodyHintPulso 1.8s ease-in-out infinite;
+                color: var(--ink);
+                font: .95rem/1 'Poppins', sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: .03em;
+                transition: opacity .4s ease, visibility .4s ease;
+                display: none;
+            }
+            .bodytobody-hint.is-hidden{
+                opacity: 0;
+                visibility: hidden;
+            }
+        .bodytobody-embed.bodytobody-embed{
+            height: 0;
+            left: 0;
+            opacity: 0;
+            overflow: hidden;
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            width: 0;
+        }
+
+    /* Grid de 2 columnas: cada elemento se ubica por grid-row/grid-column
+       sin importar el orden real en el HTML (polaroid, lyric1, lyric2,
+       linterna, llavero), así el emparejado en filas es explícito y no
+       depende de un flex-wrap frágil. */
+    .bodytobody-escena{
+        align-items: center;
+        column-gap: 40px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        row-gap: 70px;
+    }
+
+    /* --- Fila 1: polaroid del soldado + primera estrofa --- */
+    .bodytobody-item--polaroid{
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: start;
+        width: min(85%, 340px);
+    }
+    .bodytobody-lyric--1{
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: start;
+        text-align: left;
+        width: min(90%, 420px);
+    }
+
+    /* --- Fila 2: segunda estrofa + lightstick --- */
+    .bodytobody-lyric--2{
+        grid-column: 1;
+        grid-row: 2;
+        justify-self: end;
+        text-align: left;
+        width: min(90%, 380px);
+    }
+    .bodytobody-item--linterna{
+        grid-column: 2;
+        grid-row: 2;
+        justify-self: start;
+        width: min(80%, 300px);
+    }
+
+    /* --- Fila 3: llavero + polaroids del concierto (ocupa ambas columnas) --- */
+    .bodytobody-item--llavero{
+        grid-column: 1 / -1;
+        grid-row: 3;
+        justify-self: center;
+        width: min(75%, 620px);
+    }
+
+    .bodytobody-lyric{
+        color: #fff;
+        font: 1.6rem/1.4 'Bray Notes';
+        margin: 0;
+    }
+        .bodytobody-lyric.is-typing::after{
+            animation: bodytobodyCursor .8s steps(1) infinite;
+            content: "|";
+        }
+
+    .bodytobody-item{
+        opacity: 0;
+        transform: translateY(-160px);
+        transition: transform 1s cubic-bezier(.32, 1.5, .62, 1), opacity .6s ease;
+        will-change: transform, opacity;
+    }
+        .bodytobody-item--polaroid{ transition-delay: 0s; }
+        .bodytobody-lyric--1{ transition-delay: 0s; }
+        .bodytobody-item--linterna{ transition-delay: .25s; }
+        .bodytobody-lyric--2{ transition-delay: .15s; }
+        .bodytobody-item--llavero{ transition-delay: .5s; }
+
+        .bodytobody-item.is-visible{
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .bodytobody-item-inner{
+            animation: bodytobodyBalanceo 6s ease-in-out infinite;
+            display: block;
+        }
+            .bodytobody-item--linterna .bodytobody-item-inner{ animation-duration: 5s; animation-delay: -1.5s; }
+            .bodytobody-item--llavero .bodytobody-item-inner{ animation-duration: 7s; animation-delay: -3s; }
+
+        .bodytobody-item img{
+            display: block;
+            width: 100%;
+        }
+
+/* --- Keyframes --- */
+@keyframes bodytobodyLatido{
+    0%, 100%{ transform: scale(1); }
+    18%{ transform: scale(1.14); }
+    36%{ transform: scale(1); }
+    54%{ transform: scale(1.08); }
+    100%{ transform: scale(1); }
+}
+@keyframes bodytobodyOnda{
+    0%{ opacity: .55; transform: scale(1); }
+    100%{ opacity: 0; transform: scale(1.9); }
+}
+@keyframes bodytobodyHintPulso{
+    0%, 100%{ opacity: .65; }
+    50%{ opacity: 1; }
+}
+@keyframes bodytobodyCursor{
+    0%, 49%{ opacity: 1; }
+    50%, 100%{ opacity: 0; }
+}
+@keyframes bodytobodyBalanceo{
+    0%, 100%{ transform: rotate(-2deg); }
+    50%{ transform: rotate(2deg); }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .bodytobody-play,
+    .bodytobody-play::before,
+    .bodytobody-hint,
+    .bodytobody-item-inner{
+        animation: none;
+    }
+}
+
+@media (max-width: 900px){
+    .ctn-body-to-body{ padding: 50px 20px 80px; }
+    .bodytobody-titulo{ font: 2.1rem/1 'Monigue Regular'; }
+
+    /* En una columna, el orden natural del HTML ya es el correcto:
+       polaroid -> lyric1 -> lyric2 -> linterna -> llavero. */
+    .bodytobody-escena{
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .bodytobody-item--polaroid,
+    .bodytobody-lyric--1,
+    .bodytobody-lyric--2,
+    .bodytobody-item--linterna,
+    .bodytobody-item--llavero{
+        margin: 0 auto;
+        width: 100%;
+    }
+    .bodytobody-item--polaroid{ max-width: 320px; }
+    .bodytobody-item--linterna{ max-width: 260px; }
+    .bodytobody-item--llavero{ max-width: 460px; }
+    .bodytobody-lyric{
+        max-width: 480px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 560px){
+    .bodytobody-header{ flex-direction: column; gap: 14px; }
+    .bodytobody-titulo{ font: 1.8rem/1 'Monigue Regular'; }
+    .bodytobody-lyric{ font-size: 1.3rem; }
+}
