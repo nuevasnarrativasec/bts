@@ -3463,7 +3463,6 @@ img.bg-footer{
             background-color: var(--red);
             border: none;
             border-radius: 50%;
-            box-shadow: 0 6px 16px rgba(232,56,47,.4);
             color: #fff;
             cursor: pointer;
             display: flex;
@@ -3472,7 +3471,7 @@ img.bg-footer{
             justify-content: center;
             left: 50%;
             position: absolute;
-            top: -60px;
+            top: -40px;
             transform: translateX(-50%);
             width: 42px;
             z-index: 2;
