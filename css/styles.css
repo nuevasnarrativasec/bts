@@ -2379,10 +2379,14 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         }
 .main-trivia{
     background-color: #3ca6cb;
+    margin-top: -1px;
     overflow: hidden;
     padding: 40px 0;
     position: relative;
 }
+    img.corte-celeste{
+        display: block;
+    }
     .ctn-box-trivia{
         margin: 0 auto;
         max-width: 900px;
