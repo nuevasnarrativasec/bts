@@ -741,7 +741,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     .animacion2-fila--puerta{
         display: flex;
         justify-content: center;
-        padding: 150px 0 0;
+        padding: 0 0 0;
     }
         .animacion2-video-puerta{
             width: 100%;
@@ -2231,6 +2231,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 margin: 40px auto;
             }
     .box-comunidad{
+            margin-bottom: 120px;
         overflow: hidden;
         position: relative;
     }
