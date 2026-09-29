@@ -3650,5 +3650,115 @@ img.bg-footer{
     .elemento-transicion-11{
         right: 0;
     }
+    .animacion2-fila .animacion-cta{
+        right: 20px;
+    }
 
+}
+
+/* ============================================================
+   TABLET + MÓVIL · videos con letra (ballena, playa y cuarto)
+   El video queda fijo (pin) mientras se hace scroll y la letra,
+   sobre una caja blanca, aparece con fade ease (js/texto-pin.js
+   escribe --texto-p: 0 → 1 en cada .fila-pin).
+   Solo afecta a .fila-pin; en desktop no cambia nada.
+   ============================================================ */
+@media (max-width: 1024px){
+
+    /* overflow:hidden crea un contenedor de scroll y rompe position:sticky */
+    .main-animacion-1,
+    .main-animacion-2{
+        overflow: clip;
+    }
+
+    .fila-pin{
+        --pin-alto: 250vh;
+        --pin-alto: 250svh;
+        display: grid;
+        grid-template-columns: 100%;
+        height: var(--pin-alto);
+        position: relative;
+    }
+
+    /* Video: ocupa el alto de la pantalla (contain = se ve completo, sin recortes) */
+    .fila-pin > .animacion-video--full{
+        align-self: start;
+        background: transparent;
+        grid-area: 1 / 1;
+        height: 100vh;
+        height: 100svh;
+        object-fit: contain;
+        object-position: center;
+        position: sticky;
+        top: 0;
+        width: 100%;
+        z-index: 1;
+    }
+
+    /* Capa de texto: misma altura que la pantalla, caja anclada abajo */
+    .fila-pin > .texto-pin{
+        align-items: flex-end;
+        align-self: start;
+        background: none;
+        border-radius: 0;
+        bottom: auto;
+        box-sizing: border-box;
+        display: flex;
+        grid-area: 1 / 1;
+        height: 100vh;
+        height: 100svh;
+        justify-content: center;
+        left: auto;
+        max-width: none;
+        padding: 0 16px calc(4vh + env(safe-area-inset-bottom, 0px));
+        padding-bottom: calc(4svh + env(safe-area-inset-bottom, 0px));
+        pointer-events: none;
+        position: sticky;
+        right: auto;
+        top: 0;
+        transform: none;
+        width: auto;
+        z-index: 2;
+    }
+
+    .texto-pin__caja{
+        background: #fff;
+        /*border-radius: 14px;
+        box-shadow: 0 6px 24px rgba(20,18,31,.14);*/
+        box-sizing: border-box;
+        max-width: 560px;
+        opacity: var(--texto-p, 1);
+        padding: 18px 20px;
+        pointer-events: auto;
+        transform: translateY(calc((1 - var(--texto-p, 1)) * 28px));
+        width: 100%;
+        will-change: opacity, transform;
+    }
+        .texto-pin__caja p{
+            color: var(--ink);
+            font: clamp(1.15rem, 3.6vw + .3rem, 1.7rem)/1.4 'Bray Notes';
+            margin: 0 0 12px;
+        }
+            .texto-pin__caja p:last-child{ margin-bottom: 0; }
+}
+
+/* Sin animaciones: sin pin, video y texto uno debajo del otro */
+@media (max-width: 1024px) and (prefers-reduced-motion: reduce){
+    .fila-pin{
+        display: block;
+        height: auto;
+    }
+    .fila-pin > .animacion-video--full{
+        height: auto;
+        position: static;
+    }
+    .fila-pin > .texto-pin{
+        height: auto;
+        padding: 16px;
+        position: static;
+    }
+    .texto-pin__caja{
+        opacity: 1;
+        transform: none;
+    }
 }
