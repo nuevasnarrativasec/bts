@@ -824,8 +824,9 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 
 .main-animacion-4{
     background-color: #fff;
-    overflow: hidden;
-    margin-top: -50px;
+    /*overflow: hidden;*/
+    margin-top: -100px;
+    position: relative;
 }
 
 .main-animacion-5{
@@ -3372,7 +3373,7 @@ img.bg-footer{
    ============================================================ */
 .main-animacion-6{
     background-color: #000;
-    overflow: hidden;
+    /*overflow: hidden;*/
     position: relative;
 }
     #animacionCta3 iframe{
@@ -3562,4 +3563,17 @@ img.bg-footer{
     max-width: 250px;
     position: absolute;
     right: 150px;   
+}
+.elemento-transicion-5{
+    max-width: 350px;
+    position: absolute;
+    right: 0;
+    top: -200px;   
+}
+.elemento-transicion-6{
+    max-width: 350px;
+    position: absolute;
+    bottom: -70px;
+    left: 0;
+    z-index: 20;
 }
