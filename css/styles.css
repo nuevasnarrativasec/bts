@@ -670,7 +670,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         .animacion2-letra{
             max-width: 310px;
             position: absolute;
-            right: 40px;
+            right: 100px;
             top: 100px;
         }
             .animacion2-letra p{
