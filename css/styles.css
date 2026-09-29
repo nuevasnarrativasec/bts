@@ -990,7 +990,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             }
                 .carousel-arrow{
                     align-items: center;
-                    /*background: var(--red);*/
+                    background: transparent;
                     border: none;
                     /*box-shadow: 0 6px 18px rgba(20, 18, 31, .22);*/
                     cursor: pointer;
@@ -3613,4 +3613,42 @@ img.bg-footer{
     right: 0;
     z-index: 20;
     top: 60px;
+}
+
+
+/** IPAD **/
+@media (max-width: 1024px){
+
+    .carousel-arrow--prev,
+    .carousel-arrow--next{
+        display: none;
+    }
+
+    .crono-mascota--der{
+        right: -110px;
+    }
+    .elemento-transicion-5{
+        max-width: 250px;
+    }
+    #animacionCta3 iframe{
+        width: 100px;
+    }
+    .animacion6-texto--1,
+    .animacion6-texto--2{
+        max-width: 350px;
+    }
+    .main-animacion-5{
+        background-color: #3ca6cb;
+        padding-top: 150px;
+    }
+    .main-deja-tu-mensaje img.sello{
+        max-width: 550px;
+    }
+    img.corte-rosado{
+        margin-top: -90px;
+    }
+    .elemento-transicion-11{
+        right: -50px;
+    }
+
 }
