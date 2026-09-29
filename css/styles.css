@@ -3619,6 +3619,10 @@ img.bg-footer{
 /** IPAD **/
 @media (max-width: 1024px){
 
+    .box-botones{
+        bottom: 40px;
+    }
+
     .carousel-arrow--prev,
     .carousel-arrow--next{
         display: none;
