@@ -3645,7 +3645,7 @@ img.bg-footer{
     left: -177px;
 }
 .elemento-transicion-4{
-    bottom: -50px;
+    bottom: 0;
     max-width: 250px;
     position: absolute;
     right: 150px;   
