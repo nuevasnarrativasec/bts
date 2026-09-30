@@ -868,7 +868,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         width: fit-content;
     }
     .box-universo-musical{
-        background-color: #F0F0F0;
+        background-color: #fff;
         margin-top: -70px;
         padding: 40px 0 60px;
     }
@@ -1210,7 +1210,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         }        
 
     .box-canciones{
-        background-color: #F0F0F0;
+        background-color: #fff;
         padding: 0 0 60px;
     }
         /* --- Escala comparativa Sonido / Letra --- */
@@ -1458,7 +1458,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             }
 
     .box-analisis-cancion{
-        background-color: #F0F0F0;
+        background-color: #fff;
         padding: 0 0 60px;
     }
         /* --- Patrón más amplio: brecha por periodo --- */
@@ -1592,7 +1592,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             top: 20px;
         }
     .box-arirang{
-        background-color: #F0F0F0;
+        background-color: #fff;
         padding: 0 0 60px;
     }
     .box-cronologia{
@@ -2032,7 +2032,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     padding-top: 60px;
 }
     .box-siete-voces{
-        background-color: #F0F0F0;
+        background-color: #fff;
         margin-top: -80px;
         padding: 0 0 60px;
     }
@@ -2309,7 +2309,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     ul.perfil-ficha li p{ font-size: .92rem; }
                 }
     .box-perfil-radar{
-        background-color: #F0F0F0;
+        background-color: #fff;
         padding: 0 0 60px;
     }
         .ctn-box-perfil-radar{
@@ -2330,7 +2330,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             margin-bottom: 40px;
         }
 .main-facturando{
-    background-color: #F0F0F0;
+    background-color: #fff;
     overflow: hidden;
     position: relative;
 }
