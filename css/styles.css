@@ -928,6 +928,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 margin: 0 10px 0 0;
                 vertical-align: middle;
                 width: 10px;
+                display: none;
             }
             .ctn-box-universo-musical p,
             .ctn-box-radiografia p,
