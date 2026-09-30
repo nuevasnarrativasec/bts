@@ -14,7 +14,8 @@
   var ultimoFoco = null;
 
   function abrir(mascotaEl) {
-    imgMascota.src = mascotaEl.getAttribute("src");
+    var imgEl = mascotaEl.querySelector("img") || mascotaEl;
+    imgMascota.src = imgEl.getAttribute("src");
     imgMascota.alt = mascotaEl.getAttribute("data-dato-titulo") || "";
     elTitulo.textContent = mascotaEl.getAttribute("data-dato-titulo") || "";
     elCuerpo.textContent = " " + (mascotaEl.getAttribute("data-dato-texto") || "");

@@ -1625,11 +1625,97 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .crono-mascota--der.is-visible{
                     transform: translateX(-50px) rotate(-25deg);
                 }
+            .crono-mascota-img{
+                display: block;
+                width: 100%;
+            }
+            /* Pálpito: se anima la propiedad `scale` (independiente de
+               `transform`) para no pisar el translate/rotate de entrada. */
+            .crono-mascota.is-visible .crono-mascota-img,
+            .crono-mascota.is-visible .crono-mascota-clic{
+                animation: crono-mascota-palpito 1.6s ease-in-out 1s infinite;
+            }
+            @keyframes crono-mascota-palpito{
+                0%, 50%, 100% { scale: 1; }
+                15% { scale: 1.08; }
+                30% { scale: 1.02; }
+                40% { scale: 1.06; }
+            }
+            /* Globo "Dame clic": se contra-rota para quedar horizontal
+               aunque la mascota esté inclinada. */
+            .crono-mascota-clic{
+                background-color: #9780f7;
+                color: var(--white);
+                font-family: 'Monigue Regular';
+                font-size: clamp(16px, 1.7vw, 24px);
+                letter-spacing: .01em;
+                left: 50%;
+                line-height: 1;
+                padding: 8px 14px;
+                pointer-events: none;
+                position: absolute;
+                top: 2%;
+                transition: rotate 1s ease;
+                translate: -30% 0;
+                white-space: nowrap;
+            }
+                .crono-mascota-clic::after{
+                    border-color: #9780f7 transparent transparent #9780f7;
+                    border-style: solid;
+                    border-width: 5px 5px 5px 5px;
+                    content: "";
+                    left: 20%;
+                    position: absolute;
+                    top: 100%;
+                }
+                .crono-mascota.is-visible .crono-mascota-clic{
+                    rotate: -25deg;
+                }
+                .crono-mascota--der.is-visible .crono-mascota-clic{
+                    rotate: 25deg;
+                }
+            .crono-mascota-1 .crono-mascota-clic{
+                    top: 0;
+                    translate: 0 -45px;
+            }
+            .crono-mascota-2{
+                right: -65px;
+            }
+                .crono-mascota-2 .crono-mascota-clic{
+                    top: 0;
+                    translate: 20px 45px;
+                }
+            .crono-mascota-3 .crono-mascota-clic{
+                    top: 0;
+                    translate: 0 -30px;
+            }
+            .crono-mascota-4{
+                right: -130px;
+            }
+            .crono-mascota-5{
+
+            }
+            .crono-mascota-6{
+                right: -130px;
+            }
+            .crono-mascota-7{
+
+            }
+                .crono-mascota-7 .crono-mascota-clic{
+                    top: 0;
+                    translate: 20px -45px;
+                }
+            @media (prefers-reduced-motion: reduce){
+                .crono-mascota.is-visible .crono-mascota-img,
+                .crono-mascota.is-visible .crono-mascota-clic{ animation: none; }
+            }
             @media (max-width: 900px){
                 .crono-mascota{ max-width: 170px; top: -10px; }
+                .crono-mascota-clic{ font-size: 14px; padding: 6px 10px; }
             }
             @media (max-width: 560px){
                 .crono-mascota{ max-width: 120px; }
+                .crono-mascota-clic{ font-size: 12px; padding: 5px 8px; }
             }
         .ctn-box-cronologia{
 
