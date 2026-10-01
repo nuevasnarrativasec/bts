@@ -1256,7 +1256,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     .desplegable summary::-webkit-details-marker{ display: none; }
                     .desplegable summary::marker{ display: none; content: ""; }
                     .desplegable-flecha{
-                        color: #5254BF;
+                        color: #000;
                         flex: 0 0 auto;
                         height: 16px;
                         transition: transform .25s var(--ease);
@@ -1324,8 +1324,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                             }
 
                         
-                    .desplegable-nota{
-                        
+                    .desplegable-sonido{
+                        max-width: 350px;
                     }
 
             @media (max-width: 560px){
@@ -1463,7 +1463,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 max-width: 700px;
             }
             .box-disclaimer-lineal{
-                border: 3px solid #F42439;
+                border: 3px solid #9C7EFF;
                 border-radius: 10px;
                 box-sizing: border-box;
                 margin: 20px auto 40px;
@@ -1485,8 +1485,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     margin: 0 auto;
                     padding: 20px 30px;
                 }
-                    .box-disclaimer-lineal p span.red{
-                        color: #F42439;
+                    .box-disclaimer-lineal p span.lila{
+                        color: #5254BF;
                     }
             .ctn-box-capas h6,
             .ctn-box-analisis-cancion h6,

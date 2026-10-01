@@ -539,18 +539,30 @@
                 <p>
                     En Don’t Say You Love Me, de Jin, la música suena mucho más luminosa que la letra. En nuestra escala, el sonido alcanza 0,76 y la letra 0,30. La diferencia entre ambos deja una brecha de −0,46.
                 </p>
+
+                <div class="desplegables-radiografia desplegable-sonido">
+                    <details class="desplegable">
+                        <summary>
+                            <span>¿Cómo lo medimos?</span>
+                            <svg class="desplegable-flecha" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>
+                        </summary>
+                        <div class="desplegable-panel">
+                            <p>Para la música usamos valence de Spotify, que estima en una escala de 0 a 1 qué tan luminosa suena una pista. Para la letra aplicamos una clasificación semántica con IA en la misma escala. La brecha es la diferencia entre ambos valores: en este caso, 0,30 − 0,76 = −0,46. Un resultado negativo indica que la música fue clasificada como más luminosa que la letra.</p>
+                        </div>
+                    </details>
+                </div>
+
                 <img src="./img/bg-cancion-capas.jpg" alt="" width="100%" class="bg-cancion-capas">
                 <div class="box-disclaimer-lineal">
                     <p>
-                        La música resulta considerablemente <span class="red">más luminosa</span> que el tono detectado en su letra.
+                        Aquí está la tensión: la letra tiene un tono más sombrío y la música uno mucho más luminoso. <span class="lila">“Sombrío” indica menor luminosidad emocional, no una valoración negativa.</span>
                     </p>
                 </div>
-                <h6>¿Cómo lo medimos?</h6>
                 <!-- En escritorio se ven los 3 en línea (tal cual antes). En
                      móvil (≤560px) esto se vuelve un carrusel de a un ítem
                      con flechas: ver carousel-medida en css/styles.css y
                      js/carrusel-medida.js. -->
-                <div class="carousel-medida">
+                <div class="carousel-medida" style="display: none;">
                     <button class="carousel-arrow carousel-arrow--prev" type="button" aria-label="Ver medida anterior">
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M15 6l-6 6 6 6"/></svg>
                     </button>
@@ -590,65 +602,18 @@
             </div>
             <div class="ctn-box-analisis-cancion">
                 <h4>
-                    <i></i>¿Es solo una canción?
+                    <i></i>¿Y en otras canciones?
                 </h4>
                 <p>
-                    <b>No.</b> Cuando ampliamos la comparación al conjunto de canciones para las que tenemos las dos mediciones, aparece un patrón más amplio.
+                    En las 10 canciones de 2017–2022 analizadas, la letra fue clasificada como más luminosa que la música. En 2023–2025, el patrón se divide: 18 de 31 canciones muestran esa misma dirección y 13 la contraria.
                 </p>
 
-                <div class="ctn-patron-amplio">
-                    <div class="patron-amplio">
-
-                        <div class="patron-periodo">
-                            <h5 class="patron-anios">2013&ndash;2022</h5>
-                            <p class="patron-brecha">
-                                Brecha promedio: +0,23
-                            </p>
-                            <div class="patron-track">
-                                <span class="patron-lbl">Música</span>
-                                <span class="patron-wrap" style="width:78%">
-                                    <span class="patron-dot patron-dot--start"></span>
-                                    <span class="patron-dot patron-dot--end"></span>
-                                </span>
-                                <span class="patron-lbl">Letra</span>
-                            </div>
-                            <p class="patron-n">n = 12 canciones</p>
-                        </div>
-
-                        <div class="patron-periodo">
-                            <h5 class="patron-anios">2023&ndash;2025</h5>
-                            <p class="patron-brecha">
-                                Brecha promedio: +0,04
-                            </p>
-                            <div class="patron-track">
-                                <span class="patron-lbl">Música</span>
-                                <span class="patron-wrap" style="width:14%">
-                                    <span class="patron-dot patron-dot--start"></span>
-                                    <span class="patron-dot patron-dot--end"></span>
-                                </span>
-                                <span class="patron-lbl">Letra</span>
-                            </div>
-                            <p class="patron-n">n = 35 canciones</p>
-                        </div>
-
-                    </div>
+                <div class="box-disclaimer-lineal">
+                    <p>
+                        El análisis incluye únicamente canciones en inglés para las que contamos con ambas mediciones. <span class="lila">Los resultados describen este corpus y no toda la discografía de BTS.</span>
+                    </p>
                 </div>
 
-                <p>
-                    <b>
-                        En este corpus, la brecha promedio se redujo alrededor de 83 %. La música y la letra aparecen mucho más alineadas en 2023–2025 que en el periodo anterior.
-                    </b>
-                </p>
-                <p>
-                     Un valor positivo indica que, en promedio, el tono de la letra fue clasificado como más luminoso que el sonido musical. La comparación incluye únicamente canciones para las que contamos con ambas mediciones; por eso describe este corpus y no toda la discografía de BTS.
-                </p>
-
-                <h6>
-                    ¿Cómo leer este resultado?
-                </h6>
-                <p>
-                    <b>Calculamos para cada canción la diferencia entre el tono textual y la valence musical</b>, y después comparamos el promedio de esa brecha entre periodos. Una brecha cercana a cero indica mayor coincidencia entre ambas mediciones.
-                </p>
             </div>
         </div>
 
