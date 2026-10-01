@@ -1396,7 +1396,7 @@
         </div>
     </div>
 
-    <!--<img src="./img/corte-rosado.png" alt="" width="100%" class="corte-rosado">-->
+    <div class="corte-glitch" id="corteGlitch" aria-hidden="true"></div>
     <div class="main-deja-tu-mensaje">
         <img src="./img/elementos-transiciones/bg-elemento-8.png" alt="" width="100%" class="elemento-transicion-8">
         <img src="./img/elementos-transiciones/bg-elemento-9.png" alt="" width="100%" class="elemento-transicion-9">
@@ -1469,28 +1469,39 @@
             <h4>Tu saludo a BTS podría ser publicado en la edición impresa de El Comercio.</h4>
 
             <form class="mensaje-form" id="mensajeForm" novalidate>
-                <label class="mensaje-label" for="mensajeNombre">Tu nombre o alias:</label>
+                <label class="mensaje-label" for="mensajeNombre">Nombre:</label>
                 <input class="mensaje-input" type="text" id="mensajeNombre" name="nombre" maxlength="60" required>
 
-                <label class="mensaje-label" for="mensajeCiudad">Tu ciudad / país:</label>
-                <input class="mensaje-input" type="text" id="mensajeCiudad" name="ciudad" maxlength="60" required>
+                <label class="mensaje-label" for="mensajeDistrito">Distrito:</label>
+                <input class="mensaje-input" type="text" id="mensajeDistrito" name="distrito" maxlength="60" required>
 
-                <label class="mensaje-label" for="mensajeTexto">Tu mensaje: (máximo 200 caracteres)</label>
-                <textarea class="mensaje-input mensaje-textarea" id="mensajeTexto" name="mensaje" maxlength="200" rows="2" required></textarea>
+                <label class="mensaje-label" for="mensajeDni">DNI:</label>
+                <input class="mensaje-input" type="text" id="mensajeDni" name="dni" inputmode="numeric" pattern="[0-9]{8}" maxlength="8" required>
+
+                <label class="mensaje-label" for="mensajeCorreo">Correo:</label>
+                <input class="mensaje-input" type="email" id="mensajeCorreo" name="correo" maxlength="120" required>
+
+                <label class="mensaje-label" for="mensajeCelular">Celular:</label>
+                <input class="mensaje-input" type="tel" id="mensajeCelular" name="celular" inputmode="numeric" pattern="[0-9]{9}" maxlength="9" required>
+
+                <label class="mensaje-label" for="mensajeTexto">Mensaje:</label>
+                <textarea class="mensaje-input mensaje-textarea" id="mensajeTexto" name="mensaje" maxlength="200" rows="2" placeholder="Máximo 200 caracteres" required></textarea>
 
                 <button type="submit" class="mensaje-btn-enviar" id="mensajeEnviarBtn">Envía tu mensaje</button>
                 <p class="mensaje-estado" id="mensajeEstado" role="status"></p>
             </form>
 
-            <div class="mensaje-disclaimer">
-                <span class="mensaje-disclaimer-icono">
-                    <img src="./img/flecha-circular-blanca.png" alt="">
-                </span>
-                <div class="mensaje-disclaimer-texto">
+            <details class="mensaje-disclaimer">
+                <summary>
+                    <span class="mensaje-disclaimer-icono">
+                        <img src="./img/flecha-circular-blanca.png" alt="" width="100%">
+                    </span>
                     <b>Disclaimer:</b>
-                    <p>Una selección editorial de los mensajes enviados será publicada en el especial impreso de <span>El Comercio</span> con motivo de la visita de la banda a Lima. Al enviar tu texto, autorizas su edición por motivos de espacio y su difusión en nuestras plataformas impresas y digitales.</p>
+                </summary>
+                <div class="mensaje-disclaimer-texto">
+                    <p>Una selección editorial de los mensajes enviados será publicada en la versión impresa de <span>El Comercio</span>. Al enviar tu texto, autorizas su edición por motivos de espacio y su difusión en nuestras plataformas impresas y digitales.</p>
                 </div>
-            </div>
+            </details>
 
             <button type="button" class="mensaje-btn-ver" id="mensajeVerBtn">Ver mensajes</button>
         </div>
@@ -1578,8 +1589,9 @@
     <script src="./js/animacion-4.js"></script>
     <script src="./js/animacion-5.js"></script>
     <script src="./js/animacion-6.js"></script>
+    <script src="./js/corte-glitch.js"></script>
     <script src="./js/texto-pin.js"></script>
-    <script src="./js/deja-tu-mensaje.js"></script>
+    <script src="./js/deja-tu-mensaje.js?v2"></script>
     <script src="./js/body-to-body.js"></script>
     <script src="./js/menu-scroll.js"></script>
     <script src="./js/iframe-auto-alto.js"></script>

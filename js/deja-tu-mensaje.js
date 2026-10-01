@@ -1,10 +1,14 @@
 /* ============================================================
    BTS · Deja tu mensaje (mural ARMY)
-   - El formulario envía nombre / ciudad / mensaje a un Google
-     Apps Script Web App, que los guarda en un Google Sheet con
-     una columna "aprobado" para moderación editorial.
-   - El botón "Ver mensajes" trae del mismo endpoint solo los
-     mensajes marcados como aprobados y los muestra en un
+   - El formulario envía nombre / distrito / mensaje (para el mural
+     público) y además DNI / correo / celular (datos de contacto
+     para un sorteo posterior, nunca expuestos en el mural) a un
+     Google Apps Script Web App, que guarda todo en una misma fila
+     del Google Sheet, con una columna "aprobado" para moderación
+     editorial del mensaje.
+   - El botón "Ver mensajes" trae del mismo endpoint solo nombre,
+     distrito y mensaje de los registros marcados como aprobados (el
+     endpoint nunca devuelve DNI/correo/celular) y los muestra en un
      mini carrusel con flechas.
 
    ⚠️ CONFIGURACIÓN NECESARIA (una sola vez):
@@ -14,7 +18,7 @@
 (function () {
   "use strict";
 
-  var ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbzeXjA7wraTY4E9bhauHfNdub-wI_kuVWxdXHy4fowPu-naUon99F7cenXVgzzGW2XLjw/exec";
+  var ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbxxS1FuNvnLU5CgV5QgEq7pB7qnryCm_Q-4vIs9c4RaIBlLY4u4QcRABOwvdjNE3mzxzA/exec";
 
   var form = document.getElementById("mensajeForm");
   if (!form) return;
@@ -32,6 +36,10 @@
     return ENDPOINT_URL && ENDPOINT_URL.indexOf("PEGA_AQUI") === -1;
   }
 
+  var DNI_RE = /^[0-9]{8}$/;
+  var CELULAR_RE = /^[0-9]{9}$/;
+  var CORREO_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   /* --- Envío del formulario --- */
   form.addEventListener("submit", function (evt) {
     evt.preventDefault();
@@ -45,11 +53,29 @@
     }
 
     var nombre = form.nombre.value.trim();
-    var ciudad = form.ciudad.value.trim();
+    var distrito = form.distrito.value.trim();
     var mensaje = form.mensaje.value.trim();
+    var dni = form.dni.value.trim();
+    var correo = form.correo.value.trim();
+    var celular = form.celular.value.trim();
 
-    if (!nombre || !ciudad || !mensaje) {
-      estado.textContent = "Completa los tres campos antes de enviar.";
+    if (!nombre || !distrito || !mensaje || !dni || !correo || !celular) {
+      estado.textContent = "Completa todos los campos antes de enviar.";
+      estado.classList.add("is-error");
+      return;
+    }
+    if (!DNI_RE.test(dni)) {
+      estado.textContent = "El DNI debe tener 8 dígitos.";
+      estado.classList.add("is-error");
+      return;
+    }
+    if (!CORREO_RE.test(correo)) {
+      estado.textContent = "Ingresa un correo válido.";
+      estado.classList.add("is-error");
+      return;
+    }
+    if (!CELULAR_RE.test(celular)) {
+      estado.textContent = "El celular debe tener 9 dígitos.";
       estado.classList.add("is-error");
       return;
     }
@@ -65,7 +91,14 @@
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({ nombre: nombre, ciudad: ciudad, mensaje: mensaje }),
+      body: JSON.stringify({
+        nombre: nombre,
+        distrito: distrito,
+        mensaje: mensaje,
+        dni: dni,
+        correo: correo,
+        celular: celular,
+      }),
     })
       .then(function () {
         form.reset();
@@ -120,7 +153,7 @@
     if (!mensajes.length) return;
     var m = mensajes[i];
     cartaTexto.textContent = "“" + m.mensaje + "”";
-    cartaAutor.textContent = m.nombre + (m.ciudad ? " de " + m.ciudad : "");
+    cartaAutor.textContent = m.nombre + (m.distrito ? " de " + m.distrito : "");
   }
 
   function mostrarSinMensajes(texto) {

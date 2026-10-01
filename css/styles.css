@@ -2971,7 +2971,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     }
                 .trivia-nivel-subtitulo{
                     background-color: var(--ink);
-                    color: var(--red);
+                    color: #9c7dff;
                     display: inline-block;
                     font: 1.3rem/1.3 'Monigue Regular';
                     padding: 16px 28px;
@@ -2995,9 +2995,83 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .trivia-nivel-nombre{ font-size: 2.8rem; }
                 .trivia-nivel-subtitulo{ font-size: 1rem; padding: 12px 20px; }
             }
+/* ============================================================
+   Bloque cortador en degradé (negro -> blanco) entre main-animacion-5
+   (video a pantalla completa) y main-deja-tu-mensaje (fondo blanco).
+   Al entrar en viewport, se "rompe" con un efecto glitch (jitter +
+   franjas rojo/cian superpuestas) y luego se colapsa, revelando la
+   siguiente sección sin un corte brusco.
+   ============================================================ */
+.corte-glitch{
+    background: linear-gradient(to bottom, #000 0%, #000 42%, #fff 58%, #fff 100%);
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+    transition: height .45s ease .05s, opacity .35s ease .05s;
+}
+    .corte-glitch::before,
+    .corte-glitch::after{
+        content: "";
+        inset: 0;
+        mix-blend-mode: screen;
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+    }
+    .corte-glitch::before{
+        background: repeating-linear-gradient(to bottom, rgba(255,0,90,.55) 0px, rgba(255,0,90,.55) 3px, transparent 3px, transparent 7px);
+    }
+    .corte-glitch::after{
+        background: repeating-linear-gradient(to bottom, rgba(0,225,255,.55) 0px, rgba(0,225,255,.55) 3px, transparent 3px, transparent 7px);
+    }
+    .corte-glitch.is-glitching{
+        animation: corte-glitch-jitter .6s steps(1, end) both;
+    }
+        .corte-glitch.is-glitching::before{
+            animation: corte-glitch-tint-1 .6s steps(1, end) both;
+        }
+        .corte-glitch.is-glitching::after{
+            animation: corte-glitch-tint-2 .6s steps(1, end) both;
+        }
+    .corte-glitch.is-collapsed{
+        height: 0;
+        opacity: 0;
+    }
+    @keyframes corte-glitch-jitter{
+        0%   { clip-path: inset(0 0 0 0); transform: translateX(0); }
+        8%   { clip-path: inset(10% 0 55% 0); transform: translateX(-10px); }
+        16%  { clip-path: inset(0 0 0 0); transform: translateX(6px); }
+        24%  { clip-path: inset(40% 0 20% 0); transform: translateX(-14px); }
+        32%  { clip-path: inset(0 0 0 0); transform: translateX(0); }
+        40%  { clip-path: inset(65% 0 5% 0); transform: translateX(10px); }
+        48%  { clip-path: inset(0 0 0 0); transform: translateX(-6px); }
+        60%  { clip-path: inset(15% 0 45% 0); transform: translateX(8px); }
+        72%  { clip-path: inset(0 0 0 0); transform: translateX(0); }
+        100% { clip-path: inset(0 0 0 0); transform: translateX(0); }
+    }
+    @keyframes corte-glitch-tint-1{
+        0%, 100% { opacity: 0; }
+        10%, 25%, 42% { opacity: .55; }
+        18%, 33%, 50% { opacity: 0; }
+    }
+    @keyframes corte-glitch-tint-2{
+        0%, 100% { opacity: 0; }
+        14%, 29%, 46% { opacity: .5; }
+        22%, 37%, 55% { opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce){
+        .corte-glitch.is-glitching,
+        .corte-glitch.is-glitching::before,
+        .corte-glitch.is-glitching::after{
+            animation: none;
+        }
+    }
+    @media (max-width: 640px){
+        .corte-glitch{ height: 140px; }
+    }
 .main-deja-tu-mensaje{
     background-color: #fff;
-    margin-top: -80px;
+    padding-top: 80px;
     position: relative;
 }
     .main-deja-tu-mensaje img.sello{
@@ -3018,7 +3092,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             width: fit-content;
         }
             .ctn-box-deja-tu-mensaje h3 span{
-                background-color: #00CBEF;
+                background-color: #F42439;
                 color: #000;
                 display: block;
                 padding: 0 10px;
@@ -3032,6 +3106,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 
         .mensaje-form{
             background-color: #fff;
+            border: 1px solid #c2c2c2;
             border-radius: 28px;
             margin: 0 auto;
             max-width: 650px;
@@ -3082,46 +3157,63 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .mensaje-estado.is-error{ color: #000; }
 
         .mensaje-disclaimer{
-            border: 2px solid #fff;
-            border-radius: 24px;
-            display: flex;
-            gap: 16px;
+            background-color: #fff;
+            border: 2px solid var(--ink);
+            border-radius: 999px;
             margin: 50px auto 0;
-            max-width: 650px;
-            padding: 28px 32px;
-            position: relative;
+            max-width: 350px;
+            overflow: hidden;
+            transition: border-radius .2s ease;
         }
+            .mensaje-disclaimer[open]{
+                border-radius: 24px;
+            }
+            .mensaje-disclaimer summary{
+                align-items: center;
+                cursor: pointer;
+                display: flex;
+                gap: 16px;
+                list-style: none;
+                padding: 14px 28px;
+            }
+                .mensaje-disclaimer summary::-webkit-details-marker{ display: none; }
+                .mensaje-disclaimer summary::marker{ content: ""; }
+                .mensaje-disclaimer summary b{
+                    color: var(--ink);
+                    font: 1.4rem/1 'Monigue Regular';
+                }
             .mensaje-disclaimer-icono{
-                background-color: var(--ink);
-                border-radius: 50%;
+                align-items: center;
+                /*border: 2px solid var(--ink);
+                border-radius: 50%;*/
+                color: var(--ink);
+                display: flex;
                 flex: 0 0 auto;
-                height: 40px;
-                left: -20px;
-                position: absolute;
-                top: -20px;
-                width: 40px;
+                height: 34px;
+                justify-content: center;
+                transition: transform .2s ease;
+                width: 34px;
             }
-                .mensaje-disclaimer-icono img{
-                    height: 100%;
-                    object-fit: contain;
-                    width: 100%;
+                .mensaje-disclaimer-icono svg{
+                    height: 18px;
+                    width: 18px;
                 }
-            .mensaje-disclaimer-texto b{
-                color: var(--ink);
-                display: block;
-                font: 1.5rem/1.3 'Monigue Regular';
-                margin: 0 0 10px;
-            }
-            .mensaje-disclaimer-texto p{
-                color: var(--ink);
-                font: 1rem/1.5 'Prelo Medium', sans-serif;
-            }
-                .mensaje-disclaimer-texto p span{
-                    font-family: 'Prelo Bold';
+                .mensaje-disclaimer[open] .mensaje-disclaimer-icono{
+                    transform: rotate(-90deg);
                 }
+            .mensaje-disclaimer-texto{
+                padding: 0 28px 26px 78px;
+            }
+                .mensaje-disclaimer-texto p{
+                    color: var(--ink);
+                    font: 1rem/1.5 'Prelo Medium', sans-serif;
+                }
+                    .mensaje-disclaimer-texto p span{
+                        font-family: 'Prelo Bold';
+                    }
 
         .mensaje-btn-ver{
-            background-color: #00CBEF;
+            background-color: #F42439;
             border: none;
             border-radius: 40px;
             color: #000;
@@ -3181,7 +3273,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 
         @media (max-width: 900px){
             .mensaje-form{ padding: 28px 24px; }
-            .mensaje-disclaimer{ flex-direction: column; padding: 26px 24px; }
+            .mensaje-disclaimer summary{ padding: 12px 22px; }
+            .mensaje-disclaimer-texto{ padding: 0 22px 22px 68px; }
             .mensaje-mural{ flex-direction: column; min-height: 480px; }
                 .mensaje-flecha{ transform: rotate(90deg); }
                 .mensaje-flecha:hover{ transform: rotate(90deg) scale(1.08); }
@@ -3491,7 +3584,7 @@ img.bg-footer{
     .mensaje-disclaimer{
         margin: 50px 20px;
     }
-    .mensaje-disclaimer-texto b{
+    .mensaje-disclaimer summary b{
         font-size: 1.9rem;
     }
     .mensaje-disclaimer-texto p{
