@@ -634,6 +634,10 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 color: var(--ink);
                 font: 1.7rem/1.35 'Bray Notes';
             }
+    #animacionVideo10{
+        position: relative;
+        mix-blend-mode: multiply;
+    }
 
     #animacionCta1 iframe{
         bottom: 0;
@@ -1288,7 +1292,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     color: #000;
                     cursor: pointer;
                     display: flex;
-                    font: 1rem/1.3 'Prelo Bold';
+                    font: 1.2rem/1.3 'Monigue Regular';
                     gap: 14px;
                     justify-content: space-between;
                     list-style: none;
@@ -1719,6 +1723,85 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                         font-size: .95rem;
                     }
                 }
+        /* --- Gráfico de barras: dirección de la brecha por periodo --- */
+        .ctn-grafico-barras{
+            margin: 34px auto 40px;
+            max-width: 600px;
+        }
+            .grafico-barras{
+                background-color: #fff;
+                border: 1px solid #e0e0e0;
+                border-radius: 5px;
+                padding: 20px;
+            }
+                .grafico-barras-leyenda{
+                    column-gap: 28px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin-bottom: 30px;
+                    row-gap: 10px;
+                }
+                    .grafico-barras-item{
+                        align-items: center;
+                        color: var(--ink);
+                        display: inline-flex;
+                        font: .95rem/1.2 'Prelo Medium';
+                        gap: 10px;
+                    }
+                    .grafico-barras-dot{
+                        border-radius: 50%;
+                        flex: 0 0 auto;
+                        height: 16px;
+                        width: 16px;
+                    }
+                        .grafico-barras-dot--letra{ background-color: #967ff9; }
+                        .grafico-barras-dot--musica{ background-color: #d7d7e2; }
+                .grafico-barras-fila + .grafico-barras-fila{
+                    margin-top: 30px;
+                }
+                .grafico-barras-periodo{
+                    color: var(--ink);
+                    font: 1.1rem / 1 'Prelo Bold' !important;
+                        margin: 0 0 5px !important;
+                }
+                .grafico-barras-track{
+                    display: flex;
+                    gap: 18px;
+                    height: 34px;
+                }
+                    .grafico-barras-seg{
+                        border-radius: 4px;
+                        flex-grow: 0;
+                        flex-shrink: 0;
+                        min-width: 2px;
+                    }
+                        .grafico-barras-seg--letra{ background-color: #967ff9; }
+                        .grafico-barras-seg--musica{ background-color: #d7d7e2; }
+                .ctn-box-analisis-cancion .grafico-barras-conteo{
+                    color: var(--ink);
+                    font: 1.1rem/1 'Prelo Book';
+                    margin: 16px 0 0;
+                    max-width: none;
+                }
+                    .ctn-box-analisis-cancion .grafico-barras-conteo b{
+                        font-family: 'Prelo Extrabold';
+                    }
+
+                @media (max-width: 560px){
+                    .grafico-barras{
+                        padding: 24px 20px;
+                    }
+                    .grafico-barras-periodo{
+                        font-size: 1.1rem;
+                    }
+                    .grafico-barras-track{
+                        height: 26px;
+                    }
+                    .ctn-box-analisis-cancion .grafico-barras-conteo{
+                        font-size: 1rem;
+                    }
+                }
+
     .box-buscador-cancion{
         overflow: hidden;
         position: relative;
