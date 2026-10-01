@@ -2348,7 +2348,52 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     border: 1px solid #e0e0e0;
                     border-radius: 16px;
                     padding: 22px 24px;
+                    position: relative;
                 }
+                    .perfil-metrics-info{
+                        align-items: center;
+                        background-color: #a87fff;
+                        border: none;
+                        border-radius: 50%;
+                        color: #fff;
+                        cursor: help;
+                        display: flex;
+                        font: 700 .9rem/1 'Prelo Bold';
+                        height: 28px;
+                        justify-content: center;
+                        padding: 0;
+                        position: absolute;
+                        right: -14px;
+                        top: -14px;
+                        width: 28px;
+                        z-index: 2;
+                    }
+                        .perfil-metrics-tooltip{
+                            background-color: #000;
+                            border-radius: 10px;
+                            color: #fff;
+                            cursor: auto;
+                            font: 400 .85rem/1.35 'Prelo Book';
+                            opacity: 0;
+                            padding: 12px 14px;
+                            pointer-events: none;
+                            position: absolute;
+                            right: 0;
+                            text-align: left;
+                            top: calc(100% + 10px);
+                            transform: translateY(-4px);
+                            transition: opacity .15s ease, transform .15s ease;
+                            visibility: hidden;
+                            width: 220px;
+                            z-index: 3;
+                        }
+                        .perfil-metrics-info:hover .perfil-metrics-tooltip,
+                        .perfil-metrics-info:focus .perfil-metrics-tooltip,
+                        .perfil-metrics-info.is-open .perfil-metrics-tooltip{
+                            opacity: 1;
+                            transform: translateY(0);
+                            visibility: visible;
+                        }
                     .perfil-metric + .perfil-metric{
                         margin-top: 22px;
                     }

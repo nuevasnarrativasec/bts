@@ -22,10 +22,10 @@
       hito: "Portavoz del histórico discurso ante la ONU en 2018 para la campaña global Love Myself de BTS y UNICEF contra la violencia juvenil.",
       headline: "Más acústico, menos intenso",
       metrics: [
-        { label: "Acousticness", before: "0,23", after: "0,37" },
-        { label: "Energy", before: "0,63", after: "0,55" }
+        { label: "Componente acústico", before: "0,23", after: "0,37" },
+        { label: "Energía", before: "0,63", after: "0,55" }
       ],
-      quote: "Con un coeficiente intelectual de 148 y entre los mejores estudiantes del país, para RM el hip-hop no fue rebeldía, sino el salvavidas frente a la asfixiante presión académica."
+      quote: "Con un coeficiente intelectual de 148 y un destacado rendimiento académico, RM encontró en el hip-hop una forma de cuestionar los prejuicios, las expectativas y las presiones sociales que también marcaron el origen de BTS."
     },
     suga: {
       nombre: "SUGA",
@@ -43,8 +43,8 @@
       hito: "Primer miembro en encabezar una gira solista global en arenas con localidades agotadas con su Agust D TOUR.",
       headline: "El mayor giro hacia lo acústico",
       metrics: [
-        { label: "Acousticness", before: "0,10", after: "0,30" },
-        { label: "Valence musical", before: "0,34", after: "0,52" }
+        { label: "Componente acústico", before: "0,10", after: "0,30" },
+        { label: "Luminosidad musical ", before: "0,34", after: "0,52" }
       ],
       quote: "Bajo su fachada reservada, los miembros coinciden en que es el más atento: cuida del grupo con gestos silenciosos y sin buscar reconocimiento."
     },
@@ -64,7 +64,7 @@
       hito: "Primer artista surcoreano en encabezar el escenario principal de un gran festival estadounidense (Lollapalooza Chicago 2022).",
       headline: "El sonido se vuelve todavía más luminoso",
       metrics: [
-        { label: "Valence musical", before: "0,46", after: "0,65" }
+        { label: "Luminosidad musical", before: "0,46", after: "0,65" }
       ],
       quote: "El arquitecto de la sincronía de BTS: desde los días de aprendices lideró cada extenuante sesión de práctica para forjar la precisión escénica del grupo."
     },
@@ -105,8 +105,8 @@
       hito: "Primer solista surcoreano en alcanzar simultáneamente el número 1 del Billboard Hot 100 (Like Crazy) y del Billboard Artist 100 en la historia.",
       headline: "De lo acústico hacia un sonido más expansivo",
       metrics: [
-        { label: "Acousticness", before: "0,51", after: "0,16" },
-        { label: "Energy", before: "0,51", after: "0,71" }
+        { label: "Componente acústico", before: "0,51", after: "0,16" },
+        { label: "Energía", before: "0,51", after: "0,71" }
       ],
       nota: "La muestra anterior a 2023 es reducida; debe interpretarse con cautela.",
       quote: "Su nivel de autoexigencia extrema y noches en vela casi le cuestan la salud como aprendiz; hoy su base lírica y contemporánea es el pilar de la expresividad visual de BTS."
@@ -127,8 +127,8 @@
       hito: "Su álbum debut Layover rompió el récord de ventas históricas en su primer día para un solista en Hanteo (más de 1,67 millones de copias) y superó los mil millones de reproducciones en Spotify con una propuesta puramente neo-soul y R&B.",
       headline: "El perfil que menos cambia en valence",
       metrics: [
-        { label: "Valence musical", before: "0,33", after: "0,35" },
-        { label: "Acousticness", before: "0,44", after: "0,52" }
+        { label: "Luminosidad musical", before: "0,33", after: "0,35" },
+        { label: "Componente acústico", before: "0,44", after: "0,52" }
       ],
       quote: "“Inspirado por la elegancia clásica de su padre, construyó una firma estética y musical retro inconfundible, además de haber acuñado la frase y concepto de amor eterno del fandom: 'I Purple You' (Borahae).”"
     },
@@ -148,7 +148,7 @@
       hito: "Su sencillo Seven se convirtió en la canción que más rápido alcanzó los mil millones de reproducciones en la historia global de Spotify (108 días), además de actuar en la ceremonia de apertura de la Copa Mundial de la FIFA Catar 2022.",
       headline: "El mayor salto en positividad sonora",
       metrics: [
-        { label: "Valence musical", before: "0,38", after: "0,69" }
+        { label: "Luminosidad musical", before: "0,38", after: "0,69" }
       ],
       quote: "Creció literalmente bajo la tutela y el cuidado de sus seis compañeros: ingresó al proyecto con 13 años y terminó forjándose como el engranaje vocal y motor escénico más completo de BTS."
     }
@@ -213,12 +213,44 @@
       '<div class="perfil-stats">' +
       '<p class="perfil-headline">' + d.headline + "</p>" +
       '<div class="perfil-metrics">' +
+      '<button type="button" class="perfil-metrics-info" aria-label="Qué significan estas variables">' +
+      '<span aria-hidden="true">i</span>' +
+      '<span class="perfil-metrics-tooltip" role="tooltip">Estas variables de Spotify describen características del audio; no interpretan la letra ni lo que BTS quiso expresar</span>' +
+      "</button>" +
       d.metrics.map(metricRow).join("") +
       (d.nota ? '<p class="perfil-nota">* ' + d.nota + "</p>" : "") +
       "</div>" +
       '<blockquote class="perfil-quote">' + d.quote + "</blockquote>" +
       "</div>";
   }
+
+  card.addEventListener("click", function (e) {
+    var infoBtn = e.target.closest(".perfil-metrics-info");
+    if (infoBtn) {
+      var wasOpen = infoBtn.classList.contains("is-open");
+      card
+        .querySelectorAll(".perfil-metrics-info.is-open")
+        .forEach(function (b) {
+          b.classList.remove("is-open");
+        });
+      if (!wasOpen) infoBtn.classList.add("is-open");
+      return;
+    }
+    card
+      .querySelectorAll(".perfil-metrics-info.is-open")
+      .forEach(function (b) {
+        b.classList.remove("is-open");
+      });
+  });
+
+  document.addEventListener("click", function (e) {
+    if (card.contains(e.target)) return;
+    card
+      .querySelectorAll(".perfil-metrics-info.is-open")
+      .forEach(function (b) {
+        b.classList.remove("is-open");
+      });
+  });
 
   avataresWrap.addEventListener("click", function (e) {
     var btn = e.target.closest(".perfil-avatar-btn");
