@@ -1219,7 +1219,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         .ctn-box-siete-voces h5,
         .ctn-box-comunidad h5,
         .ctn-box-facturando h5{
-            color: #5254BF;
+            color: #000;
             font: 3rem/1.4'Monigue Regular';
             text-align: center;
             text-transform: uppercase;
@@ -1901,36 +1901,37 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     padding: 14px 18px;
                     text-transform: uppercase;
                     position: relative;
+                    justify-content: center;
                 }
-                .crono-label--musical{ background-color: #5255c0; min-height: 160px; }
+                .crono-label--musical{ background-color: #D3805B; min-height: 90px; }
                     .crono-label--musical::after{
                         content: '';
                         width: 0; height: 0;
                         border-style: solid;
                         border-width: 10px 0px 10px 15px;
-                        border-color: transparent transparent transparent #5255c0;
+                        border-color: transparent transparent transparent #D3805B;
                         transform: rotate(0deg);
                         position: absolute;
                         right: -15px;
                     }
-                .crono-label--bts{ background-color: #F42439; font-size: 3rem; min-height: 210px; justify-content: center;}
+                .crono-label--bts{ background-color: #5254BF; font-size: 3rem; min-height: 210px; justify-content: center;}
                     .crono-label--bts::after{
                         content: '';
                         width: 0; height: 0;
                         border-style: solid;
                         border-width: 10px 0px 10px 15px;
-                        border-color: transparent transparent transparent #F42439;
+                        border-color: transparent transparent transparent #5254BF;
                         transform: rotate(0deg);
                         position: absolute;
                         right: -15px;
                     }
-                .crono-label--politico{ background-color: #3fd0ae; min-height: 160px; }
+                .crono-label--politico{ background-color: #6EDEC9; min-height: 90px; }
                     .crono-label--politico::after{
                         content: '';
                         width: 0; height: 0;
                         border-style: solid;
                         border-width: 10px 0px 10px 15px;
-                        border-color: transparent transparent transparent #3fd0ae;
+                        border-color: transparent transparent transparent #6EDEC9;
                         transform: rotate(0deg);
                         position: absolute;
                         right: -15px;
@@ -1943,7 +1944,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 position: relative;
             }
                 .crono-linea{
-                    background-color: var(--red);
+                    background-color: #5254BF;
                     bottom: 73px;
                     height: 3px;
                     left: 0;
@@ -1972,12 +1973,12 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                         background-color: #F5F5F5;
                         display: flex;
                         justify-content: center;
-                        min-height: 160px;
+                        min-height: 90px;
                         text-align: center;
                     }
                     .crono-cell--bts{
                         align-items: center;
-                        background-color: #F2B9C0;
+                        background-color: #cfcfeb;
                         display: flex;
                         flex-direction: row;
                         gap: 10px;
@@ -1995,7 +1996,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                         background-color: #fff;
                     }
                     .crono-col:nth-child(even) .crono-cell--bts{
-                        background-color: #f8d4d9;
+                        background-color: #c7c7e2;
                     }
 
                     .crono-eje{
@@ -2007,10 +2008,9 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                         min-height: 76px;
                     }
                         .crono-punto{
-                            background-color: var(--red);
+                            background-color: #5254BF;
                             border: 3px solid #fff;
                             border-radius: 50%;
-                            box-shadow: 0 0 0 1px var(--red);
                             height: 14px;
                             width: 14px;
                         }
@@ -2028,17 +2028,17 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     position: relative;
                 }
                     .crono-decor::before{
-                        background-color: #f9d5da;
+                        background-color: #cfcfeb;
                         content: '';
                         height: 210px;
                         left: 0;
                         position: absolute;
                         right: 0;
-                        top: 160px;
+                        top: 90px;
                         z-index: 0;
                     }
                     .crono-decor-2026::before{
-                        background-color: #f2b9c0;
+                        background-color: #cfcfeb;
                     }
                     .crono-decor img{
                         /*border-radius: 14px;*/
