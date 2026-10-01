@@ -2367,7 +2367,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                             white-space: nowrap;
                         }
                         .perfil-metric-dot{
-                            background-color: var(--red);
+                            background-color: #a87fff;
                             border-radius: 50%;
                             flex: 0 0 auto;
                             height: 12px;
@@ -2377,7 +2377,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                             opacity: .45;
                         }
                         .perfil-metric-line{
-                            background-color: var(--red);
+                            background-color: #a87fff;
                             flex: 1 1 auto;
                             height: 2px;
                             opacity: .45;
