@@ -905,7 +905,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-perfil-radar h4,
             .ctn-box-comunidad h4,
             .ctn-box-facturando h4{
-                color: #F42439;
+                color: #5254BF;
                 font: 1.9rem/1.3 'Monigue Regular';
                 margin: 0 auto 20px;
                 max-width: 600px;
@@ -1223,7 +1223,120 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             font: 3rem/1.4'Monigue Regular';
             text-align: center;
             text-transform: uppercase;
-        }        
+        }
+
+        /* --- Desplegables "¿Cómo leer el gráfico?" / "Descubre las variables" --- */
+        .desplegables-radiografia{
+            align-items: flex-start;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin: 40px auto 10px;
+            max-width: 620px;
+        }
+            .desplegable{
+                background: #fff;
+                border: 1px solid #000;
+                border-radius: 5px;
+                flex: 1 1 260px;
+                overflow: hidden;
+                text-align: left;
+            }
+                .desplegable summary{
+                    align-items: center;
+                    color: #000;
+                    cursor: pointer;
+                    display: flex;
+                    font: 1rem/1.3 'Prelo Bold';
+                    gap: 14px;
+                    justify-content: space-between;
+                    list-style: none;
+                    padding: 16px 20px;
+                }
+                    .desplegable summary::-webkit-details-marker{ display: none; }
+                    .desplegable summary::marker{ display: none; content: ""; }
+                    .desplegable-flecha{
+                        color: #5254BF;
+                        flex: 0 0 auto;
+                        height: 16px;
+                        transition: transform .25s var(--ease);
+                        width: 16px;
+                    }
+                    .desplegable[open] .desplegable-flecha{ transform: rotate(180deg); }
+                .desplegable-panel{
+                    border-top: 1px solid #e3e2f7;
+                    padding: 16px 20px 20px;
+                }
+                    .desplegable-panel p{
+                        font: 1rem/1.45 'Prelo Book';
+                        margin: 0 0 12px;
+                        max-width: none !important;
+                    }
+                    .desplegable-panel p:last-child{ margin-bottom: 0; }
+                    .desplegable-perfiles{
+                        display: flex;
+                        flex-direction: column;
+                        gap: 8px;
+                        list-style: none;
+                        margin: 0 0 12px;
+                        padding: 0;
+                    }
+                        .desplegable-perfiles li{
+                            font: 1rem/1.4 'Prelo Book';
+                        }
+                            .desplegable-perfiles li i{
+                                margin: 0 5px 0 0;
+                            }
+                            .desplegable-perfiles li:nth-child(1) i{ 
+                                border-radius: 20px;
+                                background-color: #6C63FF; 
+                                content: '';
+                                display: inline-block;
+                                height: 12px;
+                                width: 12px;
+                            }
+                            .desplegable-perfiles li:nth-child(2) i{ 
+                                border-radius: 20px;
+                                background-color: #E8637F; 
+                                content: '';
+                                display: inline-block;
+                                height: 12px;
+                                width: 12px;
+                            }
+                            .desplegable-perfiles li:nth-child(3) i{ 
+                                border-radius: 20px;
+                                background-color: #4CAF7D; 
+                                content: '';
+                                display: inline-block;
+                                height: 12px;
+                                width: 12px;
+                            }
+                            .desplegable-perfiles li:nth-child(4) i{ 
+                                border-radius: 20px;
+                                background-color: #D98E4A; 
+                                content: '';
+                                display: inline-block;
+                                height: 12px;
+                                width: 12px;
+                            }
+
+                        
+                    .desplegable-nota{
+                        
+                    }
+
+            @media (max-width: 560px){
+                .desplegables-radiografia{
+                    flex-direction: column;
+                }
+                    /* flex-basis de .desplegable (260px) corre sobre el eje
+                       principal: en fila es ancho, pero al pasar a columna
+                       pasaría a ser un alto mínimo forzado. Se resetea a
+                       auto para que cada desplegable mida solo su contenido. */
+                    .desplegable{
+                        flex: 1 1 auto;
+                    }
+            }
 
     .box-canciones{
         background-color: #fff;

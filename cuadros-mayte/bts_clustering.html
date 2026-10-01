@@ -109,16 +109,16 @@
     transform: translateY(-65%) rotate(45deg); pointer-events: none;
   }
 
-  .legend-card { background: var(--panel); border-radius: 4px; padding: 1.4rem 1.6rem; margin: 0 auto 1.25rem; max-width: 600px; }
-  .legend-title { font-size: 16px; font-weight: 800; margin-bottom: 0.9rem; font-family: 'Prelo Extrabold'; }
-  .legend-section-label { font-size: 13px; font-weight: 700; color: #3a3a42; margin-bottom: 0.6rem; font-family: 'Prelo Semibold'; }
-  .legend-row { display: flex; gap: 1.25rem; flex-wrap: wrap; margin-bottom: 1.1rem; }
+  .legend-card { background: transparent; border-radius: 4px; padding: 1.4rem 0; margin: 0 auto 1.25rem; max-width: 650px; }
+  .legend-title { font-size: 16px; font-weight: 800; margin-bottom: 0.9rem; font-family: 'Prelo Extrabold'; display: none;}
+  .legend-section-label { font-size: 13px; font-weight: 700; color: #3a3a42; margin-bottom: 0.6rem; font-family: 'Prelo Semibold'; display: none;}
+  .legend-row { display: flex; gap: 1.25rem; flex-wrap: wrap; margin-bottom: 1.1rem; justify-content: center;}
   .legend-row:last-child { margin-bottom: 0; }
   .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 13.5px; cursor: pointer; user-select: none; opacity: 1; transition: opacity 0.15s; font-family: 'Prelo Medium'; }
   .legend-item.dim { opacity: 0.35; }
   .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
   .legend-item b { font-family: 'Prelo Bold'; }
-  .legend-item .legend-desc { color: var(--muted); }
+  .legend-item .legend-desc { color: var(--muted); display: none;}
 
   .legend-shape { width: 12px; height: 12px; flex-shrink: 0; background: #9a9aa3; }
   .legend-shape.circle { border-radius: 50%; }
@@ -230,13 +230,13 @@
     <div class="legend-row" id="legend-cluster"></div>
 
     <div class="legend-section-label">Era</div>
-    <div class="legend-row" id="legend-era">
+    <div class="legend-row" id="legend-era" style="display: none;">
       <div class="legend-item"><span class="legend-shape circle"></span><span>Pre-servicio</span></div>
       <div class="legend-item"><span class="legend-shape diamond"></span><span>Reencuentro</span></div>
     </div>
   </div>
 
-  <div class="axis-legend">
+  <div class="axis-legend" style="display: none;">
     <span class="axis-legend-item"><b>Eje X — Valence</b> 0 sombrío <span class="axis-legend-arrow">&#8594;</span> 1 luminoso</span>
     <span class="axis-legend-item"><b>Eje Y — Energy</b> 0 tranquilo <span class="axis-legend-arrow">&#8594;</span> 1 intenso</span>
   </div>
@@ -267,7 +267,7 @@ const DATA = [{"t":"Intro: 2 Cool 4 Skool (ft. DJ Friz)","s":"BTS","e":"pre","y"
 
 /* ===== Config ===== */
 const CLUSTER_COLOR = { 0: '#6C63FF', 1: '#E8637F', 2: '#4CAF7D', 3: '#D98E4A' };
-const CLUSTER_LABEL = { 0: 'Bailable y alegre', 1: 'Intenso y oscuro', 2: 'Melancólico y acústico', 3: 'Spoken word' };
+const CLUSTER_LABEL = { 0: 'Rítmico y luminoso', 1: 'Potente y menos luminoso', 2: 'Acústico y sereno', 3: 'Hablado / interludio' };
 const CLUSTER_DESC = {
   0: 'Alta energía, alto valence, alta bailabilidad. El BTS de estadio y los grandes hits comerciales.',
   1: 'Alta energía, bajo valence. Canciones de crítica social, rap denso y las narrativas más complejas.',
@@ -411,9 +411,9 @@ function initScatter() {
   svg.selectAll('.tick line').style('stroke', '#eee');
 
   svg.append('text').attr('x', W/2).attr('y', H + 38).attr('text-anchor','middle')
-    .style('fill','#888').style('font-size','11px').text('Valence (positividad musical)');
+    .style('fill','#888').style('font-size','11px').text('Luminosidad musical');
   svg.append('text').attr('transform','rotate(-90)').attr('x',-H/2).attr('y',-32).attr('text-anchor','middle')
-    .style('fill','#888').style('font-size','11px').text('Energy (intensidad)');
+    .style('fill','#888').style('font-size','11px').text('Energía');
 
   gPoints = svg.append('g');
   tooltip = d3.select('#tooltip');

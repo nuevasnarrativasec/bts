@@ -419,11 +419,40 @@
         </div>
         <div class="ctn-box-radiografia">
             <h4>
-                <i></i>Radiografía de sus canciones:
+                <i></i>¿A qué suena BTS?
             </h4>
             <p>
-                <b>Mediante un modelo algorítmico sobre las variables de audio de Spotify</b>, se analizaron 786 pistas del repertorio de BTS para ordenarlas según su atmósfera musical. El resultado divide su música en cuatro facetas: intenso y oscuro (el rap crítico y potente), bailable y alegre (hits de alta energía), melancólico y acústico (baladas íntimas) y spoken word (interludios narrados). Una radiografía de datos que muestra cómo el grupo transita libremente de la euforia a la introspección.
+                <b>Spotify describe cada pista mediante características como energía</b>, positividad musical, bailabilidad, componente acústico y presencia de voz hablada. A partir de esas variables agrupamos 786 registros de audio según sus similitudes y encontramos cuatro perfiles sonoros.
             </p>
+
+            <div class="desplegables-radiografia">
+                <details class="desplegable" name="desplegable-radiografia">
+                    <summary>
+                        <span>¿Cómo leer el gráfico?</span>
+                        <svg class="desplegable-flecha" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>
+                    </summary>
+                    <div class="desplegable-panel">
+                        <p>Cada punto es una canción. Si está más a la derecha, suena más luminosa; si aparece más arriba, tiene más energía. El color muestra el perfil sonoro con el que comparte más características. Toca cualquier punto para descubrir qué canción es.</p>
+                    </div>
+                </details>
+
+                <details class="desplegable" name="desplegable-radiografia">
+                    <summary>
+                        <span>Descubre las variables</span>
+                        <svg class="desplegable-flecha" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>
+                    </summary>
+                    <div class="desplegable-panel">
+                        <p>Usamos variables de audio de Spotify para describir cómo suena cada pista: energía (intensidad), positividad musical o valence (qué tan luminosa suena), bailabilidad, componente acústico y presencia de voz hablada. Al combinar estos valores, el modelo agrupó las pistas con características similares en cuatro perfiles sonoros:</p>
+                        <ul class="desplegable-perfiles">
+                            <li><i></i> <b>Rítmico y luminoso</b> — pulso bailable y sonido brillante.</li>
+                            <li><i></i> <b>Potente y menos luminoso</b> — mucha energía y menor luminosidad musical.</li>
+                            <li><i></i> <b>Acústico y sereno</b> — sonido más calmado y con mayor presencia acústica.</li>
+                            <li><i></i> <b>Hablado / interludio</b> — skits, narraciones y pistas con mayor presencia de voz hablada.</li>
+                        </ul>
+                        <p class="desplegable-nota">Estos perfiles describen características del audio; no son géneros musicales ni interpretaciones de las letras.</p>
+                    </div>
+                </details>
+            </div>
 
             <div class="ctn-box-clustering">
                 <div class="box-iframe">
