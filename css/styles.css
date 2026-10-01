@@ -681,15 +681,15 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .animacion2-letra p:last-child{ margin-bottom: 0; }
 
         .animacion22-letra {
-            max-width: 600px;
+            max-width: 450px;
             position: absolute;
             left: 50%;
-            top: 110px;
+            top: 130px;
             transform: translate(-50%, 0);
         }
             .animacion22-letra p{
                 color: var(--ink);
-                font: 1.4rem / 1.4 'Bray Notes';
+                font: 1.7rem / 1.4 'Bray Notes';
                 margin: 0 0 16px;
             }
 
@@ -1194,7 +1194,16 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 
 .main-radiografia{
     
-}
+}  
+    .main-radiografia h3{
+        font: 5rem/1.3 'Monigue Regular';
+        margin: 20px auto 70px;
+        padding: 0 20px;
+        position: relative;
+        text-align: center;
+        text-transform: uppercase;
+        width: fit-content;
+    }
     .ctn-separador{
         opacity: 0;
         margin: 0 auto 40px;
