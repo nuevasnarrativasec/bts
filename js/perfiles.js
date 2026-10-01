@@ -220,7 +220,10 @@
       d.metrics.map(metricRow).join("") +
       (d.nota ? '<p class="perfil-nota">* ' + d.nota + "</p>" : "") +
       "</div>" +
-      '<blockquote class="perfil-quote">' + d.quote + "</blockquote>" +
+      '<blockquote class="perfil-quote">' +
+      '<img src="./img/flecha-circular.png" alt="" class="perfil-quote-icon">' +
+      d.quote +
+      "</blockquote>" +
       "</div>";
   }
 

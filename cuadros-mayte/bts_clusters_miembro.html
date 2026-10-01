@@ -155,7 +155,7 @@
   }
   .x-col { display: flex; flex-direction: column; align-items: center; }
   .member-name { margin-top: 0.9rem; font-size: 12.5px; font-weight: 800; text-align: center; }
-  .member-total { margin-top: 0.15rem; font-size: 11px; color: var(--muted); }
+  .member-total { margin-top: 0.15rem; font-size: 11px; color: var(--muted); display: none;}
 
   .avatar {
     width: 56px; height: 56px; border-radius: 50%; margin-top: 0.55rem;
@@ -201,23 +201,23 @@
 </div>
 
 <script>
-  const CLUSTERS = ["Bailable y alegre", "Intenso y oscuro", "Melancólico y acústico", "Spoken word"];
+  const CLUSTERS = ["Rítmico y luminoso", "Potente y menos luminoso", "Acústico y sereno", "Hablado / interludio"];
   const CLUSTER_COLORS = {
-    "Bailable y alegre": "#a8a9dc",
-    "Intenso y oscuro": "#e3b8c9",
-    "Melancólico y acústico": "#e9969d",
-    "Spoken word": "#e1c0ae"
+    "Rítmico y luminoso": "#a8a9dc",
+    "Potente y menos luminoso": "#e3b8c9",
+    "Acústico y sereno": "#e9969d",
+    "Hablado / interludio": "#e1c0ae"
   };
 
   const DATA = [
-    { member: "BTS", label: "BTS", total: 421, img: "avatar-bts-cluster.png", pct: { "Bailable y alegre": 32, "Intenso y oscuro": 57, "Melancólico y acústico": 9, "Spoken word": 2 } },
-    { member: "RM", label: "RM", total: 32, img: "avatar-rm-cluster.png", pct: { "Bailable y alegre": 25, "Intenso y oscuro": 41, "Melancólico y acústico": 31, "Spoken word": 3 } },
-    { member: "SUGA", label: "SUGA", total: 31, img: "avatar-suga-cluster.png", pct: { "Bailable y alegre": 20, "Intenso y oscuro": 58, "Melancólico y acústico": 19, "Spoken word": 3 } },
-    { member: "JHOPE", label: "J-HOPE", total: 71, img: "avatar-j-hope-cluster.png", pct: { "Bailable y alegre": 66, "Intenso y oscuro": 28, "Melancólico y acústico": 3, "Spoken word": 3 } },
-    { member: "JIMIN", label: "JIMIN", total: 54, img: "avatar-jimin-cluster.png", pct: { "Bailable y alegre": 50, "Intenso y oscuro": 20, "Melancólico y acústico": 30, "Spoken word": 0 } },
-    { member: "JIN", label: "JIN", total: 87, img: "avatar-jin-cluster.png", pct: { "Bailable y alegre": 22, "Intenso y oscuro": 68, "Melancólico y acústico": 10, "Spoken word": 0 } },
-    { member: "JUNGKOOK", label: "JUNGKOOK", total: 58, img: "avatar-jungkook-cluster.png", pct: { "Bailable y alegre": 81, "Intenso y oscuro": 10, "Melancólico y acústico": 9, "Spoken word": 0 } },
-    { member: "V", label: "V", total: 32, img: "avatar-v-cluster.png", pct: { "Bailable y alegre": 22, "Intenso y oscuro": 16, "Melancólico y acústico": 62, "Spoken word": 0 } }
+    { member: "BTS", label: "BTS", total: 421, img: "avatar-bts-cluster.png", pct: { "Rítmico y luminoso": 32, "Potente y menos luminoso": 57, "Acústico y sereno": 9, "Hablado / interludio": 2 } },
+    { member: "RM", label: "RM", total: 32, img: "avatar-rm-cluster.png", pct: { "Rítmico y luminoso": 25, "Potente y menos luminoso": 41, "Acústico y sereno": 31, "Hablado / interludio": 3 } },
+    { member: "SUGA", label: "SUGA", total: 31, img: "avatar-suga-cluster.png", pct: { "Rítmico y luminoso": 20, "Potente y menos luminoso": 58, "Acústico y sereno": 19, "Hablado / interludio": 3 } },
+    { member: "JHOPE", label: "J-HOPE", total: 71, img: "avatar-j-hope-cluster.png", pct: { "Rítmico y luminoso": 66, "Potente y menos luminoso": 28, "Acústico y sereno": 3, "Hablado / interludio": 3 } },
+    { member: "JIMIN", label: "JIMIN", total: 54, img: "avatar-jimin-cluster.png", pct: { "Rítmico y luminoso": 50, "Potente y menos luminoso": 20, "Acústico y sereno": 30, "Hablado / interludio": 0 } },
+    { member: "JIN", label: "JIN", total: 87, img: "avatar-jin-cluster.png", pct: { "Rítmico y luminoso": 22, "Potente y menos luminoso": 68, "Acústico y sereno": 10, "Hablado / interludio": 0 } },
+    { member: "JUNGKOOK", label: "JUNGKOOK", total: 58, img: "avatar-jungkook-cluster.png", pct: { "Rítmico y luminoso": 81, "Potente y menos luminoso": 10, "Acústico y sereno": 9, "Hablado / interludio": 0 } },
+    { member: "V", label: "V", total: 32, img: "avatar-v-cluster.png", pct: { "Rítmico y luminoso": 22, "Potente y menos luminoso": 16, "Acústico y sereno": 62, "Hablado / interludio": 0 } }
   ];
 
   // --- Legend ---

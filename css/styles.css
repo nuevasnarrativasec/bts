@@ -2441,9 +2441,16 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     border-radius: 18px;
                     font: 1rem/1.45 'Prelo Bold';
                     margin: 0;
-                    padding: 20px 22px;
+                    padding: 20px 22px 20px;
                     position: relative;
                 }
+                    .perfil-quote-icon{
+                        height: 34px;
+                        left: -17px;
+                        position: absolute;
+                        top: -17px;
+                        width: 34px;
+                    }
 
                 @media (max-width: 900px){
                     .perfil-card{
