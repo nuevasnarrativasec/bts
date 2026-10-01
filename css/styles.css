@@ -1287,6 +1287,9 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                             .desplegable-perfiles li i{
                                 margin: 0 5px 0 0;
                             }
+                            .desplegable-perfiles li b{
+                                font-family: 'Prelo Bold';
+                            }
                             .desplegable-perfiles li:nth-child(1) i{ 
                                 border-radius: 20px;
                                 background-color: #6C63FF; 
@@ -1344,7 +1347,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     }
         /* --- Escala comparativa Sonido / Letra --- */
         .ctn-escala-comparativa{
-            margin: 34px auto 40px;
+            margin: 10px auto 40px;
             max-width: 600px;
         }
             .escala-comparativa{
@@ -1356,9 +1359,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             }
                 .escala-comparativa .info-badge{
                     align-items: center;
-                    background-color: var(--red);
+                    background-color: #967ff9;
                     border-radius: 50%;
-                    box-shadow: 0 4px 10px rgba(232,56,47,.35);
                     color: #fff;
                     cursor: default;
                     display: flex;
@@ -1414,7 +1416,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                         font: 1.7rem/1 'Monigue Regular';
                     }
                     .escala-linea{
-                        background-color: var(--c-army);
+                        background-color: #967ff9;
                         flex: 1 1 auto;
                         height: 2px;
                     }
