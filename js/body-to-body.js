@@ -1,18 +1,18 @@
 /* ============================================================
    BTS · ctn-body-to-body ("Body to body")
-   - El botón verde usa la Spotify iFrame API (misma API que
-     main-animacion-1 / main-animacion-2 / el carrusel de discos;
-     comparten el mismo <script id="spotify-iframe-api">, así que
-     no se carga dos veces).
+   - El botón verde solo controla la reproducción de audio, vía la
+     Spotify iFrame API (misma API que main-animacion-1 /
+     main-animacion-2 / el carrusel de discos; comparten el mismo
+     <script id="spotify-iframe-api">, así que no se carga dos veces).
    - La letra de cada estrofa se pinta entera desde que carga la
      página, en un color suave/translúcido (cada letra queda en su
-     propio <span class="k-char">). Al primer click en play, esas
-     letras se van "iluminando" una por una (como en un karaoke),
-     primero la estrofa 1 y, al terminar, la estrofa 2 — y en
-     paralelo los 3 elementos gráficos caen desde arriba y se
-     acomodan (clase "is-visible" en cada [data-bodytobody-item]).
-     Esta revelación ocurre una sola vez: pausar y volver a darle
-     play no la repite ni la deshace.
+     propio <span class="k-char">). La revelación (letra "iluminándose"
+     letra por letra como en un karaoke, primero la estrofa 1 y, al
+     terminar, la estrofa 2 — en paralelo a los 3 elementos gráficos
+     cayendo desde arriba, clase "is-visible" en cada
+     [data-bodytobody-item]) ya NO depende del botón: se dispara sola
+     apenas la sección entra en el viewport (IntersectionObserver) y
+     ocurre una sola vez, sin relación con reproducir/pausar el audio.
    ============================================================ */
 (function () {
   "use strict";
@@ -91,8 +91,6 @@
     if (yaRevelado) return;
     yaRevelado = true;
 
-    if (hint) hint.classList.add("is-hidden");
-
     // Los elementos gráficos caen uno tras otro (no todos de golpe):
     // cada uno se revela con su propio setTimeout, apenas empieza a
     // pintarse la letra.
@@ -165,9 +163,7 @@
   cargarSpotifyApi();
 
   btn.addEventListener("click", () => {
-    // La revelación (letra + gráficos) se dispara siempre en el primer
-    // click, sin depender de que Spotify ya haya terminado de cargar.
-    revelar();
+    if (hint) hint.classList.add("is-hidden");
 
     if (!controller) {
       pendingPlay = true;
@@ -182,18 +178,25 @@
     }
   });
 
-  // Pausa el track si la sección sale del viewport.
+  // La revelación (letra + gráficos) ya no depende del click en play:
+  // se dispara sola apenas la sección entra en pantalla ("yaRevelado"
+  // en revelar() asegura que ocurra una sola vez). En el mismo observer
+  // se sigue pausando el track si la sección sale del viewport.
   if ("IntersectionObserver" in window) {
     const seccionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting && controller && !isPaused) {
+          if (entry.isIntersecting) {
+            revelar();
+          } else if (controller && !isPaused) {
             controller.pause();
           }
         });
       },
-      { threshold: 0 }
+      { threshold: 0.2 }
     );
     seccionObserver.observe(seccion);
+  } else {
+    revelar();
   }
 })();

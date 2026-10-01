@@ -2996,7 +2996,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .trivia-nivel-subtitulo{ font-size: 1rem; padding: 12px 20px; }
             }
 .main-deja-tu-mensaje{
-    background-color: #ff606b;
+    background-color: #fff;
     margin-top: -80px;
     position: relative;
 }
@@ -3639,7 +3639,7 @@ img.bg-footer{
         grid-row: 1;
         justify-self: start;
         text-align: left;
-        width: min(90%, 420px);
+        width: min(90%, 250px);
     }
 
     /* --- Fila 2: segunda estrofa + lightstick --- */
@@ -3648,7 +3648,7 @@ img.bg-footer{
         grid-row: 2;
         justify-self: end;
         text-align: left;
-        width: min(90%, 380px);
+        width: min(90%, 335px);
     }
     .bodytobody-item--linterna{
         grid-column: 2;
@@ -3677,11 +3677,11 @@ img.bg-footer{
            una transición de color suave que las deja en blanco pleno:
            el mismo efecto de "pintado" progresivo de un karaoke. */
         .bodytobody-lyric .k-char{
-            color: rgba(255, 255, 255, .38);
+            color: #000;
             transition: color .2s ease;
         }
             .bodytobody-lyric .k-char.is-lit{
-                color: #fff;
+                color: #a87fff;
             }
 
     .bodytobody-item{
