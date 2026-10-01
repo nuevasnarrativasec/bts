@@ -94,8 +94,9 @@
   select.filter-select {
     width: 100%; appearance: none; -webkit-appearance: none;
     font: inherit; font-weight: 700; font-size: 14px; color: var(--ink);
-    background: var(--card); border: 1px solid var(--ink); border-radius: 10px;
+    background: var(--card); border: none; border-radius: 10px;
     padding: 0.75rem 2.2rem 0.75rem 1rem; cursor: pointer;  font-family: 'Prelo Bold';
+    background-color: #D1D3DF;
   }
   .select-wrap::after {
     content: ""; position: absolute; right: 1rem; top: 50%; width: 10px; height: 10px;
@@ -122,16 +123,19 @@
   .suggestion-item .s-title { font-weight: 600; }
   .suggestion-item .s-meta { color: var(--muted); font-size: 12px; white-space: nowrap; }
 
-  .legend-card { background: var(--panel); border-radius: 4px; padding: 1.4rem 1.6rem; margin: 10px auto 20px; max-width: 600px; }
+  .legend-card { margin: 0 auto 20px; max-width: 600px; }
   .legend-title { font-size: 16px; font-weight: 800; margin-bottom: 0.9rem; font-family: 'Prelo Extrabold';}
   .legend-section-label { font-size: 13px; font-weight: 700; color: #3a3a42; margin-bottom: 0.6rem; font-family: 'Prelo Semibold';}
-  .legend-row { display: flex; gap: 1.75rem; flex-wrap: wrap; margin-bottom: 1.1rem; }
+  .legend-row { display: flex; gap: 1.75rem; flex-wrap: wrap; margin-bottom: 1.1rem;  justify-content: center;}
   .legend-row:last-child { margin-bottom: 0; }
-  .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 13.5px; cursor: pointer; user-select: none; opacity: 1; transition: opacity 0.15s; font-family: 'Prelo Medium'; }
+  .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 14px; cursor: pointer; user-select: none; opacity: 1; transition: opacity 0.15s; font-family: 'Prelo Medium'; color: var(--ink); }
   .legend-item.dim { opacity: 0.35; }
-  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .legend-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
   .legend-item b { font-family: 'Prelo Bold'; }
   .legend-item .legend-desc { color: var(--muted); display: none;}
+  #legend-miembro{
+    display: none;
+  }
 
   .axis-legend {
     display: flex; align-items: center; justify-content: center; gap: 1.75rem;
@@ -170,7 +174,6 @@
   }
   @media (max-width: 480px) {
     body { padding: 0; }
-    .legend-card { padding: 1.1rem 1.2rem; }
     .legend-row { gap: 1rem 1.25rem; }
     .filters-row { gap: 0.6rem; }
     .select-wrap { min-width: 0; }
@@ -205,14 +208,11 @@
 
   
 
-  <div class="legend-card" style="display: none;">
-    <div class="legend-title">Leyenda</div>
-
-    <div class="legend-section-label">Periodo</div>
+  <div class="legend-card">
     <div class="legend-row" id="legend-periodo"></div>
 
-    <div class="legend-section-label">Miembro</div>
-    <div class="legend-row" id="legend-miembro"></div>
+    <div class="legend-section-label" hidden>Miembro</div>
+    <div class="legend-row" id="legend-miembro" hidden></div>
   </div>
 
   <div class="axis-legend" style="display: none;">

@@ -1854,6 +1854,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     .box-cronologia{
         overflow: hidden;
         position: relative;
+        margin-bottom: 120px;
     }
         .crono-mascota{
             left: -20px;
