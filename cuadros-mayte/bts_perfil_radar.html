@@ -147,6 +147,9 @@
   .radar-info-badge.is-open .radar-info-tip {
     opacity: 1; transform: translate(-50%, 0); visibility: visible;
   }
+  tspan{
+    font-size: 17px;
+  }
 
   .callout {
     background: var(--panel); border-radius: 12px; padding: 0.9rem 1.4rem;
@@ -500,7 +503,10 @@ DATA.forEach((d, i) => {
 });
 
 // --- Radar chart (D3) ---
-const size = 560, cx = size / 2, cy = size / 2, radius = 150;
+// size se agrandó respecto al radio (560 -> 700) para dejar margen alrededor
+// de las etiquetas de eje: con textos largos como "Componente acústico" el
+// tspan se salía del viewBox (que recorta por defecto) y quedaba cortado.
+const size = 700, cx = size / 2, cy = size / 2, radius = 150;
 const angleSlice = (Math.PI * 2) / AXES.length;
 const rScale = d3.scaleLinear().domain([0, 1]).range([0, radius]);
 
@@ -538,9 +544,9 @@ AXES.forEach((ax, i) => {
     .attr('x', lx).attr('y', ly)
     .attr('text-anchor', anchor)
     .attr('dominant-baseline', 'middle')
-    .style('font-size', '12px').style('font-weight', 800).style('fill', '#16161d');
+    .style('font-size', '14px').style('font-weight', 800).style('fill', '#16161d');
   label.append('tspan').attr('x', lx).attr('dy', '-0.3em').text(AXIS_LABEL[ax][0]);
-  label.append('tspan').attr('x', lx).attr('dy', '1.2em').style('font-weight', 600).style('fill', '#7a7a85').style('font-size', '10.5px').text(AXIS_LABEL[ax][1]);
+  label.append('tspan').attr('x', lx).attr('dy', '1.2em').style('font-weight', 600).style('fill', '#7a7a85').style('font-size', '12px').text(AXIS_LABEL[ax][1]);
 });
 
 // scale labels (top axis: Valence)
