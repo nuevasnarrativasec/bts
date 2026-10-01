@@ -821,7 +821,7 @@ function filtered() {
 }
 
 /* ===== Chart ===== */
-const margin = { top: 30, right: 30, bottom: 45, left: 50 };
+const margin = { top: 30, right: 30, bottom: 68, left: 70 };
 let W, H, svg, xScale, yScale, gPoints, tooltip;
 
 function initScatter() {
@@ -880,6 +880,31 @@ function initScatter() {
     .call(g => g.select('.domain').style('stroke', '#ccc'))
     .selectAll('text').style('fill', '#888').style('font-size', '11px');
   svg.selectAll('.tick line').style('stroke', '#eee');
+
+  // Axis titles
+  svg.append('text')
+    .attr('x', W / 2).attr('y', H + 44)
+    .attr('text-anchor', 'middle')
+    .style('font-family', 'var(--font)').style('font-size', '11.5px').style('font-weight', 700).style('fill', 'var(--ink)')
+    .text('Eje X — Tono de la música');
+  svg.append('text')
+    .attr('x', W / 2).attr('y', H + 59)
+    .attr('text-anchor', 'middle')
+    .style('font-family', 'var(--font)').style('font-size', '11px').style('fill', 'var(--muted)')
+    .text('0 más sombrío → 1 más luminoso');
+
+  svg.append('text')
+    .attr('transform', 'rotate(-90)')
+    .attr('x', -(H / 2)).attr('y', -margin.left + 14)
+    .attr('text-anchor', 'middle')
+    .style('font-family', 'var(--font)').style('font-size', '11.5px').style('font-weight', 700).style('fill', 'var(--ink)')
+    .text('Eje Y — Tono de la letra');
+  svg.append('text')
+    .attr('transform', 'rotate(-90)')
+    .attr('x', -(H / 2)).attr('y', -margin.left + 30)
+    .attr('text-anchor', 'middle')
+    .style('font-family', 'var(--font)').style('font-size', '11px').style('fill', 'var(--muted)')
+    .text('0 más sombrío → 1 más luminoso');
 
   // Quadrant labels
   svg.append('text').attr('x', 10).attr('y', 16)
