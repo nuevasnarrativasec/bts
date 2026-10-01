@@ -767,7 +767,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         }
         .animacion2-quote--llave{
             margin: 0;
-            max-width: 60%;
+            max-width: 40%;
             padding: 0;
             text-align: left;
             transform: none;
@@ -812,8 +812,9 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         position: absolute;
         width: 100%;
         left: 50%;
-        top: 100px;
+        top: 150px;
         transform: translate(-50%, 0);
+        z-index: 10;
     }
         .animacion3-letra p{
             color: #fff;
@@ -3783,12 +3784,14 @@ img.bg-footer{
     position: absolute;
     top: -70px;
     left: -177px;
+    display: none;
 }
 .elemento-transicion-4{
     bottom: 0;
     max-width: 250px;
     position: absolute;
     right: 150px;   
+    z-index: 10;
 }
 .elemento-transicion-5{
     max-width: 350px;
