@@ -1813,32 +1813,32 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 30% { scale: 1.02; }
                 40% { scale: 1.06; }
             }
-            /* Globo "Dame clic": se contra-rota para quedar horizontal
-               aunque la mascota esté inclinada. */
+            /* Nombre de la mascota + cursor: se contra-rota para quedar
+               horizontal aunque la mascota esté inclinada. */
             .crono-mascota-clic{
-                background-color: #9780f7;
-                color: var(--white);
-                font-family: 'Monigue Regular';
-                font-size: clamp(16px, 1.7vw, 24px);
-                letter-spacing: .01em;
+                align-items: flex-end;
+                display: flex;
+                flex-direction: row;
+                gap: 2px;
                 left: 50%;
-                line-height: 1;
-                padding: 8px 14px;
                 pointer-events: none;
                 position: absolute;
                 top: 2%;
                 transition: rotate 1s ease;
                 translate: -30% 0;
-                white-space: nowrap;
             }
-                .crono-mascota-clic::after{
-                    border-color: #9780f7 transparent transparent #9780f7;
-                    border-style: solid;
-                    border-width: 5px 5px 5px 5px;
-                    content: "";
-                    left: 20%;
-                    position: absolute;
-                    top: 100%;
+                .crono-mascota-nombre{
+                    color: #5254BF;
+                    font-family: 'Monigue Regular';
+                    font-size: clamp(16px, 1.7vw, 24px);
+                    letter-spacing: .01em;
+                    line-height: 1;
+                    text-transform: uppercase;
+                    white-space: nowrap;
+                }
+                .crono-mascota-cursor{
+                    height: clamp(16px, 1.6vw, 22px);
+                    width: clamp(16px, 1.6vw, 22px);
                 }
                 .crono-mascota.is-visible .crono-mascota-clic{
                     rotate: -25deg;
@@ -1848,25 +1848,33 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 }
             .crono-mascota-1 .crono-mascota-clic{
                     top: 0;
-                    translate: 0 -45px;
+                    translate: 0 -30px;
             }
             .crono-mascota-2{
                 right: -65px;
             }
                 .crono-mascota-2 .crono-mascota-clic{
                     top: 0;
-                    translate: 20px 45px;
+                    translate: 50px 65px;
                 }
             .crono-mascota-3 .crono-mascota-clic{
-                    top: 0;
-                    translate: 0 -30px;
+                bottom: 0;
+                translate: 0 -60px;
             }
             .crono-mascota-4{
                 right: -130px;
             }
+                .crono-mascota-4 .crono-mascota-clic{
+                    bottom: 0;
+                    translate: -60px 0;
+                }
             .crono-mascota-5{
 
             }
+                .crono-mascota-5 .crono-mascota-clic{
+                    bottom: 0;
+                    translate: -10px -50px;
+                }
             .crono-mascota-6{
                 right: -130px;
             }
@@ -1883,11 +1891,13 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             }
             @media (max-width: 900px){
                 .crono-mascota{ max-width: 170px; top: -10px; }
-                .crono-mascota-clic{ font-size: 14px; padding: 6px 10px; }
+                .crono-mascota-nombre{ font-size: 14px; }
+                .crono-mascota-cursor{ height: 16px; width: 16px; }
             }
             @media (max-width: 560px){
                 .crono-mascota{ max-width: 120px; }
-                .crono-mascota-clic{ font-size: 12px; padding: 5px 8px; }
+                .crono-mascota-nombre{ font-size: 12px; }
+                .crono-mascota-cursor{ height: 14px; width: 14px; }
             }
         .ctn-box-cronologia{
 
