@@ -2689,6 +2689,14 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     padding: 40px 0;
     position: relative;
 }
+    .main-trivia h3{
+        line-height: 1;
+        margin-bottom: 40px;
+    }
+        .main-trivia h3 span{
+            color: #fff;
+            display: block;
+        }
     img.corte-celeste{
         display: block;
         margin-top: -50px;
