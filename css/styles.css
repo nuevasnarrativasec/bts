@@ -967,10 +967,34 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     font-family: 'Prelo Bold';
                 }
                 span.sub{
-                    color: #f42439;
+                    color: #5254bf;
                     display: block;
                     font-family: 'Prelo Semibold';
                 }
+                .ctn-box-facturando .sub-wrap{
+                    margin-bottom: 10px;
+                }
+                .ctn-box-facturando .impacto-lista{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 22px;
+                    margin: 0 auto 80px;
+                    max-width: 600px;
+                }
+                    .ctn-box-facturando .impacto-item{
+                        align-items: center;
+                        display: flex;
+                        gap: 18px;
+                    }
+                        .ctn-box-facturando .impacto-icono{
+                            flex: 0 0 auto;
+                            height: 40px;
+                            width: 40px;
+                        }
+                        .ctn-box-facturando .impacto-item p{
+                            margin: 0;
+                            max-width: none;
+                        }
 
             /* --- Carrusel horizontal de portadas --- */
             .hint-desliza{
@@ -2511,7 +2535,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 margin: 40px auto;
             }
     .box-comunidad{
-            margin-bottom: 120px;
+        margin-bottom: 60px;
         overflow: hidden;
         position: relative;
     }
@@ -2554,8 +2578,6 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         }
         .impacto-icono{
             background-color: transparent;
-            border: 2px solid var(--red);
-            border-radius: 50%;
             display: inline-block;
             height: 56px;
             margin-bottom: 16px;
@@ -2649,7 +2671,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                         margin: 14px 0 0;
                     }
                         .momento-card p b{
-                            color: var(--red);
+                            color: #5254BF;
                             font-family: 'Prelo Bold';
                         }
         @media (max-width: 900px){
@@ -2783,7 +2805,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                         font: 1.05rem/1.35 'Prelo Semibold';
                     }
                     .trivia-opcion.is-selected{
-                        background-color: var(--red);
+                        background-color: #9C7EFF;
                     }
                         .trivia-opcion.is-selected .trivia-opcion-num,
                         .trivia-opcion.is-selected .trivia-opcion-texto{
@@ -3186,10 +3208,23 @@ img.bg-footer{
     .ctn-box-cronologia p, 
     .ctn-box-siete-voces p, 
     .ctn-box-compara p, 
-    .ctn-box-perfil-radar p, 
-    .ctn-box-comunidad p, 
+    .ctn-box-perfil-radar p,
+    .ctn-box-comunidad p,
     .ctn-box-facturando p{
         padding: 0 20px;
+    }
+    .ctn-box-facturando .sub-wrap{
+        padding: 0 20px;
+    }
+    .ctn-box-facturando .impacto-lista{
+        padding: 0 20px;
+    }
+    .ctn-box-facturando .impacto-item p{
+        padding: 0;
+    }
+    .ctn-box-facturando .impacto-icono{
+        height: 32px;
+        width: 32px;
     }
     .ctn-box-universo-musical h4, 
     .ctn-box-radiografia h4, 
@@ -3672,6 +3707,7 @@ img.bg-footer{
 
     .animacion6-fila{
         position: relative;
+        z-index: 0;
     }
         .animacion6-fila--2{
             top: -45px;
@@ -3849,6 +3885,7 @@ img.bg-footer{
     position: absolute;
     right: 0;
     top: -200px;   
+    z-index: 10;
 }
 .elemento-transicion-6{
     max-width: 350px;
