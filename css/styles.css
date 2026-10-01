@@ -1404,22 +1404,18 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 position: relative;
             }
                 .escala-comparativa .info-badge{
-                    align-items: center;
-                    background-color: #967ff9;
-                    border-radius: 50%;
-                    color: #fff;
                     cursor: default;
-                    display: flex;
-                    font-size: 13px;
-                    font-style: italic;
-                    font-weight: 800;
                     height: 26px;
-                    justify-content: center;
                     position: absolute;
                     right: -12px;
                     top: -12px;
                     width: 26px;
                 }
+                    .info-badge-icon{
+                        display: block;
+                        height: 100%;
+                        width: 100%;
+                    }
                 .escala-comparativa .info-badge .info-tip{
                     background-color: var(--ink);
                     border-radius: 8px;
@@ -2481,23 +2477,22 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     position: relative;
                 }
                     .perfil-metrics-info{
-                        align-items: center;
-                        background-color: #a87fff;
                         border: none;
-                        border-radius: 50%;
-                        color: #fff;
+                        background: none;
                         cursor: help;
-                        display: flex;
-                        font: 700 .9rem/1 'Prelo Bold';
-                        height: 28px;
-                        justify-content: center;
+                        height: 24px;
                         padding: 0;
                         position: absolute;
-                        right: -14px;
-                        top: -14px;
-                        width: 28px;
+                        right: -9px;
+                        top: -11px;
+                        width: 24px;
                         z-index: 2;
                     }
+                        .perfil-metrics-info img{
+                            display: block;
+                            height: 100%;
+                            width: 100%;
+                        }
                         .perfil-metrics-tooltip{
                             background-color: #000;
                             border-radius: 10px;

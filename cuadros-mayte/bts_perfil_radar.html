@@ -131,10 +131,10 @@
 
   .radar-info-wrap { display: flex; justify-content: center; margin: 0.75rem 0 0.25rem; }
   .radar-info-badge {
-    align-items: center; background-color: #967ff9; border: none; border-radius: 50%;
-    color: #fff; cursor: help; display: flex; font-size: 13px; font-weight: 800;
-    height: 26px; justify-content: center; padding: 0; position: relative; width: 26px;
+    background: none; border: none; cursor: help;
+    height: 26px; padding: 0; position: relative; width: 26px;
   }
+  .radar-info-badge img { display: block; height: 100%; width: 100%; }
   .radar-info-tip {
     background-color: var(--ink); border-radius: 10px; color: #fff; font-size: 12px;
     font-weight: 400; left: 50%; line-height: 1.5; opacity: 0; padding: .75rem .9rem;
@@ -225,7 +225,7 @@
       </div>
       <div class="radar-info-wrap">
         <button type="button" class="radar-info-badge" aria-label="Qué significan estas variables">
-          <span aria-hidden="true">i</span>
+          <img src="../img/btn-info.png" alt="" aria-hidden="true">
           <span class="radar-info-tip" role="tooltip">Estas cinco variables de Spotify describen características del audio en una escala de 0 a 1. Luminosidad musical indica qué tan luminoso o sombrío suena un tema; energía, su intensidad; bailabilidad, qué tan favorable es su ritmo para bailar; componente acústico, cuánto predominan rasgos acústicos; y voz hablada, cuánto pesa la palabra hablada frente al canto. Estas variables describen el sonido, no interpretan la letra ni lo que BTS quiso expresar.</span>
         </button>
       </div>

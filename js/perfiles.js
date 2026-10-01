@@ -214,7 +214,7 @@
       '<p class="perfil-headline">' + d.headline + "</p>" +
       '<div class="perfil-metrics">' +
       '<button type="button" class="perfil-metrics-info" aria-label="Qué significan estas variables">' +
-      '<span aria-hidden="true">i</span>' +
+      '<img src="./img/btn-info.png" alt="" aria-hidden="true">' +
       '<span class="perfil-metrics-tooltip" role="tooltip">Estas variables de Spotify describen características del audio; no interpretan la letra ni lo que BTS quiso expresar</span>' +
       "</button>" +
       d.metrics.map(metricRow).join("") +
