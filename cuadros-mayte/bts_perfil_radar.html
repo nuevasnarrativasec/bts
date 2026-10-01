@@ -108,22 +108,22 @@
   }
   .avatar-lg img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .member-name {
-    font-size: 52px; line-height: 0.95; margin-bottom: 0.6rem; text-transform: uppercase;
+    font-size: 52px; line-height: 0.95; margin-bottom: 0.6rem; 
     font-family: 'Monigue Regular';
   }
   .headline {
-    font-size: 21px; color: var(--red); text-transform: uppercase;
+    font-size: 21px; color: #5254BF; text-transform: uppercase;
     margin-bottom: 1rem; line-height: 1.25; font-family: 'Monigue Regular';
   }
   .description { font-size: 14.5px; color: var(--ink); line-height: 1.65; max-width: 340px; font-family: 'Prelo Book';}
 
   /* Right column: radar */
   .radar-head { display: flex; align-items: flex-start; justify-content: space-around; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 1rem; }
-  .radar-title { font-size: 16px; font-family: 'Prelo Extrabold';}
+  .radar-title { font-size: 16px; font-family: 'Prelo Extrabold'; display: none}
   .radar-legend {    display: flex;
     gap: .5rem;
-    flex-direction: column;}
-  .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 13px; font-family: 'Prelo Extrabold';}
+    flex-direction: row;}
+  .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 13px; font-family: 'Prelo Extrabold'; margin: 0 5px;}
   .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
 
   .radar-svg-wrap { display: flex; justify-content: center; }
@@ -441,18 +441,18 @@ const DATA = [
 
 const AXES = ["Valence","Energy","Danceability","Acousticness","Speechiness"];
 const AXIS_LABEL = {
-  Valence: ["Valence", "(más luminoso)"],
-  Energy: ["Energy", "(más intenso)"],
-  Danceability: ["Danceability", "(más bailable)"],
-  Acousticness: ["Acousticness", "(más acústico)"],
-  Speechiness: ["Speechiness", "(más voz hablada)"]
+  Valence: ["Luminosidad musical"],
+  Energy: ["Energía"],
+  Danceability: ["Bailabilidad"],
+  Acousticness: ["Componente acústico"],
+  Speechiness: ["Voz hablada"]
 };
 const IND_LABEL = {
-  Valence: ["Valence", "(Más luminoso)"],
-  Energy: ["Energy", "(Más intenso)"],
-  Danceability: ["Danceability", "(Más bailable)"],
-  Acousticness: ["Acousticness", "(Más acústico)"],
-  Speechiness: ["Speechiness", "(Más voz hablada)"]
+  Valence: ["Luminosidad musical", "Luminosidad musical"],
+  Energy: ["Energía", "Energía"],
+  Danceability: ["Bailabilidad", "(Más bailable)"],
+  Acousticness: ["Componente acústico", "(Más acústico)"],
+  Speechiness: ["Voz hablada", "(Más voz hablada)"]
 };
 const ICONS = {
   Valence: '<img src="../img/icon-valence.jpg" width="100%">',
