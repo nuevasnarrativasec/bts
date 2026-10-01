@@ -131,7 +131,7 @@
   .legend-item.dim { opacity: 0.35; }
   .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
   .legend-item b { font-family: 'Prelo Bold'; }
-  .legend-item .legend-desc { color: var(--muted); }
+  .legend-item .legend-desc { color: var(--muted); display: none;}
 
   .axis-legend {
     display: flex; align-items: center; justify-content: center; gap: 1.75rem;
@@ -201,12 +201,11 @@
             <input type="text" id="song-search" class="search-input" placeholder="Busca una canción...">
             <div class="suggestions" id="suggestions"></div>
         </div>
-    </div> 
-  
+    </div>  
 
   
 
-  <div class="legend-card">
+  <div class="legend-card" style="display: none;">
     <div class="legend-title">Leyenda</div>
 
     <div class="legend-section-label">Periodo</div>
@@ -216,7 +215,7 @@
     <div class="legend-row" id="legend-miembro"></div>
   </div>
 
-  <div class="axis-legend">
+  <div class="axis-legend" style="display: none;">
     <span class="axis-legend-item"><b>Eje Y — Letra (IA)</b> 0 sombría <span class="axis-legend-arrow">&#8594;</span> 1 luminosa</span>
     <span class="axis-legend-item"><b>Eje X — Música (Spotify)</b> 0 sombría <span class="axis-legend-arrow">&#8594;</span> 1 luminosa</span>
   </div>

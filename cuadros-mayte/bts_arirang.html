@@ -101,19 +101,18 @@
   }
   .legend-box .legend-title { font-size: 15px; font-weight: 800; margin-bottom: 0.9rem; }
   .legend-scale-line {
-    position: relative; height: 2px; background: var(--accent-red); margin: 0 6px 0.5rem;
+    position: relative; height: 2px; background: #5254bf; margin: 0 6px 0.5rem;
   }
   .legend-scale-dot {
     position: absolute; top: 50%; width: 9px; height: 9px; border-radius: 50%;
-    background: var(--accent-red); transform: translate(-50%, -50%);
+    background: #5254bf; transform: translate(-50%, -50%);
   }
   .legend-scale-labels { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin: 0 -2px; }
   .legend-scale-sub { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin: 0 -2px; }
   .info-badge {
     position: absolute; top: -12px; right: -12px; width: 26px; height: 26px; border-radius: 50%;
-    background: var(--accent-red); color: #fff; font-weight: 800; font-size: 13px; font-style: italic;
+    background: #5254bf; color: #fff; font-weight: 800; font-size: 13px; font-style: italic;
     display: flex; align-items: center; justify-content: center; cursor: default;
-    box-shadow: 0 4px 10px rgba(229,72,77,0.35);
   }
   .info-badge .info-tip {
     display: none; position: absolute; top: calc(100% + 8px); right: 0; width: 220px;
@@ -170,6 +169,7 @@
   .track-dot.active { background: var(--post); }
   .track-value { position: absolute; top: 50%; transform: translateY(-50%); font-size: 12.5px; font-weight: 700; color: #969696; white-space: nowrap; }
   .track-value.active { color: var(--post); }
+  .track-interludio { font-size: 12.5px; font-weight: 400; color: var(--muted); }
 
   .emotion-cell { text-align: right; font-size: 13px; color: var(--muted); text-transform: capitalize; }
 
@@ -238,7 +238,7 @@
   <div class="legend-wrap">
     <div class="legend-box">
       <span class="info-badge">i
-        <span class="info-tip">La valencia textual mide el tono emocional de la letra según un análisis de IA: 0 es el tono más sombrío y 1 el más luminoso.</span>
+        <span class="info-tip">El tono de la letra muestra qué tan sombrío o luminoso fue clasificado su contenido por un análisis con IA. La escala va de 0 —más sombrío— a 1 —más luminoso—</span>
       </span>
       <div class="legend-title">Leyenda</div>
       <div class="legend-scale-line">
@@ -272,7 +272,7 @@
           <th class="col-num">#</th>
           <th class="col-song">Canción</th>
           <th class="col-scale">
-            <span class="scale-headline">Tono textual (valencia)</span>
+            <span class="scale-headline">Tono de la letra</span>
             <span class="scale-sublabels"><span>Más sombrío (0)</span><span>&#8594;</span><span>Más luminoso (1)</span></span>
           </th>
           <th class="col-emotion">Emoción dominante</th>
@@ -343,55 +343,62 @@ const DATA = [
   },
   {
     "n": 6,
+    "t": "No. 29",
+    "vt": null,
+    "em": null,
+    "sec": "zona-media"
+  },
+  {
+    "n": 7,
     "t": "SWIM",
     "vt": 0.7,
     "em": "anhelo",
     "sec": "zona-media"
   },
   {
-    "n": 7,
+    "n": 8,
     "t": "Merry Go Round",
     "vt": 0.3,
     "em": "tristeza",
     "sec": "zona-media"
   },
   {
-    "n": 8,
+    "n": 9,
     "t": "NORMAL",
     "vt": 0.4,
     "em": "conflicto",
     "sec": "zona-media"
   },
   {
-    "n": 9,
+    "n": 10,
     "t": "Like Animals",
     "vt": 0.7,
     "em": "pasión",
     "sec": "zona-media"
   },
   {
-    "n": 10,
+    "n": 11,
     "t": "they don't know 'bout us",
     "vt": 0.7,
     "em": "esperanza",
     "sec": "zona-media"
   },
   {
-    "n": 11,
+    "n": 12,
     "t": "One More Night",
     "vt": 0.7,
     "em": "nostalgia",
     "sec": "cierre"
   },
   {
-    "n": 12,
+    "n": 13,
     "t": "Please",
     "vt": 0.7,
     "em": "esperanza",
     "sec": "cierre"
   },
   {
-    "n": 13,
+    "n": 14,
     "t": "Into the Sun",
     "vt": 0.8,
     "em": "amor",
@@ -418,17 +425,20 @@ function render() {
     lastSec = d.sec;
     const isActive = activeRow === d.n;
     const dimmed = !activeSections.has(d.sec);
+    const sinAnalisis = d.vt === null;
     html += `
       <tr class="sec-${d.sec}${dimmed ? ' dim-row' : ''}${isActive ? ' active-row' : ''}" data-n="${d.n}">
         <td class="num-cell">${d.n}</td>
         <td class="song-cell">${d.t}</td>
         <td class="track-cell">
-          <div class="track-line">
-            <span class="track-dot${isActive ? ' active' : ''}" style="left:${d.vt * 100}%"></span>
-            <span class="track-value${isActive ? ' active' : ''}" style="left:calc(${d.vt * 100}% + 14px)">${fmt(d.vt)}</span>
-          </div>
+          ${sinAnalisis
+            ? `<span class="track-interludio">Interludio · — · Sin análisis textual</span>`
+            : `<div class="track-line">
+                <span class="track-dot${isActive ? ' active' : ''}" style="left:${d.vt * 100}%"></span>
+                <span class="track-value${isActive ? ' active' : ''}" style="left:calc(${d.vt * 100}% + 14px)">${fmt(d.vt)}</span>
+              </div>`}
         </td>
-        <td class="emotion-cell">${d.em}</td>
+        <td class="emotion-cell">${sinAnalisis ? '—' : d.em}</td>
       </tr>`;
   });
   tbody.innerHTML = html;
@@ -471,10 +481,13 @@ document.getElementById('detail-close').addEventListener('click', () => {
 });
 
 function openDetail(d) {
+  const sinAnalisis = d.vt === null;
   document.getElementById('detail-title').textContent = d.t;
   document.getElementById('detail-sub').textContent = `Track ${d.n} · ARIRANG`;
-  document.getElementById('detail-value').textContent = fmt(d.vt);
-  document.getElementById('detail-emotion').textContent = d.em.charAt(0).toUpperCase() + d.em.slice(1);
+  document.getElementById('detail-value').textContent = sinAnalisis ? '—' : fmt(d.vt);
+  document.getElementById('detail-emotion').textContent = sinAnalisis
+    ? 'Sin análisis textual'
+    : d.em.charAt(0).toUpperCase() + d.em.slice(1);
   document.getElementById('detail-position').textContent = SECTION_LABEL[d.sec];
   detailCard.classList.add('open');
 }

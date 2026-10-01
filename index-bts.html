@@ -663,38 +663,8 @@
                     title="My frame"
                     scrolling="no"
                     loading="lazy"
-                    style=" width:100%; height:1150px; border:none; ">
+                    style=" width:100%; height:900px; border:none; ">
                 </iframe>
-
-                <h6>
-                    ¿Cómo leer el gráfico?
-                </h6>
-                <ul class="lectura-grafico">
-                    <li>
-                        <i></i>
-                        <p>
-                            Cada punto es una canción
-                        </p>
-                    </li>
-                    <li>
-                        <i></i>
-                        <p>
-                            Si está cerca de la diagonal, la música y la letra tiene un tono similar.
-                        </p>
-                    </li>
-                    <li>
-                        <i></i>
-                        <p>
-                            Cuanto más lejos de la diagonal, mayor es la diferencia entre ambas.
-                        </p>                        
-                    </li>
-                    <li>
-                        <i></i>
-                        <p>
-                            Puedes pasar el cursor (o tocar en móvil) para ver el detalle de cada canción.
-                        </p>
-                    </li>
-                </ul>
             </div>
         </div>
 
@@ -707,37 +677,28 @@
                     <i></i>ARIRANG: Siete vuelven. La emoción no es una sola.
                 </h4>
                 <p>
-                    Hasta aquí comparamos letra y sonido. Con <b>ARIRANG</b> hacemos una pregunta distinta: <b>¿cómo cambia el tono emocional de las letras a medida que avanza el álbum?</b>
-                </p>
-                <p>
-                    Seguimos sus 14 canciones, en el orden del tracklist, para observar ese recorrido.
+                    Hasta aquí comparamos letra y sonido. En ARIRANG miramos solo las letras: ¿cómo cambia su tono emocional canción a canción? Recorremos las 14 pistas del álbum en el orden oficial. “No. 29”, un interludio instrumental, aparece en el recorrido pero no recibe puntuación de tono textual porque no tiene una letra comparable.
                 </p>
 
-                <iframe 
+                <div class="desplegables-radiografia desplegable-sonido">
+                    <details class="desplegable">
+                        <summary>
+                            <span>¿Cómo leerlo?</span>
+                            <svg class="desplegable-flecha" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>
+                        </summary>
+                        <div class="desplegable-panel">
+                            <p>Cada fila corresponde a una canción y el punto muestra el tono detectado en su letra, en una escala de 0 —más sombrío— a 1 —más luminoso—. El orden sigue el tracklist del álbum para observar cómo cambia ese tono a medida que avanza. Toca una canción para ver su puntuación y la emoción dominante identificada en el análisis.</p>
+                        </div>
+                    </details>
+                </div>
+
+                <iframe
                     src="./cuadros-mayte/bts_arirang.html"
                     title="My frame"
                     scrolling="no"
                     loading="lazy"
                     style=" width:100%; height:1000px; border:none; ">
                 </iframe>
-
-                <h6>
-                    ¿Cómo se usa esta herramienta?
-                </h6>
-                <ul class="lectura-grafico">
-                    <li>
-                        <i></i>Cada fila es una canción del álbum.
-                    </li>
-                    <li>
-                        <i></i>El punto muestra su tono textual en una escala de 0 a 1.
-                    </li>
-                    <li>
-                        <i></i>Toca una canción para ver su puntuación, emoción dominante y posición en el álbum.
-                    </li>
-                    <li>
-                        <i></i>El orden respeta el tracklist oficial para apreciar el arco emocional completo.
-                    </li>
-                </ul>
 
             </div>
         </div>
