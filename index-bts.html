@@ -1333,6 +1333,22 @@
             </p>
         </div>
         <video class="animacion-video animacion-video--full" id="animacionVideo12" src="./video/animacion-12.mp4" muted loop playsinline preload="metadata"></video>
+
+        <!--
+            CTA de Spotify (Yet To Come): mismo patrón que el de Whalien 52
+            en main-animacion-1 / Magic Shop en main-animacion-2 / Black Swan
+            en main-animacion-6 (misma Spotify iFrame API, comparten el mismo
+            <script id="spotify-iframe-api">). Variante "oscura" porque va
+            superpuesto al video a pantalla completa.
+        -->
+        <div class="animacion-cta animacion-cta--oscuro" id="animacionCta4" data-spotify-uri="spotify:track:4xzKyHij1MIM7bOiLKQbk5">
+            <button class="animacion-cta-play" type="button" aria-label="Reproducir Yet To Come">
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+            </button>
+            <span class="animacion-cta-nombre">Yet To Come</span>
+            <div class="animacion-cta-embed" id="animacionCta4Embed"></div>
+        </div>
     </div>
 
     <img src="./img/corte-rosado.png" alt="" width="100%" class="corte-rosado">

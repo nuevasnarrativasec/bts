@@ -835,6 +835,12 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     overflow: hidden;
     position: relative;
 }
+    #animacionCta4 iframe{
+        bottom: 0;
+        height: 1px;
+        opacity: 0;
+        position: absolute;
+    }
     .animacion5-letra{
         max-width: 400px;
         position: absolute;
@@ -3704,11 +3710,10 @@ img.bg-footer{
     }
     .animacion-cta--oscuro{
         right: 24px;
-        top: 150px;
+        top: 50px;
         z-index: 2;
     }
         .animacion-cta--oscuro .animacion-cta-nombre{
-            background-color: #000;
             border-radius: 4px;
             color: #fff;
             padding: 6px 4px;
