@@ -105,7 +105,12 @@
               mascota.classList.toggle("is-visible", entry.isIntersecting);
             });
           },
-          { threshold: 0.3 }
+          // threshold bajo porque se observa el contenedor completo de la
+          // sección (ver mascotaObserver.observe más abajo): en secciones
+          // muy altas (p.ej. main-facturando, con #facturandoMascotaDer/Izq)
+          // un 30% de esa sección nunca llega a estar en viewport a la vez,
+          // así que ese umbral nunca se cumplía y la mascota no aparecía.
+          { threshold: 0 }
         );
         mascotaObserver.observe(mascota.parentElement || mascota);
       });

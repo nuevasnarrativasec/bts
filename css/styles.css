@@ -1878,11 +1878,15 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .crono-mascota-6{
                 right: -130px;
             }
+                .crono-mascota-6 .crono-mascota-clic{
+                    bottom: 0;
+                    translate: -100px 0;
+                }
             .crono-mascota-7{
 
             }
                 .crono-mascota-7 .crono-mascota-clic{
-                    top: 0;
+                    bottom: 0;
                     translate: 20px -45px;
                 }
             @media (prefers-reduced-motion: reduce){
