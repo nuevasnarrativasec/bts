@@ -1249,7 +1249,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             width: 100px;
         }
     .ctn-box-radiografia{
-        padding-bottom: 40px;
+        padding-bottom: 0;
     }
         .ctn-box-clustering{
             margin: 30px auto 0;
