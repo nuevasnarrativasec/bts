@@ -25,7 +25,7 @@
         { label: "Acousticness", before: "0,23", after: "0,37" },
         { label: "Energy", before: "0,63", after: "0,55" }
       ],
-      quote: "“Con un coeficiente intelectual de 148 y entre los mejores estudiantes del país, para RM el hip-hop no fue rebeldía, sino el salvavidas frente a la asfixiante presión académica.”"
+      quote: "Con un coeficiente intelectual de 148 y entre los mejores estudiantes del país, para RM el hip-hop no fue rebeldía, sino el salvavidas frente a la asfixiante presión académica."
     },
     suga: {
       nombre: "SUGA",
@@ -46,7 +46,7 @@
         { label: "Acousticness", before: "0,10", after: "0,30" },
         { label: "Valence musical", before: "0,34", after: "0,52" }
       ],
-      quote: "“Bajo su fachada reservada, los miembros coinciden en que es el más atento: cuida del grupo con gestos silenciosos y sin buscar reconocimiento.”"
+      quote: "Bajo su fachada reservada, los miembros coinciden en que es el más atento: cuida del grupo con gestos silenciosos y sin buscar reconocimiento."
     },
     "j-hope": {
       nombre: "j-hope",
@@ -66,7 +66,7 @@
       metrics: [
         { label: "Valence musical", before: "0,46", after: "0,65" }
       ],
-      quote: "“El arquitecto de la sincronía de BTS: desde los días de aprendices lideró cada extenuante sesión de práctica para forjar la precisión escénica del grupo.”"
+      quote: "El arquitecto de la sincronía de BTS: desde los días de aprendices lideró cada extenuante sesión de práctica para forjar la precisión escénica del grupo."
     },
     jin: {
       nombre: "Jin",
@@ -87,7 +87,7 @@
         { label: "Running Wild", after: "+0,48" },
         { label: "Don't Say You Love Me", after: "−0,46" }
       ],
-      quote: "“El ancla serena de BTS: ejerce su rol de hermano mayor sin jerarquías rígidas, usando la risa y el humor ligero para aliviar la presión de sus compañeros en momentos críticos.”"
+      quote: "El ancla serena de BTS: ejerce su rol de hermano mayor sin jerarquías rígidas, usando la risa y el humor ligero para aliviar la presión de sus compañeros en momentos críticos."
     },
     jimin: {
       nombre: "Jimin",
@@ -109,7 +109,7 @@
         { label: "Energy", before: "0,51", after: "0,71" }
       ],
       nota: "La muestra anterior a 2023 es reducida; debe interpretarse con cautela.",
-      quote: "“Su nivel de autoexigencia extrema y noches en vela casi le cuestan la salud como aprendiz; hoy su base lírica y contemporánea es el pilar de la expresividad visual de BTS.”"
+      quote: "Su nivel de autoexigencia extrema y noches en vela casi le cuestan la salud como aprendiz; hoy su base lírica y contemporánea es el pilar de la expresividad visual de BTS."
     },
     v: {
       nombre: "V",
@@ -150,7 +150,7 @@
       metrics: [
         { label: "Valence musical", before: "0,38", after: "0,69" }
       ],
-      quote: "“Creció literalmente bajo la tutela y el cuidado de sus seis compañeros: ingresó al proyecto con 13 años y terminó forjándose como el engranaje vocal y motor escénico más completo de BTS.”"
+      quote: "Creció literalmente bajo la tutela y el cuidado de sus seis compañeros: ingresó al proyecto con 13 años y terminó forjándose como el engranaje vocal y motor escénico más completo de BTS."
     }
   };
 
