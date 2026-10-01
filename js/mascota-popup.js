@@ -10,6 +10,8 @@
   var imgMascota = document.getElementById("mascotaPopupImg");
   var elTitulo = document.getElementById("mascotaPopupTitulo");
   var elCuerpo = document.getElementById("mascotaPopupCuerpo");
+  var elNombre = document.getElementById("mascotaPopupNombre");
+  var elDato = document.getElementById("mascotaPopupDato");
 
   var ultimoFoco = null;
 
@@ -19,6 +21,8 @@
     imgMascota.alt = mascotaEl.getAttribute("data-dato-titulo") || "";
     elTitulo.textContent = mascotaEl.getAttribute("data-dato-titulo") || "";
     elCuerpo.textContent = " " + (mascotaEl.getAttribute("data-dato-texto") || "");
+    elNombre.textContent = (mascotaEl.getAttribute("data-mascota-nombre") || "") + ": ";
+    elDato.textContent = mascotaEl.getAttribute("data-mascota-dato") || "";
 
     ultimoFoco = document.activeElement;
     ctn.hidden = false;

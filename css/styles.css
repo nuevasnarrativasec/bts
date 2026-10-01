@@ -3942,7 +3942,15 @@ img.bg-footer{
                 text-align: center;
             }
                 .mascota-popup-titulo{
-                    color: var(--red);
+                    color: #5254BF;
+                    font-family: 'Prelo Bold';
+                }
+            .mascota-popup-texto--mascota{
+                font-family: 'Prelo Bold';
+                margin-top: 10px;
+            }
+                .mascota-popup-nombre{
+                    color: #5254BF;
                     font-family: 'Prelo Bold';
                 }
             .mascota-popup-mano{
