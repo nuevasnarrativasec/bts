@@ -842,6 +842,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         left: 50%;
         top: 100px;
         transform: translate(-50%, 0);
+        z-index: 10;
     }
         .animacion5-letra p{
             color: #fff;
