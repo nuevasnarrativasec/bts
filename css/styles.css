@@ -759,6 +759,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         margin: 0 auto;
         max-width: 980px;
         padding: 0 20px;
+        z-index: 10;
+        position: relative;
     }
         .animacion2-video-llave{
             clip-path: circle(115px);
@@ -1277,12 +1279,11 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             flex-wrap: wrap;
             gap: 16px;
             margin: 40px auto 10px;
-            max-width: 620px;
+            max-width: 550px;
         }
             .desplegable{
                 background: #fff;
-                border: 1px solid #000;
-                border-radius: 5px;
+                border: 1px solid #9C7EFF;
                 flex: 1 1 260px;
                 overflow: hidden;
                 text-align: left;
@@ -1296,12 +1297,12 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     gap: 14px;
                     justify-content: space-between;
                     list-style: none;
-                    padding: 16px 20px;
+                    padding: 8px 20px;
                 }
                     .desplegable summary::-webkit-details-marker{ display: none; }
                     .desplegable summary::marker{ display: none; content: ""; }
                     .desplegable-flecha{
-                        color: #000;
+                        color: #9C7EFF;
                         flex: 0 0 auto;
                         height: 16px;
                         transition: transform .25s var(--ease);
@@ -2421,7 +2422,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     .perfil-nombre{
                         color: #000;
                         font: 3.2rem/1 'Monigue Regular';
-                        text-transform: uppercase;
+                        
                         width: 100%;
                     }
                     .perfil-nombre-real{

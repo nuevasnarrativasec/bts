@@ -8,7 +8,7 @@
   var MEMBERS = {
     rm: {
       nombre: "RM",
-      nombreReal: "Kim Nam-joon",
+      nombreReal: "Kim Namjoon",
       edad: "32 años",
       nacimiento: "12 sep 1994 (Virgo)",
       avatar: "./img/avatar-rm-cluster.png",
@@ -50,7 +50,7 @@
     },
     "j-hope": {
       nombre: "j-hope",
-      nombreReal: "Jung Ho-seok",
+      nombreReal: "Jung Hoseok",
       edad: "32 años",
       nacimiento: "18 feb 1994 (Acuario)",
       avatar: "./img/avatar-j-hope-cluster.png",
@@ -70,7 +70,7 @@
     },
     jin: {
       nombre: "Jin",
-      nombreReal: "Kim Seok-jin",
+      nombreReal: "Kim Seokjin",
       edad: "33 años",
       nacimiento: "4 dic 1992 (Sagitario)",
       avatar: "./img/avatar-jin-cluster.png",
@@ -91,7 +91,7 @@
     },
     jimin: {
       nombre: "Jimin",
-      nombreReal: "Park Ji-min",
+      nombreReal: "Park Jimin",
       edad: "30 años",
       nacimiento: "13 oct 1995 (Libra)",
       avatar: "./img/avatar-jimin-cluster.png",
@@ -113,7 +113,7 @@
     },
     v: {
       nombre: "V",
-      nombreReal: "Kim Tae-hyung",
+      nombreReal: "Kim Taehyung",
       edad: "30 años",
       nacimiento: "30 dic 1995 (Capricornio)",
       avatar: "./img/avatar-v-cluster.png",
@@ -134,7 +134,7 @@
     },
     jungkook: {
       nombre: "Jung Kook",
-      nombreReal: "Jeon Jung-kook",
+      nombreReal: "Jeon Jung Kook",
       edad: "29 años",
       nacimiento: "1 sep 1997 (Virgo)",
       avatar: "./img/avatar-jungkook-cluster.png",
