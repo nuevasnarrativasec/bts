@@ -129,11 +129,30 @@
   .radar-svg-wrap { display: flex; justify-content: center; }
   .radar-svg-wrap svg { width: 100%; height: auto; max-width: 560px; }
 
+  .radar-info-wrap { display: flex; justify-content: center; margin: 0.75rem 0 0.25rem; }
+  .radar-info-badge {
+    align-items: center; background-color: #967ff9; border: none; border-radius: 50%;
+    color: #fff; cursor: help; display: flex; font-size: 13px; font-weight: 800;
+    height: 26px; justify-content: center; padding: 0; position: relative; width: 26px;
+  }
+  .radar-info-tip {
+    background-color: var(--ink); border-radius: 10px; color: #fff; font-size: 12px;
+    font-weight: 400; left: 50%; line-height: 1.5; opacity: 0; padding: .75rem .9rem;
+    pointer-events: none; position: absolute; text-align: left; top: calc(100% + 10px);
+    transform: translate(-50%, -4px); transition: opacity .15s ease, transform .15s ease;
+    visibility: hidden; width: 260px; z-index: 30;
+  }
+  .radar-info-badge:hover .radar-info-tip,
+  .radar-info-badge:focus .radar-info-tip,
+  .radar-info-badge.is-open .radar-info-tip {
+    opacity: 1; transform: translate(-50%, 0); visibility: visible;
+  }
+
   .callout {
     background: var(--panel); border-radius: 12px; padding: 0.9rem 1.4rem;
     font-size: 13.5px; margin-top: 0.5rem;
   }
-  .callout b { color: var(--red); }
+  .callout b { color: #5254bf; }
 
   /* Indicadores claves */
   .indicators-title { font-size: 15px; font-weight: 800; margin: 2.5rem 0 1rem; }
@@ -142,13 +161,13 @@
   .ind-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem; }
   .ind-icon { flex: none; color: var(--red); max-width: 30px;}
   .ind-label { font-size: 15px; line-height: 1.25; font-family: 'Prelo Extrabold';}
-  .ind-label span { display: block; font-size: 14px; }
+  .ind-label span { display: block; font-size: 14px; opacity: 0;}
 
   .slider { position: relative; height: 46px; margin: 0 4px; }
   .slider-track { position: absolute; top: 22px; left: 0; right: 0; height: 2px; background: var(--line); }
-  .slider-fill { position: absolute; top: 22px; height: 2px; background: var(--red); }
+  .slider-fill { position: absolute; top: 22px; height: 2px; background: #9C7EFF; }
   .slider-dot { position: absolute; top: 18px; width: 10px; height: 10px; border-radius: 50%; background: #B7B7B7; transform: translateX(-50%); }
-  .slider-dot.active { background: var(--red); }
+  .slider-dot.active { background: #9C7EFF; }
   .slider-val { position: absolute; top: -10px; transform: translateX(-50%); font-size: 15px; font-weight: 800; white-space: nowrap; font-family: 'Prelo Medium';}
   .slider-era { position: absolute; top: 30px; transform: translateX(-50%); font-size: 11px; color: #B1B1B1; white-space: nowrap; }
 
@@ -170,6 +189,7 @@
     .headline { font-size: 17px; }
     .description { max-width: none; margin: 0 auto; }
     .radar-head { justify-content: center; text-align: center; }
+    .radar-info-tip { width: 220px; }
     .indicators-grid { gap: 1rem; }
     .ind-card { padding: 1rem 1.1rem 1.25rem; }
   }
@@ -199,6 +219,12 @@
           <div class="legend-item"><span class="legend-dot" style="background:var(--pre-color)"></span>2013 – 2022</div>
           <div class="legend-item"><span class="legend-dot" style="background:var(--post-color)"></span>2023 – 2025</div>
         </div>
+      </div>
+      <div class="radar-info-wrap">
+        <button type="button" class="radar-info-badge" aria-label="Qué significan estas variables">
+          <span aria-hidden="true">i</span>
+          <span class="radar-info-tip" role="tooltip">Estas cinco variables de Spotify describen características del audio en una escala de 0 a 1. Luminosidad musical indica qué tan luminoso o sombrío suena un tema; energía, su intensidad; bailabilidad, qué tan favorable es su ritmo para bailar; componente acústico, cuánto predominan rasgos acústicos; y voz hablada, cuánto pesa la palabra hablada frente al canto. Estas variables describen el sonido, no interpretan la letra ni lo que BTS quiso expresar.</span>
+        </button>
       </div>
       <div class="radar-svg-wrap" id="radar"></div>
       <div class="callout"><b>Cada etapa muestra una faceta distinta.</b> Juntos, cuentan una historia más completa.</div>
@@ -607,6 +633,17 @@ function renderProfile(idx) {
 }
 
 select.addEventListener('change', () => renderProfile(+select.value));
+
+const radarInfoBadge = document.querySelector('.radar-info-badge');
+if (radarInfoBadge) {
+  radarInfoBadge.addEventListener('click', (e) => {
+    e.stopPropagation();
+    radarInfoBadge.classList.toggle('is-open');
+  });
+  document.addEventListener('click', () => {
+    radarInfoBadge.classList.remove('is-open');
+  });
+}
 
 renderProfile(1); // default: RM
 </script>
