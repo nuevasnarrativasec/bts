@@ -40,9 +40,14 @@
 
     const paginas = [];
     for (let i = 0; i < sueltos.length; i += porPagina) {
+      const grupo = sueltos.slice(i, i + porPagina);
       const pagina = document.createElement("div");
       pagina.className = "discos-page";
-      sueltos.slice(i, i + porPagina).forEach((item) => pagina.appendChild(item));
+      // Marca cuántas portadas trae esta página (la última puede venir
+      // incompleta, p. ej. 4 en vez de 6) para que el CSS pueda acomodarlas
+      // en una grilla más chica (2x2) en vez de dejar huecos sueltos.
+      pagina.dataset.count = String(grupo.length);
+      grupo.forEach((item) => pagina.appendChild(item));
       paginas.push(pagina);
     }
 
@@ -80,6 +85,10 @@
   }
 
   // Deshabilita/oculta las flechas cuando ya no hay más hacia dónde ir.
+  // Se basa en el índice de página actual (no en scrollLeft vs. scrollWidth)
+  // porque la última página puede venir más angosta (p. ej. una grilla 2x2
+  // en vez de 3x2), y eso hacía que el cálculo por ancho nunca llegara a
+  // considerarse "al final".
   function actualizarFlechas() {
     if (!arrowPrev && !arrowNext) return;
     const pages = paginas();
@@ -89,9 +98,9 @@
     if (arrowNext) arrowNext.hidden = soloUnaPagina;
     if (soloUnaPagina) return;
 
-    const maxScroll = wrapper.scrollWidth - wrapper.clientWidth - 1;
-    if (arrowPrev) arrowPrev.disabled = wrapper.scrollLeft <= 0;
-    if (arrowNext) arrowNext.disabled = wrapper.scrollLeft >= maxScroll;
+    const idx = paginaActualIndex();
+    if (arrowPrev) arrowPrev.disabled = idx <= 0;
+    if (arrowNext) arrowNext.disabled = idx >= pages.length - 1;
   }
 
   if (arrowPrev) {
