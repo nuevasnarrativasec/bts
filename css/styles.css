@@ -3679,6 +3679,10 @@ img.bg-footer{
 .animacion-video-desktop-7,
 .animacion-video-desktop-9,
 .animacion-video-desktop-10,
+.animacion-video-desktop-11,
+.animacion-video-desktop-12,
+.animacion-video-desktop-13,
+.animacion-video-desktop-14,
 .bg-cancion-capas-desktop{
     display: block;
 }
@@ -3689,6 +3693,10 @@ img.bg-footer{
 .animacion-video-movil-7,
 .animacion-video-movil-9,
 .animacion-video-movil-10,
+.animacion-video-movil-11,
+.animacion-video-movil-12,
+.animacion-video-movil-13,
+.animacion-video-movil-14,
 .bg-cancion-capas-movil{
     display: none;
 }
@@ -3718,6 +3726,10 @@ img.bg-footer{
     .animacion-video-desktop-7,
     .animacion-video-desktop-9,
     .animacion-video-desktop-10,
+    .animacion-video-desktop-11,
+    .animacion-video-desktop-12,
+    .animacion-video-desktop-13,
+    .animacion-video-desktop-14,
     .bg-cancion-capas-desktop,
     .ctn-separador{
         display: none !important;
@@ -3729,6 +3741,10 @@ img.bg-footer{
     .animacion-video-movil-7,
     .animacion-video-movil-9,
     .animacion-video-movil-10,
+    .animacion-video-movil-11,
+    .animacion-video-movil-12,
+    .animacion-video-movil-13,
+    .animacion-video-movil-14,
     .bg-cancion-capas-movil{
         display: block;
     }
@@ -3821,6 +3837,39 @@ img.bg-footer{
         top: 0;
         width: 55%;
     }
+    #capasMascota{
+        max-width: inherit;
+        top: 45px;
+        width: 55%;
+    }
+    #comunidadMascota{
+        max-width: inherit;
+        top: 0;
+        width: 55%;
+    }
+    .box-capas{
+        padding-top: 300px;
+    }
+    .box-comunidad{
+        margin-bottom: 0;
+        padding-top: 280px;
+    }
+    .main-animacion-6{
+        background-color: transparent !important;
+        padding-top: 170px;
+    }
+    .elemento-transicion-5{
+        max-width: 150px;
+        left: 0;
+        display: none;
+    }
+    #mainAnimacion6 .animacion-cta--oscuro{
+        position: absolute;
+        right: 0;
+    }
+    .animacion-cta--oscuro .animacion-cta-nombre{
+        color: #000 !important;
+    }
     .crono-mascota-nombre{
         font-size: 20px;
     }
@@ -3846,7 +3895,7 @@ img.bg-footer{
         right: -55px;
     }
     .box-compara{
-        padding-top: 200px;
+        padding-top: 230px;
     }
     #comparaMascota{
         max-width: inherit;
@@ -4122,6 +4171,14 @@ img.bg-footer{
     .ctn-box-universo-musical h4, .ctn-box-radiografia h4, .ctn-box-canciones h4, .ctn-box-capas h4, .ctn-box-analisis-cancion h4, .ctn-box-buscador-cancion h4, .ctn-box-arirang h4, .ctn-box-cronologia h4, .ctn-box-siete-voces h4, .ctn-box-compara h4, .ctn-box-perfil-radar h4, .ctn-box-comunidad h4, .ctn-box-facturando h4 {
         font-size: 2.4rem;
         line-height: 1.1;
+    }
+    .main-hero{
+        background: url('../img/bg-portada-movil.jpg') no-repeat center center;
+        background-size: cover;
+    }
+    #mainAnimacion6 .animacion6-texto--2{
+        max-width: 200px;
+        top: 20%;
     }
 
 }
@@ -4472,7 +4529,7 @@ img.bg-footer{
     }
     @media (max-width: 560px){
         .animacion6-texto{ max-width: 90%; }
-        .animacion6-texto p{ font-size: 1.05rem; }
+        .animacion6-texto p{ font-size: 1.3rem; }
     }
 
 /* ============================================================
