@@ -3779,7 +3779,8 @@ img.bg-footer{
             right: 10px;
             top: 40px;
         }
-    .elemento-transicion-2{
+    .elemento-transicion-2,
+    .elemento-transicion-6{
         display: none;
     }
     .main-canciones{
@@ -3971,8 +3972,8 @@ img.bg-footer{
         padding: 0;
     }
     .ctn-box-facturando .impacto-icono{
-        height: 32px;
-        width: 32px;
+        height: 45px;
+        width: 45px;
     }
     .ctn-box-universo-musical h4, 
     .ctn-box-radiografia h4, 
@@ -4179,6 +4180,9 @@ img.bg-footer{
     #mainAnimacion6 .animacion6-texto--2{
         max-width: 200px;
         top: 20%;
+    }
+    .ctn-box-facturando .impacto-item{
+        flex-flow: wrap;
     }
 
 }
