@@ -3,8 +3,8 @@
    main-deja-tu-mensaje)
    Apenas el bloque entra en el viewport, se dispara el efecto
    glitch (clase "is-glitching", animación CSS) y, al terminar, se
-   colapsa (clase "is-collapsed") para desaparecer del todo. Ocurre
-   una sola vez.
+   quita esa clase para que el degradé vuelva a su estado normal
+   (ya no desaparece). Ocurre una sola vez.
    ============================================================ */
 (function () {
   "use strict";
@@ -18,18 +18,15 @@
   var prefiereMenosMovimiento =
     window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  function desaparecer() {
+  function glitchear() {
     if (yaDisparado) return;
     yaDisparado = true;
 
-    if (prefiereMenosMovimiento) {
-      el.classList.add("is-collapsed");
-      return;
-    }
+    if (prefiereMenosMovimiento) return;
 
     el.classList.add("is-glitching");
     window.setTimeout(function () {
-      el.classList.add("is-collapsed");
+      el.classList.remove("is-glitching");
     }, DURACION_GLITCH_MS);
   }
 
@@ -37,13 +34,13 @@
     var observer = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
-          if (entry.isIntersecting) desaparecer();
+          if (entry.isIntersecting) glitchear();
         });
       },
       { threshold: 0.3 }
     );
     observer.observe(el);
   } else {
-    desaparecer();
+    glitchear();
   }
 })();

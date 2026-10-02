@@ -31,6 +31,11 @@
   var cartaAutor = document.getElementById("mensajeCartaAutor");
   var flechaPrev = document.getElementById("mensajeFlechaPrev");
   var flechaNext = document.getElementById("mensajeFlechaNext");
+  var linkComercio = document.getElementById("mensajeComercioLink");
+  var btnAclaracion = document.getElementById("mensajeAclaracion");
+  var ctnAclaracionPopup = document.getElementById("ctnAclaracionPopup");
+  var aclaracionOverlay = document.getElementById("aclaracionPopupOverlay");
+  var aclaracionClose = document.getElementById("aclaracionPopupClose");
 
   function endpointListo() {
     return ENDPOINT_URL && ENDPOINT_URL.indexOf("PEGA_AQUI") === -1;
@@ -249,4 +254,36 @@
       muralInfo.classList.remove("is-open");
     });
   }
+
+  /* --- "El Comercio*" (en el h4) y "*Aclaración" (debajo del form) ---
+     El link del h4 hace scroll suave hasta el botón "*Aclaración"; ese
+     botón, a su vez, abre un popup con el texto legal (lo que antes
+     era el desplegable "Disclaimer"). */
+  if (linkComercio && btnAclaracion) {
+    linkComercio.addEventListener("click", function (evt) {
+      evt.preventDefault();
+      btnAclaracion.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  }
+
+  function abrirAclaracion() {
+    if (!ctnAclaracionPopup) return;
+    ctnAclaracionPopup.hidden = false;
+    ctnAclaracionPopup.setAttribute("aria-hidden", "false");
+    document.body.classList.add("aclaracion-popup-abierto");
+  }
+
+  function cerrarAclaracion() {
+    if (!ctnAclaracionPopup) return;
+    ctnAclaracionPopup.hidden = true;
+    ctnAclaracionPopup.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("aclaracion-popup-abierto");
+  }
+
+  if (btnAclaracion) btnAclaracion.addEventListener("click", abrirAclaracion);
+  if (aclaracionOverlay) aclaracionOverlay.addEventListener("click", cerrarAclaracion);
+  if (aclaracionClose) aclaracionClose.addEventListener("click", cerrarAclaracion);
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && ctnAclaracionPopup && !ctnAclaracionPopup.hidden) cerrarAclaracion();
+  });
 })();

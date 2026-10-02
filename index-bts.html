@@ -1494,7 +1494,7 @@
                 deja tu mensaje
                 <span>en el mural army</span>
             </h3>
-            <h4>Tu saludo a BTS podría ser publicado en la edición impresa de El Comercio.</h4>
+            <h4>Tu saludo a BTS podría ser publicado en la edición impresa de <a href="#mensajeAclaracion" id="mensajeComercioLink">El Comercio*</a>.</h4>
             <p>
                 Completa el formulario y participa en el sorteo de <b>un set de 7 peluches BT21</b>. Déjanos tus datos para poder validar tu participación y contactarte si resultas ganador.
             </p>
@@ -1527,19 +1527,17 @@
                 <p class="mensaje-estado" id="mensajeEstado" role="status"></p>
             </form>
 
-            <details class="mensaje-disclaimer">
-                <summary>
-                    <span class="mensaje-disclaimer-icono">
-                        <img src="./img/flecha-circular-blanca.png" alt="" width="100%">
-                    </span>
-                    <b>Disclaimer:</b>
-                </summary>
-                <div class="mensaje-disclaimer-texto">
-                    <p>Una selección editorial de los mensajes enviados será publicada en la versión impresa de <span>El Comercio</span>. Al enviar tu texto, autorizas su edición por motivos de espacio y su difusión en nuestras plataformas impresas y digitales.</p>
-                </div>
-            </details>
+            <button type="button" class="mensaje-aclaracion" id="mensajeAclaracion">*Aclaración</button>
 
             <button type="button" class="mensaje-btn-ver" id="mensajeVerBtn">Ver mensajes</button>
+        </div>
+
+        <div class="ctn-aclaracion-popup" id="ctnAclaracionPopup" hidden aria-hidden="true">
+            <div class="aclaracion-popup-overlay" id="aclaracionPopupOverlay"></div>
+            <div class="aclaracion-popup">
+                <button class="aclaracion-popup-close" id="aclaracionPopupClose" type="button" aria-label="Cerrar">&times;</button>
+                <p>Una selección editorial de los mensajes enviados será publicada en la versión impresa de <span>El Comercio</span>. Al enviar tu texto, autorizas su edición por motivos de espacio y su difusión en nuestras plataformas impresas y digitales.</p>
+            </div>
         </div>
 
         <div class="mensaje-mural" id="mensajeMural" hidden>
@@ -1569,7 +1567,7 @@
             <div class="box-metodologia-texto">
                 <p>Para explorar cómo suenan las canciones, usamos variables como luminosidad musical, energía, bailabilidad, componente acústico y presencia de voz hablada. A partir de ellas agrupamos pistas con características similares. Los nombres de esos perfiles fueron creados para este especial y no corresponden a categorías de Spotify.</p>
                 <p>También utilizamos inteligencia artificial para analizar el tono de las letras y compararlo con las características musicales. Estos resultados permiten identificar patrones y diferencias, pero no pretenden establecer el significado definitivo de una canción ni la intención de sus autores.</p>
-                <p><b>Fuentes y herramientas:</b> Kaggle, Genius y datos de audio asociados a Spotify; Procesamiento y análisis semántico: Python y OpenAI.</p>
+                <p><b>Fuentes y herramientas:</b> Kaggle, Genius y datos de audio asociados a Spotify; <b>Procesamiento y análisis semántico:</b> Python y OpenAI.</p>
             </div>
         </details>
 

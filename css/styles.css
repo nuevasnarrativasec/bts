@@ -3128,7 +3128,6 @@ body.trivia-respuestas-abierto{
     height: 800px;
     overflow: hidden;
     position: relative;
-    transition: height .45s ease .05s, opacity .35s ease .05s;
 }
     .corte-glitch::before,
     .corte-glitch::after{
@@ -3154,10 +3153,6 @@ body.trivia-respuestas-abierto{
         .corte-glitch.is-glitching::after{
             animation: corte-glitch-tint-2 1.8s steps(1, end) both;
         }
-    .corte-glitch.is-collapsed{
-        height: 0;
-        opacity: 0;
-    }
     @keyframes corte-glitch-jitter{
         0%   { clip-path: inset(0 0 0 0); transform: translateX(0); }
         8%   { clip-path: inset(10% 0 55% 0); transform: translateX(-10px); }
@@ -3224,6 +3219,12 @@ body.trivia-respuestas-abierto{
             margin: 30px auto;
             max-width: 600px;
         }
+            .ctn-box-deja-tu-mensaje h4 a{
+                color: #000;
+                cursor: pointer;
+                text-decoration: underline;
+                text-underline-offset: 4px;
+            }
 
         .mensaje-form{
             background-color: #fff;
@@ -3291,61 +3292,74 @@ body.trivia-respuestas-abierto{
                 margin: 26px 0;
             }
 
-        .mensaje-disclaimer{
-            background-color: #fff;
-            border: 2px solid var(--ink);
-            border-radius: 999px;
+        .mensaje-aclaracion{
+            background: none;
+            border: none;
+            color: var(--ink);
+            cursor: pointer;
+            display: block;
+            font: 1.5rem/1.3 'Monigue Regular';
             margin: 50px auto 0;
-            max-width: 350px;
-            overflow: hidden;
-            transition: border-radius .2s ease;
+            text-decoration: underline;
+            text-underline-offset: 4px;
         }
-            .mensaje-disclaimer[open]{
-                border-radius: 24px;
+            .mensaje-aclaracion:hover{ opacity: .7; }
+
+        body.aclaracion-popup-abierto{
+            overflow: hidden;
+        }
+        .ctn-aclaracion-popup{
+            align-items: center;
+            display: flex;
+            inset: 0;
+            justify-content: center;
+            padding: 40px 24px;
+            position: fixed;
+            z-index: 999;
+        }
+            .ctn-aclaracion-popup[hidden]{
+                display: none;
             }
-            .mensaje-disclaimer summary{
-                align-items: center;
-                cursor: pointer;
-                display: flex;
-                gap: 16px;
-                list-style: none;
-                padding: 14px 28px;
+            .aclaracion-popup-overlay{
+                background-color: rgba(6, 6, 8, 0.9);
+                inset: 0;
+                position: absolute;
             }
-                .mensaje-disclaimer summary::-webkit-details-marker{ display: none; }
-                .mensaje-disclaimer summary::marker{ content: ""; }
-                .mensaje-disclaimer summary b{
+            .aclaracion-popup{
+                background-color: #fff;
+                border-radius: 5px;
+                max-width: 420px;
+                padding: 40px 36px;
+                position: relative;
+                width: 100%;
+            }
+                .aclaracion-popup-close{
+                    align-items: center;
+                    background-color: var(--red);
+                    border: none;
+                    border-radius: 50%;
+                    color: #fff;
+                    cursor: pointer;
+                    display: flex;
+                    font: 1.4rem/1 var(--font);
+                    height: 42px;
+                    justify-content: center;
+                    position: absolute;
+                    right: -14px;
+                    top: -14px;
+                    width: 42px;
+                }
+                .aclaracion-popup p{
                     color: var(--ink);
-                    font: 1.4rem/1 'Monigue Regular';
+                    font: 1rem/1.6 'Prelo Medium', sans-serif;
                 }
-            .mensaje-disclaimer-icono{
-                align-items: center;
-                /*border: 2px solid var(--ink);
-                border-radius: 50%;*/
-                color: var(--ink);
-                display: flex;
-                flex: 0 0 auto;
-                height: 34px;
-                justify-content: center;
-                transition: transform .2s ease;
-                width: 34px;
-            }
-                .mensaje-disclaimer-icono svg{
-                    height: 18px;
-                    width: 18px;
-                }
-                .mensaje-disclaimer[open] .mensaje-disclaimer-icono{
-                    transform: rotate(-90deg);
-                }
-            .mensaje-disclaimer-texto{
-                padding: 0 28px 26px 78px;
-            }
-                .mensaje-disclaimer-texto p{
-                    color: var(--ink);
-                    font: 1rem/1.5 'Prelo Medium', sans-serif;
-                }
-                    .mensaje-disclaimer-texto p span{
+                    .aclaracion-popup p span{
                         font-family: 'Prelo Bold';
                     }
+
+            @media (max-width: 560px){
+                .aclaracion-popup{ padding: 32px 26px; }
+            }
 
         .mensaje-btn-ver{
             background-color: #F42439;
@@ -3459,8 +3473,6 @@ body.trivia-respuestas-abierto{
 
         @media (max-width: 900px){
             .mensaje-form{ padding: 28px 24px; }
-            .mensaje-disclaimer summary{ padding: 12px 22px; }
-            .mensaje-disclaimer-texto{ padding: 0 22px 22px 68px; }
             .mensaje-mural{ flex-direction: column; min-height: 480px; }
                 .mural-info{ height: 34px; right: 14px; top: 14px; width: 34px; }
                     .mural-info-tip{ width: 200px; }
@@ -3827,14 +3839,9 @@ img.bg-footer{
     .mensaje-form{
         width: 95%;
     }
-    .mensaje-disclaimer{
-        margin: 50px 20px;
-    }
-    .mensaje-disclaimer summary b{
-        font-size: 1.9rem;
-    }
-    .mensaje-disclaimer-texto p{
+    .mensaje-aclaracion{
         font-size: 1.3rem;
+        margin: 50px 20px 0;
     }
     .mensaje-btn-enviar, .mensaje-btn-ver{
         width: 60%;
