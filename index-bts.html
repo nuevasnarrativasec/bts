@@ -1495,7 +1495,7 @@
                 <span>en el mural army</span>
             </h3>
             <h4>Tu saludo a BTS podría ser publicado en la edición impresa de <a href="#mensajeAclaracion" id="mensajeComercioLink">El Comercio*</a>.</h4>
-            <p>
+            <p style="display: none;">
                 Completa el formulario y participa en el sorteo de <b>un set de 7 peluches BT21</b>. Déjanos tus datos para poder validar tu participación y contactarte si resultas ganador.
             </p>
 
@@ -1503,23 +1503,12 @@
                 <label class="mensaje-label" for="mensajeNombre">Apellidos y nombres:</label>
                 <input class="mensaje-input" type="text" id="mensajeNombre" name="nombre" maxlength="60" required>
 
-                <div class="mensaje-fila">
-                    <div class="mensaje-campo">
-                        <label class="mensaje-label" for="mensajeDni">DNI:</label>
-                        <input class="mensaje-input" type="text" id="mensajeDni" name="dni" inputmode="numeric" pattern="[0-9]{8}" maxlength="8" required>
-                    </div>
-                    <div class="mensaje-campo">
-                        <label class="mensaje-label" for="mensajeCelular">Número de celular:</label>
-                        <input class="mensaje-input" type="tel" id="mensajeCelular" name="celular" inputmode="numeric" pattern="[0-9]{9}" maxlength="9" required>
-                    </div>
-                </div>
-
-                <label class="mensaje-label" for="mensajeCorreo">Correo:</label>
-                <input class="mensaje-input" type="email" id="mensajeCorreo" name="correo" maxlength="120" required>
+                <label class="mensaje-label" for="mensajePais">País o ciudad:</label>
+                <input class="mensaje-input" type="text" id="mensajePais" name="pais" maxlength="60" required>
 
                 <label class="mensaje-label" for="mensajeTexto">Tu mensaje: (máximo 200 caracteres)</label>
                 <textarea class="mensaje-input mensaje-textarea" id="mensajeTexto" name="mensaje" maxlength="200" rows="2" placeholder="Máximo 200 caracteres" required></textarea>
-                <p>
+                <p style="display: none;">
                     Los datos serán utilizados únicamente para gestionar este sorteo, validar la identidad de los participantes y contactar al ganador.
                 </p>
 

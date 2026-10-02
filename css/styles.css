@@ -3256,15 +3256,6 @@ body.trivia-respuestas-abierto{
                     border-radius: 22px;
                     resize: vertical;
                 }
-            .mensaje-fila{
-                display: flex;
-                gap: 20px;
-            }
-                .mensaje-campo{
-                    flex: 1;
-                    min-width: 0;
-                }
-                    .mensaje-campo .mensaje-input{ width: 100%; }
             .mensaje-btn-enviar{
                 background-color: #000;
                 border: none;
@@ -3483,7 +3474,6 @@ body.trivia-respuestas-abierto{
             .ctn-box-deja-tu-mensaje h3{ font-size: 3.2rem; }
             .ctn-box-deja-tu-mensaje h4{ font-size: 1.4rem; max-width: calc(100% - 40px); }
             .mensaje-form{ border-radius: 20px; padding: 24px 18px; }
-            .mensaje-fila{ flex-direction: column; gap: 0; }
             .mensaje-btn-enviar,
             .mensaje-btn-ver{ padding: 16px 32px; width: 100%; }
             .mensaje-carta{ padding: 28px 22px; }
