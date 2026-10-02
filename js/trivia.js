@@ -80,6 +80,11 @@
   const elNivelImg = document.getElementById("triviaNivelImg");
   const elNivelSubtitulo = document.getElementById("triviaNivelSubtitulo");
   const elNivelPuntajeNum = document.getElementById("triviaNivelPuntajeNum");
+  const btnVerRespuestas = document.getElementById("triviaVerRespuestas");
+  const ctnRespuestasPopup = document.getElementById("ctnTriviaRespuestasPopup");
+  const overlayRespuestas = document.getElementById("triviaRespuestasOverlay");
+  const btnRespuestasClose = document.getElementById("triviaRespuestasClose");
+  const elRespuestasLista = document.getElementById("triviaRespuestasLista");
 
   let actual = 0;
   let aciertos = 0;
@@ -156,6 +161,37 @@
 
   btnContinuar.addEventListener("click", siguiente);
   btnJugar.addEventListener("click", reiniciar);
+
+  /* --- Popup "Ver respuestas correctas" ---
+     Arma el texto "1. C / 2. C / 3. A / ..." a partir del índice
+     "correcta" de cada pregunta (0=A, 1=B, 2=C, 3=D). */
+  const LETRAS = ["A", "B", "C", "D"];
+
+  function abrirRespuestas() {
+    if (!ctnRespuestasPopup) return;
+    elRespuestasLista.textContent = preguntas
+      .map(function (p, i) {
+        return i + 1 + ". " + LETRAS[p.correcta];
+      })
+      .join(" / ");
+    ctnRespuestasPopup.hidden = false;
+    ctnRespuestasPopup.setAttribute("aria-hidden", "false");
+    document.body.classList.add("trivia-respuestas-abierto");
+  }
+
+  function cerrarRespuestas() {
+    if (!ctnRespuestasPopup) return;
+    ctnRespuestasPopup.hidden = true;
+    ctnRespuestasPopup.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("trivia-respuestas-abierto");
+  }
+
+  if (btnVerRespuestas) btnVerRespuestas.addEventListener("click", abrirRespuestas);
+  if (overlayRespuestas) overlayRespuestas.addEventListener("click", cerrarRespuestas);
+  if (btnRespuestasClose) btnRespuestasClose.addEventListener("click", cerrarRespuestas);
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && ctnRespuestasPopup && !ctnRespuestasPopup.hidden) cerrarRespuestas();
+  });
 
   renderPregunta();
 })();
