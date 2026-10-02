@@ -234,4 +234,19 @@
       mostrarMensaje(indice);
     });
   }
+
+  /* --- Botón "i" del mural: qué es BT21 ---
+     El hover ya muestra el tooltip en escritorio (ver .mural-info en
+     css/styles.css); este click suma soporte táctil para que también
+     se pueda abrir/cerrar con un tap en celular. */
+  var muralInfo = mural ? mural.querySelector(".mural-info") : null;
+  if (muralInfo) {
+    muralInfo.addEventListener("click", function (evt) {
+      evt.stopPropagation();
+      muralInfo.classList.toggle("is-open");
+    });
+    document.addEventListener("click", function () {
+      muralInfo.classList.remove("is-open");
+    });
+  }
 })();

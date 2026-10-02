@@ -3294,7 +3294,58 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         min-height: 620px;
         padding: 60px 20px;
         height: 1138px;
+        position: relative;
     }
+        .mural-info{
+            background: none;
+            border: none;
+            cursor: pointer;
+            height: 25px;
+            padding: 0;
+            position: absolute;
+            left: 61%;
+            width: 25px;
+            z-index: 4;
+            bottom: 23%;
+        }
+            .mural-info-icon{
+                display: block;
+                height: 100%;
+                width: 100%;
+            }
+            .mural-info-tip{
+                background-color: #000;
+                border-radius: 12px;
+                color: #fff;
+                cursor: auto;
+                display: block;
+                font: 400 .9rem/1.5 'Prelo Book', sans-serif;
+                opacity: 0;
+                padding: 16px 18px;
+                pointer-events: none;
+                position: absolute;
+                right: 0;
+                text-align: left;
+                top: calc(100% + 10px);
+                transform: translateY(-4px);
+                transition: opacity .15s ease, transform .15s ease;
+                visibility: hidden;
+                width: 260px;
+                z-index: 5;
+            }
+                .mural-info-tip b{
+                    display: block;
+                    font-family: 'Prelo Bold';
+                    font-size: 1rem;
+                    margin-bottom: 6px;
+                }
+            .mural-info:hover .mural-info-tip,
+            .mural-info:focus .mural-info-tip,
+            .mural-info.is-open .mural-info-tip{
+                opacity: 1;
+                transform: translateY(0);
+                visibility: visible;
+            }
         .mensaje-flecha{
             background: transparent;
             border: none;
@@ -3331,6 +3382,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .mensaje-disclaimer summary{ padding: 12px 22px; }
             .mensaje-disclaimer-texto{ padding: 0 22px 22px 68px; }
             .mensaje-mural{ flex-direction: column; min-height: 480px; }
+                .mural-info{ height: 34px; right: 14px; top: 14px; width: 34px; }
+                    .mural-info-tip{ width: 200px; }
                 .mensaje-flecha{ transform: rotate(90deg); }
                 .mensaje-flecha:hover{ transform: rotate(90deg) scale(1.08); }
         }

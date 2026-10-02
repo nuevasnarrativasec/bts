@@ -26,10 +26,13 @@
     try {
       const doc = iframe.contentWindow && iframe.contentWindow.document;
       if (!doc || !doc.body) return 0;
-      return Math.max(
-        doc.body.scrollHeight,
-        doc.documentElement ? doc.documentElement.scrollHeight : 0
-      );
+      // Solo "body.scrollHeight": el <html> (documentElement) del iframe
+      // nunca reporta menos que el alto actual del propio iframe (el
+      // elemento raíz siempre cubre como mínimo su viewport), así que si
+      // lo incluyéramos en el máximo, el alto jamás podría achicarse una
+      // vez que el iframe quedó con un valor grande (por ejemplo, el
+      // height fijo de arranque del HTML).
+      return doc.body.scrollHeight;
     } catch (err) {
       // Si por algo el iframe no fuera same-origin, el navegador bloquea
       // el acceso a su documento: no hay forma de medirlo, se deja la
@@ -47,6 +50,16 @@
     let observador = null;
 
     function iniciar() {
+      // Si veníamos observando un documento anterior (el placeholder
+      // "about:blank" de un iframe con loading="lazy", antes de que
+      // cargue su src real) hay que soltarlo: si no, el observer se
+      // queda "vivo" mirando un documento que ya no está en pantalla y
+      // nunca nos enteramos de que el documento real cambió de alto.
+      if (observador) {
+        observador.disconnect();
+        observador = null;
+      }
+
       ajustarAltura(iframe);
 
       // Se vuelve a medir varias veces durante los primeros segundos: el
@@ -57,7 +70,7 @@
         window.setTimeout(() => ajustarAltura(iframe), ms);
       });
 
-      if ("ResizeObserver" in window && !observador) {
+      if ("ResizeObserver" in window) {
         try {
           const doc = iframe.contentWindow.document;
           observador = new ResizeObserver(() => ajustarAltura(iframe));
@@ -69,16 +82,25 @@
       }
     }
 
-    let listo = false;
+    // Importante con loading="lazy": antes de que el navegador cargue el
+    // src real, el iframe muestra un documento en blanco (about:blank)
+    // que ya reporta readyState "complete" desde el primer instante. Si
+    // nos quedáramos solo con ese chequeo inicial, "iniciar()" mediría
+    // ese documento vacío y jamás nos suscribiríamos al evento "load"
+    // real (el que dispara el navegador cuando reemplaza el placeholder
+    // por el documento verdadero), dejando el iframe con el alto fijo
+    // del HTML para siempre. Por eso siempre nos suscribimos a "load"
+    // (se dispara de nuevo en ese reemplazo), y además medimos de una
+    // vez solo si el documento actual ya tiene contenido real.
+    iframe.addEventListener("load", iniciar);
+
+    let yaTieneContenido = false;
     try {
-      listo = iframe.contentWindow.document.readyState === "complete";
+      const doc = iframe.contentWindow.document;
+      yaTieneContenido = doc.readyState === "complete" && !!doc.body && doc.body.children.length > 0;
     } catch (err) {}
 
-    if (listo) {
-      iniciar();
-    } else {
-      iframe.addEventListener("load", iniciar);
-    }
+    if (yaTieneContenido) iniciar();
   });
 
   window.addEventListener("resize", () => {
