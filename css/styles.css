@@ -822,9 +822,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     }
 
 .main-animacion-3{
-    background-color: #fff;
-    /*overflow: hidden;*/
     position: relative;
+    margin-top: -50px;
 }
     .animacion3-letra{
         max-width: 500px;
