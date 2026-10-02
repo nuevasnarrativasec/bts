@@ -1421,7 +1421,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 
     .box-canciones{
         background-color: #fff;
-        padding: 0 0 60px;
+        padding: 0 0 0;
     }
         /* --- Escala comparativa Sonido / Letra --- */
         .ctn-escala-comparativa{
@@ -1664,7 +1664,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 
     .box-analisis-cancion{
         background-color: #fff;
-        padding: 0 0 60px;
+        padding: 0 0 0;
     }
         /* --- Patrón más amplio: brecha por periodo --- */
         .ctn-patron-amplio{
@@ -1877,7 +1877,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         }
     .box-arirang{
         background-color: #fff;
-        padding: 0 0 60px;
+        padding: 50px 0 60px;
     }
     .box-cronologia{
         overflow: hidden;
