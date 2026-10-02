@@ -667,8 +667,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         .animacion-fila--1{ flex-wrap: wrap; gap: 24px; }
         .animacion-texto--1{ flex: 1 1 100%; order: 1; text-align: center; }
         .animacion-video-wrap{ flex: 1 1 100%; max-width: 100%; order: 2; }
-        .animacion-cta{ flex-direction: row; order: 3; }
-            .animacion-cta-nombre{ transform: none; writing-mode: horizontal-tb; }
+        /*.animacion-cta{ flex-direction: row; order: 3; }*/
+            /*.animacion-cta-nombre{ transform: none; writing-mode: horizontal-tb; }*/
         .animacion-video--full{ height: 70vh; }
         .animacion-texto--2{ left: 24px; max-width: calc(100% - 48px); right: 24px; }
     }
@@ -816,7 +816,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .animacion2-quote--llave{ max-width: 100%; text-align: center; }
     }
     @media (max-width: 560px){
-        .animacion2-letra{ background: rgba(255,255,255,.85); border-radius: 10px; left: 16px; max-width: none; padding: 12px 16px; right: 16px; top: 16px; }
+        /*.animacion2-letra{ background: rgba(255,255,255,.85); border-radius: 10px; left: 16px; max-width: none; padding: 12px 16px; right: 16px; top: 16px; }*/
         .animacion2-caja-videos{ height: 220px; width: 240px; }
             #animacionVideo5{ height: 140px; width: 140px; }
             #animacionVideo6{ height: 170px; width: 170px; }
@@ -3606,6 +3606,20 @@ img.bg-footer{
     max-width: 100%;
 }
 
+
+.animacion-video-desktop-1,
+.animacion-video-desktop-2,
+.animacion-video-desktop-3,
+.bg-cancion-capas-desktop{
+    display: block;
+}
+.animacion-video-movil-1,
+.animacion-video-movil-2,
+.animacion-video-movil-3,
+.bg-cancion-capas-movil{
+    display: none;
+}
+
 /** laptop Lore **/
 @media (max-height: 732px){
 
@@ -3621,19 +3635,131 @@ img.bg-footer{
 
 }
 
+/** Móvil **/
 @media (max-width: 640px){
+
+    .animacion-video-desktop-1,
+    .animacion-video-desktop-2,
+    .animacion-video-desktop-3,
+    .bg-cancion-capas-desktop,
+    .ctn-separador{
+        display: none !important;
+    }
+    .animacion-video-movil-1,
+    .animacion-video-movil-2,
+    .animacion-video-movil-3,
+    .bg-cancion-capas-movil{
+        display: block;
+    }
+
+    .main-hero h1{
+        font-size: 3.5rem;
+        height: 275px;
+        width: 100%;
+    }
+        .box-titulo a{
+            margin: 0 50px;
+        }
+    .box-bajada .box-botones{
+        bottom: inherit;
+    }
+    .box-bajada h2{
+        padding: 0 20px;
+    }
+    .main-animacion-1 h3{
+        font-size: 4rem;
+        margin-bottom: 80px;
+    }
+    .main-animacion-1{
+        padding: 45px 0 0;
+    }
+        .animacion-texto--1 p{
+            max-width: 250px;
+            margin: 0 auto;
+        }
+        .main-animacion-1 #animacionCta1{
+            position: absolute;
+            right: 10px;
+            top: 40px;
+        }
+    .elemento-transicion-2{
+        display: none;
+    }
+    .main-canciones{
+        margin-top: 0;
+        overflow: hidden;
+    }
+        .main-canciones .elemento-transicion-1 {
+            max-width: 150px;
+            top: 0;
+            left: -90px;
+        }
+        .box-universo-musical{
+            margin-top: 0;
+            padding: 0 0 60px;
+        }
+        .desplegables-radiografia{
+            gap: 6px;
+        }
+        .desplegable{
+            margin: 0 auto;
+        }
+            .desplegable summary{
+                font-size: 1rem;
+            }
+            .desplegable-perfiles{
+                margin: 0 auto 12px;
+                width: 88%;
+            }
+        .filters-row{
+            display: flow;
+        }
+            .select-wrap{
+                margin-bottom: 20px;
+            }
+            .legend-row{
+                justify-content: flex-start;
+            }
+        .ctn-box-capas .box-disclaimer-lineal p,
+        .ctn-box-analisis-cancion .box-disclaimer-lineal p{
+            padding: 20px;
+        }
+    .iframe-brecha{
+        height: 550px !important;
+    }
+    .box-buscador-cancion{
+        padding-bottom: 350px;
+    }
+    #buscadorMascota{
+        max-width: inherit;
+        top: 850px;
+        width: 55%;
+    }
+    #cronoMascota{
+        max-width: inherit;
+        top: 0;
+        width: 55%;
+    }
+    .crono-mascota-nombre{
+        font-size: 20px;
+    }
+    .ctn-box-cronologia h5{
+        margin-bottom: 20px;
+    }
+
+
 
     .animacion-cta{
         position: relative;
         top: 20px;
     }
     .animacion-video--full{
-        height: 40vh;
+        height: 81vh;
     }
     .animacion-texto--2 {
-        bottom: 30px;
+        bottom: 80px;
         left: 50%;
-        width: 70%;
+        width: 35%;
     }
     .ctn-box-universo-musical, 
     .ctn-box-canciones, 
@@ -3717,7 +3843,7 @@ img.bg-footer{
     .ctn-box-siete-voces h5, 
     .ctn-box-comunidad h5, 
     .ctn-box-facturando h5{
-        font: 4rem / 1.2 'Monigue Regular';
+        font: 3rem / 1.2 'Monigue Regular';
         padding: 0 20px;
     }
     span.separador{
@@ -3736,10 +3862,10 @@ img.bg-footer{
         height: 1200px !important;
     }
     .crono-mascota{
-        display: none;
+        /*display: none;*/
     }
     .box-cronologia{
-        padding-top: 50px;
+        padding-top: 250px;
     }
     .crono-label{
         font-size: 1.5rem;
@@ -3754,8 +3880,9 @@ img.bg-footer{
         font-size: 1rem;
     }
     .animacion2-letra{
-        bottom: 0;
-        top: inherit;
+        bottom: inherit;
+        top: 16%;
+        width: 50%;
     }
     .animacion2-letra p{
         font-size: 1.3rem;
@@ -3788,7 +3915,8 @@ img.bg-footer{
     .main-protagonistas h3, 
     .main-facturando h3, 
     .main-trivia h3{
-        font: 4rem / 1.3 'Monigue Regular';
+        font: 3rem / 1.1 'Monigue Regular';
+        max-width: 300px;
     }
     .perfil-card{
         margin: 20px;
@@ -3866,6 +3994,11 @@ img.bg-footer{
     }
 
 }
+
+
+
+
+
 /* ============================================================
    BTS · ctn-body-to-body ("Body to body")
    - Título + botón de play (reutiliza el look del botón verde/rojo
@@ -4459,109 +4592,3 @@ img.bg-footer{
 
 }
 
-/* ============================================================
-   TABLET + MÓVIL · videos con letra (ballena, playa y cuarto)
-   El video queda fijo (pin) mientras se hace scroll y la letra,
-   sobre una caja blanca, aparece con fade ease (js/texto-pin.js
-   escribe --texto-p: 0 → 1 en cada .fila-pin).
-   Solo afecta a .fila-pin; en desktop no cambia nada.
-   ============================================================ */
-@media (max-width: 1024px){
-
-    /* overflow:hidden crea un contenedor de scroll y rompe position:sticky */
-    .main-animacion-1,
-    .main-animacion-2{
-        overflow: clip;
-    }
-
-    .fila-pin{
-        --pin-alto: 250vh;
-        --pin-alto: 250svh;
-        display: grid;
-        grid-template-columns: 100%;
-        height: var(--pin-alto);
-        position: relative;
-    }
-
-    /* Video: ocupa el alto de la pantalla (contain = se ve completo, sin recortes) */
-    .fila-pin > .animacion-video--full{
-        align-self: start;
-        background: transparent;
-        grid-area: 1 / 1;
-        height: 100vh;
-        height: 100svh;
-        object-fit: contain;
-        object-position: center;
-        position: sticky;
-        top: 0;
-        width: 100%;
-        z-index: 1;
-    }
-
-    /* Capa de texto: misma altura que la pantalla, caja anclada abajo */
-    .fila-pin > .texto-pin{
-        align-items: flex-end;
-        align-self: start;
-        background: none;
-        border-radius: 0;
-        bottom: auto;
-        box-sizing: border-box;
-        display: flex;
-        grid-area: 1 / 1;
-        height: 100vh;
-        height: 100svh;
-        justify-content: center;
-        left: auto;
-        max-width: none;
-        padding: 0 16px calc(4vh + env(safe-area-inset-bottom, 0px));
-        padding-bottom: calc(4svh + env(safe-area-inset-bottom, 0px));
-        pointer-events: none;
-        position: sticky;
-        right: auto;
-        top: 0;
-        transform: none;
-        width: auto;
-        z-index: 2;
-    }
-
-    .texto-pin__caja{
-        background: #fff;
-        /*border-radius: 14px;
-        box-shadow: 0 6px 24px rgba(20,18,31,.14);*/
-        box-sizing: border-box;
-        max-width: 560px;
-        opacity: var(--texto-p, 1);
-        padding: 18px 20px;
-        pointer-events: auto;
-        transform: translateY(calc((1 - var(--texto-p, 1)) * 28px));
-        width: 100%;
-        will-change: opacity, transform;
-    }
-        .texto-pin__caja p{
-            color: var(--ink);
-            font: clamp(1.15rem, 3.6vw + .3rem, 1.7rem)/1.4 'Bray Notes';
-            margin: 0 0 12px;
-        }
-            .texto-pin__caja p:last-child{ margin-bottom: 0; }
-}
-
-/* Sin animaciones: sin pin, video y texto uno debajo del otro */
-@media (max-width: 1024px) and (prefers-reduced-motion: reduce){
-    .fila-pin{
-        display: block;
-        height: auto;
-    }
-    .fila-pin > .animacion-video--full{
-        height: auto;
-        position: static;
-    }
-    .fila-pin > .texto-pin{
-        height: auto;
-        padding: 16px;
-        position: static;
-    }
-    .texto-pin__caja{
-        opacity: 1;
-        transform: none;
-    }
-}

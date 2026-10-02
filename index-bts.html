@@ -59,7 +59,8 @@
             </div>
 
             <div class="animacion-video-wrap">
-                <video class="animacion-video" id="animacionVideo1" src="./video/animacion-1.mp4" muted loop playsinline preload="metadata"></video>
+                <video class="animacion-video animacion-video-desktop-1" id="animacionVideo1" src="./video/animacion-1.mp4" muted loop playsinline preload="metadata"></video>
+                <video class="animacion-video animacion-video-movil-1" id="animacionVideo1" src="./video/animacion-1-movil.mp4" muted loop playsinline preload="metadata"></video>
             </div>
 
             <!--
@@ -81,22 +82,20 @@
             </div>
         </div>
 
-        <div class="animacion-fila animacion-fila--2 fila-pin">
-            <video class="animacion-video animacion-video--full" id="animacionVideo2" src="./video/animacion-2.mp4" muted loop playsinline preload="metadata"></video>
+        <div class="animacion-fila animacion-fila--2">
+            <video class="animacion-video animacion-video--full animacion-video-desktop-2" id="animacionVideo2" src="./video/animacion-2.mp4" muted loop playsinline preload="metadata"></video>
+            <video class="animacion-video animacion-video--full animacion-video-movil-2" id="animacionVideo2" src="./video/animacion-2-movil.mp4" muted loop playsinline preload="metadata"></video>
 
-            <div class="animacion-texto animacion-texto--2 texto-pin">
-                <div class="texto-pin__caja">
-                    <p>♫Una solitaria ballena habla bajo. No importa cuánto grite, nadie puede oírla♪</p>
-                </div>
+            <div class="animacion-texto animacion-texto--2">
+                <p>♫Una solitaria ballena habla bajo. No importa cuánto grite, nadie puede oírla♪</p>
             </div>
         </div>
 
-        <div class="animacion2-fila animacion2-fila--playa fila-pin">
-            <video class="animacion-video animacion-video--full" id="animacionVideo3" src="./video/animacion-3.mp4" muted loop playsinline preload="metadata"></video>
-            <div class="animacion2-letra texto-pin">
-                <div class="texto-pin__caja">
-                <p>♫Un mensaje sin final, algún día, llegará a alguien. En todos lados, incluso al otro lado de la tierra♪</p>                
-                </div>
+        <div class="animacion2-fila animacion2-fila--playa">
+            <video class="animacion-video animacion-video--full animacion-video-desktop-3" id="animacionVideo3" src="./video/animacion-3.mp4" muted loop playsinline preload="metadata"></video>
+            <video class="animacion-video animacion-video--full animacion-video-movil-3" id="animacionVideo3" src="./video/animacion-3-movil.mp4?v2" muted loop playsinline preload="metadata"></video>
+            <div class="animacion2-letra">
+                <p>♫Un mensaje sin final, algún día, llegará a alguien. En todos lados, incluso al otro lado de la tierra♪</p>
             </div>
         </div>
 
@@ -560,7 +559,8 @@
                     </details>
                 </div>
 
-                <img src="./img/bg-cancion-capas.jpg" alt="" width="100%" class="bg-cancion-capas">
+                <img src="./img/bg-cancion-capas.jpg" alt="" width="100%" class="bg-cancion-capas bg-cancion-capas-desktop">
+                <img src="./img/bg-cancion-capas-movil.jpg" alt="" width="100%" class="bg-cancion-capas bg-cancion-capas-movil">
                 <div class="box-disclaimer-lineal">
                     <p>
                         Aquí está la tensión: la letra tiene un tono más sombrío y la música uno mucho más luminoso. <span class="lila">“Sombrío” indica menor luminosidad emocional, no una valoración negativa.</span>
@@ -700,6 +700,7 @@
                     title="My frame"
                     scrolling="no"
                     loading="lazy"
+                    class="iframe-brecha"
                     style=" width:100%; height:900px; border:none; ">
                 </iframe>
             </div>
@@ -922,11 +923,9 @@
 
     <div class="main-animacion-2" id="mainAnimacion2">       
 
-        <div class="animacion2-fila animacion2-fila--cuarto fila-pin">
-            <div class="animacion22-letra texto-pin">
-                <div class="texto-pin__caja">
+        <div class="animacion2-fila animacion2-fila--cuarto">
+            <div class="animacion22-letra">
                 <p>♫Los días en que te odies a ti mismo. Los días en los que quisieras desaparecer para siempre♪</p>
-                </div>
             </div>
             <video class="animacion-video animacion-video--full" id="animacionVideo4" src="./video/animacion-4.mp4" muted loop playsinline preload="metadata"></video>
         </div>
@@ -1645,7 +1644,6 @@
     <script src="./js/animacion-6.js"></script>
     <script src="./js/corte-glitch.js"></script>
     <script src="./js/elemento-transicion-10.js"></script>
-    <script src="./js/texto-pin.js"></script>
     <script src="./js/deja-tu-mensaje.js?v2"></script>
     <script src="./js/body-to-body.js"></script>
     <script src="./js/menu-scroll.js"></script>
