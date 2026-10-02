@@ -3125,7 +3125,7 @@ body.trivia-respuestas-abierto{
    ============================================================ */
 .corte-glitch{
     background: linear-gradient(to bottom, #000 0%, #000 42%, #fff 58%, #fff 100%);
-    height: 800px;
+    height: 600px;
     overflow: hidden;
     position: relative;
 }
@@ -4011,11 +4011,11 @@ img.bg-footer{
            una transición de color suave que las deja en blanco pleno:
            el mismo efecto de "pintado" progresivo de un karaoke. */
         .bodytobody-lyric .k-char{
-            color: #000;
+            color: #a87fff;
             transition: color .2s ease;
         }
             .bodytobody-lyric .k-char.is-lit{
-                color: #a87fff;
+                color: #000;
             }
 
     .bodytobody-item{
