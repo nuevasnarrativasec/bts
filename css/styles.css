@@ -2688,7 +2688,6 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                                     }
                         .perfil-info{
                             border-right: none;
-                            border-bottom: 2px solid #000;
                             padding-bottom: 26px;
                             padding-right: 0;
                         }
@@ -3846,6 +3845,16 @@ img.bg-footer{
         max-width: 200px;
         right: -55px;
     }
+    .box-compara{
+        padding-top: 200px;
+    }
+    #comparaMascota{
+        max-width: inherit;
+        width: 52%;       
+    }
+    .clusters_miembro{
+        height: 650px !important;
+    }
 
 
 
@@ -4035,6 +4044,7 @@ img.bg-footer{
     }
     .box-siete-voces{
         margin-top: -65px;
+        padding-bottom: 0;
     }
     .ctn-box-siete-voces{
         padding-top: 45px;
