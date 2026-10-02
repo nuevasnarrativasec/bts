@@ -2300,20 +2300,34 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 }
 
                 @media (max-width: 900px){
-                    .crono-labels{ flex-basis: 150px; }
-                    .crono-label{ font-size: .85rem; padding: 12px; }
-                    .crono-label--bts{ font-size: 1.05rem; }
+                    /* Columna de categorías angosta, con el texto en vertical
+                       (igual que en "header-fix-cronologia-movil.png"), para
+                       que deje más espacio al contenido en pantallas chicas. */
+                    .crono-labels{ flex-basis: 64px; }
+                    .crono-label{ font-size: .8rem; padding: 10px 6px; }
+                        .crono-label span{
+                            transform: rotate(180deg);
+                            white-space: nowrap;
+                            writing-mode: vertical-rl;
+                        }
+                    .crono-label--bts{ font-size: 1.1rem; }
                     .crono-col{ flex-basis: 190px; }
                     .crono-cell{ padding: 12px 14px; }
                     .crono-cell p{ font-size: .88rem; }
                     .crono-decor{ flex-basis: 160px; }
                 }
                 @media (max-width: 560px){
-                    .crono-labels{ flex-basis: 118px; }
-                    .crono-label{ font-size: .7rem; letter-spacing: -.2px; padding: 8px 10px; }
+                    .crono-labels{ flex-basis: 54px; }
+                    .crono-label{ font-size: 1.1rem; padding: 8px 5px; }
                     .crono-label--bts{ font-size: .85rem; }
                     .crono-label--musical,
                     .crono-label--politico{ min-height: 130px; }
+                    .crono-label--musical{
+                        height: 130px;
+                    }
+                    .crono-label span{
+                        white-space: normal;
+                    }
                     .crono-label--bts{ min-height: 190px; }
                     .crono-col{ flex-basis: 150px; }
                     .crono-cell--musical,
@@ -3610,12 +3624,14 @@ img.bg-footer{
 .animacion-video-desktop-1,
 .animacion-video-desktop-2,
 .animacion-video-desktop-3,
+.animacion-video-desktop-4,
 .bg-cancion-capas-desktop{
     display: block;
 }
 .animacion-video-movil-1,
 .animacion-video-movil-2,
 .animacion-video-movil-3,
+.animacion-video-movil-4,
 .bg-cancion-capas-movil{
     display: none;
 }
@@ -3641,6 +3657,7 @@ img.bg-footer{
     .animacion-video-desktop-1,
     .animacion-video-desktop-2,
     .animacion-video-desktop-3,
+    .animacion-video-desktop-4,
     .bg-cancion-capas-desktop,
     .ctn-separador{
         display: none !important;
@@ -3648,6 +3665,7 @@ img.bg-footer{
     .animacion-video-movil-1,
     .animacion-video-movil-2,
     .animacion-video-movil-3,
+    .animacion-video-movil-4,
     .bg-cancion-capas-movil{
         display: block;
     }
@@ -3745,6 +3763,9 @@ img.bg-footer{
     }
     .ctn-box-cronologia h5{
         margin-bottom: 20px;
+    }
+    .main-radiografia h3{
+        font-size: 3rem;
     }
 
 
@@ -3865,13 +3886,14 @@ img.bg-footer{
         /*display: none;*/
     }
     .box-cronologia{
+        margin-bottom: 0;
         padding-top: 250px;
     }
     .crono-label{
-        font-size: 1.5rem;
+        font-size: 1.1rem;
     }
     .crono-label--bts span{
-        font-size: 2rem;
+        font-size: 1rem;
     }
     .crono-col{
         flex-basis: 210px;
@@ -3891,11 +3913,12 @@ img.bg-footer{
         transform: translate(0);
     }
     .animacion2-caja-videos{
-        height: 360px;
-        width: 90%;
+        height: 420px;
+        width: 100%;
     }
     .animacion2-fila--caja{
-        margin-top: -25px;
+        margin-top: 0;
+        padding: 0;
     }
     #animacionVideo5{
         height: 180px;
