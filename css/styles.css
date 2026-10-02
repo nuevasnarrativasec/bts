@@ -2799,6 +2799,11 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                             width: 140px;
                             display: none;
                         }
+                    .momento-card span{
+                        color: #c0bfbf;
+                        font-family: 'Prelo Semibold';
+                        text-transform: uppercase;
+                    }
                     .momento-card p{
                         font: 1rem/1.4 'Prelo Book';
                         margin: 14px 0 0;
