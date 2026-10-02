@@ -1544,17 +1544,24 @@
 
     <div class="footer-section">
 
-        <details class="box-metodologia">
-            <summary>
-                <b>¿Cómo hicimos este análisis?</b>
+        <button type="button" class="box-metodologia" id="btnMetodologia">
+            <span class="box-metodologia-icono">
+                <img src="./img/icon-foco.png" alt="" width="100%">
+            </span>
+            <span class="box-metodologia-titulo">¿Cómo hicimos este análisis?</span>
+        </button>
+
+        <div class="ctn-metodologia-popup" id="ctnMetodologiaPopup" hidden aria-hidden="true">
+            <div class="metodologia-popup-overlay" id="metodologiaPopupOverlay"></div>
+            <div class="metodologia-popup">
+                <button class="metodologia-popup-close" id="metodologiaPopupClose" type="button" aria-label="Cerrar">&times;</button>
+                <h4 class="metodologia-popup-titulo">¿Cómo hicimos este análisis?</h4>
                 <p>Este especial combina información sobre la discografía de BTS y sus integrantes con datos de audio asociados a Spotify y letras de canciones recopilados de bases públicas. Procesamos y organizamos esa información con Python para comparar canciones, integrantes y periodos.</p>
-            </summary>
-            <div class="box-metodologia-texto">
                 <p>Para explorar cómo suenan las canciones, usamos variables como luminosidad musical, energía, bailabilidad, componente acústico y presencia de voz hablada. A partir de ellas agrupamos pistas con características similares. Los nombres de esos perfiles fueron creados para este especial y no corresponden a categorías de Spotify.</p>
                 <p>También utilizamos inteligencia artificial para analizar el tono de las letras y compararlo con las características musicales. Estos resultados permiten identificar patrones y diferencias, pero no pretenden establecer el significado definitivo de una canción ni la intención de sus autores.</p>
                 <p><b>Fuentes y herramientas:</b> Kaggle, Genius y datos de audio asociados a Spotify; <b>Procesamiento y análisis semántico:</b> Python y OpenAI.</p>
             </div>
-        </details>
+        </div>
 
         <div class="footer-content">
             <img src="https://nuevasnarrativasec.github.io/conclave/img/logo-comercio.png" alt="El Comercio" width="100%" class="logo-comercio-footer">
@@ -1639,5 +1646,6 @@
     <script src="./js/menu-scroll.js"></script>
     <script src="./js/iframe-auto-alto.js"></script>
     <script src="./js/mascota-popup.js"></script>
+    <script src="./js/metodologia-popup.js"></script>
 </body>
 </html>

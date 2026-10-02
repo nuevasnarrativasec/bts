@@ -3453,56 +3453,101 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 }
 
 .box-metodologia{
-    border: 1px solid #fff;
-    border-radius: 6px;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    gap: 16px;
     margin: 0 auto 50px;
-    max-width: 400px;
     padding: 0 20px;
-    text-align: left;
-    width: calc(100% - 40px);
 }
-    .box-metodologia summary{
-        cursor: pointer;
-        list-style: none;
-        padding: 26px 0;
+    .box-metodologia:hover{ opacity: .85; }
+    .box-metodologia-icono{
+        background-color: #fff;
+        border-radius: 50%;
+        flex-shrink: 0;
+        height: 44px;
+        overflow: hidden;
+        padding: 2px;
+        width: 44px;
     }
-        .box-metodologia summary::-webkit-details-marker{ display: none; }
-        .box-metodologia summary::marker{ content: ""; }
-        .box-metodologia summary b{
+    .box-metodologia-titulo{
+        color: #fff;
+        font: 1.2rem/1.3 'Prelo Bold';
+        text-decoration: underline;
+        text-underline-offset: 4px;
+    }
+    @media (max-width: 560px){
+        .box-metodologia-icono{ height: 40px; width: 40px; }
+        .box-metodologia-titulo{ font-size: 1rem; }
+    }
+
+body.metodologia-popup-abierto{
+    overflow: hidden;
+}
+.ctn-metodologia-popup{
+    align-items: center;
+    display: flex;
+    inset: 0;
+    justify-content: center;
+    padding: 40px 24px;
+    position: fixed;
+    z-index: 999;
+}
+    .ctn-metodologia-popup[hidden]{
+        display: none;
+    }
+    .metodologia-popup-overlay{
+        background-color: rgba(6, 6, 8, 0.9);
+        inset: 0;
+        position: absolute;
+    }
+    .metodologia-popup{
+        background-color: #fff;
+        border-radius: 20px;
+        max-height: calc(100vh - 80px);
+        max-width: 480px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 40px 36px;
+        position: relative;
+        text-align: left;
+        width: 100%;
+    }
+        .metodologia-popup-close{
+            align-items: center;
+            background-color: var(--red);
+            border: none;
+            border-radius: 50%;
             color: #fff;
-            display: block;
-            font: 1rem/1.2 'Prelo Bold';
-            margin: 0 0 10px;
+            cursor: pointer;
+            display: flex;
+            font: 1.4rem/1 var(--font);
+            height: 42px;
+            justify-content: center;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            width: 42px;
+        }
+        .metodologia-popup-titulo{
+            color: var(--ink);
+            font: 1.8rem/1.2 'Monigue Regular';
+            margin: 0 0 18px;
             text-transform: uppercase;
         }
-        .box-metodologia summary p{
-            color: rgba(255,255,255,.8);
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            line-clamp: 2;
-            font: 1rem/1.5 'Prelo Medium', sans-serif;
-            margin: 0;
-            overflow: hidden;
-        }
-    .box-metodologia[open] summary p{
-        -webkit-line-clamp: unset;
-        line-clamp: unset;
-        overflow: visible;
-    }
-    .box-metodologia-texto{
-        padding: 0 0 26px;
-    }
-        .box-metodologia-texto p{
-            color: rgba(255,255,255,.8);
-            font: 1rem/1.5 'Prelo Medium', sans-serif;
+        .metodologia-popup p{
+            color: var(--ink);
+            font: 1rem/1.6 'Prelo Medium', sans-serif;
             margin: 0 0 16px;
         }
-            .box-metodologia-texto p:last-child{ margin-bottom: 0; }
-            .box-metodologia-texto p b{ font-family: 'Prelo Bold'; }
+            .metodologia-popup p:last-child{ margin-bottom: 0; }
+            .metodologia-popup p b{ font-family: 'Prelo Bold'; }
+
     @media (max-width: 560px){
-        .box-metodologia{ border-radius: 18px; padding: 0 18px; }
-        .box-metodologia summary{ padding: 20px 0; }
+        .metodologia-popup{ padding: 32px 26px; }
+        .metodologia-popup-titulo{ font-size: 1.5rem; }
     }
 
 .footer-content {
