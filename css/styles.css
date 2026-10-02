@@ -3023,19 +3023,28 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     margin-top: 34px;
                 }
                     .trivia-btn--jugar:hover{ transform: scale(1.03); }
-                .trivia-ver-respuestas-label{
-                    color: var(--ink);
-                    font: 700 1rem/1.3 'Prelo Bold';
-                    margin: 26px 0 12px;
+                .trivia-ver-respuestas{
+                    margin: 26px auto 0;
+                    max-width: 380px;
                 }
-                .trivia-btn--respuestas{
-                    background-color: #000;
-                    border: 2px solid var(--ink);
-                    color: #fff;
-                    margin-top: 0;
-                    padding: 14px 32px;
-                }
-                    .trivia-btn--respuestas:hover{ transform: scale(1.03); }
+                    .trivia-ver-respuestas-label{
+                        color: var(--ink);
+                        cursor: pointer;
+                        display: block;
+                        font: 700 1rem/1.3 'Prelo Bold';
+                        list-style: none;
+                        text-decoration: underline;
+                        text-underline-offset: 4px;
+                    }
+                        .trivia-ver-respuestas-label::-webkit-details-marker{ display: none; }
+                        .trivia-ver-respuestas-label::marker{ content: ""; }
+                        .trivia-ver-respuestas-label:hover{ opacity: .7; }
+                    .trivia-respuestas-lista{
+                        color: var(--ink);
+                        font: 1.05rem/1.7 'Prelo Semibold';
+                        letter-spacing: .02em;
+                        margin: 14px 0 0;
+                    }
 
             @media (max-width: 560px){
                 .trivia-burbuja{ padding: 22px 22px 26px; }
@@ -3049,72 +3058,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .trivia-nivel-puntaje b{ font-size: 1.6rem; }
                 .trivia-nivel-puntaje span{ font-size: .65rem; }
                 .trivia-ver-respuestas-label{ font-size: .9rem; }
-                .trivia-btn--respuestas{ padding: 12px 26px; }
+                .trivia-respuestas-lista{ font-size: .95rem; }
             }
-
-/* --- Popup "Ver respuestas" de la trivia --- */
-body.trivia-respuestas-abierto{
-    overflow: hidden;
-}
-.ctn-trivia-respuestas-popup{
-    align-items: center;
-    display: flex;
-    inset: 0;
-    justify-content: center;
-    padding: 40px 24px;
-    position: fixed;
-    z-index: 999;
-}
-    .ctn-trivia-respuestas-popup[hidden]{
-        display: none;
-    }
-    .trivia-respuestas-overlay{
-        background-color: rgba(6, 6, 8, 0.9);
-        inset: 0;
-        position: absolute;
-    }
-    .trivia-respuestas-popup{
-        background-color: #000;
-        border-radius: 5px;
-        max-width: 420px;
-        padding: 36px 32px;
-        position: relative;
-        text-align: center;
-        width: 100%;
-    }
-        .trivia-respuestas-close{
-            align-items: center;
-            background-color: var(--red);
-            border: none;
-            border-radius: 50%;
-            color: #fff;
-            cursor: pointer;
-            display: flex;
-            font: 1.4rem/1 var(--font);
-            height: 42px;
-            justify-content: center;
-            position: absolute;
-            right: -14px;
-            top: -14px;
-            width: 42px;
-        }
-        .trivia-respuestas-titulo{
-            color: #fff;
-            font: 2rem/1.1 'Monigue Regular';
-            margin: 0 0 18px;
-            text-transform: uppercase;
-        }
-        .trivia-respuestas-lista{
-            color: #fff;
-            font: 1.1rem/1.8 'Prelo Semibold';
-            letter-spacing: .02em;
-        }
-
-    @media (max-width: 560px){
-        .trivia-respuestas-popup{ padding: 30px 22px; }
-        .trivia-respuestas-titulo{ font-size: 1.6rem; }
-        .trivia-respuestas-lista{ font-size: 1rem; }
-    }
 
 /* ============================================================
    Bloque cortador en degradé (negro -> blanco) entre main-animacion-5

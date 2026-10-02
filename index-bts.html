@@ -1397,20 +1397,13 @@
 
                     <button class="trivia-btn trivia-btn--jugar" id="triviaJugar">Volver a jugar</button>
 
-                    <p class="trivia-ver-respuestas-label">Ver respuestas correctas</p>
-                    <button class="trivia-btn trivia-btn--respuestas" id="triviaVerRespuestas" type="button">Ver respuestas</button>
+                    <details class="trivia-ver-respuestas">
+                        <summary class="trivia-ver-respuestas-label">Ver respuestas correctas</summary>
+                        <p class="trivia-respuestas-lista" id="triviaRespuestasLista"></p>
+                    </details>
                 </div>
 
             </div>
-        </div>
-    </div>
-
-    <div class="ctn-trivia-respuestas-popup" id="ctnTriviaRespuestasPopup" hidden aria-hidden="true">
-        <div class="trivia-respuestas-overlay" id="triviaRespuestasOverlay"></div>
-        <div class="trivia-respuestas-popup">
-            <button class="trivia-respuestas-close" id="triviaRespuestasClose" type="button" aria-label="Cerrar">&times;</button>
-            <h4 class="trivia-respuestas-titulo">Respuestas correctas</h4>
-            <p class="trivia-respuestas-lista" id="triviaRespuestasLista"></p>
         </div>
     </div>
 
