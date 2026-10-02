@@ -130,7 +130,7 @@
         { label: "Luminosidad musical", before: "0,33", after: "0,35" },
         { label: "Componente acústico", before: "0,44", after: "0,52" }
       ],
-      quote: "“Inspirado por la elegancia clásica de su padre, construyó una firma estética y musical retro inconfundible, además de haber acuñado la frase y concepto de amor eterno del fandom: 'I Purple You' (Borahae).”"
+      quote: "Inspirado por la elegancia clásica de su padre, construyó una firma estética y musical retro inconfundible, además de haber acuñado la frase y concepto de amor eterno del fandom: 'I Purple You' (Borahae)."
     },
     jungkook: {
       nombre: "Jung Kook",

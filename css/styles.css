@@ -3586,16 +3586,14 @@ span.separador-logo {
 
 .footer-content ul li h4 {
     display: inline-block;
-    font: 0.9rem/1.3 'Prelo Bold';
-    font-weight: 800;
+    font: 1.1rem/1.3 'Prelo Bold';
     margin-bottom: 0;
     vertical-align: bottom;
 }
 
 .footer-content ul li p {
     display: inline-block;
-    font: 0.9rem/1.3 'Prelo Book';
-    font-weight: 300;
+    font: 1.1rem/1.3 'Prelo Book';
     margin: 0;
     vertical-align: bottom;
 }
