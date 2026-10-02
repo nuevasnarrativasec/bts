@@ -3064,13 +3064,13 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         background: repeating-linear-gradient(to bottom, rgba(0,225,255,.55) 0px, rgba(0,225,255,.55) 3px, transparent 3px, transparent 7px);
     }
     .corte-glitch.is-glitching{
-        animation: corte-glitch-jitter .6s steps(1, end) both;
+        animation: corte-glitch-jitter 1.8s steps(1, end) both;
     }
         .corte-glitch.is-glitching::before{
-            animation: corte-glitch-tint-1 .6s steps(1, end) both;
+            animation: corte-glitch-tint-1 1.8s steps(1, end) both;
         }
         .corte-glitch.is-glitching::after{
-            animation: corte-glitch-tint-2 .6s steps(1, end) both;
+            animation: corte-glitch-tint-2 1.8s steps(1, end) both;
         }
     .corte-glitch.is-collapsed{
         height: 0;

@@ -12,7 +12,7 @@
   var el = document.getElementById("corteGlitch");
   if (!el) return;
 
-  var DURACION_GLITCH_MS = 600; // debe coincidir con la animación "corte-glitch-jitter"
+  var DURACION_GLITCH_MS = 1800; // debe coincidir con la animación "corte-glitch-jitter"
   var yaDisparado = false;
 
   var prefiereMenosMovimiento =
