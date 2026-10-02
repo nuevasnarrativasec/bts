@@ -457,6 +457,10 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         bottom: -100px;
         position: absolute;    
     }
+    .degrade-baile-volteado{
+        top: 0;
+        position: absolute;    
+    }
     .box-botones{
         margin-bottom: 25px;
         position: relative;
@@ -853,6 +857,15 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     overflow: hidden;
     position: relative;
 }
+    .corte-degrade-celeste{
+        top: 0;
+        position: absolute;  
+        z-index: 10;  
+    }
+    #animacionVideo12{
+        position: relative;
+        mix-blend-mode: normal;
+    }
     #animacionCta4 iframe{
         bottom: 0;
         height: 1px;
@@ -2798,7 +2811,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .momento-card p{ font-size: .92rem; }
         }
 .main-trivia{
-    background-color: #2c94c7;
+    background-color: #0195ca;
     margin-top: -1px;
     overflow: hidden;
     padding: 40px 0;
