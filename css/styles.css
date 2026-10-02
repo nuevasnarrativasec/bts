@@ -3929,7 +3929,14 @@ img.bg-footer{
         width: 290px;
     }
     .animacion2-fila--caja .animacion-cta{
+        /* En vez de "relative" (lo que trae .animacion-cta en este
+           breakpoint) la volvemos a anclar arriba a la derecha, junto
+           a la foto de la chica con audífonos (#animacionVideo5), como
+           en "referencias/posicion-cta.png". */
         justify-content: center;
+        position: absolute;
+        right: 16px;
+        top: 24px;
     }
     .animacion2-video-puerta{
         max-width: 100%;
