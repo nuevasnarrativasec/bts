@@ -60,10 +60,10 @@
   ];
 
   const niveles = [
-    { min: 0, max: 2, nombre: "Baby ARMY", subtitulo: "Descubriendo la puerta mágica", img: "bg-baby-army.png" },
-    { min: 3, max: 4, nombre: "Whalien 52", subtitulo: "Sintonizando la frecuencia correcta", img: "bg-whalien-52.png" },
-    { min: 5, max: 6, nombre: "Magic Shop", subtitulo: "Dueño de la llave del refugio", img: "bg-magic-shop.png" },
-    { min: 7, max: 8, nombre: "Borahae", subtitulo: "Lealtad y memoria histórica absoluta", img: "bg-borahae.png" },
+    { min: 0, max: 2, nombre: "Baby ARMY", subtitulo: "Descubriendo la puerta mágica", img: "bg-baby-army-limpio.png" },
+    { min: 3, max: 4, nombre: "Whalien 52", subtitulo: "Sintonizando la frecuencia correcta", img: "bg-whalien-52-limpio.png" },
+    { min: 5, max: 6, nombre: "Magic Shop", subtitulo: "Dueño de la llave del refugio", img: "bg-magic-shop-limpio.png" },
+    { min: 7, max: 8, nombre: "Borahae", subtitulo: "Lealtad y memoria histórica absoluta", img: "bg-borahae-limpio.png" },
   ];
 
   const app = document.getElementById("triviaApp");
@@ -79,6 +79,7 @@
   const elNivelNombre = document.getElementById("triviaNivelNombre");
   const elNivelImg = document.getElementById("triviaNivelImg");
   const elNivelSubtitulo = document.getElementById("triviaNivelSubtitulo");
+  const elNivelPuntajeNum = document.getElementById("triviaNivelPuntajeNum");
 
   let actual = 0;
   let aciertos = 0;
@@ -138,6 +139,7 @@
     elNivelSubtitulo.textContent = nivel.subtitulo;
     elNivelImg.src = "./img/trivia/" + nivel.img;
     elNivelImg.alt = "Eres " + nivel.nombre;
+    elNivelPuntajeNum.textContent = aciertos;
 
     pantallaPregunta.hidden = true;
     pantallaResultado.hidden = false;

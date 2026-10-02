@@ -1335,6 +1335,29 @@
             <span>ponte a prueba</span>
             ¿cuánto sabes de bts?
         </h3>
+
+        <!--
+            CTA de Spotify (Yet To Come): mismo patrón y diagramación que
+            animacionCta3 (Black Swan, en main-animacion-6) — misma Spotify
+            iFrame API, comparten el mismo <script id="spotify-iframe-api">.
+            Se colocó aquí (en vez de en main-animacion-5, donde está el
+            video) para que la canción tenga más duración: main-trivia
+            aparece antes en la página, así que arranca antes, pero sigue
+            sonando a través de esta sección y de main-animacion-5; recién
+            se pausa cuando el usuario sale de main-animacion-5 (ver
+            IntersectionObserver en animacion-5.js). A diferencia de
+            animacionCta3 (arriba a la derecha), este va arriba a la
+            izquierda (ver .animacion-cta--izq).
+        -->
+        <div class="animacion-cta animacion-cta--oscuro animacion-cta--izq" id="animacionCta4" data-spotify-uri="spotify:track:4xzKyHij1MIM7bOiLKQbk5">
+            <button class="animacion-cta-play" type="button" aria-label="Reproducir Yet To Come">
+                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+            </button>
+            <span class="animacion-cta-nombre">Yet To Come</span>
+            <div class="animacion-cta-embed" id="animacionCta4Embed"></div>
+        </div>
+
         <div class="ctn-box-trivia">
             <!--<h5>descubre qué tan army eres</h5>
             <h4>
@@ -1363,6 +1386,10 @@
 
                     <div class="trivia-nivel-img">
                         <img id="triviaNivelImg" src="" alt="">
+                        <div class="trivia-nivel-puntaje">
+                            <b id="triviaNivelPuntajeNum"></b>
+                            <span>aciertos</span>
+                        </div>
                     </div>
 
                     <p class="trivia-nivel-subtitulo" id="triviaNivelSubtitulo"></p>
@@ -1382,22 +1409,6 @@
             </p>
         </div>
         <video class="animacion-video animacion-video--full" id="animacionVideo12" src="./video/animacion-12.mp4" muted loop playsinline preload="metadata"></video>
-
-        <!--
-            CTA de Spotify (Yet To Come): mismo patrón que el de Whalien 52
-            en main-animacion-1 / Magic Shop en main-animacion-2 / Black Swan
-            en main-animacion-6 (misma Spotify iFrame API, comparten el mismo
-            <script id="spotify-iframe-api">). Variante "oscura" porque va
-            superpuesto al video a pantalla completa.
-        -->
-        <div class="animacion-cta animacion-cta--oscuro" id="animacionCta4" data-spotify-uri="spotify:track:4xzKyHij1MIM7bOiLKQbk5">
-            <button class="animacion-cta-play" type="button" aria-label="Reproducir Yet To Come">
-                <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
-                <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><path fill="currentColor" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-            </button>
-            <span class="animacion-cta-nombre">Yet To Come</span>
-            <div class="animacion-cta-embed" id="animacionCta4Embed"></div>
-        </div>
     </div>
 
     <div class="corte-glitch" id="corteGlitch" aria-hidden="true"></div>

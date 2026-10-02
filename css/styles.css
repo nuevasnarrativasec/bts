@@ -2976,11 +2976,36 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .trivia-nivel-img{
                     margin: 0 auto 24px;
                     max-width: 320px;
+                    position: relative;
                 }
                     .trivia-nivel-img img{
+                        display: block;
                         margin: 0 auto;
                         width: 100%;
                     }
+                    .trivia-nivel-puntaje{
+                        color: var(--ink);
+                        font-family: 'Monigue Regular';
+                        left: 78.8%;
+                        line-height: 1;
+                        pointer-events: none;
+                        position: absolute;
+                        text-align: center;
+                        top: 19.5%;
+                        transform: translate(-50%, -50%) rotate(-9deg);
+                        white-space: nowrap;
+                    }
+                        .trivia-nivel-puntaje b{
+                            display: block;
+                            font-size: 2.1rem;
+                        }
+                        .trivia-nivel-puntaje span{
+                            display: block;
+                            font-size: .8rem;
+                            letter-spacing: .02em;
+                            margin-top: -4px;
+                            text-transform: uppercase;
+                        }
                 .trivia-nivel-subtitulo{
                     background-color: var(--ink);
                     color: #9c7dff;
@@ -3006,6 +3031,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .trivia-opcion-texto{ font-size: .95rem; }
                 .trivia-nivel-nombre{ font-size: 2.8rem; }
                 .trivia-nivel-subtitulo{ font-size: 1rem; padding: 12px 20px; }
+                .trivia-nivel-puntaje b{ font-size: 1.6rem; }
+                .trivia-nivel-puntaje span{ font-size: .65rem; }
             }
 /* ============================================================
    Bloque cortador en degradé (negro -> blanco) entre main-animacion-5
@@ -3016,7 +3043,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
    ============================================================ */
 .corte-glitch{
     background: linear-gradient(to bottom, #000 0%, #000 42%, #fff 58%, #fff 100%);
-    height: 220px;
+    height: 800px;
     overflow: hidden;
     position: relative;
     transition: height .45s ease .05s, opacity .35s ease .05s;
@@ -3921,6 +3948,11 @@ img.bg-footer{
             color: #fff;
             padding: 6px 4px;
         }
+    /* Misma diagramación que animacionCta3, pero pegado a la izquierda
+       (usado por animacionCta4 en main-trivia). */
+    .animacion-cta--izq{
+        right: 24px;
+    }
 
     .animacion6-fila{
         position: relative;
@@ -3955,6 +3987,7 @@ img.bg-footer{
 
     @media (max-width: 900px){
         .animacion-cta--oscuro{ top: 16px; right: 16px; }
+        .animacion-cta--izq{ left: 16px; right: auto; }
         .animacion6-texto p{ font-size: 1.25rem; }
     }
     @media (max-width: 560px){
