@@ -854,7 +854,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
 
 .main-animacion-5{
     background-color: #fff;
-    overflow: hidden;
+    /*overflow: hidden;*/
     position: relative;
 }
     .corte-degrade-celeste{
@@ -879,7 +879,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         left: 50%;
         top: 100px;
         transform: translate(-50%, 0);
-        z-index: 10;
+        z-index: 20;
     }
         .animacion5-letra p{
             color: #fff;
@@ -887,6 +887,11 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             margin: 0 0 16px;
             text-align: left;
         }
+    .corte-mariposas{
+        bottom: -130px;
+        position: absolute;  
+        z-index: 10;  
+    }
 
 .main-canciones{
     margin-top: 50px;
@@ -3012,7 +3017,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     }
                         .trivia-nivel-puntaje b{
                             display: block;
-                            font-size: 2.1rem;
+                            font-size: 1.5rem;
                         }
                         .trivia-nivel-puntaje span{
                             display: block;
@@ -3068,7 +3073,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .trivia-opcion-texto{ font-size: .95rem; }
                 .trivia-nivel-nombre{ font-size: 2.8rem; }
                 .trivia-nivel-subtitulo{ font-size: 1rem; padding: 12px 20px; }
-                .trivia-nivel-puntaje b{ font-size: 1.6rem; }
+                .trivia-nivel-puntaje b{ font-size: 1.1rem; }
                 .trivia-nivel-puntaje span{ font-size: .65rem; }
                 .trivia-ver-respuestas-label{ font-size: .9rem; }
                 .trivia-respuestas-lista{ font-size: .95rem; }
@@ -3082,8 +3087,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
    siguiente sección sin un corte brusco.
    ============================================================ */
 .corte-glitch{
-    background: linear-gradient(to bottom, #000 0%, #000 42%, #fff 58%, #fff 100%);
-    height: 600px;
+    background: linear-gradient(to bottom, #000 0%, #000000 30%, #0c0c0c 40%, #242424 50%, #333333 60%, #5d5d5d 70%, #a0a0a0 80%, #d5d5d5 90%, #fff 100%);
+    height: 500px;
     overflow: hidden;
     position: relative;
 }
@@ -4339,10 +4344,18 @@ img.bg-footer{
 .elemento-transicion-10{
     max-width: 120px;
     position: absolute;
-    right: 90px;
+    left: 40%;
     z-index: 20;
-    top: -100px;
+    top: -150px;
+    rotate: 151deg;
+    opacity: 0;
+    transform: translateY(0);
+    transition: transform 1s ease, opacity 1s ease;
 }
+    .elemento-transicion-10.en-vista{
+        opacity: 1;
+        transform: translateY(-110px);
+    }
 .elemento-transicion-11{
     max-width: 180px;
     position: absolute;

@@ -140,7 +140,7 @@
     elNivelSubtitulo.textContent = nivel.subtitulo;
     elNivelImg.src = "./img/trivia/" + nivel.img;
     elNivelImg.alt = "Eres " + nivel.nombre;
-    elNivelPuntajeNum.textContent = aciertos;
+    elNivelPuntajeNum.textContent = aciertos + "/" + preguntas.length;
 
     pantallaPregunta.hidden = true;
     pantallaResultado.hidden = false;
