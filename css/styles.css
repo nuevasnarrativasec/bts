@@ -971,7 +971,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-compara p,
             .ctn-box-perfil-radar p,
             .ctn-box-comunidad p,
-            .ctn-box-facturando p{
+            .ctn-box-facturando p,
+            .ctn-box-deja-tu-mensaje p{
                 font: 1.2rem/1.4 'Prelo Book';
                 margin: 0 auto 20px;
                 max-width: 600px;
@@ -988,7 +989,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .ctn-box-compara p b,
                 .ctn-box-perfil-radar p b,
                 .ctn-box-comunidad p b,
-                .ctn-box-facturando p b{
+                .ctn-box-facturando p b,
+                .ctn-box-deja-tu-mensaje p b{
                     font-family: 'Prelo Bold';
                 }
                 span.sub{
@@ -3134,13 +3136,13 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 background-color: #F42439;
                 color: #000;
                 display: block;
-                padding: 0 10px;
+                padding: 0 20px;
             }
         .ctn-box-deja-tu-mensaje h4{
             color: #000;
             font: 2rem / 1.2 'Monigue Regular';
             margin: 30px auto;
-            max-width: 500px;
+            max-width: 600px;
         }
 
         .mensaje-form{
@@ -3148,7 +3150,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             border: 1px solid #c2c2c2;
             border-radius: 28px;
             margin: 0 auto;
-            max-width: 650px;
+            max-width: 600px;
             padding: 36px 40px;
         }
             .mensaje-label{
@@ -3173,6 +3175,15 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                     border-radius: 22px;
                     resize: vertical;
                 }
+            .mensaje-fila{
+                display: flex;
+                gap: 20px;
+            }
+                .mensaje-campo{
+                    flex: 1;
+                    min-width: 0;
+                }
+                    .mensaje-campo .mensaje-input{ width: 100%; }
             .mensaje-btn-enviar{
                 background-color: #000;
                 border: none;
@@ -3194,6 +3205,11 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 text-align: center;
             }
                 .mensaje-estado.is-error{ color: #000; }
+            .mensaje-form p{
+                color: var(--ink);
+                font: 1rem/1.4 'Prelo Book', sans-serif;
+                margin: 26px 0;
+            }
 
         .mensaje-disclaimer{
             background-color: #fff;
@@ -3322,6 +3338,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .ctn-box-deja-tu-mensaje h3{ font-size: 3.2rem; }
             .ctn-box-deja-tu-mensaje h4{ font-size: 1.4rem; max-width: calc(100% - 40px); }
             .mensaje-form{ border-radius: 20px; padding: 24px 18px; }
+            .mensaje-fila{ flex-direction: column; gap: 0; }
             .mensaje-btn-enviar,
             .mensaje-btn-ver{ padding: 16px 32px; width: 100%; }
             .mensaje-carta{ padding: 28px 22px; }
@@ -3366,23 +3383,23 @@ span.separador-logo {
 }
 
 .footer-content ul li {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 .footer-content ul li h4 {
     display: inline-block;
-    font: 0.9rem/1.3 'Roboto', sans-serif;
+    font: 0.9rem/1.3 'Prelo Bold';
     font-weight: 800;
     margin-bottom: 0;
-    vertical-align: top;
+    vertical-align: bottom;
 }
 
 .footer-content ul li p {
     display: inline-block;
-    font: 0.9rem/1.6 'Roboto', sans-serif;
+    font: 0.9rem/1.3 'Prelo Book';
     font-weight: 300;
     margin: 0;
-    vertical-align: top;
+    vertical-align: bottom;
 }
 img.bg-footer{
     display: block;

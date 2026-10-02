@@ -1,15 +1,15 @@
 /* ============================================================
    BTS · Deja tu mensaje (mural ARMY)
-   - El formulario envía nombre / distrito / mensaje (para el mural
-     público) y además DNI / correo / celular (datos de contacto
-     para un sorteo posterior, nunca expuestos en el mural) a un
-     Google Apps Script Web App, que guarda todo en una misma fila
+   - El formulario envía nombre (apellidos y nombres) / mensaje (para
+     el mural público) y además DNI / celular / correo (datos de
+     contacto para un sorteo posterior, nunca expuestos en el mural) a
+     un Google Apps Script Web App, que guarda todo en una misma fila
      del Google Sheet, con una columna "aprobado" para moderación
      editorial del mensaje.
-   - El botón "Ver mensajes" trae del mismo endpoint solo nombre,
-     distrito y mensaje de los registros marcados como aprobados (el
-     endpoint nunca devuelve DNI/correo/celular) y los muestra en un
-     mini carrusel con flechas.
+   - El botón "Ver mensajes" trae del mismo endpoint solo nombre y
+     mensaje de los registros marcados como aprobados (el endpoint
+     nunca devuelve DNI/correo/celular) y los muestra en un mini
+     carrusel con flechas.
 
    ⚠️ CONFIGURACIÓN NECESARIA (una sola vez):
    Reemplaza ENDPOINT_URL por la URL de tu Web App de Apps
@@ -18,7 +18,7 @@
 (function () {
   "use strict";
 
-  var ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbxxS1FuNvnLU5CgV5QgEq7pB7qnryCm_Q-4vIs9c4RaIBlLY4u4QcRABOwvdjNE3mzxzA/exec";
+  var ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbw06J1KV_72elekLd2VZST8TrYZWxmTZNG1kH6JKBtPukiEWu-sOEJTX6Q5Zx_2_J4fcg/exec";
 
   var form = document.getElementById("mensajeForm");
   if (!form) return;
@@ -53,13 +53,12 @@
     }
 
     var nombre = form.nombre.value.trim();
-    var distrito = form.distrito.value.trim();
     var mensaje = form.mensaje.value.trim();
     var dni = form.dni.value.trim();
     var correo = form.correo.value.trim();
     var celular = form.celular.value.trim();
 
-    if (!nombre || !distrito || !mensaje || !dni || !correo || !celular) {
+    if (!nombre || !mensaje || !dni || !correo || !celular) {
       estado.textContent = "Completa todos los campos antes de enviar.";
       estado.classList.add("is-error");
       return;
@@ -93,7 +92,6 @@
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify({
         nombre: nombre,
-        distrito: distrito,
         mensaje: mensaje,
         dni: dni,
         correo: correo,
@@ -153,7 +151,7 @@
     if (!mensajes.length) return;
     var m = mensajes[i];
     cartaTexto.textContent = "“" + m.mensaje + "”";
-    cartaAutor.textContent = m.nombre + (m.distrito ? " de " + m.distrito : "");
+    cartaAutor.textContent = m.nombre;
   }
 
   function mostrarSinMensajes(texto) {
