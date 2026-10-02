@@ -110,18 +110,19 @@
     transform: translateY(-65%) rotate(45deg); pointer-events: none;
   }
 
-  .legend-card { background: transparent; border-radius: 4px; padding: 1.4rem 0; margin: 0 auto 1.25rem; max-width: 650px; }
+  .legend-card { background: transparent; border-radius: 4px; padding: 1.4rem 0; margin: 0 auto 1.25rem; max-width: 700px; }
   .legend-title { font-size: 16px; font-weight: 800; margin-bottom: 0.9rem; font-family: 'Prelo Extrabold'; display: none;}
   .legend-section-label { font-size: 13px; font-weight: 700; color: #3a3a42; margin-bottom: 0.6rem; font-family: 'Prelo Semibold'; display: none;}
   .legend-row { display: flex; gap: 1.25rem; flex-wrap: wrap; margin-bottom: 1.1rem; justify-content: center;}
   .legend-row:last-child { margin-bottom: 0; }
+  #legend-cluster { display: contents; }
   .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 13.5px; cursor: pointer; user-select: none; opacity: 1; transition: opacity 0.15s; font-family: 'Prelo Medium'; }
   .legend-item.dim { opacity: 0.35; }
   .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
   .legend-item b { font-family: 'Prelo Bold'; }
   .legend-item .legend-desc { color: var(--muted); display: none;}
 
-  .legend-shape { width: 12px; height: 12px; flex-shrink: 0; background: #9a9aa3; }
+  .legend-shape { width: 12px; height: 12px; flex-shrink: 0; background: #968fff; }
   .legend-shape.circle { border-radius: 50%; }
   .legend-shape.diamond { border-radius: 2px; transform: rotate(45deg); }
 
@@ -228,18 +229,15 @@
     <div class="legend-title">Leyenda</div>
 
     <div class="legend-section-label">Tipo de canción</div>
-    <div class="legend-row" id="legend-cluster"></div>
-
-    <div class="legend-section-label">Era</div>
-    <div class="legend-row" id="legend-era" style="display: none;">
-      <div class="legend-item"><span class="legend-shape circle"></span><span>Pre-servicio</span></div>
-      <div class="legend-item"><span class="legend-shape diamond"></span><span>Reencuentro</span></div>
+    <div class="legend-row">
+      <span id="legend-cluster"></span>
+      <div class="legend-item"><span class="legend-shape diamond"></span><span>Eras</span></div>
     </div>
   </div>
 
   <div class="axis-legend" style="display: none;">
-    <span class="axis-legend-item"><b>Eje X — Valence</b> 0 sombrío <span class="axis-legend-arrow">&#8594;</span> 1 luminoso</span>
-    <span class="axis-legend-item"><b>Eje Y — Energy</b> 0 tranquilo <span class="axis-legend-arrow">&#8594;</span> 1 intenso</span>
+    <span class="axis-legend-item"><b>Eje X — Luminosidad musical</b> 0 sombrío <span class="axis-legend-arrow">&#8594;</span> 1 luminoso</span>
+    <span class="axis-legend-item"><b>Eje Y — Energía</b> 0 tranquilo <span class="axis-legend-arrow">&#8594;</span> 1 intenso</span>
   </div>
 
   <div class="stats-line" id="stats-line"></div>
@@ -270,15 +268,14 @@ const DATA = [{"t":"Intro: 2 Cool 4 Skool (ft. DJ Friz)","s":"BTS","e":"pre","y"
 const CLUSTER_COLOR = { 0: '#6C63FF', 1: '#E8637F', 2: '#4CAF7D', 3: '#D98E4A' };
 const CLUSTER_LABEL = { 0: 'Rítmico y luminoso', 1: 'Potente y menos luminoso', 2: 'Acústico y sereno', 3: 'Hablado / interludio' };
 const CLUSTER_DESC = {
-  0: 'Alta energía, alto valence, alta bailabilidad. El BTS de estadio y los grandes hits comerciales.',
-  1: 'Alta energía, bajo valence. Canciones de crítica social, rap denso y las narrativas más complejas.',
-  2: 'Bajo valence, baja energía, alta acousticness. El BTS más íntimo y los álbumes en solitario más emotivos.',
-  3: 'Speechiness muy alto. Skits e interludes hablados: un grupo pequeño pero muy específico.'
+  0: 'Alta energía, alta luminosidad musical, alta bailabilidad. El BTS de estadio y los grandes hits comerciales.',
+  1: 'Alta energía, baja luminosidad musical. Canciones de crítica social, rap denso y las narrativas más complejas.',
+  2: 'Baja luminosidad musical, baja energía, alto componente acústico. El BTS más íntimo y los álbumes en solitario más emotivos.',
+  3: 'Voz hablada muy alta. Skits e interludes hablados: un grupo pequeño pero muy específico.'
 };
 
 const MEMBER_ORDER = ['ALL','BTS','RM','JIN','SUGA','JHOPE','JIMIN','V','JUNGKOOK'];
 const MEMBER_LABEL = { ALL:'Todos los miembros', BTS:'BTS (grupo)', RM:'RM', JIN:'JIN', SUGA:'SUGA', JHOPE:'J-HOPE', JIMIN:'JIMIN',  V:'V', JUNGKOOK:'JUNGKOOK' };
-const ERA_LABEL = { pre: 'Pre-servicio', post: 'Reencuentro' };
 
 let state = { miembro: 'ALL', era: 'ALL', activeClusters: new Set([0,1,2,3]), selected: null };
 
@@ -291,14 +288,10 @@ MEMBER_ORDER.forEach(m => {
   miembroSelect.appendChild(opt);
 });
 
-/* ===== Cluster stats (por era, sobre todo el corpus) ===== */
+/* ===== Cluster stats ===== */
 function clusterStats(c) {
   const inCluster = DATA.filter(d => d.c === c);
-  const pre = DATA.filter(d => d.e === 'pre').length;
-  const post = DATA.filter(d => d.e === 'post').length;
-  const prePct = pre ? (inCluster.filter(d => d.e === 'pre').length / pre * 100) : 0;
-  const postPct = post ? (inCluster.filter(d => d.e === 'post').length / post * 100) : 0;
-  return { n: inCluster.length, prePct, postPct };
+  return { n: inCluster.length };
 }
 
 /* ===== Legend ===== */
@@ -329,12 +322,10 @@ function renderLegend() {
 function renderClusterCards() {
   const wrap = document.getElementById('cluster-cards');
   wrap.innerHTML = [0,1,2,3].map(c => {
-    const st = clusterStats(c);
     const dim = state.activeClusters.has(c) ? '' : ' dim';
     return `<div class="cluster-card${dim}" data-cluster="${c}" style="border-left-color:${CLUSTER_COLOR[c]}">
       <div class="cluster-card-name" style="color:${CLUSTER_COLOR[c]}">${CLUSTER_LABEL[c]}</div>
       <div class="cluster-card-desc">${CLUSTER_DESC[c]}</div>
-      <div class="cluster-card-stat">Pre-servicio: <b>${st.prePct.toFixed(1)}%</b> · Reencuentro: <b>${st.postPct.toFixed(1)}%</b></div>
     </div>`;
   }).join('');
 
@@ -425,8 +416,8 @@ function initScatter() {
 function showTooltip(event, d) {
   tooltip.html(`
     <div class="tt-title">${d.t}</div>
-    <div class="tt-meta">${MEMBER_LABEL[d.s] || d.s} · ${ERA_LABEL[d.e]} · ${d.y}</div>
-    <div class="tt-row">Valence: <b>${d.v.toFixed(2)}</b> · Energy: <b>${d.en.toFixed(2)}</b></div>
+    <div class="tt-meta">${MEMBER_LABEL[d.s] || d.s} · ${d.y}</div>
+    <div class="tt-row">Luminosidad musical: <b>${d.v.toFixed(2)}</b> · Energía: <b>${d.en.toFixed(2)}</b></div>
     <span class="tt-cluster" style="background:${CLUSTER_COLOR[d.c]}22;color:${CLUSTER_COLOR[d.c]}">${CLUSTER_LABEL[d.c]}</span>
   `).style('opacity', 1);
   moveTooltip(event);
@@ -489,13 +480,13 @@ document.getElementById('detail-close').addEventListener('click', () => {
 
 function openDetail(d) {
   document.getElementById('detail-title').textContent = d.t;
-  document.getElementById('detail-sub').textContent = `${MEMBER_LABEL[d.s] || d.s} · ${ERA_LABEL[d.e]} · ${d.y}`;
+  document.getElementById('detail-sub').textContent = `${MEMBER_LABEL[d.s] || d.s} · ${d.y}`;
   const tag = document.getElementById('detail-cluster-tag');
   tag.textContent = CLUSTER_LABEL[d.c];
   tag.style.background = CLUSTER_COLOR[d.c] + '22';
   tag.style.color = CLUSTER_COLOR[d.c];
 
-  const feats = [['Valence', d.v], ['Energy', d.en], ['Danceability', d.da], ['Acousticness', d.ac], ['Speechiness', d.sp]];
+  const feats = [['Luminosidad musical', d.v], ['Energía', d.en], ['Bailabilidad', d.da], ['Componente acústico', d.ac], ['Voz hablada', d.sp]];
   document.getElementById('detail-bars').innerHTML = feats.map(([label, val]) => `
     <div class="feat-row">
       <span class="feat-label">${label}</span>
