@@ -3354,6 +3354,59 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     text-align: center;
 }
 
+.box-metodologia{
+    border: 1px solid #fff;
+    border-radius: 6px;
+    margin: 0 auto 50px;
+    max-width: 400px;
+    padding: 0 20px;
+    text-align: left;
+    width: calc(100% - 40px);
+}
+    .box-metodologia summary{
+        cursor: pointer;
+        list-style: none;
+        padding: 26px 0;
+    }
+        .box-metodologia summary::-webkit-details-marker{ display: none; }
+        .box-metodologia summary::marker{ content: ""; }
+        .box-metodologia summary b{
+            color: #fff;
+            display: block;
+            font: 1rem/1.2 'Prelo Bold';
+            margin: 0 0 10px;
+            text-transform: uppercase;
+        }
+        .box-metodologia summary p{
+            color: rgba(255,255,255,.8);
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            font: 1rem/1.5 'Prelo Medium', sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+    .box-metodologia[open] summary p{
+        -webkit-line-clamp: unset;
+        line-clamp: unset;
+        overflow: visible;
+    }
+    .box-metodologia-texto{
+        padding: 0 0 26px;
+    }
+        .box-metodologia-texto p{
+            color: rgba(255,255,255,.8);
+            font: 1rem/1.5 'Prelo Medium', sans-serif;
+            margin: 0 0 16px;
+        }
+            .box-metodologia-texto p:last-child{ margin-bottom: 0; }
+            .box-metodologia-texto p b{ font-family: 'Prelo Bold'; }
+    @media (max-width: 560px){
+        .box-metodologia{ border-radius: 18px; padding: 0 18px; }
+        .box-metodologia summary{ padding: 20px 0; }
+    }
+
 .footer-content {
     max-width: 100%;
     margin: 0 auto;
