@@ -3855,6 +3855,9 @@ img.bg-footer{
     .clusters_miembro{
         height: 650px !important;
     }
+    .box-perfil-radar{
+        padding: 0;
+    }
 
 
 
@@ -4029,6 +4032,11 @@ img.bg-footer{
     .animacion2-video-puerta{
         max-width: 100%;
     }
+    .animacion22-letra{
+        left: 5%;
+        top: 87px;
+        transform: none;
+    }
     .main-canciones h3, 
     .main-protagonistas h3, 
     .main-facturando h3, 
@@ -4060,7 +4068,7 @@ img.bg-footer{
         row-gap: 8px;
     }
     .ctn-box-perfil-radar iframe{
-        height: 1520px;
+        height: 1120px !important;
     }
     .ind-label{
         font-size: 17px;
@@ -4110,6 +4118,10 @@ img.bg-footer{
     .footer-content ul li h4,
     .footer-content ul li p{
         font-size: 1.1rem;
+    }
+    .ctn-box-universo-musical h4, .ctn-box-radiografia h4, .ctn-box-canciones h4, .ctn-box-capas h4, .ctn-box-analisis-cancion h4, .ctn-box-buscador-cancion h4, .ctn-box-arirang h4, .ctn-box-cronologia h4, .ctn-box-siete-voces h4, .ctn-box-compara h4, .ctn-box-perfil-radar h4, .ctn-box-comunidad h4, .ctn-box-facturando h4 {
+        font-size: 2.4rem;
+        line-height: 1.1;
     }
 
 }

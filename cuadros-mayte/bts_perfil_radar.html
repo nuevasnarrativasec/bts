@@ -147,10 +147,6 @@
   .radar-info-badge.is-open .radar-info-tip {
     opacity: 1; transform: translate(-50%, 0); visibility: visible;
   }
-  tspan{
-    font-size: 22px;
-  }
-
   .callout {
     background: var(--panel); border-radius: 12px; padding: 0.9rem 1.4rem;
     font-size: 13.5px; margin-top: 0.5rem;
@@ -159,7 +155,17 @@
 
   /* Indicadores claves */
   .indicators-title { font-size: 15px; font-weight: 800; margin: 2.5rem 0 1rem; }
+  .indicators-carousel { position: relative; }
   .indicators-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .indicators-arrow {
+    display: none; align-items: center; justify-content: center;
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: none; border: none; padding: 4px; margin: 0;
+    color: #b0b0b8; cursor: pointer; z-index: 2;
+  }
+  .indicators-arrow:disabled, .indicators-arrow.is-hidden { display: none; }
+  .indicators-arrow--prev { left: -6px; }
+  .indicators-arrow--next { right: -6px; }
   .ind-card { border: 1.5px solid var(--ink); border-radius: 16px; padding: 1.25rem 1.4rem 1.5rem; }
   .ind-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem; }
   .ind-icon { flex: none; color: var(--red); max-width: 30px;}
@@ -176,6 +182,10 @@
 
   footer { margin-top: 2.5rem; font-size: 12px; color: #b0b0b8; text-align: center; }
 
+  tspan{
+    font-size: 23px;
+  }
+
   @media (max-width: 860px) {
     .content { grid-template-columns: 1fr; }
     .indicators-grid { grid-template-columns: 1fr; }
@@ -183,18 +193,28 @@
   }
 
   @media (max-width: 640px) {
-    body { padding: 1rem 0.75rem 3rem; }
-    .wrap { padding: 1.25rem 1rem 1.75rem; border-radius: 20px; }
+    body { padding: 0; }
+    .wrap { padding: 1.25rem 1rem 1.75rem; border-radius: 20px; border: none; padding: 0;}
     .search-bar { padding: 0.6rem 1.1rem; margin-bottom: 1.75rem; }
     .avatar-lg { width: 120px; height: 120px; margin: 0 auto 1.1rem; }
     .left-col { text-align: center; }
     .member-name { font-size: 38px; }
-    .headline { font-size: 17px; }
+    .headline { font-size: 22px; }
     .description { max-width: none; margin: 0 auto; }
     .radar-head { justify-content: center; text-align: center; }
     .radar-info-tip { width: 220px; }
-    .indicators-grid { gap: 1rem; }
-    .ind-card { padding: 1rem 1.1rem 1.25rem; }
+    .indicators-carousel { padding: 0 20px; }
+    .indicators-grid {
+      display: flex; grid-template-columns: unset; gap: 1rem;
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    }
+    .indicators-grid::-webkit-scrollbar { display: none; }
+    .ind-card { flex: 0 0 100%; scroll-snap-align: center; padding: 1rem 1.1rem 1.25rem; }
+    .indicators-arrow.is-visible { display: flex; }
+    tspan{
+      font-size: 23px;
+    }
   }
 </style>
 </head>
@@ -235,7 +255,15 @@
   </div>
 
   <div class="indicators-title">Indicadores claves</div>
-  <div class="indicators-grid" id="indicators"></div>
+  <div class="indicators-carousel">
+    <button type="button" class="indicators-arrow indicators-arrow--prev" id="indPrev" aria-label="Indicador anterior">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="indicators-grid" id="indicators"></div>
+    <button type="button" class="indicators-arrow indicators-arrow--next" id="indNext" aria-label="Siguiente indicador">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
 
 </div>
 
@@ -470,11 +498,11 @@ const DATA = [
 
 const AXES = ["Valence","Energy","Danceability","Acousticness","Speechiness"];
 const AXIS_LABEL = {
-  Valence: ["Luminosidad musical"],
+  Valence: ["Luminosidad", "musical"],
   Energy: ["Energía"],
   Danceability: ["Bailabilidad"],
-  Acousticness: ["Componente acústico"],
-  Speechiness: ["Voz hablada"]
+  Acousticness: ["Componente", "acústico"],
+  Speechiness: ["Voz", "hablada"]
 };
 const IND_LABEL = {
   Valence: ["Luminosidad musical", "Luminosidad musical"],
@@ -545,8 +573,13 @@ AXES.forEach((ax, i) => {
     .attr('text-anchor', anchor)
     .attr('dominant-baseline', 'middle')
     .style('font-size', '14px').style('font-weight', 800).style('fill', '#16161d');
-  label.append('tspan').attr('x', lx).attr('dy', '-0.3em').text(AXIS_LABEL[ax][0]);
-  label.append('tspan').attr('x', lx).attr('dy', '1.2em').style('font-weight', 600).style('fill', '#7a7a85').style('font-size', '12px').text(AXIS_LABEL[ax][1]);
+  const lineas = AXIS_LABEL[ax];
+  if (lineas.length > 1) {
+    label.append('tspan').attr('x', lx).attr('dy', '-0.3em').text(lineas[0]);
+    label.append('tspan').attr('x', lx).attr('dy', '1.2em').text(lineas[1]);
+  } else {
+    label.append('tspan').attr('x', lx).attr('dy', '0.3em').text(lineas[0]);
+  }
 });
 
 // scale labels (top axis: Valence)
@@ -624,7 +657,30 @@ function renderIndicators(d) {
     `;
     indicatorsEl.appendChild(card);
   });
+  indicatorsEl.scrollLeft = 0;
+  updateIndicatorsArrows();
 }
+
+// --- Indicators carousel (mobile) ---
+const indPrevBtn = document.getElementById('indPrev');
+const indNextBtn = document.getElementById('indNext');
+
+function updateIndicatorsArrows() {
+  const maxScroll = indicatorsEl.scrollWidth - indicatorsEl.clientWidth;
+  indPrevBtn.classList.toggle('is-visible', indicatorsEl.scrollLeft > 4);
+  indNextBtn.classList.toggle('is-visible', indicatorsEl.scrollLeft < maxScroll - 4);
+}
+
+function scrollIndicators(dir) {
+  const card = indicatorsEl.querySelector('.ind-card');
+  const step = card ? card.getBoundingClientRect().width + 16 : indicatorsEl.clientWidth;
+  indicatorsEl.scrollBy({ left: dir * step, behavior: 'smooth' });
+}
+
+indPrevBtn.addEventListener('click', () => scrollIndicators(-1));
+indNextBtn.addEventListener('click', () => scrollIndicators(1));
+indicatorsEl.addEventListener('scroll', updateIndicatorsArrows);
+window.addEventListener('resize', updateIndicatorsArrows);
 
 function renderProfile(idx) {
   const d = DATA[idx];
