@@ -434,7 +434,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         width: 100%;
     }
         .box-titulo a{
-            color: #fff;
+            color: #9f9f9f;
             display: block;
             font: 1.4rem / 1 'Monigue Regular';
             text-decoration: none;
