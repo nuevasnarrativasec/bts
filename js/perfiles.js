@@ -187,6 +187,21 @@
     );
   }
 
+  /* Mini selector de avatares junto a la ilustración, solo visible en
+     móvil (ver css/styles.css): mismo propósito que la botonera de
+     arriba (#perfilesAvatares), pero sin que el usuario tenga que
+     volver a subir con el scroll para cambiar de integrante. */
+  function avataresMiniHtml(activeId) {
+    return ORDER.map(function (key) {
+      var m = MEMBERS[key];
+      return (
+        '<button class="perfil-foto-avatar-btn' + (key === activeId ? " is-active" : "") + '" type="button" data-id="' + key + '" aria-label="' + m.nombre + '">' +
+        '<img src="' + m.avatar + '" alt="' + m.nombre + '">' +
+        "</button>"
+      );
+    }).join("");
+  }
+
   function render(id) {
     var d = MEMBERS[id];
     if (!d) return;
@@ -194,6 +209,7 @@
     card.innerHTML =
       '<div class="perfil-foto">' +
       '<img src="' + d.foto + '" alt="' + d.nombre + '" loading="lazy">' +
+      '<div class="perfil-foto-avatares">' + avataresMiniHtml(id) + "</div>" +
       "</div>" +
       '<div class="perfil-info">' +
       '<div class="perfil-cabecera">' +
@@ -239,6 +255,13 @@
       if (!wasOpen) infoBtn.classList.add("is-open");
       return;
     }
+
+    var miniBtn = e.target.closest(".perfil-foto-avatar-btn");
+    if (miniBtn) {
+      seleccionar(miniBtn.getAttribute("data-id"));
+      return;
+    }
+
     card
       .querySelectorAll(".perfil-metrics-info.is-open")
       .forEach(function (b) {
@@ -255,21 +278,20 @@
       });
   });
 
-  avataresWrap.addEventListener("click", function (e) {
-    var btn = e.target.closest(".perfil-avatar-btn");
-    if (!btn) return;
-
-    var id = btn.getAttribute("data-id");
+  function seleccionar(id) {
     if (!id || !MEMBERS[id]) return;
-
     avataresWrap
       .querySelectorAll(".perfil-avatar-btn")
       .forEach(function (b) {
-        b.classList.remove("is-active");
+        b.classList.toggle("is-active", b.getAttribute("data-id") === id);
       });
-    btn.classList.add("is-active");
-
     render(id);
+  }
+
+  avataresWrap.addEventListener("click", function (e) {
+    var btn = e.target.closest(".perfil-avatar-btn");
+    if (!btn) return;
+    seleccionar(btn.getAttribute("data-id"));
   });
 
   render("rm");

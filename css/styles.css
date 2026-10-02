@@ -2447,6 +2447,12 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .perfil-foto img{
                     width: 100%;
                 }
+                /* Mini selector de avatares junto a la ilustración: solo
+                   se muestra en móvil (ver media query más abajo), para
+                   poder cambiar de integrante sin volver a subir. */
+                .perfil-foto-avatares{
+                    display: none;
+                }
 
             .perfil-info{
                 /*border-right: 2px solid #000;*/
@@ -2629,11 +2635,57 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                         gap: 26px;
                         padding: 26px;
                     }
+                        /* Orden en móvil: ficha de texto, luego la
+                           ilustración (con su mini selector de avatares
+                           al lado) y al final las métricas/cita. El
+                           orden en el HTML no cambia, solo el visual. */
+                        .perfil-info{ order: 1; }
+                        .perfil-foto{ order: 2; }
+                        .perfil-stats{ order: 3; }
+
                         .perfil-foto{
+                            align-items: center;
+                            display: flex;
                             flex-basis: auto;
+                            gap: 14px;
+                            justify-content: center;
                             margin: 0 auto;
-                            max-width: 160px;
+                            max-width: 280px;
                         }
+                            .perfil-foto img{
+                                flex: 1 1 auto;
+                                max-width: 190px;
+                            }
+                            .perfil-foto-avatares{
+                                display: flex;
+                                flex: 0 0 auto;
+                                flex-direction: column;
+                                gap: 8px;
+                            }
+                                .perfil-foto-avatar-btn{
+                                    background-color: #9C7EFF;
+                                    border: none;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    flex-shrink: 0;
+                                    height: 42px;
+                                    padding: 3px;
+                                    width: 42px;
+                                }
+                                    .perfil-foto-avatar-btn img{
+                                        border-radius: 50%;
+                                        display: block;
+                                        filter: grayscale(.85);
+                                        height: 100%;
+                                        object-fit: cover;
+                                        opacity: .75;
+                                        transition: filter .2s ease, opacity .2s ease;
+                                        width: 100%;
+                                    }
+                                    .perfil-foto-avatar-btn.is-active img{
+                                        filter: none;
+                                        opacity: 1;
+                                    }
                         .perfil-info{
                             border-right: none;
                             border-bottom: 2px solid #000;
@@ -3625,6 +3677,9 @@ img.bg-footer{
 .animacion-video-desktop-2,
 .animacion-video-desktop-3,
 .animacion-video-desktop-4,
+.animacion-video-desktop-7,
+.animacion-video-desktop-9,
+.animacion-video-desktop-10,
 .bg-cancion-capas-desktop{
     display: block;
 }
@@ -3632,6 +3687,9 @@ img.bg-footer{
 .animacion-video-movil-2,
 .animacion-video-movil-3,
 .animacion-video-movil-4,
+.animacion-video-movil-7,
+.animacion-video-movil-9,
+.animacion-video-movil-10,
 .bg-cancion-capas-movil{
     display: none;
 }
@@ -3658,6 +3716,9 @@ img.bg-footer{
     .animacion-video-desktop-2,
     .animacion-video-desktop-3,
     .animacion-video-desktop-4,
+    .animacion-video-desktop-7,
+    .animacion-video-desktop-9,
+    .animacion-video-desktop-10,
     .bg-cancion-capas-desktop,
     .ctn-separador{
         display: none !important;
@@ -3666,6 +3727,9 @@ img.bg-footer{
     .animacion-video-movil-2,
     .animacion-video-movil-3,
     .animacion-video-movil-4,
+    .animacion-video-movil-7,
+    .animacion-video-movil-9,
+    .animacion-video-movil-10,
     .bg-cancion-capas-movil{
         display: block;
     }
@@ -3766,6 +3830,21 @@ img.bg-footer{
     }
     .main-radiografia h3{
         font-size: 3rem;
+    }
+    .animacion2-fila--llave{
+        flex-direction: column-reverse;
+        gap: 25px;
+        margin-bottom: 30px;
+        padding: 40px 20px 0;
+    }
+    .animacion3-letra{
+        max-width: 200px;
+        top: 100px;
+    }
+    .main-animacion-3 .elemento-transicion-4{
+        bottom: -4px;
+        max-width: 200px;
+        right: -55px;
     }
 
 
@@ -3958,7 +4037,7 @@ img.bg-footer{
         margin-top: -65px;
     }
     .ctn-box-siete-voces{
-        padding-top: 100px;
+        padding-top: 45px;
     }
     .ctn-box-siete-voces h5{
         padding: 0;
