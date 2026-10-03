@@ -443,7 +443,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             text-align: right;
         }
         .main-hero h1{
-            background: url('../img/bts-titular.png') no-repeat center;
+            background: url('../img/bts-titular.png') no-repeat center top;
             background-size: 100%;
             color: transparent;
             font: 10rem/1.3 'Monigue Regular';
@@ -3778,7 +3778,7 @@ img.bg-footer-movil{
 
     .main-hero h1{
         font-size: 3.5rem;
-        height: 275px;
+        height: 280px;
         width: 100%;
     }
         .box-titulo a{
@@ -3853,7 +3853,7 @@ img.bg-footer-movil{
         height: 600px !important;
     }
     .box-buscador-cancion{
-        padding-bottom: 350px;
+        padding-bottom: 250px;
     }
     #buscadorMascota{
         max-width: inherit;
@@ -3957,7 +3957,7 @@ img.bg-footer-movil{
     }
     .crono-mascota-2 .crono-mascota-clic{
         top: 0;
-        translate: -125px 210px;
+        translate: -150px 210px;
     }
 
 
