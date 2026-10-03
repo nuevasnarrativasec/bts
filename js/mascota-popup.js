@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  var mascotas = document.querySelectorAll(".crono-mascota[data-dato-texto]");
+  var mascotas = document.querySelectorAll(".crono-mascota[data-dato-texto], .box-mascota-8[data-dato-texto]");
   var ctn = document.getElementById("ctnMascotaPopup");
   if (!mascotas.length || !ctn) return;
 

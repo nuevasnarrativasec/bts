@@ -3416,6 +3416,27 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         height: 1138px;
         position: relative;
     }
+        .box-mascota-8{
+            position: absolute;
+            top: 320px;
+            max-width: 100px;
+            left: 35%;
+        }
+            .box-mascota-8 .crono-mascota-img,
+            .box-mascota-8 .crono-mascota-clic{
+                animation: crono-mascota-palpito 1.6s ease-in-out 1s infinite;
+            }
+            @media (prefers-reduced-motion: reduce){
+                .box-mascota-8 .crono-mascota-img,
+                .box-mascota-8 .crono-mascota-clic{ animation: none; }
+            }
+            .box-mascota-8 .crono-mascota-clic{
+                bottom: 6%;
+                left: 102%;
+                top: auto;
+                translate: -50% 0;
+                rotate: -35deg;
+            }
         .mural-info{
             background: none;
             border: none;
