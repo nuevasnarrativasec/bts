@@ -3847,7 +3847,7 @@ img.bg-footer{
             padding: 20px;
         }
     .iframe-brecha{
-        height: 550px !important;
+        height: 600px !important;
     }
     .box-buscador-cancion{
         padding-bottom: 350px;
@@ -3951,6 +3951,10 @@ img.bg-footer{
     .main-deja-tu-mensaje .elemento-transicion-10{
         left: 10%;   
         top: -310px;
+    }
+    .crono-mascota-2 .crono-mascota-clic{
+        top: 0;
+        translate: -125px 210px;
     }
 
 
