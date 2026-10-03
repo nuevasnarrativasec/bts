@@ -3525,7 +3525,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .mural-info{ height: 34px; right: 14px; top: 14px; width: 34px; }
                     .mural-info-tip{ width: 200px; }
                 .mensaje-flecha{ transform: rotate(90deg); }
-                .mensaje-flecha:hover{ transform: rotate(90deg) scale(1.08); }
+                .mensaje-flecha:hover{ /*transform: rotate(90deg) scale(1.08);*/ }
         }
         @media (max-width: 560px){
             .ctn-box-deja-tu-mensaje h3{ font-size: 3.2rem; }
@@ -4313,6 +4313,9 @@ img.bg-footer-movil{
     }
     #facturandoMascotaIzq{
         top: 3530px;
+    }
+    .box-mascota-8{
+        top: 250px;
     }
 
 }
