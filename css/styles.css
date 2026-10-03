@@ -4256,6 +4256,12 @@ img.bg-footer{
     .mensaje-btn-ver{
         margin: 35px auto 0;
     }
+    .box-titulo{
+        top: 42%;
+    }
+    .box-indicacion-desliza{
+        bottom: 250px;
+    }
 
 }
 
