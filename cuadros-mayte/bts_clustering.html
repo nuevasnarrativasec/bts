@@ -125,6 +125,7 @@
   .legend-shape { width: 12px; height: 12px; flex-shrink: 0; background: #968fff; }
   .legend-shape.circle { border-radius: 50%; }
   .legend-shape.diamond { border-radius: 2px; transform: rotate(45deg); }
+  .legend-shape.diamond-outline { box-sizing: border-box; border: 2.5px solid #4a3fcf; }
 
   .axis-legend {
     display: flex; align-items: center; justify-content: center; gap: 1.75rem;
@@ -237,7 +238,8 @@
     <div class="legend-section-label">Tipo de canción</div>
     <div class="legend-row">
       <span id="legend-cluster"></span>
-      <div class="legend-item"><span class="legend-shape diamond"></span><span>Eras</span></div>
+      <div class="legend-item"><span class="legend-shape diamond"></span><span>2013 - 2022</span></div>
+      <div class="legend-item"><span class="legend-shape diamond diamond-outline"></span><span>2023 - 2025</span></div>
     </div>
   </div>
 
@@ -444,19 +446,18 @@ function drawPoints() {
 
   const key = d => d.t + '|' + d.s + '|' + d.y;
 
-  const circles = gPoints.selectAll('circle.pt').data(data.filter(d => d.e === 'pre'), key);
+  const circles = gPoints.selectAll('path.pt').data(data.filter(d => d.e === 'pre'), key);
   circles.exit().remove();
-  circles.enter().append('circle').attr('class','pt').merge(circles)
-    .attr('cx', d => xScale(d.v)).attr('cy', d => yScale(d.en))
-    .attr('r', d => isSelected(d) ? 8.5 : 6)
+  circles.enter().append('path').attr('class','pt').merge(circles)
+    .attr('d', d => diamondPath(xScale(d.v), yScale(d.en), isSelected(d) ? 8.5 : 6))
     .attr('fill', d => CLUSTER_COLOR[d.c])
     .attr('fill-opacity', 0.72)
     .attr('stroke', d => isSelected(d) ? '#16161d' : '#fff')
     .attr('stroke-width', d => isSelected(d) ? 2.5 : 1)
     .style('cursor','pointer')
-    .on('mouseover', function(event,d){ d3.select(this).attr('r', 8.5); showTooltip(event,d); })
+    .on('mouseover', function(event,d){ d3.select(this).attr('d', diamondPath(xScale(d.v), yScale(d.en), 8.5)); showTooltip(event,d); })
     .on('mousemove', moveTooltip)
-    .on('mouseout', function(event,d){ d3.select(this).attr('r', isSelected(d)?8.5:6); hideTooltip(); })
+    .on('mouseout', function(event,d){ d3.select(this).attr('d', diamondPath(xScale(d.v), yScale(d.en), isSelected(d)?8.5:6)); hideTooltip(); })
     .on('click', function(event,d){ state.selected = d; drawPoints(); openDetail(d); hideTooltip(); });
 
   const diamonds = gPoints.selectAll('path.pt-d').data(data.filter(d => d.e === 'post'), key);
@@ -465,8 +466,8 @@ function drawPoints() {
     .attr('d', d => diamondPath(xScale(d.v), yScale(d.en), isSelected(d) ? 8.5 : 6))
     .attr('fill', d => CLUSTER_COLOR[d.c])
     .attr('fill-opacity', 0.72)
-    .attr('stroke', d => isSelected(d) ? '#16161d' : '#fff')
-    .attr('stroke-width', d => isSelected(d) ? 2.5 : 1)
+    .attr('stroke', d => CLUSTER_COLOR[d.c])
+    .attr('stroke-width', d => isSelected(d) ? 3.5 : 2.25)
     .style('cursor','pointer')
     .on('mouseover', function(event,d){ d3.select(this).attr('d', diamondPath(xScale(d.v), yScale(d.en), 8.5)); showTooltip(event,d); })
     .on('mousemove', moveTooltip)
