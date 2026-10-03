@@ -4302,6 +4302,13 @@ img.bg-footer-movil{
 
 }
 
+@media (max-width: 393px){
+
+    .main-hero h1{
+        height: 300px;
+    }
+
+}
 
 
 
