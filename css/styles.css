@@ -3143,7 +3143,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 .trivia-opcion-texto{ font-size: .95rem; }
                 .trivia-nivel-nombre{ font-size: 2.8rem; }
                 .trivia-nivel-subtitulo{ font-size: 1rem; padding: 12px 20px; }
-                .trivia-nivel-puntaje b{ font-size: 1.1rem; }
+                .trivia-nivel-puntaje b{ font-size: 1.5rem; }
                 .trivia-nivel-puntaje span{ font-size: .65rem; }
                 .trivia-ver-respuestas-label{ font-size: .9rem; }
                 .trivia-respuestas-lista{ font-size: .95rem; }
@@ -4883,6 +4883,7 @@ img.bg-footer-movil{
     .main-animacion-5{
         background-color: #3ca6cb;
         padding-top: 150px;
+        margin-top: -2px;
     }
     .main-deja-tu-mensaje img.sello{
         max-width: 550px;
