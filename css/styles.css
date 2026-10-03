@@ -4216,6 +4216,7 @@ body .bg-cancion-capas-movil{
         flex-direction: inherit;
         background: url('../img/deja-tu-mensaje/bg-deja-tu-mensaje-movil.jpg') no-repeat center;
         background-size: cover;
+        padding-top: 375px;
     }
     .mensaje-flecha{
         transform: none;
