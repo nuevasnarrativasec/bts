@@ -3216,7 +3216,9 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
         }
     }
     @media (max-width: 640px){
-        .corte-glitch{ height: 140px; }
+        .corte-glitch{ 
+            /*height: 140px; */
+        }
     }
 .main-deja-tu-mensaje{
     background-color: #fff;
@@ -3908,6 +3910,26 @@ img.bg-footer{
     .box-perfil-radar{
         padding: 0;
     }
+    .animacion5-letra{
+        max-width: 300px;
+    }
+    .main-trivia{
+        padding: 40px 0 150px;
+    }
+    #animacionCta4{
+        position: absolute;
+        right: 10px;
+        width: fit-content;
+        left: inherit;
+        top: 800px;
+    }
+    .main-deja-tu-mensaje{
+        padding-top: 0;
+    }
+    .main-deja-tu-mensaje .elemento-transicion-10{
+        left: 10%;   
+        top: -310px;
+    }
 
 
 
@@ -4136,7 +4158,7 @@ img.bg-footer{
         padding-top: 250px;
     }
     .ctn-box-deja-tu-mensaje h3{
-        font-size: 3.6rem;
+        font-size: 3rem;
     }
     .ctn-box-deja-tu-mensaje h4{
         font-size: 1.8rem;
@@ -4149,10 +4171,10 @@ img.bg-footer{
     }
     .mensaje-aclaracion{
         font-size: 1.3rem;
-        margin: 50px 20px 0;
+        margin: 50px auto 0;
     }
     .mensaje-btn-enviar, .mensaje-btn-ver{
-        width: 60%;
+        width: 75%;
     }
     .mensaje-mural{
         flex-direction: inherit;
@@ -4201,6 +4223,12 @@ img.bg-footer{
             rotate: 28deg !important;
             translate: 20px -84px;
         }
+    .bodytobody-item img{
+        transform: scale(1);
+    }
+    .mensaje-btn-ver{
+        margin: 35px auto 0;
+    }
 
 }
 
@@ -4458,7 +4486,7 @@ img.bg-footer{
         margin: 0 auto;
         width: 100%;
     }
-    .bodytobody-item--polaroid{ max-width: 320px; }
+    .bodytobody-item--polaroid{ max-width: 220px; }
     .bodytobody-item--linterna{ max-width: 260px; }
     .bodytobody-item--llavero{ max-width: 460px; }
     .bodytobody-lyric{
@@ -4470,7 +4498,7 @@ img.bg-footer{
 @media (max-width: 560px){
     .bodytobody-header{ flex-direction: column; gap: 14px; }
     .bodytobody-titulo{ font: 1.8rem/1 'Monigue Regular'; }
-    .bodytobody-lyric{ font-size: 1.3rem; }
+    .bodytobody-lyric{ font-size: 1.3rem;max-width: 250px; }
 }
 
 /* ============================================================
@@ -4794,9 +4822,16 @@ img.bg-footer{
     }
     .elemento-transicion-11{
         right: 0;
+        max-width: 100px;
     }
     .animacion2-fila .animacion-cta{
         right: 20px;
+    }
+    .bodytobody-header{
+        max-width: 225px;
+    }
+    #ctnBodyToBody iframe{
+        max-width: 200px;
     }
 
 }
