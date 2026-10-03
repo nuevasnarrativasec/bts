@@ -3448,6 +3448,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             width: 25px;
             z-index: 4;
             bottom: 23%;
+            display: none;
         }
             .mural-info-icon{
                 display: block;
@@ -4199,6 +4200,8 @@ img.bg-footer{
     }
     .mensaje-mural{
         flex-direction: inherit;
+        background: url('../img/deja-tu-mensaje/bg-deja-tu-mensaje-movil.jpg') no-repeat center;
+        background-size: cover;
     }
     .mensaje-flecha{
         transform: none;
@@ -4213,6 +4216,9 @@ img.bg-footer{
     .footer-content ul li h4,
     .footer-content ul li p{
         font-size: 1.1rem;
+    }
+    .footer-content ul li h4{
+        display: block;
     }
     .ctn-box-universo-musical h4, .ctn-box-radiografia h4, .ctn-box-canciones h4, .ctn-box-capas h4, .ctn-box-analisis-cancion h4, .ctn-box-buscador-cancion h4, .ctn-box-arirang h4, .ctn-box-cronologia h4, .ctn-box-siete-voces h4, .ctn-box-compara h4, .ctn-box-perfil-radar h4, .ctn-box-comunidad h4, .ctn-box-facturando h4 {
         font-size: 2.4rem;
