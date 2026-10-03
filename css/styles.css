@@ -3724,7 +3724,7 @@ img.bg-footer-movil{
 .animacion-video-movil-12,
 .animacion-video-movil-13,
 .animacion-video-movil-14,
-.bg-cancion-capas-movil{
+body .bg-cancion-capas-movil{
     display: none;
 }
 
@@ -3772,7 +3772,7 @@ img.bg-footer-movil{
     .animacion-video-movil-12,
     .animacion-video-movil-13,
     .animacion-video-movil-14,
-    .bg-cancion-capas-movil{
+    body .bg-cancion-capas-movil{
         display: block;
     }
 
