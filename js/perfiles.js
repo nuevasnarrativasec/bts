@@ -11,8 +11,8 @@
       nombreReal: "Kim Namjoon",
       edad: "32 años",
       nacimiento: "12 sep 1994 (Virgo)",
-      avatar: "./img/avatar-rm-cluster.png",
-      foto: "./img/perfiles/bg-perfil-rm.jpg",
+      avatar: "https://nuevasnarrativasec.github.io/bts/img/avatar-rm-cluster.png",
+      foto: "https://nuevasnarrativasec.github.io/bts/img/perfiles/bg-perfil-rm.jpg",
       rol: "Líder, rapero principal y compositor",
       idiomas: "Coreano, inglés fluido y nociones de japonés",
       solosLabel: "Álbumes de estudio oficiales en solitario",
@@ -32,8 +32,8 @@
       nombreReal: "Min Yoongi",
       edad: "33 años",
       nacimiento: "9 mar 1993 (Piscis)",
-      avatar: "./img/avatar-suga-cluster.png",
-      foto: "./img/perfiles/bg-perfil-suga.jpg",
+      avatar: "https://nuevasnarrativasec.github.io/bts/img/avatar-suga-cluster.png",
+      foto: "https://nuevasnarrativasec.github.io/bts/img/perfiles/bg-perfil-suga.jpg",
       rol: "Rapero, productor y compositor",
       idiomas: "Coreano, japonés y nociones de inglés",
       solosLabel: "Solos",
@@ -53,8 +53,8 @@
       nombreReal: "Jung Hoseok",
       edad: "32 años",
       nacimiento: "18 feb 1994 (Acuario)",
-      avatar: "./img/avatar-j-hope-cluster.png",
-      foto: "./img/perfiles/bg-perfil-j-hope.jpg",
+      avatar: "https://nuevasnarrativasec.github.io/bts/img/avatar-j-hope-cluster.png",
+      foto: "https://nuevasnarrativasec.github.io/bts/img/perfiles/bg-perfil-j-hope.jpg",
       rol: "Bailarín principal, rapero, compositor y productor (miembro pleno de KOMCA)",
       idiomas: "Coreano, japonés y nociones de inglés",
       solosLabel: "Solos",
@@ -73,8 +73,8 @@
       nombreReal: "Kim Seokjin",
       edad: "33 años",
       nacimiento: "4 dic 1992 (Sagitario)",
-      avatar: "./img/avatar-jin-cluster.png",
-      foto: "./img/perfiles/bg-perfil-jin.jpg",
+      avatar: "https://nuevasnarrativasec.github.io/bts/img/avatar-jin-cluster.png",
+      foto: "https://nuevasnarrativasec.github.io/bts/img/perfiles/bg-perfil-jin.jpg",
       rol: "Vocalista y miembro mayor",
       idiomas: "Coreano y japonés",
       solosLabel: "Solos",
@@ -94,8 +94,8 @@
       nombreReal: "Park Jimin",
       edad: "30 años",
       nacimiento: "13 oct 1995 (Libra)",
-      avatar: "./img/avatar-jimin-cluster.png",
-      foto: "./img/perfiles/bg-perfil-jimin.jpg",
+      avatar: "https://nuevasnarrativasec.github.io/bts/img/avatar-jimin-cluster.png",
+      foto: "https://nuevasnarrativasec.github.io/bts/img/perfiles/bg-perfil-jimin.jpg",
       rol: "Bailarín principal y vocalista",
       idiomas: "Coreano, nociones de japonés e inglés",
       solosLabel: "Solos",
@@ -116,8 +116,8 @@
       nombreReal: "Kim Taehyung",
       edad: "30 años",
       nacimiento: "30 dic 1995 (Capricornio)",
-      avatar: "./img/avatar-v-cluster.png",
-      foto: "./img/perfiles/bg-perfil-v.jpg",
+      avatar: "https://nuevasnarrativasec.github.io/bts/img/avatar-v-cluster.png",
+      foto: "https://nuevasnarrativasec.github.io/bts/img/perfiles/bg-perfil-v.jpg",
       rol: "Vocalista, bailarín y visual",
       idiomas: "Coreano, nociones de japonés e inglés",
       solosLabel: "Solos",
@@ -137,8 +137,8 @@
       nombreReal: "Jeon Jung Kook",
       edad: "29 años",
       nacimiento: "1 sep 1997 (Virgo)",
-      avatar: "./img/avatar-jungkook-cluster.png",
-      foto: "./img/perfiles/bg-perfil-jungkook.jpg",
+      avatar: "https://nuevasnarrativasec.github.io/bts/img/avatar-jungkook-cluster.png",
+      foto: "https://nuevasnarrativasec.github.io/bts/img/perfiles/bg-perfil-jungkook.jpg",
       rol: "Vocalista principal, centro, bailarín principal y miembro menor (maknae)",
       idiomas: "Coreano, nociones de inglés y japonés",
       solosLabel: "Solos",
@@ -218,26 +218,26 @@
       '<span class="perfil-fecha">' + d.edad + " · " + d.nacimiento + "</span>" +
       "</div>" +
       '<ul class="perfil-ficha">' +
-      '<li><img src="./img/perfiles/icon-rol.png" alt=""><p><b>Rol:</b> ' + d.rol + "</p></li>" +
-      '<li><img src="./img/perfiles/icon-idiomas.png" alt=""><p><b>Idiomas:</b> ' + d.idiomas + "</p></li>" +
-      '<li><img src="./img/perfiles/icon-albumes.png" alt=""><p><b>' + d.solosLabel + ':</b> ' + d.solos + "</p></li>" +
-      '<li><img src="./img/perfiles/icon-origen.png" alt=""><p><b>Origen:</b> ' + d.origen + "</p></li>" +
-      '<li><img src="./img/perfiles/icon-sello.png" alt=""><p><b>Sello y talento:</b> ' + d.sello + "</p></li>" +
-      '<li><img src="./img/perfiles/icon-hito.png" alt=""><p><b>Hito:</b> ' + d.hito + "</p></li>" +
+      '<li><img src="https://nuevasnarrativasec.github.io/bts/img/perfiles/icon-rol.png" alt=""><p><b>Rol:</b> ' + d.rol + "</p></li>" +
+      '<li><img src="https://nuevasnarrativasec.github.io/bts/img/perfiles/icon-idiomas.png" alt=""><p><b>Idiomas:</b> ' + d.idiomas + "</p></li>" +
+      '<li><img src="https://nuevasnarrativasec.github.io/bts/img/perfiles/icon-albumes.png" alt=""><p><b>' + d.solosLabel + ':</b> ' + d.solos + "</p></li>" +
+      '<li><img src="https://nuevasnarrativasec.github.io/bts/img/perfiles/icon-origen.png" alt=""><p><b>Origen:</b> ' + d.origen + "</p></li>" +
+      '<li><img src="https://nuevasnarrativasec.github.io/bts/img/perfiles/icon-sello.png" alt=""><p><b>Sello y talento:</b> ' + d.sello + "</p></li>" +
+      '<li><img src="https://nuevasnarrativasec.github.io/bts/img/perfiles/icon-hito.png" alt=""><p><b>Hito:</b> ' + d.hito + "</p></li>" +
       "</ul>" +
       "</div>" +
       '<div class="perfil-stats">' +
       '<p class="perfil-headline">' + d.headline + "</p>" +
       '<div class="perfil-metrics">' +
       '<button type="button" class="perfil-metrics-info" aria-label="Qué significan estas variables">' +
-      '<img src="./img/btn-info.png" alt="" aria-hidden="true">' +
+      '<img src="https://nuevasnarrativasec.github.io/bts/img/btn-info.png" alt="" aria-hidden="true">' +
       '<span class="perfil-metrics-tooltip" role="tooltip">Estas variables de Spotify describen características del audio; no interpretan la letra ni lo que BTS quiso expresar</span>' +
       "</button>" +
       d.metrics.map(metricRow).join("") +
       (d.nota ? '<p class="perfil-nota">* ' + d.nota + "</p>" : "") +
       "</div>" +
       '<blockquote class="perfil-quote">' +
-      '<img src="./img/flecha-circular.png" alt="" class="perfil-quote-icon">' +
+      '<img src="https://nuevasnarrativasec.github.io/bts/img/flecha-circular.png" alt="" class="perfil-quote-icon">' +
       d.quote +
       "</blockquote>" +
       "</div>";

@@ -60,10 +60,10 @@
   ];
 
   const niveles = [
-    { min: 0, max: 2, nombre: "Baby ARMY", subtitulo: "Descubriendo la puerta mágica", img: "bg-baby-army-limpio.png" },
-    { min: 3, max: 4, nombre: "Whalien 52", subtitulo: "Sintonizando la frecuencia correcta", img: "bg-whalien-52-limpio.png" },
-    { min: 5, max: 6, nombre: "Magic Shop", subtitulo: "Dueño de la llave del refugio", img: "bg-magic-shop-limpio.png" },
-    { min: 7, max: 8, nombre: "Borahae", subtitulo: "Lealtad y memoria histórica absoluta", img: "bg-borahae-limpio.png" },
+    { min: 0, max: 2, nombre: "Baby ARMY", subtitulo: "Descubriendo la puerta mágica", img: "https://nuevasnarrativasec.github.io/bts/img/trivia/bg-baby-army-limpio.png" },
+    { min: 3, max: 4, nombre: "Whalien 52", subtitulo: "Sintonizando la frecuencia correcta", img: "https://nuevasnarrativasec.github.io/bts/trivia/img/bg-whalien-52-limpio.png" },
+    { min: 5, max: 6, nombre: "Magic Shop", subtitulo: "Dueño de la llave del refugio", img: "https://nuevasnarrativasec.github.io/bts/img/trivia/bg-magic-shop-limpio.png" },
+    { min: 7, max: 8, nombre: "Borahae", subtitulo: "Lealtad y memoria histórica absoluta", img: "https://nuevasnarrativasec.github.io/bts/img/trivia/bg-borahae-limpio.png" },
   ];
 
   const app = document.getElementById("triviaApp");
