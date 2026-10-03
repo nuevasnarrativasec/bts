@@ -4128,6 +4128,7 @@ img.bg-footer{
     }
     .momento-card p{
         font-size: 1.2rem;
+        padding: 0;
     }
     .main-animacion-5{
         background-color: #3ea7cc;
@@ -4184,6 +4185,21 @@ img.bg-footer{
     .ctn-box-facturando .impacto-item{
         flex-flow: wrap;
     }
+    #facturandoMascotaDer{
+        top: 550px;
+        right: -50px;
+        width: 25%;
+    }
+    #facturandoMascotaIzq{
+        right: 0;
+        left: inherit;
+        top: 1420px;
+        rotate: -80deg;
+    }
+        #facturandoMascotaIzq .crono-mascota-clic{
+            rotate: 28deg !important;
+            translate: 20px -84px;
+        }
 
 }
 
