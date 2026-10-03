@@ -4238,6 +4238,7 @@ img.bg-footer-movil{
     .main-hero{
         background: url('../img/bg-portada-movil.jpg') no-repeat center center;
         background-size: cover;
+        height: 96vh;
     }
     #mainAnimacion6 .animacion6-texto--2{
         max-width: 200px;
