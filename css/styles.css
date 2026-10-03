@@ -4307,6 +4307,12 @@ img.bg-footer-movil{
     .main-hero h1{
         height: 300px;
     }
+    #facturandoMascotaDer{
+        top: 2170px;
+    }
+    #facturandoMascotaIzq{
+        top: 3480px;
+    }
 
 }
 
