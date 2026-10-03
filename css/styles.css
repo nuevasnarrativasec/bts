@@ -3914,7 +3914,7 @@ img.bg-footer-movil{
         padding: 40px 20px 0;
     }
     .animacion3-letra{
-        max-width: 200px;
+        max-width: 250px;
         top: 100px;
     }
     .main-animacion-3 .elemento-transicion-4{
@@ -3958,6 +3958,9 @@ img.bg-footer-movil{
     .crono-mascota-2 .crono-mascota-clic{
         top: 0;
         translate: -150px 210px;
+    }
+    .animacion3-letra p{
+        font-size: 1.45rem;
     }
 
 
