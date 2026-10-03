@@ -674,7 +674,7 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     }
     @media (max-width: 560px){
         .animacion-texto--1 p,
-        .animacion-texto--2 p{ font-size: 1.4rem; }
+        .animacion-texto--2 p{ font-size: 1.3rem; }
         .animacion-video--full{ height: 60vh; }
         .animacion-texto--2{ bottom: 30px; }
     }
@@ -3694,6 +3694,9 @@ img.bg-footer{
     margin: 0 auto;
     max-width: 100%;
 }
+img.bg-footer-movil{
+    display: none;
+}
 
 
 .animacion-video-desktop-1,
@@ -4131,9 +4134,13 @@ img.bg-footer{
         max-width: 100%;
     }
     .animacion22-letra{
-        left: 5%;
-        top: 87px;
+        position: static;
+        left: auto;
+        top: auto;
+        max-width: 250px;
+        margin: 0 auto 20px;
         transform: none;
+        text-align: center;
     }
     .main-canciones h3, 
     .main-protagonistas h3, 
@@ -4265,6 +4272,18 @@ img.bg-footer{
     }
     .box-indicacion-desliza{
         bottom: 250px;
+    }
+    .animacion22-letra p{
+        font: 1.3rem / 1.4 'Bray Notes';
+    }
+
+    img.bg-footer{
+        display: none;
+    }
+    img.bg-footer-movil{
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
     }
 
 }
