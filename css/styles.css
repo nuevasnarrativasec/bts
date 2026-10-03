@@ -4176,7 +4176,7 @@ img.bg-footer-movil{
         row-gap: 8px;
     }
     .ctn-box-perfil-radar iframe{
-        height: 1120px !important;
+        height: 1140px !important;
     }
     .ind-label{
         font-size: 17px;
@@ -4250,21 +4250,24 @@ img.bg-footer-movil{
     .ctn-box-facturando .impacto-item{
         flex-flow: wrap;
     }
+    .impacto-lista--shooky{
+        margin-bottom: 320px !important;
+    }
+    .p-chimmy-gap{
+        margin-bottom: 320px !important;
+    }
     #facturandoMascotaDer{
-        top: 550px;
-        right: -50px;
-        width: 25%;
+        top: 2375px;
+        right: -1%;
+        width: 53.5%;
+        max-width: none;
     }
     #facturandoMascotaIzq{
-        right: 0;
-        left: inherit;
-        top: 1420px;
-        rotate: -80deg;
+        top: 3770px;
+        left: -13.5%;
+        width: 55%;
+        max-width: none;
     }
-        #facturandoMascotaIzq .crono-mascota-clic{
-            rotate: 28deg !important;
-            translate: 20px -84px;
-        }
     .bodytobody-item img{
         transform: scale(1);
     }
@@ -4288,6 +4291,13 @@ img.bg-footer-movil{
         display: block;
         margin: 0 auto;
         max-width: 100%;
+    }
+    .corte-degrade-celeste{
+        height: 115px;
+        z-index: 20;    
+    }
+    .ctn-box-deja-tu-mensaje h4 a{
+        display: block;
     }
 
 }
