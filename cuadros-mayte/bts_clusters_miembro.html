@@ -182,6 +182,9 @@
 
   .chart-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .chart-inner { min-width: 640px; }
+   .box-aviso-movil{
+    display: none;
+   }
 
   @media (max-width: 720px) {
     .wrap { padding: 2rem 1.1rem 3rem; }
@@ -197,6 +200,22 @@
      .legend-card{
         justify-content: flex-start;
      }
+    .box-aviso-movil{
+      display: block;
+      margin: 0 auto 20px;
+      text-align: center;
+    }
+      .box-aviso-movil img{
+        display: inline-block;
+        vertical-align: top;
+        max-width: 20px;
+      }
+      .box-aviso-movil span{
+        display: inline-block;
+        font: 1rem/1.2 'Prelo Semibold';
+        vertical-align: top;
+      }
+
    }
 </style>
 </head>
@@ -204,6 +223,11 @@
 <div class="wrap">
 
   <!--<p class="lead">Ahí sí entra el gráfico de composición de clusters por miembro, para la ARMY que quiera mirar el panorama completo. <b>Estos grupos se generaron a partir de características musicales, no del significado de las letras.</b></p>-->
+
+  <div class="box-aviso-movil">
+    <img src="../img/icon-desliza.png" alt="" width="100%">
+    <span>Desliza para ver el gráfico</span>
+  </div>
 
   <div class="legend-card" id="legend"></div>
 
