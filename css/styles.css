@@ -4308,10 +4308,11 @@ img.bg-footer-movil{
         height: 300px;
     }
     #facturandoMascotaDer{
-        top: 2170px;
+        top: 2200px;
+        right: -81px;
     }
     #facturandoMascotaIzq{
-        top: 3480px;
+        top: 3530px;
     }
 
 }
