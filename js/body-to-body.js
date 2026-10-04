@@ -24,8 +24,8 @@
   const hint = document.getElementById("bodyToBodyHint");
   const embedEl = document.getElementById("bodyToBodyEmbed");
   const items = Array.from(seccion.querySelectorAll("[data-bodytobody-item]"));
-  const lyric1 = document.getElementById("bodyToBodyLyric1");
-  const lyric2 = document.getElementById("bodyToBodyLyric2");
+  const lyric2 = document.getElementById("bodyToBodyLyric1");
+  const lyric1 = document.getElementById("bodyToBodyLyric2");
 
   if (!btn || !embedEl) return;
 
