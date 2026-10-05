@@ -3510,27 +3510,63 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
                 transform: translateY(0);
                 visibility: visible;
             }
-        .mensaje-flecha{
-            background: transparent;
-            border: none;
-            /*border-radius: 50%;*/
-            color: #000;
-            cursor: pointer;
-            flex: 0 0 auto;
-            font-size: 3rem;
-            height: 48px;
-            line-height: 1;
-            width: 48px;
-        }
-            .mensaje-flecha:hover{ transform: scale(1.08); }
-        .mensaje-carta{
-            /*background-color: #F4EFE3;*/
-            border-radius: 6px;
-            /*box-shadow: 0 10px 30px rgba(0,0,0,.25);*/
+        .mensaje-lista-wrap{
+            display: flex;
+            flex-direction: column;
             max-width: 420px;
-            padding: 40px 15px;
+            position: relative;
+            width: 100%;
+            margin-top: 15%;
+        }
+        .mensaje-scroll-tip{
+            align-items: center;
+            color: var(--ink);
+            display: flex;
+            font: 400 .9rem/1 'Prelo Semibold', sans-serif;
+            gap: 6px;
+            justify-content: center;
+            margin: 0 0 10px;
+            text-align: center;
+            transition: opacity .3s ease;
+        }
+            .mensaje-scroll-tip.is-oculto{ opacity: 1; }
+            .mensaje-scroll-tip-flecha{
+                animation: mensaje-scroll-tip-rebote 1.4s ease-in-out infinite;
+                display: inline-block;
+                font-size: 1.1rem;
+            }
+            .mensaje-scroll-tip img{
+                display: inline-block;
+                vertical-align: top;
+                max-width: 10px;
+            }
+            @keyframes mensaje-scroll-tip-rebote{
+                0%, 100%{ transform: translateY(0); }
+                50%{ transform: translateY(4px); }
+            }
+            @media (prefers-reduced-motion: reduce){
+                .mensaje-scroll-tip-flecha{ animation: none; }
+            }
+        .mensaje-lista{
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            max-height: 420px;
+            overflow-y: auto;
+            padding-right: 4px;
+            scrollbar-color: transparent transparent;
+            scrollbar-width: thin;
+        }
+            .mensaje-lista::-webkit-scrollbar{ width: 6px; }
+            .mensaje-lista::-webkit-scrollbar-track{ background: transparent; }
+            .mensaje-lista::-webkit-scrollbar-thumb{ background: transparent; }
+        .mensaje-carta{
+            border-bottom: 1px solid rgba(0,0,0,.1);
+            flex: 0 0 auto;
+            padding: 24px 15px;
             text-align: center;
         }
+            .mensaje-lista .mensaje-carta:last-child{ border-bottom: none; }
             .mensaje-carta-texto{
                 color: var(--ink);
                 font: 1.4rem/1.5 'Monigue Regular';
@@ -3546,8 +3582,6 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .mensaje-mural{ flex-direction: column; min-height: 480px; }
                 .mural-info{ height: 34px; right: 14px; top: 14px; width: 34px; }
                     .mural-info-tip{ width: 200px; }
-                .mensaje-flecha{ transform: rotate(90deg); }
-                .mensaje-flecha:hover{ /*transform: rotate(90deg) scale(1.08);*/ }
         }
         @media (max-width: 560px){
             .ctn-box-deja-tu-mensaje h3{ font-size: 3.2rem; }
@@ -3555,7 +3589,8 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             .mensaje-form{ border-radius: 20px; padding: 24px 18px; }
             .mensaje-btn-enviar,
             .mensaje-btn-ver{ padding: 16px 32px; width: 100%; }
-            .mensaje-carta{ padding: 28px 22px; }
+            .mensaje-carta{ padding: 20px 10px; }
+            .mensaje-lista{ max-height: 320px; }
         }
 
 /* ============================================
@@ -4242,9 +4277,6 @@ body .bg-cancion-capas-movil{
         background-size: cover;
         padding-top: 375px;
     }
-    .mensaje-flecha{
-        transform: none;
-    }
     .mensaje-carta-texto{
         font-size: 1.6rem;
     }
@@ -4324,6 +4356,13 @@ body .bg-cancion-capas-movil{
     .ctn-box-deja-tu-mensaje h4 a{
         display: block;
     }
+    .mensaje-lista-wrap{
+        max-width: 300px;
+        transform: translate(0, -40px);
+    }
+        .mensaje-lista {
+            max-height: 400px;
+        }
 
 }
 

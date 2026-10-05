@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Anton&family=Archivo+Black&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-    <link rel="stylesheet" href="https://nuevasnarrativasec.github.io/bts/css/styles.css?v5" />
+    <link rel="stylesheet" href="./css/styles.css?v67" />
 
 
     <style>
@@ -1627,12 +1627,15 @@
                     Creado en 2017 junto a LINE FRIENDS, BT21 es el universo animado ideado por BTS. Sus ocho personajes reflejan los bocetos y personalidades de los siete miembros, acompañados por VAN, el robot guardián que simboliza a ARMY.
                 </span>
             </button>
-            <button class="mensaje-flecha mensaje-flecha--prev" id="mensajeFlechaPrev" type="button" aria-label="Mensaje anterior">&lsaquo;</button>
-            <div class="mensaje-carta" id="mensajeCarta">
-                <p class="mensaje-carta-texto" id="mensajeCartaTexto">Cargando mensajes de ARMY&hellip;</p>
-                <p class="mensaje-carta-autor" id="mensajeCartaAutor"></p>
+            <div class="mensaje-lista-wrap">
+                <p class="mensaje-scroll-tip" id="mensajeScrollTip" aria-hidden="true">
+                    <img src="./img/icon-scroll-vertical.png" alt="" width="100%">
+                    Haz scroll para ver más mensajes
+                </p>
+                <div class="mensaje-lista" id="mensajeLista">
+                    <p class="mensaje-carta-texto">Cargando mensajes de ARMY&hellip;</p>
+                </div>
             </div>
-            <button class="mensaje-flecha mensaje-flecha--next" id="mensajeFlechaNext" type="button" aria-label="Mensaje siguiente">&rsaquo;</button>
         </div>
     </div>
 
@@ -1735,7 +1738,7 @@
     <script src="https://nuevasnarrativasec.github.io/bts/js/animacion-6.js"></script>
     <script src="https://nuevasnarrativasec.github.io/bts/js/corte-glitch.js"></script>
     <script src="https://nuevasnarrativasec.github.io/bts/js/elemento-transicion-10.js"></script>
-    <script src="https://nuevasnarrativasec.github.io/bts/js/deja-tu-mensaje.js?v5"></script>
+    <script src="./js/deja-tu-mensaje.js?v5"></script>
     <script src="https://nuevasnarrativasec.github.io/bts/js/body-to-body.js"></script>
     <script src="https://nuevasnarrativasec.github.io/bts/js/menu-scroll.js"></script>
     <script src="https://nuevasnarrativasec.github.io/bts/js/iframe-auto-alto.js"></script>

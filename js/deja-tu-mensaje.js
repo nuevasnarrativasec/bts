@@ -6,7 +6,8 @@
      editorial del mensaje.
    - El botón "Ver mensajes" trae del mismo endpoint los registros
      marcados como aprobados (nombre, país/ciudad y mensaje) y los
-     muestra en un mini carrusel con flechas.
+     muestra en una lista vertical con scroll propio, el más reciente
+     primero.
 
    ⚠️ CONFIGURACIÓN NECESARIA (una sola vez):
    Reemplaza ENDPOINT_URL por la URL de tu Web App de Apps
@@ -24,10 +25,8 @@
   var enviarBtn = document.getElementById("mensajeEnviarBtn");
   var verBtn = document.getElementById("mensajeVerBtn");
   var mural = document.getElementById("mensajeMural");
-  var cartaTexto = document.getElementById("mensajeCartaTexto");
-  var cartaAutor = document.getElementById("mensajeCartaAutor");
-  var flechaPrev = document.getElementById("mensajeFlechaPrev");
-  var flechaNext = document.getElementById("mensajeFlechaNext");
+  var lista = document.getElementById("mensajeLista");
+  var scrollTip = document.getElementById("mensajeScrollTip");
   var linkComercio = document.getElementById("mensajeComercioLink");
   var btnAclaracion = document.getElementById("mensajeAclaracion");
   var ctnAclaracionPopup = document.getElementById("ctnAclaracionPopup");
@@ -101,28 +100,10 @@
   */
   var CACHE_KEY = "btsMensajesAprobados";
   var CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutos
-  var AUTO_AVANCE_MS = 6000; // segundos de visualización por mensaje
 
   var mensajes = [];
-  var indice = 0;
   var cargando = false;
-  var autoAvanceTimer = null;
-
-  function detenerAutoAvance() {
-    if (autoAvanceTimer) {
-      clearInterval(autoAvanceTimer);
-      autoAvanceTimer = null;
-    }
-  }
-
-  function iniciarAutoAvance() {
-    detenerAutoAvance();
-    if (mensajes.length < 2) return;
-    autoAvanceTimer = setInterval(function () {
-      indice = (indice + 1) % mensajes.length;
-      mostrarMensaje(indice);
-    }, AUTO_AVANCE_MS);
-  }
+  var scrollTipOculto = false;
 
   function leerCache() {
     try {
@@ -136,26 +117,69 @@
     }
   }
 
-  function guardarCache(lista) {
+  function guardarCache(listaMensajes) {
     try {
-      localStorage.setItem(CACHE_KEY, JSON.stringify({ mensajes: lista, ts: Date.now() }));
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ mensajes: listaMensajes, ts: Date.now() }));
     } catch (err) {
       // localStorage puede fallar (modo privado, cuota, etc.): no es crítico.
     }
   }
 
-  function mostrarMensaje(i) {
-    if (!mensajes.length) return;
-    var m = mensajes[i];
-    cartaTexto.textContent = "“" + m.mensaje + "”";
-    cartaAutor.textContent = m.nombre + (m.pais ? " de " + m.pais : "");
+  // El aviso "Desliza para ver más mensajes" solo tiene sentido si la
+  // lista realmente desborda su alto visible, y se oculta para siempre
+  // en esta sesión en cuanto el usuario hace scroll una vez.
+  function actualizarScrollTip() {
+    if (!scrollTip) return;
+    if (scrollTipOculto) {
+      scrollTip.classList.add("is-oculto");
+      return;
+    }
+    var hayOverflow = lista.scrollHeight > lista.clientHeight + 4;
+    scrollTip.classList.toggle("is-oculto", !hayOverflow);
+  }
+
+  if (lista) {
+    lista.addEventListener("scroll", function () {
+      if (scrollTipOculto) return;
+      scrollTipOculto = true;
+      actualizarScrollTip();
+    });
+  }
+
+  function renderMensajes() {
+    if (!lista) return;
+    lista.innerHTML = "";
+    var frag = document.createDocumentFragment();
+    mensajes.forEach(function (m) {
+      var carta = document.createElement("div");
+      carta.className = "mensaje-carta";
+
+      var texto = document.createElement("p");
+      texto.className = "mensaje-carta-texto";
+      texto.textContent = "“" + m.mensaje + "”";
+
+      var autor = document.createElement("p");
+      autor.className = "mensaje-carta-autor";
+      autor.textContent = m.nombre + (m.pais ? " de " + m.pais : "");
+
+      carta.appendChild(texto);
+      carta.appendChild(autor);
+      frag.appendChild(carta);
+    });
+    lista.appendChild(frag);
+    lista.scrollTop = 0;
+    actualizarScrollTip();
   }
 
   function mostrarSinMensajes(texto) {
     mensajes = [];
-    indice = 0;
-    cartaTexto.textContent = texto;
-    cartaAutor.textContent = "";
+    if (!lista) return;
+    lista.innerHTML = "";
+    var p = document.createElement("p");
+    p.className = "mensaje-carta-texto";
+    p.textContent = texto;
+    lista.appendChild(p);
+    if (scrollTip) scrollTip.classList.add("is-oculto");
   }
 
   // fondo = true: no pisar lo que ya se está viendo si la petición falla
@@ -169,8 +193,7 @@
     cargando = true;
 
     if (!fondo && !mensajes.length) {
-      cartaTexto.textContent = "Cargando mensajes de ARMY…";
-      cartaAutor.textContent = "";
+      mostrarSinMensajes("Cargando mensajes de ARMY…");
     }
 
     fetch(ENDPOINT_URL)
@@ -179,16 +202,14 @@
         // El endpoint devuelve los mensajes en orden de llegada (el más
         // antiguo primero, tal cual se van agregando filas al Sheet);
         // los invertimos para mostrar siempre el más reciente primero.
-        var lista = Array.isArray(data) ? data.slice().reverse() : [];
-        guardarCache(lista);
-        mensajes = lista;
-        indice = 0;
+        var nuevaLista = Array.isArray(data) ? data.slice().reverse() : [];
+        guardarCache(nuevaLista);
+        mensajes = nuevaLista;
         if (!mensajes.length) {
           mostrarSinMensajes("Aún no hay mensajes publicados.");
           return;
         }
-        mostrarMensaje(indice);
-        iniciarAutoAvance();
+        renderMensajes();
       })
       .catch(function () {
         if (!mensajes.length) mostrarSinMensajes("No se pudieron cargar los mensajes.");
@@ -201,15 +222,11 @@
   // Precarga silenciosa al cargar la página: si hay caché reciente la
   // usamos de inmediato (para que "Ver mensajes" se sienta instantáneo)
   // y de todas formas revalidamos contra el endpoint en segundo plano.
-  // El auto-avance arranca desde ya (aunque el mural esté oculto) para
-  // que al abrirlo con "Ver mensajes" el carrusel ya esté en marcha.
   (function precargar() {
     var cache = leerCache();
     if (cache && cache.mensajes.length && Date.now() - cache.ts < CACHE_TTL_MS) {
       mensajes = cache.mensajes;
-      indice = 0;
-      mostrarMensaje(indice);
-      iniciarAutoAvance();
+      renderMensajes();
     }
     cargarMensajes(true);
   })();
@@ -219,31 +236,9 @@
     // de nuevo ni cambia el texto del botón a "Ocultar mensajes".
     verBtn.addEventListener("click", function () {
       mural.hidden = false;
-      if (!mensajes.length) {
-        cargarMensajes(false);
-      } else {
-        indice = 0;
-        mostrarMensaje(indice);
-        iniciarAutoAvance();
-      }
+      if (!mensajes.length) cargarMensajes(false);
+      actualizarScrollTip();
       mural.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  }
-
-  if (flechaPrev) {
-    flechaPrev.addEventListener("click", function () {
-      if (!mensajes.length) return;
-      indice = (indice - 1 + mensajes.length) % mensajes.length;
-      mostrarMensaje(indice);
-      iniciarAutoAvance();
-    });
-  }
-  if (flechaNext) {
-    flechaNext.addEventListener("click", function () {
-      if (!mensajes.length) return;
-      indice = (indice + 1) % mensajes.length;
-      mostrarMensaje(indice);
-      iniciarAutoAvance();
     });
   }
 
