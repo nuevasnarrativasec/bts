@@ -4384,6 +4384,22 @@ body .bg-cancion-capas-movil{
 
 }
 
+@media (max-width: 1920px){
+
+    .mensaje-lista-wrap{
+        margin-top: 25%;
+    }
+
+}
+
+@media (max-width: 2290px){
+
+    .mensaje-lista-wrap{
+        margin-top: 25%;
+    }
+
+}
+
 
 
 
