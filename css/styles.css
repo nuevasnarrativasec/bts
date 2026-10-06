@@ -4377,7 +4377,7 @@ body .bg-cancion-capas-movil{
 @media (max-width: 393px){
 
     .main-hero h1{
-        height: 300px;
+        /*height: 300px;*/
     }
     #facturandoMascotaDer{
         top: 2200px;
