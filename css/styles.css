@@ -3844,7 +3844,7 @@ body .bg-cancion-capas-movil{
         }
         .main-hero h2{
                 background-size: 103%;
-            font: 1.4rem / .95 'Monigue Regular';
+            font: 1.8rem / .95 'Monigue Regular';
         }
     .box-bajada .box-botones{
         bottom: inherit;
@@ -3915,7 +3915,7 @@ body .bg-cancion-capas-movil{
         height: 600px !important;
     }
     .box-buscador-cancion{
-        padding-bottom: 250px;
+        padding-bottom: 300px;
     }
     #buscadorMascota{
         max-width: inherit;
