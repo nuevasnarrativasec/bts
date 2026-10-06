@@ -447,18 +447,20 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
             background-size: 100%;
             color: #fff;
             font: 19rem/.95 'Monigue Regular';
-            height: 290px;
+            height: 225px;
             margin: 0 auto;
             text-align: center;
             text-transform: uppercase;
             position: relative;
             width: 450px;
         }
-            .main-hero h1 span{
+            .main-hero h1.siete{
                 display: block;
                 font-size: 77px;
                 letter-spacing: 5px;
-                transform: translate(0, -60px);
+                transform: none;
+                height: auto;
+                line-height: normal;
             }
         .main-hero h2{
             background: url(../img/bg-cinta-h1.png) no-repeat center;
