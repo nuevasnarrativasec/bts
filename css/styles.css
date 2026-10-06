@@ -4363,6 +4363,12 @@ body .bg-cancion-capas-movil{
         .mensaje-lista {
             max-height: 400px;
         }
+        
+    .main-hero h1 span{
+        font-size: 5rem;
+        text-align: center;
+        margin: 0 auto;
+    }
 
 }
 
