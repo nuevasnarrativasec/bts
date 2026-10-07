@@ -2772,11 +2772,21 @@ img { display: block; max-width: 100%; user-select: none; -webkit-user-drag: non
     overflow: hidden;
     position: relative;
 }
-    #facturandoMascotaDer{
-        top: 1000px;
+    /* Shooky y Chimmy se anclan a su propio párrafo (no a toda la sección)
+       para no depender de la altura acumulada de todo lo que está arriba:
+       siempre quedan debajo de su párrafo aunque el texto cambie. */
+    .impacto-lista--shooky,
+    .chimmy-anchor{
+        position: relative;
     }
+    /* Hueco reservado para que Shooky/Chimmy quepan debajo del párrafo sin
+       pisar el encabezado siguiente (su imagen ronda 260px de alto acá). */
+    .ctn-box-facturando .impacto-lista--shooky{
+        margin-bottom: 300px;
+    }
+    #facturandoMascotaDer,
     #facturandoMascotaIzq{
-        top: 1650px;
+        top: 100%;
     }
     .ctn-box-facturando{
 
@@ -4317,13 +4327,11 @@ body .bg-cancion-capas-movil{
         margin-bottom: 320px !important;
     }
     #facturandoMascotaDer{
-        top: 2375px;
         right: -1%;
         width: 53.5%;
         max-width: none;
     }
     #facturandoMascotaIzq{
-        top: 3770px;
         left: -13.5%;
         width: 55%;
         max-width: none;
@@ -4381,11 +4389,7 @@ body .bg-cancion-capas-movil{
         /*height: 300px;*/
     }
     #facturandoMascotaDer{
-        top: 2200px;
         right: -81px;
-    }
-    #facturandoMascotaIzq{
-        top: 3530px;
     }
     .box-mascota-8{
         top: 279px;
